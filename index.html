@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8fc" />
+    <title>Добро пожаловать</title>
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #20243a;
+        background: #f7f8fc;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      main {
+        width: min(100%, 560px);
+        padding: clamp(32px, 8vw, 64px);
+        text-align: center;
+        background: #fff;
+        border: 1px solid #e8eaf2;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgb(32 36 58 / 8%);
+      }
+
+      .icon {
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 24px;
+        border-radius: 18px;
+        background: #e8edff;
+        font-size: 32px;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 6vw, 44px);
+        line-height: 1.15;
+      }
+
+      p {
+        margin: 0;
+        color: #626a80;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="icon" aria-hidden="true">👋</div>
+      <h1>Добро пожаловать!</h1>
+      <p>Рады видеть вас здесь. Это начало чего-то нового.</p>
+    </main>
+  </body>
+</html>
