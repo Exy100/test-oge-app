@@ -1,0 +1,72 @@
+{
+  "checked_date": "2026-10-04",
+  "captured_at_utc": "2026-10-04T15:18:59.721598+00:00",
+  "sources": [
+    {
+      "id": "F0",
+      "title": "Страница официальных проектов ОГЭ-2027",
+      "url": "https://fipi.ru/oge/demoversii-specifikacii-kodifikatory",
+      "sha256": "e46a9072848966d2d0d8f33004ffa5129af9f9f29a9ed22ad81290d1a05f3449",
+      "bytes": 306428
+    },
+    {
+      "id": "A27",
+      "title": "Архив математики ОГЭ-2027, проект",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/ma_9_2027.zip",
+      "sha256": "9ae4b400e5c6858b7988be583849499b3cd392c789e1e8599698f08c1795c238",
+      "bytes": 1434097
+    },
+    {
+      "id": "S27",
+      "title": "Спецификация, проект 2027",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/ma_9_2027.zip",
+      "sha256": "ed80257ff81dc9ae28e29b6491d51c5aec45fac1f9e93668e6222a79baf425f9",
+      "bytes": 501607,
+      "archive_member": "МА-9 ОГЭ 2027_СПЕЦ.pdf"
+    },
+    {
+      "id": "D27",
+      "title": "Демоверсия, проект 2027",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/ma_9_2027.zip",
+      "sha256": "4fb94e18640856608a733d2c8a8f028fc2e4964e9b98606cc5a5c5ca00869a44",
+      "bytes": 665400,
+      "archive_member": "МА-9 ОГЭ 2027_ДЕМО.pdf"
+    },
+    {
+      "id": "K27",
+      "title": "Кодификатор, проект 2027",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/ma_9_2027.zip",
+      "sha256": "15d17cda8a5303f265a0049715231c5c3fe0ba0152cb3f0d466c324826f1b30a",
+      "bytes": 346648,
+      "archive_member": "МА-9 ОГЭ 2027_КОДИФ.pdf"
+    },
+    {
+      "id": "R26",
+      "title": "Рекомендации по шкале 2026, письмо от 18.02.2026 №04-44",
+      "url": "https://doc.fipi.ru/oge/normativno-pravovye-dokumenty/04-44_18.02.2026.pdf",
+      "sha256": "3c5e96853f200b08f4e44effb365e6d3905e3a880851ce63b94ba557c999b154",
+      "bytes": 2375359
+    },
+    {
+      "id": "M26",
+      "title": "Самостоятельная подготовка к ОГЭ по математике, 2026",
+      "url": "https://doc.fipi.ru/navigator-podgotovki/navigator-oge/MR_matematika_oge_2026.pdf",
+      "sha256": "e58cce0fa700f46c28b07c0d4ea4b65943eeb821b9c91428db2928016467c489",
+      "bytes": 571402
+    },
+    {
+      "id": "N",
+      "title": "Навигатор: практико-ориентированные задачи",
+      "url": "https://doc.fipi.ru/navigator-podgotovki/navigator-oge/Ma-9_5_zadachi.pdf",
+      "sha256": "71daee3a0aeeffaf79eeb478a2633ff4a3710b5bfaffad9d2c34a18c0f1b6d9f",
+      "bytes": 541799
+    }
+  ],
+  "unavailable": [
+    {
+      "url": "https://oge.fipi.ru/bank/index.php?proj=DE0E276E497AB3784C3FC4CC20248DC0",
+      "status": 503,
+      "detail": "upstream connection timeout; not a domain allowlist denial"
+    }
+  ]
+}
