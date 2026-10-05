@@ -1,0 +1,34 @@
+name: Diagnose Pages source permissions
+on:
+  push:
+    branches: [codex/t1-3-pages-source]
+permissions:
+  pages: write
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Inspect and update Pages source
+        shell: bash
+        run: |
+          set -euo pipefail
+          diagnose() {
+            local label="$1"
+            shift
+            if "$@" > "$RUNNER_TEMP/pages-result.json" 2> "$RUNNER_TEMP/pages-error.txt"; then
+              echo "::notice title=$label::$(jq -c '{build_type,status,source}' "$RUNNER_TEMP/pages-result.json")"
+            else
+              message="$(tr '\n\r' '  ' < "$RUNNER_TEMP/pages-error.txt")"
+              echo "::error title=$label::$message"
+              if jq -e .message "$RUNNER_TEMP/pages-result.json" > /dev/null 2>&1; then
+                echo "::error title=GitHub response::$(jq -c '{message,errors}' "$RUNNER_TEMP/pages-result.json")"
+              fi
+              exit 1
+            fi
+          }
+          diagnose 'Current Pages source' gh api "repos/$GITHUB_REPOSITORY/pages"
+          diagnose 'Change source to workflow' gh api --method PUT "repos/$GITHUB_REPOSITORY/pages" --field build_type=workflow
+          diagnose 'Verify Pages source' gh api "repos/$GITHUB_REPOSITORY/pages"
