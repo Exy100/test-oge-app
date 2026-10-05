@@ -25,8 +25,7 @@
     "lh": "npm run build && lhci autorun",
     "check:forbidden": "node scripts/check-forbidden.mjs",
     "check:coverage": "node scripts/check-coverage.mjs",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run check:forbidden && npm run check:coverage && npm run build",
-    "pages:prepare": "npm run build && node scripts/prepare-pages.mjs"
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run check:forbidden && npm run check:coverage && npm run build"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.2",
