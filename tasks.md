@@ -69,7 +69,7 @@
   Chromium desktop/mobile e2e и Lighthouse проходят; теория читается без JS;
   готовая сборка опубликована в Pages. Полные генераторы и поток остаются в плане.
 
-### [~] T1.3 CI
+### [x] T1.3 CI
 - Файлы: `.github/workflows/ci.yml`.
 - Сделать: verify, e2e, lh, `gitleaks`, `npm audit --audit-level=high`, кэш зависимостей.
 - Готово, когда: CI зелёный на main; намеренно сломанный тест делает CI красным (проверено и откатано).
