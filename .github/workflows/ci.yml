@@ -1,0 +1,127 @@
+name: CI and Pages
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  ASTRO_TELEMETRY_DISABLED: '1'
+
+jobs:
+  quality:
+    name: Code, browsers, performance and security
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node and npm cache
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install checksum-verified Gitleaks
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/gitleaks_8.30.0_linux_x64.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_x64.tar.gz \
+            --output "$archive"
+          echo "79a3ab579b53f71efd634f3aaf7e04a0fa0cf206b7ed434638d1547a2470a66e  $archive" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/oge-tools"
+          tar -xzf "$archive" -C "$RUNNER_TEMP/oge-tools" gitleaks
+          echo "$RUNNER_TEMP/oge-tools" >> "$GITHUB_PATH"
+
+      - name: Scan Git history for secrets
+        run: gitleaks git --redact --no-banner --log-opts=--all
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Verify source, types, unit tests, coverage and build
+        run: npm run verify
+
+      - name: Install Chromium, Firefox and WebKit
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Run all browser and accessibility tests
+        run: npm run e2e
+
+      - name: Enforce Lighthouse budgets
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME_PATH="$(node --input-type=module -e "import { chromium } from '@playwright/test'; process.stdout.write(chromium.executablePath());")"
+          export CHROME_PATH
+          npm run lh
+
+      - name: Scan production files for secrets
+        run: gitleaks dir dist --redact --no-banner
+
+      - name: Save test traces and performance reports
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: quality-reports
+          path: |
+            test-results/
+            .lighthouseci/reports/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload the tested Pages build
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: dist
+
+  deploy:
+    name: Publish tested site
+    needs: quality
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Use Actions as the Pages source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          build_type="$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type)"
+          if [ "$build_type" != workflow ]; then
+            gh api --method PUT "repos/$GITHUB_REPOSITORY/pages" --field build_type=workflow
+          fi
+          test "$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type)" = workflow
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
