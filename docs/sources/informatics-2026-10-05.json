@@ -1,0 +1,48 @@
+{
+  "subject": "informatics",
+  "checked_date": "2026-10-05",
+  "exam_year": 2027,
+  "exam_status": "draft",
+  "grading_year": 2026,
+  "sources": [
+    {
+      "id": "F0",
+      "url": "https://fipi.ru/oge/demoversii-specifikacii-kodifikatory",
+      "bytes": 306428,
+      "sha256": "e46a9072848966d2d0d8f33004ffa5129af9f9f29a9ed22ad81290d1a05f3449"
+    },
+    {
+      "id": "A27",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip",
+      "bytes": 120190139,
+      "sha256": "a21e76159262999e149551451326821a6a527259c730db5ad17e6e27b0464d46"
+    },
+    {
+      "id": "S27",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip",
+      "bytes": 368844,
+      "sha256": "64a282134ac0ea5c62b9d5075fcb7ebc14928541aa953979881a37a8b4fd035e",
+      "archive_member": "ИНФ-9 ОГЭ 2027_СПЕЦ.pdf"
+    },
+    {
+      "id": "D27",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip",
+      "bytes": 988218,
+      "sha256": "f32bd8b5cd96028f15be3fd0edcab19a3a318a872bc52ac41602ec119a8d6950",
+      "archive_member": "ИНФ-9 ОГЭ 2027_ДЕМО.pdf"
+    },
+    {
+      "id": "K27",
+      "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip",
+      "bytes": 389580,
+      "sha256": "580227ac91da65920c121990d23a65b1a581a01413a308d5d8fda9250d1ddc6b",
+      "archive_member": "ИНФ-9 ОГЭ 2027_КОДИФ.pdf"
+    },
+    {
+      "id": "R26",
+      "url": "https://doc.fipi.ru/oge/normativno-pravovye-dokumenty/04-44_18.02.2026.pdf",
+      "bytes": 2375359,
+      "sha256": "3c5e96853f200b08f4e44effb365e6d3905e3a880851ce63b94ba557c999b154"
+    }
+  ]
+}
