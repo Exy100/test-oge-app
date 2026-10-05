@@ -1,7 +1,16 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "node_modules", "docs/archive"],
+  "exclude": [
+    "dist",
+    "_astro",
+    "node_modules",
+    "docs/archive",
+    ".lighthouseci",
+    "playwright-report",
+    "test-results",
+    "coverage"
+  ],
   "compilerOptions": {
     "strict": true,
     "noUncheckedIndexedAccess": true,

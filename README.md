@@ -42,19 +42,30 @@ export ASTRO_TELEMETRY_DISABLED=1
 
 ## Проверки
 
-| Команда                 | Назначение                                           |
-| ----------------------- | ---------------------------------------------------- |
-| `npm run lint`          | ESLint и проверка форматирования                     |
-| `npm run format`        | Форматирование исходников и конфигурации             |
-| `npm run typecheck`     | Astro Check и TypeScript strict                      |
-| `npm test`              | Unit-тесты Vitest                                    |
-| `npm run verify`        | lint → typecheck → unit → build                      |
-| `npm run e2e`           | Сборка, браузерные тесты и axe                       |
-| `npm run lh`            | Сборка и три замера Lighthouse с бюджетами spec §15  |
-| `npm run pages:prepare` | Сборка и подготовка файлов для текущего GitHub Pages |
+| Команда                 | Назначение                                             |
+| ----------------------- | ------------------------------------------------------ |
+| `npm run lint`          | ESLint и проверка форматирования                       |
+| `npm run format`        | Форматирование исходников и конфигурации               |
+| `npm run typecheck`     | Astro Check и TypeScript strict                        |
+| `npm test`              | Unit-тесты Vitest                                      |
+| `npm run verify`        | lint → typecheck → unit → forbidden → coverage → build |
+| `npm run e2e`           | Сборка, браузерные тесты и axe                         |
+| `npm run lh`            | Сборка и три замера Lighthouse с бюджетами spec §15    |
+| `npm run pages:prepare` | Сборка и подготовка файлов для текущего GitHub Pages   |
 
-В T1.2 в verify добавляются `check:forbidden` и `check:coverage`.
-Их отсутствие на T1.1 не означает прохождение полного Gate 1.
+`check:forbidden` проверяет исходники на запрещённые конструкции; `check:coverage`
+сверяет фактический объём с минимумами текущего этапа. Например:
+
+```bash
+npm run check:forbidden
+npm run check:coverage -- --phase=3
+npm run check:coverage -- --phase=final
+```
+
+Последние две команды пока ожидаемо завершаются с ошибкой: учебный контент ещё
+не реализован. Обычный verify проверяет текущую фазу 1. Форматы реестров, уроков,
+правила и пределы проверок — [docs/quality-checks.md](docs/quality-checks.md).
+Полный Gate 1 требует также выполнения остальных задач фундамента и полного e2e.
 
 Установка браузеров Playwright для полного прогона:
 
@@ -129,4 +140,4 @@ npm run pages:prepare
 файлы для LibreOffice (ADR-005).
 
 Работа идёт по шагам, одна задача — один логический коммит. Фактические проверки
-и ограничения записываются в STATUS.md. Следующий шаг после T1.1 — T1.2, скрипты качества.
+и ограничения записываются в STATUS.md. Следующий шаг после T1.2 — T1.3, CI и автоматизация публикации.

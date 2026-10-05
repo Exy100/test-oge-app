@@ -51,7 +51,7 @@
 - Порядок зависимостей (ADR-006): на T1.1 verify = lint + typecheck + unit + build;
   T1.2 добавляет настоящие check:forbidden и check:coverage. Полный Gate 1 требует их оба.
 
-### [ ] T1.2 Скрипты качества
+### [x] T1.2 Скрипты качества
 - Файлы: `scripts/check-forbidden.mjs`, `scripts/check-coverage.mjs`, `coverage.config.ts`.
 - Сделать: `check-forbidden` — паттерны из PROMPT.md §4 (регистронезависимо), вывод
   файл:строка, ненулевой код при находках; `check-coverage` — читает реестр генераторов,
