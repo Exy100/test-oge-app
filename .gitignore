@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.cache/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+.env
+.env.*
+*.log
+.DS_Store

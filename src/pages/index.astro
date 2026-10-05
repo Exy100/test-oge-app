@@ -1,0 +1,29 @@
+---
+import Welcome from '../content/welcome.mdx';
+import '../styles/global.css';
+import { sitePath, SITE_ORIGIN } from '../lib/site';
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8fc" />
+    <meta
+      name="description"
+      content="ОГЭ по информатике — сайт для подготовки к экзамену. Добро пожаловать!"
+    />
+    <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
+    <link rel="canonical" href={`${SITE_ORIGIN}${sitePath('/')}`} />
+    <title>ОГЭ по информатике</title>
+  </head>
+  <body>
+    <main class="welcome-card bg-white text-center">
+      <div class="welcome-icon" aria-hidden="true">
+        👋
+      </div>
+      <Welcome />
+    </main>
+  </body>
+</html>

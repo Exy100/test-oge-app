@@ -43,11 +43,13 @@
 
 ## Фаза 1. Фундамент
 
-### [ ] T1.1 Проект и инструменты
+### [x] T1.1 Проект и инструменты
 - Сделать: Astro (static) + React + Tailwind v4 + MDX; TS-настройки из spec §4.1;
   ESLint strict-type-checked (+ правило против `Math.random` в `src/core`), Prettier;
   Vitest, Playwright; скрипты `dev`, `build`, `preview`, `lint`, `typecheck`, `test`, `e2e`, `lh`, `verify`.
-- Готово, когда: `npm run verify` проходит на пустом проекте; `tsconfig` содержит все флаги.
+- Готово, когда: `npm run verify` проходит на начальном проекте; `tsconfig` содержит все флаги.
+- Порядок зависимостей (ADR-006): на T1.1 verify = lint + typecheck + unit + build;
+  T1.2 добавляет настоящие check:forbidden и check:coverage. Полный Gate 1 требует их оба.
 
 ### [ ] T1.2 Скрипты качества
 - Файлы: `scripts/check-forbidden.mjs`, `scripts/check-coverage.mjs`, `coverage.config.ts`.

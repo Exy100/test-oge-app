@@ -14,7 +14,8 @@
 - Текущий хостинг GitHub Pages и поток 50/50 сохранены.
 - Рабочие настройки: Python 3 и скачиваемые файлы для LibreOffice. Вопросы владельцу
   заданы, ответы пока не получены; это обратимый выбор для планирования (ADR-005).
-- Фаза 1 не начата. Следующая задача — T1.1, проект Astro и инструменты.
+- T1.1 завершена: Astro static, React/MDX, Tailwind v4, строгий TypeScript,
+  инструменты и проверки. Следующий шаг — T1.2, скрипты качества.
 - На опубликованной странице пока только приветствие, функции тренажёра не реализованы.
 
 ## Проверки перехода предмета
@@ -37,8 +38,8 @@
 - Серверный ИИ не развёрнут. GitHub Pages не исполняет Worker и не применяет `_headers`.
 - Выполнение Python в браузере и полные офисные редакторы не входят в рабочую v1;
   файлы, эталоны, критерии, редактор кода и учебные интерактивы входят.
-- Зависимости проверок T1.1/T1.2 и T1.3/T1.7 уточняются при начале фундамента без
-  фиктивных успешных команд; предстоящие проверки качества не отменены.
+- ADR-006 уточняет порядок проверок: полный verify дополняется в T1.2;
+  до T1.3 готовая сборка публикуется в main / (root).
 
 ## Задачи
 
@@ -52,7 +53,7 @@
 
 ## Фаза 1. Фундамент
 
-- [ ] T1.1 Проект и инструменты
+- [x] T1.1 Проект и инструменты
 - [ ] T1.2 Скрипты качества
 - [ ] T1.3 CI
 - [ ] T1.4 Дизайн-система
@@ -189,3 +190,62 @@
   Временный проверочный сервер остановлен с ожиданием завершения процесса.
 - `git diff --check` — без замечаний.
 - Тесты будущего приложения не запускались, поскольку оно ещё не создано.
+
+
+## Отчёт T1.1 — проект и инструменты
+
+### Реализовано
+
+- Astro 7.3.5, React 19.3, MDX 8.0.2, Tailwind 4.3.3; static, site/base для GitHub Pages.
+- Node 24.19.0 / npm 11.9.0; версии зависимостей и package-lock зафиксированы.
+- TypeScript 6.0.3: strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes.
+- ESLint strictTypeChecked, правило запрета Math.random в src/core, Prettier Astro.
+- Vitest, Playwright (4 проекта), axe, Lighthouse CI; команды dev/build/preview/lint/
+  typecheck/test/e2e/lh/verify и pages:prepare.
+- Главная перенесена в src/pages/index.astro, текст в MDX, стили в src/styles.
+  Она читается без клиентского JavaScript; функции тренажёра ещё не реализованы.
+- Сборка подготовлена для прежнего main / (root): HTML, локальные CSS/иконка,
+  .nojekyll и _astro. Редактируются исходники, не сгенерированные файлы.
+
+### Фактически выполненные проверки
+
+- `npm ci` — чистая повторная установка: added 724 packages.
+- `npm run verify` — lint/Prettier, Astro Check + tsc, Vitest и сборка успешно:
+  `Result (12 files): 0 errors, 0 warnings, 0 hints`;
+  `Test Files 1 passed (1); Tests 9 passed (9)`; `1 page(s) built`.
+- Отдельная отрицательная проверка правила ESLint временным файлом:
+  `PASS: ESLint rejects Math.random in src/core.` Проверочный файл удалён.
+- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run e2e -- --project=chromium --project=mobile`
+  — `4 passed`: HTTP 200, заголовок, CSS, ресурсы внутри base, отсутствие ошибок,
+  axe без нарушений, экран 360 px без горизонтального скролла, чтение без JS.
+- `CHROME_PATH=/usr/bin/chromium XDG_CONFIG_HOME=/tmp/oge-config XDG_CACHE_HOME=/tmp/oge-cache npm run lh`
+  — `Checking assertions against 1 URL(s), 3 total run(s)` и `Done running autorun`.
+  Три замера: Performance/Accessibility/Best Practices/SEO по 100; LCP 903/905/755 мс,
+  CLS 0. Отчёты в игнорируемом .lighthouseci/reports; это лабораторные измерения
+  текущей приветственной страницы, не показатели будущего тренажёра или полевой INP.
+- `npm audit --audit-level=high` — `found 0 vulnerabilities` после исправления цепочки
+  Lighthouse CI через точные overrides (ADR-006); audit не ограничен production-пакетами.
+- `npm run pages:prepare` — готовые файлы скопированы в корень.
+- Проверка dev-сервера: `PASS: npm run dev serves the MDX welcome at /test-oge-app/ over HTTP 200.`
+- Независимая проверка обычным статичным HTTP-сервером:
+  `PASS: published root HTML, stylesheet and favicon all return HTTP 200 under /test-oge-app/; no client scripts.`
+  Оба временных сервера остановлены. Playwright и Lighthouse также управляли своими серверами.
+
+### Настройка среды и ограничения
+
+- Прочитана и использована cloud-environment-onboarding:setup. В черновике среды
+  сохранены install_script (npm ci + verify) и start_skill (запуск, HTTP-проверка,
+  env для кеша/телеметрии, браузерные команды); инструмент подтвердил status=saved.
+  Это сохранение инструкций, не публикация нового снимка среды; requires_publish=true.
+- В /home/agent нельзя записывать кеши. Используются npm_config_cache=/tmp/oge-npm-cache
+  и ASTRO_TELEMETRY_DISABLED=1. Служебные файлы не содержат секретов.
+- Непроходивший первый browser-run выявил автоматический background Astro 7:
+  сервер запускался на другом ожидаемом порту/отделялся от runner. Исправлено
+  --ignore-lock в dev/preview, фоновой сервер остановлен, e2e и lh повторены успешно.
+- Полный `npm run e2e` с Firefox/WebKit НЕ ЗАПУСКАЛСЯ: их браузеры пока не установлены;
+  конфигурация сохранена, этот прогон остаётся обязательным для Gate 1.
+- `check:forbidden` и `check:coverage` подключаются в T1.2. Промежуточный состав verify
+  явно зафиксирован ADR-006; полный Gate 1 ещё не пройден. CI/автодеплой — T1.3.
+- Никакие уроки, генераторы, офисные файлы или серверный ИИ этим шагом не объявлены готовыми.
+
+Следующий шаг: T1.2 — скрипты качества с тестами и подключением в verify.

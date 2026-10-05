@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.astro/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+package-lock.json
+index.html
+_astro/
+favicon.svg
+# Historical source documents retain their original bytes and formatting.
+docs/
+spec.md
+tasks.md
+PROMPT.md
+DECISIONS.md
+QUESTIONS.md
+STATUS.md
