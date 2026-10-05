@@ -3,7 +3,7 @@ import { sitePath } from './site';
 
 describe('GitHub Pages paths', () => {
   it.each([
-    ['/', '/intentional-ci-failure/'],
+    ['/', '/test-oge-app/'],
     ['/favicon.svg', '/test-oge-app/favicon.svg'],
     ['/materials/binary/', '/test-oge-app/materials/binary/'],
     ['/stream/?task=10#answer', '/test-oge-app/stream/?task=10#answer'],
