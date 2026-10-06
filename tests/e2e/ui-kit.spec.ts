@@ -341,6 +341,19 @@ test('SegmentedControl: стрелки пропускают отключённы
   await expect(page.getByTestId('selected-mode')).toHaveText('Практика');
   await practice.press('ArrowRight');
   await expect(theory).toBeChecked();
+  await expect(theory).toBeFocused();
+  await theory.press('ArrowLeft');
+  await expect(practice).toBeChecked();
+  await expect(practice).toBeFocused();
+  await practice.press('ArrowUp');
+  await expect(theory).toBeChecked();
+  await expect(theory).toBeFocused();
+  await theory.press('ArrowDown');
+  await expect(practice).toBeChecked();
+  await expect(practice).toBeFocused();
+  await group.getByText('Теория', { exact: true }).click();
+  await expect(theory).toBeChecked();
+  await expect(page.getByTestId('selected-mode')).toHaveText('Теория');
   const disabled = page.getByRole('group', {
     name: 'Недоступный режим',
     exact: true,

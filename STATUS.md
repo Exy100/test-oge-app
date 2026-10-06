@@ -504,7 +504,9 @@
   SegmentedControl, Slider, NumberInput. Контракты описаны в `docs/ui-kit.md`.
 - spec §14: native dialog с inert-фоном, удержанием фокуса, Esc и возвратом к
   инициатору; явный returnFocusRef учитывает поведение Safari при щелчке мышью.
-  Вкладки поддерживают стрелки/Home/End; range и radio сохраняют нативную клавиатуру.
+  Вкладки поддерживают стрелки/Home/End; range сохраняет нативную клавиатуру.
+  Группа radio поддерживает все четыре стрелки с переходом по кругу и пропуском
+  disabled; явный обработчик согласует поведение границ группы в WebKit.
   Подсказка доступна по hover/focus/touch, позволяет наведение на панель и Esc.
   Уведомления озвучиваются и не ограничивают время чтения. Ошибки полей связаны
   через aria-describedby, поддерживаются required/min/max/step/readOnly/disabled.
@@ -532,5 +534,10 @@
   [CI and Pages](https://github.com/Exy100/test-oge-app/actions/workflows/ci.yml).
   Firefox/WebKit запускаются в GitHub runner; в этой облачной машине доступны
   локальные Chromium/mobile. Публикация допускается только после зелёного CI.
+- Первый подробный [прогон](https://github.com/Exy100/test-oge-app/actions/runs/37471152517)
+  выявил один сбой из 108: WebKit не замыкал нативную группу radio при ArrowRight.
+  Исправлен SegmentedControl, проверка дополнена ArrowLeft/Up/Down и выбором мышью.
+  После исправления `npm run verify` снова прошёл; целевой e2e SegmentedControl
+  в Chromium/mobile — 2 passed. Полный повторный прогон выполняет CI перед деплоем.
 
 Требования T1.5 выполнены. Следующий шаг — T1.6; T1.7 и полный Gate 1 ещё открыты.
