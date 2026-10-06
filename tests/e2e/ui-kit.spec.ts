@@ -26,6 +26,11 @@ test('Button: все варианты и размеры, disabled и loading б�
       await button.click();
       clicks += 1;
       await expect(page.getByTestId('button-count')).toHaveText(String(clicks));
+      await button.evaluate(async (element) => {
+        await Promise.all(
+          element.getAnimations().map((animation) => animation.finished),
+        );
+      });
       const box = await button.boundingBox();
       expect(box?.height).toBeGreaterThanOrEqual(44);
     }

@@ -539,5 +539,11 @@
   Исправлен SegmentedControl, проверка дополнена ArrowLeft/Up/Down и выбором мышью.
   После исправления `npm run verify` снова прошёл; целевой e2e SegmentedControl
   в Chromium/mobile — 2 passed. Полный повторный прогон выполняет CI перед деплоем.
+- Следующий [прогон](https://github.com/Exy100/test-oge-app/actions/runs/37507726372)
+  подтвердил исправление WebKit: 107 passed, единственная ошибка — измерение
+  Button в Chromium во время hover-анимации (43.999969 вместо 44 CSS px).
+  Измерение теперь ожидает animation.finished, порог 44 не изменён. Lint и
+  typecheck прошли; локальная проверка Button по три раза в Chromium/mobile —
+  6 passed. Обоснование обоих исправлений зафиксировано в ADR-011.
 
 Требования T1.5 выполнены. Следующий шаг — T1.6; T1.7 и полный Gate 1 ещё открыты.
