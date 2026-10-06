@@ -1,0 +1,104 @@
+/* light-dark() also follows the OS when JavaScript is unavailable. */
+:root {
+  color-scheme: light dark;
+  --canvas: light-dark(#f5f6f1, #111c19);
+  --surface: light-dark(#ffffff, #1c2b25);
+  --soft: light-dark(#f5f7f0, #22352b);
+  --section: light-dark(#edf0e8, #16231e);
+  --hover: light-dark(#e6efda, #2c4233);
+  --accent-surface: light-dark(#eaf2dd, #304331);
+  --ink: light-dark(#192c28, #edf4e9);
+  --muted: light-dark(#52624f, #b7c6b4);
+  --green: light-dark(#186747, #b5de84);
+  --line: light-dark(#dbe1d8, #405547);
+  --border-strong: light-dark(#798c70, #809777);
+  --focus: light-dark(#236dbe, #9fcaff);
+  --button-bg: light-dark(#192c28, #b5de84);
+  --button-hover: light-dark(#25493b, #c9eba3);
+  --button-text: light-dark(#ffffff, #17261d);
+  --success-text: light-dark(#1c583a, #bfe4ab);
+  --success-bg: light-dark(#edf6e8, #283e2c);
+  --error-text: light-dark(#813819, #ffccae);
+  --error-bg: light-dark(#fdf0e7, #493027);
+  --violet-text: light-dark(#5f508d, #e1d3ff);
+  --violet-bg: light-dark(#eeebf6, #3d3452);
+  --orange-text: light-dark(#79501e, #ffddb0);
+  --orange-bg: light-dark(#f9ecd9, #493a26);
+  --banner-bg: light-dark(#192c28, #24382c);
+  --banner-text: light-dark(#f2f7e9, #f2f7e9);
+  --banner-muted: light-dark(#c3cfbf, #c3cfbf);
+  --lime: light-dark(#d9ee91, #d9ee91);
+  --decoration: light-dark(#e4ebd0, #2c3d2b);
+
+  --font-body: 'Golos Text Variable', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 2.75rem;
+  --text-hero: clamp(2.5rem, 4.7vw, 4rem);
+  --text-hero-mobile: clamp(2rem, 10vw, 2.75rem);
+  --text-heading: clamp(1.75rem, 3vw, 2.375rem);
+  --text-equation: clamp(1.875rem, 3.2vw, 2.875rem);
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 650;
+  --weight-heading: 750;
+  --leading-tight: 1.1;
+  --leading-heading: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --tracking-tight: -0.045em;
+  --tracking-heading: -0.025em;
+  --tracking-label: 0.08em;
+  --tracking-wide: 0.15em;
+
+  --space-half: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
+  --space-4: 1rem;
+  --space-4-5: 1.125rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-18: 4.5rem;
+  --space-20: 5rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-round: 50%;
+  --shadow-sm: 0 3px 10px light-dark(#2036210a, #00000024);
+  --shadow-md: 0 8px 22px light-dark(#2036210a, #00000030);
+  --shadow-lg: 0 18px 38px light-dark(#243c2415, #00000040);
+  --duration-fast: 160ms;
+  --duration-enter: 550ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --focus-width: 3px;
+  --target-size: 2.75rem;
+  --content-width: 73.75rem;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}

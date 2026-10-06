@@ -1,7 +1,6 @@
 ---
 import Practice from '../components/Practice';
-import '../styles/global.css';
-import { sitePath, SITE_ORIGIN } from '../lib/site';
+import SiteLayout from '../layouts/SiteLayout.astro';
 import {
   binaryPlaces,
   makePracticeTask,
@@ -24,315 +23,264 @@ const terms = places
   .map((place) => place.weight);
 ---
 
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f5f6f1" />
-    <meta
-      name="description"
-      content="Готовься к ОГЭ по информатике: задачи на объём текста, логику и системы счисления с проверкой ответов, подсказками и понятными решениями."
-    />
-    <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
-    <link rel="canonical" href={`${SITE_ORIGIN}${sitePath('/')}`} />
-    <title>ОГЭ по информатике — практика и теория</title>
-  </head>
-  <body>
-    <a href="#main" class="skip-link">
-      К основному содержимому
-    </a>
-    <header class="site-header">
-      <div class="container header-inner">
-        <a
-          class="brand"
-          href={sitePath('/')}
-          aria-label="Информатика ОГЭ — главная"
-        >
-          <span class="brand-icon" aria-hidden="true">
-            &gt;_
-          </span>
-          <span>
-            информатика<span class="brand-level">ОГЭ · 9 КЛАСС</span>
-          </span>
+<SiteLayout
+  title="ОГЭ по информатике — практика и теория"
+  description="Готовься к ОГЭ по информатике: задачи на объём текста, логику и системы счисления с проверкой ответов, подсказками и понятными решениями."
+>
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="live-dot" aria-hidden="true"></span> Меньше сложного.
+        Больше понятного.
+      </p>
+      <h1 id="hero-title">
+        ОГЭ по информатике.
+        <br />
+        <span>Шаг за шагом.</span>
+      </h1>
+      <p class="hero-description">
+        Разбери правило, попробуй сам и пойми, как получился ответ. Начни с
+        небольшой задачи — прямо здесь.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-dark" href="#practice">
+          Начать тренировку <span aria-hidden="true">→</span>
         </a>
-        <nav aria-label="Основная навигация">
-          <a href="#practice">Практика</a>
-          <a href="#materials">Короткая теория</a>
-          <a href="#exam">Об экзамене</a>
-        </nav>
-        <span class="header-note">
-          <span aria-hidden="true">→</span> Учись в своём темпе
+        <a class="hero-secondary" href="#materials">
+          Сначала разобраться <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <div class="hero-footnotes">
+        <span>
+          <i aria-hidden="true">✓</i> {practiceTopics.length} темы для старта
+        </span>
+        <span>
+          <i aria-hidden="true">✓</i> Без регистрации
         </span>
       </div>
-    </header>
-    <main id="main">
-      <section class="hero container" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">
-            <span class="live-dot" aria-hidden="true"></span> Меньше сложного.
-            Больше понятного.
-          </p>
-          <h1 id="hero-title">
-            ОГЭ по информатике.
-            <br />
-            <span>Шаг за шагом.</span>
-          </h1>
-          <p class="hero-description">
-            Разбери правило, попробуй сам и пойми, как получился ответ. Начни с
-            небольшой задачи — прямо здесь.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-dark" href="#practice">
-              Начать тренировку <span aria-hidden="true">→</span>
-            </a>
-            <a class="hero-secondary" href="#materials">
-              Сначала разобраться <span aria-hidden="true">↓</span>
-            </a>
-          </div>
-          <div class="hero-footnotes">
-            <span>
-              <i aria-hidden="true">✓</i> {practiceTopics.length} темы для
-              старта
-            </span>
-            <span>
-              <i aria-hidden="true">✓</i> Без регистрации
-            </span>
-          </div>
+    </div>
+    <div class="hero-visual">
+      <div class="visual-orbit" aria-hidden="true"></div>
+      <div class="number-card">
+        <div class="number-card-top">
+          <span class="mini-mark" aria-hidden="true">
+            01
+          </span>
+          <span>СИСТЕМЫ СЧИСЛЕНИЯ</span>
+          <span class="card-dots" aria-hidden="true">
+            •••
+          </span>
         </div>
-        <div class="hero-visual">
-          <div class="visual-orbit" aria-hidden="true"></div>
-          <div class="number-card">
-            <div class="number-card-top">
-              <span class="mini-mark" aria-hidden="true">
-                01
-              </span>
-              <span>СИСТЕМЫ СЧИСЛЕНИЯ</span>
-              <span class="card-dots" aria-hidden="true">
-                •••
-              </span>
-            </div>
-            <p class="number-card-label">Одно число. Две записи.</p>
-            <div
-              class="number-equation"
-              aria-label={`${binary.digits} в двоичной системе равно ${String(binary.answer)} в десятичной`}
-            >
-              <span>
-                {binary.digits}
-                <sub>2</sub>
-              </span>
-              <span class="equation-arrow" aria-hidden="true">
-                →
-              </span>
-              <span class="decimal-result">
-                {binary.answer}
-                <sub>10</sub>
-              </span>
-            </div>
-            <p class="bit-caption">У каждого разряда — свой вес</p>
-            <div class="bit-places" aria-label="Веса двоичных разрядов">
-              {places.map((place) => (
-                <div
-                  class:list={['bit-place', { active: place.digit === '1' }]}
-                >
-                  <strong>{place.digit}</strong>
-                  <span>× {place.weight}</span>
-                </div>
-              ))}
-            </div>
-            <div class="number-card-bottom">
-              <span>
-                {terms.join(' + ')} = <strong>{binary.answer}</strong>
-              </span>
-              <span class="check-circle" aria-label="Верно">
-                ✓
-              </span>
-            </div>
-          </div>
-          <p class="visual-caption">
-            <span aria-hidden="true">→</span> Не магия. Просто разряды.
-          </p>
+        <p class="number-card-label">Одно число. Две записи.</p>
+        <div
+          class="number-equation"
+          aria-label={`${binary.digits} в двоичной системе равно ${String(binary.answer)} в десятичной`}
+        >
+          <span>
+            {binary.digits}
+            <sub>2</sub>
+          </span>
+          <span class="equation-arrow" aria-hidden="true">
+            →
+          </span>
+          <span class="decimal-result">
+            {binary.answer}
+            <sub>10</sub>
+          </span>
         </div>
-      </section>
-      <section
-        id="practice"
-        class="practice-section"
-        aria-labelledby="practice-title"
-      >
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">01 / ПРАКТИКА</p>
-              <h2 id="practice-title">Знания — в дело.</h2>
+        <p class="bit-caption">У каждого разряда — свой вес</p>
+        <div class="bit-places" aria-label="Веса двоичных разрядов">
+          {places.map((place) => (
+            <div class:list={['bit-place', { active: place.digit === '1' }]}>
+              <strong>{place.digit}</strong>
+              <span>× {place.weight}</span>
             </div>
-            <p>
-              Выбери тему и попробуй решить.
-              <br />
-              Подсказки всегда рядом.
-            </p>
-          </div>
-          <noscript>
-            <p class="no-script">
-              Для автоматической проверки включи JavaScript. Короткая теория и
-              примеры с решениями ниже доступны без него.
-            </p>
-          </noscript>
-          <Practice client:load />
-          <p class="practice-caption">
-            Авторские базовые упражнения по темам заданий №1, №3 и №10.
-          </p>
+          ))}
         </div>
-      </section>
-      <section
-        id="materials"
-        class="materials-section container"
-        aria-labelledby="materials-title"
-      >
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">02 / РАЗБЕРЁМСЯ</p>
-            <h2 id="materials-title">Сначала — суть.</h2>
-          </div>
-          <p>
-            Три правила, на которые можно
-            <br />
-            опереться в тренировке.
-          </p>
+        <div class="number-card-bottom">
+          <span>
+            {terms.join(' + ')} = <strong>{binary.answer}</strong>
+          </span>
+          <span class="check-circle" aria-label="Верно">
+            ✓
+          </span>
         </div>
-        <div class="material-grid">
-          <article class="material-card">
-            <div class="material-topline">
-              <span class="material-symbol" aria-hidden="true">
-                Aa
-              </span>
-              <span>ТЕМА №1</span>
-            </div>
-            <h3>От символов к байтам</h3>
-            <p>
-              Умножь число символов на объём одного символа. Если он задан в
-              битах, раздели результат на 8 — столько бит в одном байте.
-            </p>
-            <div class="formula">байты = символы × биты ÷ 8</div>
-            <details>
-              <summary>
-                Разобрать пример <span aria-hidden="true">+</span>
-              </summary>
-              <div class="material-example">
-                <p>
-                  Текст: {volume.characters} символа, кодировка: {volume.bits}{' '}
-                  бит на символ.
-                </p>
-                <ol>
-                  {volume.steps.map((step) => (
-                    <li>{step}</li>
-                  ))}
-                </ol>
-              </div>
-            </details>
-          </article>
-          <article class="material-card">
-            <div class="material-topline">
-              <span class="material-symbol violet" aria-hidden="true">
-                &amp;
-              </span>
-              <span>ТЕМА №3</span>
-            </div>
-            <h3>Читай условия вместе</h3>
-            <p>
-              «И» требует выполнения обоих условий. «НЕ» меняет истину на ложь и
-              наоборот. Знак &lt; не включает границу, а ≤ включает.
-            </p>
-            <div class="formula">НЕ (X &lt; a) означает X ≥ a</div>
-            <details>
-              <summary>
-                Разобрать пример <span aria-hidden="true">+</span>
-              </summary>
-              <div class="material-example">
-                <p>{logic.question}</p>
-                <ol>
-                  {logic.steps.map((step) => (
-                    <li>{step}</li>
-                  ))}
-                </ol>
-              </div>
-            </details>
-          </article>
-          <article class="material-card">
-            <div class="material-topline">
-              <span class="material-symbol orange" aria-hidden="true">
-                01
-              </span>
-              <span>ТЕМА №10</span>
-            </div>
-            <h3>Раскрой двоичную запись</h3>
-            <p>
-              Справа налево веса разрядов равны 1, 2, 4, 8 и так далее.
-              Складывай только веса тех разрядов, в которых стоит единица.
-            </p>
-            <div class="formula">
-              {binary.digits}
-              <sub>2</sub> = {terms.join(' + ')} = {binary.answer}
-            </div>
-            <details>
-              <summary>
-                Разобрать пример <span aria-hidden="true">+</span>
-              </summary>
-              <div class="material-example">
-                <ol>
-                  {binary.steps.map((step) => (
-                    <li>{step}</li>
-                  ))}
-                </ol>
-              </div>
-            </details>
-          </article>
+      </div>
+      <p class="visual-caption">
+        <span aria-hidden="true">→</span> Не магия. Просто разряды.
+      </p>
+    </div>
+  </section>
+  <section
+    id="practice"
+    class="practice-section"
+    aria-labelledby="practice-title"
+  >
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 / ПРАКТИКА</p>
+          <h2 id="practice-title">Знания — в дело.</h2>
         </div>
-      </section>
-      <section
-        id="exam"
-        class="exam-section container"
-        aria-labelledby="exam-title"
-      >
-        <div class="exam-banner">
-          <div class="exam-intro">
-            <p class="eyebrow">03 / ОРИЕНТИР</p>
-            <h2 id="exam-title">Знай свой экзамен.</h2>
-            <p>Структура по проекту ФИПИ на 2027 год.</p>
-          </div>
-          <dl class="exam-facts">
-            <div>
-              <dt>Заданий</dt>
-              <dd>16</dd>
-            </div>
-            <div>
-              <dt>Минут</dt>
-              <dd>150</dd>
-            </div>
-            <div>
-              <dt>Максимум баллов</dt>
-              <dd>21</dd>
-            </div>
-          </dl>
-        </div>
-        <p class="exam-source">
-          Проект может измениться. Актуальные документы —{' '}
-          <a
-            href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            на сайте ФИПИ <span aria-hidden="true">→</span>
-          </a>
-          .
+        <p>
+          Выбери тему и попробуй решить.
+          <br />
+          Подсказки всегда рядом.
         </p>
-      </section>
-    </main>
-    <footer class="site-footer container">
-      <a class="footer-brand" href={sitePath('/')}>
-        информатика / ОГЭ
+      </div>
+      <noscript>
+        <p class="no-script">
+          Для автоматической проверки включи JavaScript. Короткая теория и
+          примеры с решениями ниже доступны без него.
+        </p>
+      </noscript>
+      <Practice client:load />
+      <p class="practice-caption">
+        Авторские базовые упражнения по темам заданий №1, №3 и №10.
+      </p>
+    </div>
+  </section>
+  <section
+    id="materials"
+    class="materials-section container"
+    aria-labelledby="materials-title"
+  >
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">02 / РАЗБЕРЁМСЯ</p>
+        <h2 id="materials-title">Сначала — суть.</h2>
+      </div>
+      <p>
+        Три правила, на которые можно
+        <br />
+        опереться в тренировке.
+      </p>
+    </div>
+    <div class="material-grid">
+      <article class="material-card">
+        <div class="material-topline">
+          <span class="material-symbol" aria-hidden="true">
+            Aa
+          </span>
+          <span>ТЕМА №1</span>
+        </div>
+        <h3>От символов к байтам</h3>
+        <p>
+          Умножь число символов на объём одного символа. Если он задан в битах,
+          раздели результат на 8 — столько бит в одном байте.
+        </p>
+        <div class="formula">байты = символы × биты ÷ 8</div>
+        <details>
+          <summary>
+            Разобрать пример <span aria-hidden="true">+</span>
+          </summary>
+          <div class="material-example">
+            <p>
+              Текст: {volume.characters} символа, кодировка: {volume.bits} бит
+              на символ.
+            </p>
+            <ol>
+              {volume.steps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </details>
+      </article>
+      <article class="material-card">
+        <div class="material-topline">
+          <span class="material-symbol violet" aria-hidden="true">
+            &amp;
+          </span>
+          <span>ТЕМА №3</span>
+        </div>
+        <h3>Читай условия вместе</h3>
+        <p>
+          «И» требует выполнения обоих условий. «НЕ» меняет истину на ложь и
+          наоборот. Знак &lt; не включает границу, а ≤ включает.
+        </p>
+        <div class="formula">НЕ (X &lt; a) означает X ≥ a</div>
+        <details>
+          <summary>
+            Разобрать пример <span aria-hidden="true">+</span>
+          </summary>
+          <div class="material-example">
+            <p>{logic.question}</p>
+            <ol>
+              {logic.steps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </details>
+      </article>
+      <article class="material-card">
+        <div class="material-topline">
+          <span class="material-symbol orange" aria-hidden="true">
+            01
+          </span>
+          <span>ТЕМА №10</span>
+        </div>
+        <h3>Раскрой двоичную запись</h3>
+        <p>
+          Справа налево веса разрядов равны 1, 2, 4, 8 и так далее. Складывай
+          только веса тех разрядов, в которых стоит единица.
+        </p>
+        <div class="formula">
+          {binary.digits}
+          <sub>2</sub> = {terms.join(' + ')} = {binary.answer}
+        </div>
+        <details>
+          <summary>
+            Разобрать пример <span aria-hidden="true">+</span>
+          </summary>
+          <div class="material-example">
+            <ol>
+              {binary.steps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </details>
+      </article>
+    </div>
+  </section>
+  <section
+    id="exam"
+    class="exam-section container"
+    aria-labelledby="exam-title"
+  >
+    <div class="exam-banner">
+      <div class="exam-intro">
+        <p class="eyebrow">03 / ОРИЕНТИР</p>
+        <h2 id="exam-title">Знай свой экзамен.</h2>
+        <p>Структура по проекту ФИПИ на 2027 год.</p>
+      </div>
+      <dl class="exam-facts">
+        <div>
+          <dt>Заданий</dt>
+          <dd>16</dd>
+        </div>
+        <div>
+          <dt>Минут</dt>
+          <dd>150</dd>
+        </div>
+        <div>
+          <dt>Максимум баллов</dt>
+          <dd>21</dd>
+        </div>
+      </dl>
+    </div>
+    <p class="exam-source">
+      Проект может измениться. Актуальные документы —{' '}
+      <a
+        href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        на сайте ФИПИ <span aria-hidden="true">→</span>
       </a>
-      <p>Учебный проект. Неофициальный сервис подготовки.</p>
-      <a href="#practice">Вернуться к практике ↑</a>
-    </footer>
-  </body>
-</html>
+      .
+    </p>
+  </section>
+</SiteLayout>

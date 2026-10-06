@@ -1,0 +1,149 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { sitePath } from '../lib/site';
+---
+
+<SiteLayout
+  title="Дизайн-система — Информатика ОГЭ"
+  description="Палитра, типографика и базовые состояния интерфейса."
+  route="/dev/ui/"
+>
+  <div class="container design-page">
+    <p class="eyebrow">Инструменты разработки</p>
+    <h1>Дизайн-система</h1>
+    <p>
+      Общие токены оформления. Выбор темы в шапке применяется ко всем примерам.
+    </p>
+    <section aria-labelledby="palette-title">
+      <h2 id="palette-title">Цвет и контраст</h2>
+      <div class="design-grid">
+        <div class="design-swatch">
+          <strong>Основной текст</strong>
+          <p class="design-muted">Дополнительный текст</p>
+          <a href="#type-title">Ссылка и акцент →</a>
+        </div>
+        <div class="design-swatch soft">
+          <strong>Мягкий фон</strong>
+          <p class="design-muted">Пояснения и формулы</p>
+          <code>2⁴ = 16</code>
+        </div>
+        <div class="design-swatch accent">
+          <strong>Акцент темы</strong>
+          <p>Данные и алгоритмы</p>
+        </div>
+        <div class="design-swatch violet">
+          <strong>Логика</strong>
+          <p>Логические выражения</p>
+        </div>
+        <div class="design-swatch orange">
+          <strong>Практика</strong>
+          <p>Работа с числами</p>
+        </div>
+        <div class="design-swatch banner">
+          <strong>Экзамен</strong>
+          <p>Информация об экзамене</p>
+        </div>
+      </div>
+    </section>
+    <section aria-labelledby="type-title">
+      <h2 id="type-title">Типографика</h2>
+      <p>Голос: понятная кириллица, буквы Ёё и Йй, цифры 0123456789.</p>
+      <p>
+        <code>JetBrains Mono: 1101₂ → 13₁₀; x = 2 ** 4</code>
+      </p>
+      <p class="design-muted">
+        Наборные шрифты хранятся локально: Golos Text и JetBrains Mono.
+      </p>
+    </section>
+    <section aria-labelledby="states-title">
+      <h2 id="states-title">Действия и обратная связь</h2>
+      <div class="design-actions">
+        <a class="button button-dark" href={sitePath('/#practice')}>
+          Начать тренировку →
+        </a>
+        <a class="button button-light" href={sitePath('/#materials')}>
+          Короткая теория
+        </a>
+        <button class="button button-dark" disabled>
+          Недоступное действие
+        </button>
+      </div>
+      <div class="answer-feedback correct">
+        <p>Верно, получилось! Успешная проверка ответа.</p>
+      </div>
+      <div class="answer-feedback incorrect">
+        <p>Пока не совпало. Перепроверь вычисления.</p>
+      </div>
+      <p>
+        Пройди страницу клавишей Tab: у активных элементов видна рамка фокуса.
+      </p>
+    </section>
+  </div>
+</SiteLayout>
+
+<style>
+  .design-page {
+    padding-block: var(--space-12);
+  }
+  .design-page section {
+    margin-top: var(--space-12);
+  }
+  .design-page p {
+    margin-block: var(--space-4);
+    line-height: var(--leading-relaxed);
+  }
+  .design-page code {
+    font-family: var(--font-mono);
+    overflow-wrap: anywhere;
+  }
+  .design-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .design-swatch {
+    padding: var(--space-6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+  .design-swatch a {
+    color: var(--green);
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-size);
+  }
+  .design-muted {
+    color: var(--muted);
+  }
+  .soft {
+    background: var(--soft);
+  }
+  .accent {
+    background: var(--accent-surface);
+    color: var(--green);
+  }
+  .violet {
+    background: var(--violet-bg);
+    color: var(--violet-text);
+  }
+  .orange {
+    background: var(--orange-bg);
+    color: var(--orange-text);
+  }
+  .banner {
+    background: var(--banner-bg);
+    color: var(--banner-text);
+  }
+  .banner p {
+    color: var(--banner-muted);
+  }
+  .design-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-block: var(--space-6);
+  }
+</style>

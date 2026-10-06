@@ -1,0 +1,80 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import themeScript from '../scripts/theme.js?url';
+import primaryFont from '../assets/fonts/golos-text-cyrillic-wght-normal.woff2?url';
+import { sitePath, SITE_ORIGIN } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  route?: string;
+}
+const { title, description, route = '/' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline src={themeScript}></script>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
+    <link rel="canonical" href={`${SITE_ORIGIN}${sitePath(route)}`} />
+    <link
+      rel="preload"
+      href={primaryFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">
+      К основному содержимому
+    </a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a
+          class="brand"
+          href={sitePath('/')}
+          aria-label="Информатика ОГЭ — главная"
+        >
+          <span class="brand-icon" aria-hidden="true">
+            &gt;_
+          </span>
+          <span>
+            информатика<span class="brand-level">ОГЭ · 9 КЛАСС</span>
+          </span>
+        </a>
+        <nav aria-label="Основная навигация">
+          <a href={sitePath('/#practice')}>Практика</a>
+          <a href={sitePath('/#materials')}>Короткая теория</a>
+          <a href={sitePath('/#exam')}>Об экзамене</a>
+        </nav>
+        <div class="theme-control">
+          <label for="theme-select">Тема</label>
+          <select id="theme-select" data-theme-select disabled>
+            <option value="system">Системная</option>
+            <option value="light">Светлая</option>
+            <option value="dark">Тёмная</option>
+          </select>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer container">
+      <a class="footer-brand" href={sitePath('/')}>
+        информатика / ОГЭ
+      </a>
+      <p>Учебный проект. Неофициальный сервис подготовки.</p>
+      <a href={sitePath('/#practice')}>Вернуться к практике ↑</a>
+      {import.meta.env.DEV && <a href={sitePath('/dev/ui/')}>Дизайн-система</a>}
+    </footer>
+  </body>
+</html>

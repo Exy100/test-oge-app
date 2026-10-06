@@ -9,7 +9,23 @@ export default defineConfig({
   base: SITE_BASE,
   output: 'static',
   trailingSlash: 'always',
-  integrations: [react(), mdx()],
-  vite: { plugins: [tailwindcss()] },
+  integrations: [
+    react(),
+    mdx(),
+    {
+      name: 'development-ui',
+      hooks: {
+        'astro:config:setup': ({ command, injectRoute }) => {
+          if (command === 'dev') {
+            injectRoute({
+              pattern: '/dev/ui',
+              entrypoint: './src/dev/ui.astro',
+            });
+          }
+        },
+      },
+    },
+  ],
+  vite: { plugins: [tailwindcss()], build: { assetsInlineLimit: 0 } },
   build: { inlineStylesheets: 'never' },
 });
