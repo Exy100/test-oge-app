@@ -33,10 +33,10 @@
   }
   apply();
   document.addEventListener('DOMContentLoaded', () => apply());
-  document.addEventListener('astro:page-load', () => apply());
-  document.addEventListener('astro:before-swap', (event) =>
-    apply(event.newDocument),
-  );
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) preference = readPreference();
+    apply();
+  });
   document.addEventListener('change', (event) => {
     if (
       !(event.target instanceof HTMLSelectElement) ||

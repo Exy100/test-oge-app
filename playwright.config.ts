@@ -34,6 +34,16 @@ export default defineConfig({
   ],
   webServer: [
     {
+      command: 'npm run preview:headers',
+      url: `http://127.0.0.1:4326${SITE_BASE}`,
+      env: {
+        WRANGLER_SEND_METRICS: 'false',
+        XDG_CONFIG_HOME: '/tmp/oge-config',
+        WRANGLER_LOG_PATH: '/tmp/oge-wrangler.log',
+      },
+      reuseExistingServer: false,
+    },
+    {
       command: 'npm run preview -- --host 127.0.0.1 --port 4322',
       url: `http://127.0.0.1:4322${SITE_BASE}`,
       reuseExistingServer: false,

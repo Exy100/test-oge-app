@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .cache/
+.wrangler/
 coverage/
 playwright-report/
 test-results/

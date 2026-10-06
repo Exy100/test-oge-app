@@ -3,6 +3,8 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": [
     "dist",
+    ".cache",
+    ".wrangler",
     "_astro",
     "node_modules",
     "docs/archive",

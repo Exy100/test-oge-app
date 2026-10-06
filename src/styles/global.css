@@ -1039,7 +1039,13 @@ h4 {
     margin: 0;
   }
 }
+@view-transition {
+  navigation: auto;
+}
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
   html {
     scroll-behavior: auto;
   }

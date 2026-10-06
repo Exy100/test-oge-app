@@ -10,6 +10,8 @@ export default defineConfig([
     'node_modules/',
     'dist/',
     '.astro/',
+    '.cache/',
+    '.wrangler/',
     '_astro/',
     'coverage/',
     'playwright-report/',
