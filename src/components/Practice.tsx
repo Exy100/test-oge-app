@@ -1,3 +1,6 @@
+import { Button } from './ui/Button';
+import { Card } from './ui/Card';
+import { Badge } from './ui/Badge';
 import { useEffect, useRef, useState } from 'react';
 import type { SubmitEvent } from 'react';
 import {
@@ -98,9 +101,9 @@ export default function Practice() {
           </div>
         </div>
       </div>
-      <div className="exercise-card" aria-busy={!ready}>
+      <Card className="exercise-card" aria-busy={!ready}>
         <div className="exercise-topline">
-          <span className="pill">{currentTopic?.title}</span>
+          <Badge>{currentTopic?.title}</Badge>
           <span className="exercise-position">
             {indices[topic] + 1} / {practiceSize(topic)}
           </span>
@@ -129,9 +132,9 @@ export default function Practice() {
                 aria-describedby="answer-guidance answer-feedback"
                 aria-invalid={feedback === 'invalid'}
               />
-              <button type="submit" className="button button-dark">
+              <Button type="submit">
                 Проверить <span aria-hidden="true">→</span>
-              </button>
+              </Button>
             </div>
             <p id="answer-guidance" className="input-guidance">
               Введи целое число. Enter — проверить.
@@ -160,9 +163,9 @@ export default function Practice() {
           )}
         </div>
         <div className="exercise-tools">
-          <button
+          <Button
             type="button"
-            className="text-button"
+            variant="text"
             disabled={!ready || hintCount === task.hints.length}
             onClick={() => {
               setHintCount((count) => count + 1);
@@ -175,10 +178,10 @@ export default function Practice() {
               : hintCount < 3
                 ? `Ещё подсказка (${String(hintCount)}/3)`
                 : 'Все подсказки открыты'}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
-            className="text-button"
+            variant="text"
             disabled={!ready}
             onClick={() => {
               setShowSolution((shown) => !shown);
@@ -187,7 +190,7 @@ export default function Practice() {
             aria-expanded={showSolution}
           >
             {showSolution ? 'Скрыть решение' : 'Показать решение'}
-          </button>
+          </Button>
         </div>
         <div id="practice-hints" className="hints" hidden={hintCount === 0}>
           <ol>
@@ -206,16 +209,16 @@ export default function Practice() {
         </div>
         <div className="exercise-bottom">
           <span>Ошибаться — часть учёбы.</span>
-          <button
+          <Button
             type="button"
-            className="button button-light"
+            variant="secondary"
             disabled={!ready}
             onClick={nextTask}
           >
             Следующая задача <span aria-hidden="true">→</span>
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -81,7 +81,7 @@
 - Готово, когда: контраст всех пар текст/фон ≥ 4.5:1 (тест-скрипт по токенам);
   переключатель темы работает и запоминается; в prod-сборке нет `/dev/*`.
 
-### [ ] T1.5 UI-кит
+### [x] T1.5 UI-кит
 - Компоненты: Button (варианты, размеры, loading), Card, Tabs, Modal (focus trap,
   Esc, возврат фокуса), Tooltip, Toast, Disclosure, Badge, ProgressBar, Kbd, Skeleton,
   SegmentedControl, Slider (доступный), NumberInput.

@@ -29,6 +29,7 @@
   --banner-muted: light-dark(#c3cfbf, #c3cfbf);
   --lime: light-dark(#d9ee91, #d9ee91);
   --decoration: light-dark(#e4ebd0, #2c3d2b);
+  --overlay: light-dark(#111c1999, #000000b3);
 
   --font-body: 'Golos Text Variable', 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
@@ -90,6 +91,7 @@
   --shadow-lg: 0 18px 38px light-dark(#243c2415, #00000040);
   --duration-fast: 160ms;
   --duration-enter: 550ms;
+  --duration-loop: 1000ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --focus-width: 3px;
   --target-size: 2.75rem;

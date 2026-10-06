@@ -6,6 +6,10 @@ test('dev UI: обе темы, переходы Astro и сохранение в
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/ui/');
+  await expect(page.getByTestId('ui-gallery')).toHaveAttribute(
+    'aria-busy',
+    'false',
+  );
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Дизайн-система',
   );

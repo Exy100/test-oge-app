@@ -12,6 +12,10 @@ const neutralSurfaces = [
   'accent-surface',
 ];
 export const textPairs = [
+  ...['canvas', 'surface', 'soft'].map((background) => [
+    'error-text',
+    background,
+  ]),
   ...['ink', 'muted', 'green'].flatMap((text) =>
     neutralSurfaces.map((background) => [text, background]),
   ),

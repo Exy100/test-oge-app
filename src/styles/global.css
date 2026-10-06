@@ -2,6 +2,7 @@
 
 @import './tokens.css';
 @import './fonts.css';
+@import './ui.css';
 
 :root {
   font-family: var(--font-body);
@@ -193,9 +194,7 @@ h1 span {
   font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);
   border: 1px solid transparent;
-  transition:
-    transform var(--duration-fast) var(--ease-standard),
-    background var(--duration-fast) var(--ease-standard);
+  transition: transform var(--duration-fast) var(--ease-standard);
   white-space: normal;
 }
 .button:not(:disabled):hover {
@@ -514,14 +513,6 @@ h2 {
   justify-content: space-between;
   gap: var(--space-3);
   margin-bottom: var(--space-5);
-}
-.pill {
-  background: var(--accent-surface);
-  color: var(--green);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  padding: var(--space-1-5) var(--space-2);
-  border-radius: var(--radius-sm);
 }
 .exercise-position {
   color: var(--muted);

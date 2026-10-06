@@ -1,6 +1,8 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { sitePath } from '../lib/site';
+import UiGallery from './UiGallery';
+import { Button } from '../components/ui/Button';
 ---
 
 <SiteLayout
@@ -64,9 +66,7 @@ import { sitePath } from '../lib/site';
         <a class="button button-light" href={sitePath('/#materials')}>
           Короткая теория
         </a>
-        <button class="button button-dark" disabled>
-          Недоступное действие
-        </button>
+        <Button disabled>Недоступное действие</Button>
       </div>
       <div class="answer-feedback correct">
         <p>Верно, получилось! Успешная проверка ответа.</p>
@@ -78,6 +78,13 @@ import { sitePath } from '../lib/site';
         Пройди страницу клавишей Tab: у активных элементов видна рамка фокуса.
       </p>
     </section>
+    <UiGallery client:load />
+    <noscript>
+      <p class="no-script">
+        Включи JavaScript для проверки интерактивных компонентов. Палитра и
+        типографика доступны без него.
+      </p>
+    </noscript>
   </div>
 </SiteLayout>
 
