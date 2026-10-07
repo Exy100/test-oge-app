@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "overrides": {
+    "miniflare": {
+      "sharp": "0.35.5"
+    },
     "lighthouse": "13.5.0",
     "basic-ftp": "6.2.2",
     "tmp": "0.2.7",
