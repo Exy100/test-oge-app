@@ -1,6 +1,6 @@
 /** Product minima from spec §§6.3, 9.5, 10.1–10.3. Advance currentPhase at each gate. */
 export default {
-  currentPhase: 1,
+  currentPhase: 2,
   phases: { generators: 3, banks: 3, variants: 3, lessons: 7, interactives: 8 },
   sources: {
     generators: 'src/core/generators/index.ts',
