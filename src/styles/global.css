@@ -823,6 +823,7 @@ h4 {
   padding-block: var(--space-6) var(--space-8);
   border-top: 1px solid var(--line);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-5);
@@ -1063,6 +1064,79 @@ h4 {
   gap: var(--space-2);
   font-size: var(--text-xs);
   color: var(--muted);
+}
+.info-page {
+  max-width: var(--reading-width);
+  padding-block: var(--space-8) var(--space-20);
+}
+.info-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-size);
+  color: var(--green);
+}
+.info-heading {
+  margin-block: var(--space-6) var(--space-10);
+}
+.info-heading h1 {
+  font-size: var(--text-page-title);
+  margin-block: var(--space-4);
+  overflow-wrap: anywhere;
+}
+.info-lead {
+  color: var(--muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+.info-content {
+  line-height: var(--leading-relaxed);
+  overflow-wrap: anywhere;
+}
+.info-content section {
+  margin-block: var(--space-10);
+}
+.info-content h2 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+}
+.info-content p + p,
+.info-content p + ul,
+.info-content p + ol {
+  margin-top: var(--space-4);
+}
+.info-content ul,
+.info-content ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.info-content li + li {
+  margin-top: var(--space-3);
+}
+.info-content ol {
+  list-style: decimal;
+}
+.info-content ul {
+  list-style: disc;
+}
+.info-content a:not(.button) {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: var(--space-half);
+}
+.info-note {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+.info-note .button {
+  margin-top: var(--space-4);
+}
+.info-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block: var(--space-6);
 }
 .theme-control select {
   min-height: var(--target-size);

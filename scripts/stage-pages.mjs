@@ -13,3 +13,7 @@ await cp(
   new URL('../dist/_headers', import.meta.url),
   new URL('_headers', root),
 );
+await cp(
+  new URL('../dist/404.html', import.meta.url),
+  new URL('404.html', root),
+);

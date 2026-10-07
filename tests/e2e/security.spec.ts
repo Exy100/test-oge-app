@@ -34,6 +34,16 @@ test('Cloudflare: HTTP-заголовки и рабочая практика п�
   await expect(page.getByRole('status')).toContainText('Верно, получилось!');
   await page.getByLabel('Тема', { exact: true }).selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  for (const route of ['about/', 'privacy/', 'missing-lesson/']) {
+    const document = await page.goto(
+      `http://127.0.0.1:4326/test-oge-app/${route}`,
+    );
+    expect(document?.status()).toBe(route === 'missing-lesson/' ? 404 : 200);
+    expect(document?.headers()['content-security-policy']).toBe(
+      headers?.['content-security-policy'],
+    );
+    await expect(page.getByLabel('Тема', { exact: true })).toHaveValue('dark');
+  }
   expect(violations).toEqual([]);
 });
 

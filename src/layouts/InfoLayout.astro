@@ -1,0 +1,32 @@
+---
+import SiteLayout from './SiteLayout.astro';
+import { sitePath } from '../lib/site';
+interface Props {
+  title: string;
+  description: string;
+  route: string;
+  noindex?: boolean;
+}
+const { title, description, route, noindex = false } = Astro.props;
+---
+
+<SiteLayout
+  title={`${title} — Информатика ОГЭ`}
+  description={description}
+  route={route}
+  noindex={noindex}
+>
+  <article class="info-page container">
+    <a class="info-back" href={sitePath('/')}>
+      ← На главную
+    </a>
+    <header class="info-heading">
+      <p class="eyebrow">Информатика · ОГЭ</p>
+      <h1>{title}</h1>
+      <p class="info-lead">{description}</p>
+    </header>
+    <div class="info-content">
+      <slot />
+    </div>
+  </article>
+</SiteLayout>

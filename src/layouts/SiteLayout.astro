@@ -8,8 +8,9 @@ interface Props {
   title: string;
   description: string;
   route?: string;
+  noindex?: boolean;
 }
-const { title, description, route = '/' } = Astro.props;
+const { title, description, route = '/', noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,6 +21,7 @@ const { title, description, route = '/' } = Astro.props;
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline src={themeScript}></script>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
     <link rel="canonical" href={`${SITE_ORIGIN}${sitePath(route)}`} />
     <link
@@ -53,6 +55,12 @@ const { title, description, route = '/' } = Astro.props;
           <a href={sitePath('/#practice')}>Практика</a>
           <a href={sitePath('/#materials')}>Короткая теория</a>
           <a href={sitePath('/#exam')}>Об экзамене</a>
+          <a
+            href={sitePath('/about/')}
+            aria-current={route === '/about/' ? 'page' : undefined}
+          >
+            О проекте
+          </a>
         </nav>
         <div class="theme-control">
           <label for="theme-select">Тема</label>
@@ -72,6 +80,12 @@ const { title, description, route = '/' } = Astro.props;
         информатика / ОГЭ
       </a>
       <p>Учебный проект. Неофициальный сервис подготовки.</p>
+      <a
+        href={sitePath('/privacy/')}
+        aria-current={route === '/privacy/' ? 'page' : undefined}
+      >
+        Конфиденциальность
+      </a>
       <a href={sitePath('/#practice')}>Вернуться к практике ↑</a>
       {import.meta.env.DEV && <a href={sitePath('/dev/ui/')}>Дизайн-система</a>}
     </footer>

@@ -1,0 +1,26 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import { sitePath } from '../lib/site';
+---
+
+<InfoLayout
+  title="Страница не найдена"
+  description="Возможно, в адресе опечатка или ссылка больше не действует. Выбери, куда перейти."
+  route="/404.html"
+  noindex
+>
+  <p class="eyebrow">Ошибка 404</p>
+  <div class="info-actions">
+    <a class="button button-dark" href={sitePath('/')}>
+      На главную
+    </a>
+    <a class="button button-light" href={sitePath('/#practice')}>
+      К практике
+    </a>
+  </div>
+  <p>
+    Если ссылка была на самом сайте,{' '}
+    <a href="https://github.com/Exy100/test-oge-app/issues">сообщи об ошибке</a>
+    , указав адрес страницы. Это поможет её исправить.
+  </p>
+</InfoLayout>

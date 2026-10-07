@@ -30,6 +30,9 @@
       select.value = preference;
       select.disabled = false;
     });
+    target.querySelectorAll('[data-clear-theme]').forEach((button) => {
+      button.disabled = false;
+    });
   }
   apply();
   document.addEventListener('DOMContentLoaded', () => apply());
@@ -59,5 +62,23 @@
     if (event.key !== key && event.key !== null) return;
     preference = readPreference();
     apply();
+  });
+  document.addEventListener('click', (event) => {
+    if (
+      !(event.target instanceof Element) ||
+      !event.target.closest('[data-clear-theme]')
+    )
+      return;
+    preference = 'system';
+    apply();
+    let message = 'Сохранённая тема удалена. Включена системная тема.';
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      message =
+        'Браузер не разрешил удалить настройку. Для этой страницы включена системная тема.';
+    }
+    const status = document.getElementById('privacy-reset-status');
+    if (status) status.textContent = message;
   });
 })();

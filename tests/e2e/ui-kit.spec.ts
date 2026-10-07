@@ -201,6 +201,10 @@ test('Tooltip: фокус, hover панели, касание и Esc', async ({ 
   );
   await page.getByRole('button', { name: 'Информация', exact: true }).click();
   await expect(tooltip).not.toBeVisible();
+  // Test pointer transfer with the anchor in view, not during page scrolling.
+  await trigger.evaluate((element) => {
+    element.scrollIntoView({ block: 'center', behavior: 'instant' });
+  });
   await trigger.hover();
   await tooltip.hover();
   await expect(tooltip).toBeVisible();
