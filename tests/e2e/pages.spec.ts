@@ -112,6 +112,7 @@ test('все информационные страницы читаются бе
 }) => {
   if (!baseURL) throw new Error('Не задан адрес сайта.');
   const context = await browser.newContext({
+    ignoreHTTPSErrors: true,
     javaScriptEnabled: false,
     baseURL,
   });

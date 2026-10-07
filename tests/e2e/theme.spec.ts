@@ -120,7 +120,7 @@ test('локальная кириллица, широкий экран и мас
   ).toBe(true);
   expect(
     fonts.requests.every((url) =>
-      url.startsWith('http://127.0.0.1:4322/test-oge-app/'),
+      url.startsWith('https://127.0.0.1:4322/test-oge-app/'),
     ),
   ).toBe(true);
   for (const width of [1920, 640, 360]) {
@@ -140,11 +140,12 @@ test('без JavaScript сохраняется системная тёмная �
   browser,
 }) => {
   const context = await browser.newContext({
+    ignoreHTTPSErrors: true,
     javaScriptEnabled: false,
     colorScheme: 'dark',
   });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4322/test-oge-app/');
+  await page.goto('https://127.0.0.1:4322/test-oge-app/');
   expect(
     await page
       .locator('html')

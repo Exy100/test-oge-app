@@ -77,6 +77,9 @@ npx playwright install --with-deps chromium firefox webkit
 npm run e2e
 ```
 
+Для браузерных проверок нужен OpenSSL: тестовые production-серверы используют
+HTTPS с временным локальным сертификатом в `.cache/test-tls` (см. `docs/security.md`).
+
 Если в среде уже есть системный Chromium, можно проверить desktop и мобильный
 экран без загрузки другого браузера:
 

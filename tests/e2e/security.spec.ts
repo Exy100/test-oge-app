@@ -13,7 +13,7 @@ test('Cloudflare: HTTP-заголовки и рабочая практика п�
       violations.push(message.text());
   });
   page.on('pageerror', (error) => violations.push(error.message));
-  const response = await page.goto('http://127.0.0.1:4326/test-oge-app/');
+  const response = await page.goto('https://127.0.0.1:4326/test-oge-app/');
   expect(response?.status()).toBe(200);
   const headers = response?.headers();
   expect(headers?.['content-security-policy']).toContain(
@@ -36,7 +36,7 @@ test('Cloudflare: HTTP-заголовки и рабочая практика п�
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   for (const route of ['about/', 'privacy/', 'missing-lesson/']) {
     const document = await page.goto(
-      `http://127.0.0.1:4326/test-oge-app/${route}`,
+      `https://127.0.0.1:4326/test-oge-app/${route}`,
     );
     expect(document?.status()).toBe(route === 'missing-lesson/' ? 404 : 200);
     expect(document?.headers()['content-security-policy']).toBe(

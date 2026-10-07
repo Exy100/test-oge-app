@@ -589,9 +589,9 @@
 
 - `npm run verify`: успешно, 109 unit-тестов, типы/lint/forbidden/coverage/build;
   60 пар контраста, минимум 5.51:1. В production четыре HTML-страницы.
-- Локальный полный e2e Chromium/mobile: 69 passed, один нестабильный hover-тест
-  Tooltip при прокрутке. После центрирования кнопки целевой повтор три раза
-  на каждом проекте: 6 passed; проверки hover-панели и Esc не удалены.
+- Локальный полный e2e Chromium/mobile после исправлений: 70 passed (HTTPS).
+  Ранее нестабильный hover-тест Tooltip при прокрутке дополнительно прошёл
+  три раза на каждом проекте: 6 passed; проверки hover-панели и Esc сохранены.
   Новые страницы, удаление настройки, режим без JS и реальный HTTP 404 прошли.
 - Lighthouse, три замера: performance 98; accessibility, best-practices и SEO
   100; LCP 2104–2109 ms, CLS 0.000069. Прежние бюджеты сохранены.
@@ -601,6 +601,11 @@
 - Финальный Gate 1: [CI and Pages](https://github.com/Exy100/test-oge-app/actions/workflows/ci.yml)
   запускает все 140 браузерных сценариев, verify, аудит, Lighthouse и gitleaks.
   Публикация main разрешена workflow только после всех успешных проверок.
+- Первый полный [CI](https://github.com/Exy100/test-oge-app/actions/runs/37605529585):
+  125 passed, 15 failed в WebKit на HTTP-серверах. Safari обновляет loopback до
+  HTTPS при upgrade-insecure-requests. Оба production-сервера тестов переведены
+  на HTTPS; директива и пороги сохранены. Локальные verify и все 70 сценариев
+  прошли повторно; межбраузерный прогон проверяет это исправление перед деплоем.
 
 Ограничение ADR-001 сохраняется: GitHub Pages игнорирует _headers, поэтому
 HTTP-защита проверена локально, meta-CSP включена в опубликованные HTML.

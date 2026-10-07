@@ -28,7 +28,7 @@ test('страница, локальные ресурсы и доступнос�
   );
   expect(
     resources.every((url) =>
-      url.startsWith('http://127.0.0.1:4322/test-oge-app/'),
+      url.startsWith('https://127.0.0.1:4322/test-oge-app/'),
     ),
   ).toBe(true);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
@@ -111,7 +111,10 @@ test('теория и решения читаются без JavaScript', async 
   browser,
   baseURL,
 }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+  const context = await browser.newContext({
+    ignoreHTTPSErrors: true,
+    javaScriptEnabled: false,
+  });
   try {
     const page = await context.newPage();
     if (!baseURL) throw new Error('Не задан адрес проверяемого сайта.');

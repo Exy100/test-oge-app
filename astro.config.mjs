@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import { SITE_ORIGIN, SITE_BASE } from './src/lib/site.ts';
 import { writeSecurityHeaders } from './scripts/security-headers.mjs';
+import { readFileSync } from 'node:fs';
 
 export default defineConfig({
   site: SITE_ORIGIN,
@@ -51,6 +52,22 @@ export default defineConfig({
       },
     },
   ],
-  vite: { plugins: [tailwindcss()], build: { assetsInlineLimit: 0 } },
+  vite: {
+    plugins: [tailwindcss()],
+    build: { assetsInlineLimit: 0 },
+    preview:
+      process.env.OGE_TEST_HTTPS === '1'
+        ? {
+            https: {
+              key: readFileSync(
+                new URL('./.cache/test-tls/key.pem', import.meta.url),
+              ),
+              cert: readFileSync(
+                new URL('./.cache/test-tls/cert.pem', import.meta.url),
+              ),
+            },
+          }
+        : {},
+  },
   build: { inlineStylesheets: 'never' },
 });

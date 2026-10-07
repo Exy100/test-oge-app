@@ -13,7 +13,9 @@ export default defineConfig({
   retries: 0,
   reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
-    baseURL: `http://127.0.0.1:4322${SITE_BASE}`,
+    baseURL: `https://127.0.0.1:4322${SITE_BASE}`,
+    // Only the local test servers use an ephemeral self-signed certificate.
+    ignoreHTTPSErrors: true,
     trace: 'retain-on-failure',
   },
   projects: [
@@ -35,7 +37,8 @@ export default defineConfig({
   webServer: [
     {
       command: 'npm run preview:headers',
-      url: `http://127.0.0.1:4326${SITE_BASE}`,
+      url: `https://127.0.0.1:4326${SITE_BASE}`,
+      ignoreHTTPSErrors: true,
       env: {
         WRANGLER_SEND_METRICS: 'false',
         XDG_CONFIG_HOME: '/tmp/oge-config',
@@ -44,8 +47,9 @@ export default defineConfig({
       reuseExistingServer: false,
     },
     {
-      command: 'npm run preview -- --host 127.0.0.1 --port 4322',
-      url: `http://127.0.0.1:4322${SITE_BASE}`,
+      command: 'npm run preview:secure',
+      url: `https://127.0.0.1:4322${SITE_BASE}`,
+      ignoreHTTPSErrors: true,
       reuseExistingServer: false,
     },
     {
