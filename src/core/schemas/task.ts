@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { examConfig } from '../exam/exam.config';
 import {
   AnswerTypeSchema,
   ArtifactKindSchema,
@@ -98,11 +99,12 @@ export const TaskInstanceSchema = z
     const error = (field: string, message: string) => {
       context.addIssue({ code: 'custom', path: [field], message });
     };
-    if (task.examPart !== (task.taskNumber <= 10 ? 1 : 2))
+    const rule = examConfig.tasks[task.taskNumber];
+    if (task.examPart !== rule.examPart)
       error('examPart', 'Часть 1: №1–10; часть 2: №11–16.');
     if (task.taskNumber === 13 ? !task.variant13 : task.variant13 !== undefined)
       error('variant13', 'Ветка обязательна только для №13.');
-    if (task.taskNumber <= 12) {
+    if (rule.assessment === 'short-answer') {
       if (task.answer.type === 'artifact')
         error('answer', 'Для №1–12 нужен краткий ответ.');
       if (task.criteria !== undefined)
@@ -111,18 +113,17 @@ export const TaskInstanceSchema = z
           'Для краткого ответа критерии практической работы не применяются.',
         );
     } else {
-      const max = task.taskNumber === 14 ? 3 : 2;
+      const max = rule.maxScore;
       if (task.criteria?.max !== max)
         error('criteria', `Нужны критерии с максимумом ${String(max)}.`);
-      const kind =
-        task.taskNumber === 13
-          ? task.variant13
-          : task.taskNumber === 14
-            ? 'spreadsheet'
-            : task.taskNumber === 15
-              ? 'robot'
-              : 'program';
-      if (task.answer.type !== 'artifact' || task.answer.kind !== kind)
+      if (
+        task.answer.type !== 'artifact' ||
+        !rule.artifactKinds.some(
+          (kind) =>
+            task.answer.type === 'artifact' && kind === task.answer.kind,
+        ) ||
+        (task.taskNumber === 13 && task.answer.kind !== task.variant13)
+      )
         error('answer', 'Вид практической работы не соответствует номеру.');
     }
   });

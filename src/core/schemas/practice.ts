@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { examConfig, practiceTaskNumbers } from '../exam/exam.config';
 import { ScoreSchema, TextSchema, unique } from './shared';
 
 const assessment = z.discriminatedUnion('source', [
@@ -34,7 +35,7 @@ export const PracticeEvidenceSchema = z
     z.strictObject({ kind: z.literal('program'), ...fields, ...program }),
   ])
   .superRefine((evidence, context) => {
-    const max = evidence.kind === 'spreadsheet' ? 3 : 2;
+    const max = examConfig.tasks[practiceTaskNumbers[evidence.kind]].maxScore;
     if (
       (evidence.selfAssessment ?? 0) > max ||
       (evidence.assessment?.score ?? 0) > max ||

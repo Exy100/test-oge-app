@@ -1,10 +1,11 @@
 import { z } from 'zod';
+import { examConfig } from '../exam/exam.config';
 import { TextSchema, unique } from './shared';
 import { TaskInstanceSchema } from './task';
 
 const fields = {
   id: TextSchema,
-  tasks: z.array(TaskInstanceSchema).length(16),
+  tasks: z.array(TaskInstanceSchema).length(examConfig.taskCount),
 };
 export const VariantSchema = z
   .discriminatedUnion('kind', [
@@ -32,7 +33,7 @@ export const VariantSchema = z
       (sum, task) => sum + (task.criteria?.max ?? 1),
       0,
     );
-    if (max !== 21)
+    if (max !== examConfig.maxScore)
       context.addIssue({
         code: 'custom',
         path: ['tasks'],
