@@ -57,6 +57,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-astro": "3.2.1",
     "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "fast-check": "4.10.2",
     "globals": "17.13.0",
     "miniflare": "5.20261001.0-alpha",
     "prettier": "3.9.9",

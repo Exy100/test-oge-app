@@ -1,3 +1,4 @@
+import { checkAnswer } from '../core/checker';
 export const practiceTopics = [
   {
     id: 'volume',
@@ -171,7 +172,10 @@ export function checkPracticeAnswer(
   task: PracticeTask,
   raw: string,
 ): 'invalid' | 'correct' | 'incorrect' {
-  const value = raw.trim();
-  if (value.length > 32 || !/^[+-]?\d+$/u.test(value)) return 'invalid';
-  return BigInt(value) === BigInt(task.answer) ? 'correct' : 'incorrect';
+  if (raw.trim().length > 32) return 'invalid';
+  const result = checkAnswer(
+    { type: 'integer', value: String(task.answer) },
+    raw,
+  );
+  return result.verdict === 'format_error' ? 'invalid' : result.verdict;
 }
