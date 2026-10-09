@@ -84,7 +84,7 @@ test('повреждённая настройка, синхронизация в
 }) => {
   await page.goto('./');
   await page.evaluate(() => {
-    localStorage.setItem('oge.theme', 'broken');
+    localStorage.setItem('oge:informatics:v1:settings', 'broken');
   });
   await page.reload();
   await expect(page.getByLabel('Тема', { exact: true })).toHaveValue('system');

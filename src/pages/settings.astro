@@ -1,0 +1,19 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Settings from '../components/Settings';
+---
+
+<InfoLayout
+  title="Настройки"
+  description="Оформление, сохранённые данные и предпочтения разбора с ИИ."
+  route="/settings/"
+>
+  <p>Настройки сохраняются только в этом браузере. Учётная запись не нужна.</p>
+  <Settings client:load />
+  <noscript>
+    <p>
+      Для изменения настроек, импорта и экспорта включи JavaScript. Страницы с
+      теорией доступны и без него.
+    </p>
+  </noscript>
+</InfoLayout>

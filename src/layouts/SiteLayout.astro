@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import navigationMotion from '../styles/navigation-motion.css?url';
 import themeScript from '../scripts/theme.js?url';
 import primaryFont from '../assets/fonts/golos-text-cyrillic-wght-normal.woff2?url';
 import { sitePath, SITE_ORIGIN } from '../lib/site';
@@ -19,6 +20,12 @@ const { title, description, route = '/', noindex = false } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link
+      id="navigation-motion"
+      rel="stylesheet"
+      href={navigationMotion}
+      media="(prefers-reduced-motion: no-preference)"
+    />
     <script is:inline src={themeScript}></script>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
@@ -72,6 +79,12 @@ const { title, description, route = '/', noindex = false } = Astro.props;
         </div>
       </div>
     </header>
+    <p
+      id="storage-notice"
+      class="storage-notice container"
+      role="alert"
+      hidden
+    ></p>
     <main id="main" tabindex="-1">
       <slot />
     </main>
@@ -86,8 +99,17 @@ const { title, description, route = '/', noindex = false } = Astro.props;
       >
         Конфиденциальность
       </a>
+      <a
+        href={sitePath('/settings/')}
+        aria-current={route === '/settings/' ? 'page' : undefined}
+      >
+        Настройки
+      </a>
       <a href={sitePath('/#practice')}>Вернуться к практике ↑</a>
       {import.meta.env.DEV && <a href={sitePath('/dev/ui/')}>Дизайн-система</a>}
     </footer>
+    <script>
+      import '../scripts/preferences';
+    </script>
   </body>
 </html>

@@ -1,84 +1,43 @@
-// Runs before the stylesheet and body, independently of React hydration.
+// Blocking, dependency-free preference bootstrap before CSS and body.
 (() => {
-  const marker = Symbol.for('oge.theme.initialized');
-  if (window[marker]) return;
-  window[marker] = true;
-
-  const key = 'oge.theme';
-  const system = window.matchMedia('(prefers-color-scheme: dark)');
-  const normalize = (value) =>
-    value === 'light' || value === 'dark' ? value : 'system';
-  function readPreference() {
-    try {
-      return normalize(localStorage.getItem(key));
-    } catch {
-      return 'system';
-    }
-  }
-  let preference = readPreference();
-
-  function apply(target = document) {
-    const theme =
-      preference === 'system'
-        ? system.matches
-          ? 'dark'
-          : 'light'
-        : preference;
-    target.documentElement.dataset.theme = theme;
-    target.documentElement.dataset.themePreference = preference;
-    target.querySelectorAll('[data-theme-select]').forEach((select) => {
-      select.value = preference;
-      select.disabled = false;
-    });
-    target.querySelectorAll('[data-clear-theme]').forEach((button) => {
-      button.disabled = false;
-    });
-  }
-  apply();
-  document.addEventListener('DOMContentLoaded', () => apply());
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) preference = readPreference();
-    apply();
-  });
-  document.addEventListener('change', (event) => {
+  let settings = { theme: 'system', fontSize: 100, animations: true };
+  try {
+    const journal = localStorage.getItem('oge:informatics:v1:transaction');
+    const raw = localStorage.getItem('oge:informatics:v1:settings');
+    const value = journal
+      ? JSON.parse(journal).settings
+      : raw
+        ? JSON.parse(raw)
+        : null;
     if (
-      !(event.target instanceof HTMLSelectElement) ||
-      !event.target.matches('[data-theme-select]')
-    )
-      return;
-    preference = normalize(event.target.value);
-    apply();
-    try {
-      localStorage.setItem(key, preference);
-    } catch {
-      // Keep the choice for this tab even when browser storage is unavailable.
-      return;
+      value &&
+      (value.version === 1 || value.version === 0) &&
+      ['system', 'light', 'dark'].includes(value.theme)
+    ) {
+      settings.theme = value.theme;
+      if (
+        value.version === 1 &&
+        [100, 125, 150, 200].includes(value.fontSize) &&
+        typeof value.animations === 'boolean'
+      )
+        settings = value;
+    } else if (!raw) {
+      const legacy = localStorage.getItem('oge.theme');
+      if (legacy === 'light' || legacy === 'dark') settings.theme = legacy;
     }
-  });
-  system.addEventListener('change', () => {
-    if (preference === 'system') apply();
-  });
-  window.addEventListener('storage', (event) => {
-    if (event.key !== key && event.key !== null) return;
-    preference = readPreference();
-    apply();
-  });
-  document.addEventListener('click', (event) => {
-    if (
-      !(event.target instanceof Element) ||
-      !event.target.closest('[data-clear-theme]')
-    )
-      return;
-    preference = 'system';
-    apply();
-    let message = 'Сохранённая тема удалена. Включена системная тема.';
-    try {
-      localStorage.removeItem(key);
-    } catch {
-      message =
-        'Браузер не разрешил удалить настройку. Для этой страницы включена системная тема.';
-    }
-    const status = document.getElementById('privacy-reset-status');
-    if (status) status.textContent = message;
-  });
+  } catch {
+    /* Defaults remain readable when browser storage is unavailable. */
+  }
+  const root = document.documentElement;
+  root.dataset.themePreference = settings.theme;
+  root.dataset.theme =
+    settings.theme === 'system'
+      ? matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+      : settings.theme;
+  root.dataset.fontSize = String(settings.fontSize);
+  root.dataset.animations = settings.animations ? 'on' : 'off';
+  const motion = document.getElementById('navigation-motion');
+  if (motion) motion.disabled = !settings.animations;
 })();
