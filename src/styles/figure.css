@@ -1,0 +1,108 @@
+.task-figure {
+  margin: 1rem 0;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--ink);
+}
+.task-figure figcaption {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.figure-scroll {
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: var(--surface);
+}
+.figure-scroll:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.task-figure table {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.task-figure th,
+.task-figure td {
+  border: 1px solid var(--border-strong);
+  padding: 0.5rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.task-figure th {
+  background: var(--soft);
+}
+.task-figure svg {
+  display: block;
+  color: var(--ink);
+  max-width: none;
+  font-size: 16px;
+  font-family: var(--font-body);
+}
+.figure-wire {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.figure-node,
+.figure-label-bg {
+  fill: var(--surface);
+}
+.figure-node {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.task-figure text {
+  fill: currentColor;
+}
+.figure-wall,
+.figure-boundary {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+}
+.figure-target {
+  fill: var(--surface);
+  stroke: var(--green);
+  stroke-width: 3;
+}
+.figure-start {
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3;
+}
+.figure-legend,
+.figure-description {
+  overflow-wrap: anywhere;
+}
+.figure-tree ul {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--border-strong);
+}
+.figure-tree li {
+  margin: 0.5rem 0;
+  overflow-wrap: anywhere;
+}
+.figure-address code {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.figure-address dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem;
+}
+.figure-address dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.task-figure summary {
+  min-height: 44px;
+  padding-block: 0.75rem;
+  cursor: pointer;
+}

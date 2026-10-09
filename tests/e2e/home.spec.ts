@@ -132,7 +132,7 @@ test('теория и решения читаются без JavaScript', async 
     const cards = page.locator('.material-card');
     await expect(cards).toHaveCount(3);
     for (const card of await cards.all()) {
-      await card.locator('summary').click();
+      await card.locator(':scope > details > summary').click();
       await expect(card.locator('.material-example')).toBeVisible();
       await expect(card.locator('li')).toHaveCount(3);
     }

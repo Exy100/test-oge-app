@@ -20,13 +20,32 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'figure-visual',
+      testMatch: '**/figures-visual.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1000, height: 800 },
+        ...chromiumOptions,
+      },
+    },
+    {
       name: 'chromium',
+      testIgnore: '**/figures-visual.spec.ts',
       use: { ...devices['Desktop Chrome'], ...chromiumOptions },
     },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    {
+      testIgnore: '**/figures-visual.spec.ts',
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      testIgnore: '**/figures-visual.spec.ts',
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
     {
       name: 'mobile',
+      testIgnore: '**/figures-visual.spec.ts',
       use: {
         ...devices['Pixel 7'],
         viewport: { width: 360, height: 800 },

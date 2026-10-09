@@ -1,5 +1,6 @@
 ---
 import RichText from '../components/RichText.astro';
+import Figure from '../components/Figure';
 import Practice from '../components/Practice';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import {
@@ -229,6 +230,14 @@ const terms = places
           Справа налево веса разрядов равны 1, 2, 4, 8 и так далее. Складывай
           только веса тех разрядов, в которых стоит единица.
         </p>
+        <Figure
+          spec={{
+            kind: 'place-value',
+            description: 'Разряды двоичного числа',
+            base: 2,
+            digits: Array.from(binary.digits, Number),
+          }}
+        />
         <div class="formula">
           {binary.digits}
           <sub>2</sub> = {terms.join(' + ')} = {binary.answer}

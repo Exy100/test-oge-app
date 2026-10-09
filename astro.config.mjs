@@ -10,6 +10,7 @@ export default defineConfig({
   site: SITE_ORIGIN,
   base: SITE_BASE,
   output: 'static',
+  devToolbar: { enabled: false },
   trailingSlash: 'always',
   markdown: { syntaxHighlight: 'prism' },
   security: {
@@ -43,6 +44,10 @@ export default defineConfig({
       hooks: {
         'astro:config:setup': ({ command, injectRoute }) => {
           if (command === 'dev') {
+            injectRoute({
+              pattern: '/dev/figures',
+              entrypoint: './src/dev/figures.astro',
+            });
             injectRoute({
               pattern: '/dev/rich-text',
               entrypoint: './src/dev/rich-text.astro',

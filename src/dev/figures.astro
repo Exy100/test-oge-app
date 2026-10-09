@@ -1,0 +1,19 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Figure from '../components/Figure';
+import { figureExamples } from './figure-examples';
+---
+
+<SiteLayout title="Проверка рисунков" description="Галерея схем задач" noindex>
+  <div class="container">
+    <h1>Рисунки задач</h1>
+    {figureExamples.map((spec, index) => (
+      <section id={`example-${String(index)}`}>
+        <h2>
+          {spec.kind} — {index + 1}
+        </h2>
+        <Figure spec={spec} />
+      </section>
+    ))}
+  </div>
+</SiteLayout>
