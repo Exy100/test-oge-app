@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '../zod';
 import { TaskNumberSchema, unique } from '../schemas/shared';
 
 export const PREFIX = 'oge:informatics:v1:';

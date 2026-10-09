@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '../zod';
 import { examConfig, practiceTaskNumbers } from '../exam/exam.config';
 import { ScoreSchema, TextSchema, unique } from './shared';
 

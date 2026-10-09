@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '../zod';
 import { examConfig } from '../exam/exam.config';
 import {
   AnswerTypeSchema,

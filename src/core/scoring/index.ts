@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '../zod';
 import { checkTaskAnswer } from '../checker';
 import type { AnswerCheck } from '../checker';
 import { examConfig } from '../exam/exam.config';
