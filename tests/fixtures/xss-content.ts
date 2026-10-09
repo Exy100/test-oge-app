@@ -1,0 +1,16 @@
+export const xssContent = [
+  '<script>globalThis.richAttack = 1</script>',
+  '<img src=x onerror="globalThis.richAttack = 1">',
+  '<svg onload="globalThis.richAttack = 1"></svg>',
+  '<iframe srcdoc="<script>globalThis.richAttack = 1</script>"></iframe>',
+  '[ссылка](javascript:globalThis.richAttack=1)',
+  '![картинка](https://example.org/tracker.png)',
+  '<a href="data:text/html,<script>globalThis.richAttack=1</script>">текст</a>',
+  '<math><mtext><img src=x onerror="globalThis.richAttack=1"></mtext></math>',
+  '<form><input autofocus onfocus="globalThis.richAttack=1"></form>',
+  '<style>body{background:url(https://example.org/tracker)}</style>',
+  String.raw`$\href{javascript:globalThis.richAttack=1}{x}$`,
+  String.raw`$\htmlClass{evil}{x}$`,
+  String.raw`$\includegraphics{https://example.org/tracker.png}$`,
+  '```html\n<script>globalThis.richAttack=1</script>\n```',
+];

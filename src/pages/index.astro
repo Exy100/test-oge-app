@@ -1,4 +1,5 @@
 ---
+import RichText from '../components/RichText.astro';
 import Practice from '../components/Practice';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import {
@@ -169,7 +170,9 @@ const terms = places
           Умножь число символов на объём одного символа. Если он задан в битах,
           раздели результат на 8 — столько бит в одном байте.
         </p>
-        <div class="formula">байты = символы × биты ÷ 8</div>
+        <RichText
+          source={String.raw`$$\text{байты} = \frac{\text{символы} \times \text{биты}}{8}$$`}
+        />
         <details>
           <summary>
             Разобрать пример <span aria-hidden="true">+</span>

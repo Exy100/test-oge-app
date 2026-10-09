@@ -1,0 +1,60 @@
+.rich-text {
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+.rich-text > :first-child {
+  margin-top: 0;
+}
+.rich-text > :last-child {
+  margin-bottom: 0;
+}
+.rich-text pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.rich-text code {
+  white-space: pre-wrap;
+}
+.rich-text pre code {
+  white-space: pre;
+}
+.rich-text table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  max-width: 100%;
+}
+.rich-text th,
+.rich-text td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+}
+.rich-text math {
+  font-size: 1.2em;
+}
+.rich-text math[display='block'] {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.rich-text-copy {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.rich-text-copy:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.rich-text-notice {
+  min-height: 1.5em;
+  font-size: 0.875rem;
+}

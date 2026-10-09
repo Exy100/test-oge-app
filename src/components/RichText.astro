@@ -1,0 +1,50 @@
+---
+import { renderRichText } from '../core/rich-text/render';
+import '../styles/rich-text.css';
+interface Props {
+  source: string;
+}
+const html = renderRichText(Astro.props.source);
+---
+
+<div class="rich-text-container" data-server-rich-text>
+  <div class="rich-text" set:html={html} />
+  {html.includes('<pre>') && (
+    <>
+      <button type="button" class="rich-text-copy" hidden>
+        Скопировать код
+      </button>
+      <p class="rich-text-notice" role="status"></p>
+    </>
+  )}
+</div>
+<script>
+  for (const container of document.querySelectorAll(
+    '[data-server-rich-text]',
+  )) {
+    const button =
+      container.querySelector<HTMLButtonElement>('.rich-text-copy');
+    const blocks = container.querySelectorAll('pre code');
+    const notice = container.querySelector('.rich-text-notice');
+    if (!button || !blocks.length) continue;
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      void Promise.resolve()
+        .then(() =>
+          navigator.clipboard.writeText(
+            Array.from(blocks, (block) => block.textContent).join('\n\n'),
+          ),
+        )
+        .then(
+          () => {
+            if (notice) notice.textContent = 'Код скопирован.';
+          },
+          () => {
+            if (notice)
+              notice.textContent =
+                'Не удалось скопировать. Выдели код и скопируй его вручную.';
+          },
+        );
+    });
+  }
+</script>

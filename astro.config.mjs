@@ -44,6 +44,10 @@ export default defineConfig({
         'astro:config:setup': ({ command, injectRoute }) => {
           if (command === 'dev') {
             injectRoute({
+              pattern: '/dev/rich-text',
+              entrypoint: './src/dev/rich-text.astro',
+            });
+            injectRoute({
               pattern: '/dev/ui',
               entrypoint: './src/dev/ui.astro',
             });
