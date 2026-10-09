@@ -1,0 +1,40 @@
+name: Prepare figure baselines
+
+on:
+  push:
+    branches: [codex/figure-baselines-t27]
+
+permissions:
+  contents: write
+
+jobs:
+  snapshots:
+    if: "!startsWith(github.event.head_commit.message, 'baseline:')"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: codex/figure-baselines-t27
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Generate reviewable snapshots in the canonical environment
+        run: npx playwright test --project=figure-visual --update-snapshots
+      - name: Save snapshots on this preparation branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/e2e/figures-visual.spec.ts-snapshots
+          if ! git diff --cached --quiet; then
+            git commit -m 'baseline: refresh figure snapshots in canonical CI'
+            git push origin HEAD:codex/figure-baselines-t27
+          fi
