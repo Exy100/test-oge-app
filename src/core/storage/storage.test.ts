@@ -297,3 +297,31 @@ it('проверяет ответы, время и практические са
     }),
   ).toThrow();
 });
+
+it('сравнивает время завершения независимо от точности дробных секунд', () => {
+  const entry = {
+    id: 'one',
+    variantId: 'V01',
+    seed: 'seed',
+    variant13: 'document',
+    mode: 'exam',
+    startedAt: '2026-10-09T00:00:00Z',
+    finishedAt: '2026-10-09T00:00:00.001Z',
+    elapsedMs: 1,
+    answers: [],
+    assessments: [],
+    marked: [],
+    score: null,
+  };
+  expect(
+    parseArea('variantAttempts', { version: 1, entries: [entry] }),
+  ).toEqual({ version: 1, entries: [entry] });
+  expect(() =>
+    parseArea('variantAttempts', {
+      version: 1,
+      entries: [
+        { ...entry, startedAt: entry.finishedAt, finishedAt: entry.startedAt },
+      ],
+    }),
+  ).toThrow();
+});

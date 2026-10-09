@@ -98,7 +98,9 @@ export const areaSchemas = {
             finishedAt: timestamp,
             score: z.number().int().min(0).max(21).nullable(),
           })
-          .refine((row) => row.finishedAt >= row.startedAt),
+          .refine(
+            (row) => Date.parse(row.finishedAt) >= Date.parse(row.startedAt),
+          ),
       )
       .max(100)
       .refine((rows) => unique(rows.map((row) => row.id))),
