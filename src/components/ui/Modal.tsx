@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef } from 'react';
+import { useLayoutEffect, useId, useRef } from 'react';
 import type { ReactNode, RefObject } from 'react';
 import { Button } from './Button';
 
@@ -20,7 +20,7 @@ export function Modal({
   const id = useId();
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = dialog.current;
     if (!open || !element) return;
     const previous = returnFocusRef?.current ?? document.activeElement;
@@ -42,7 +42,11 @@ export function Modal({
         event.preventDefault();
         onClose();
       }}
-      onClose={onClose}
+      onClose={(event) => {
+        // close() queues an event; it may arrive after a new opening.
+        // Only an actual native close of the current opening updates state.
+        if (open && !event.currentTarget.open) onClose();
+      }}
       onKeyDown={(event) => {
         if (event.key !== 'Tab') return;
         const targets = [

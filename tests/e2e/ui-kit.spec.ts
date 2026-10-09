@@ -475,3 +475,32 @@ test('UI-кит при 200% тексте и reduced motion', async ({ page }) =>
   await modal.getByRole('button', { name: 'Отмена' }).click();
   await expect(modal).not.toBeVisible();
 });
+
+test('Modal: поздний close не закрывает новое окно, нативное закрытие синхронизирует состояние', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Настроить повторения' });
+  const modal = page.getByRole('dialog', { name: 'Настроить тренировку' });
+  await trigger.click();
+  await expect(modal).toBeVisible();
+  await modal.getByRole('button', { name: 'Закрыть окно' }).click();
+  await expect(modal).not.toBeVisible();
+  await trigger.click();
+  await expect(modal).toBeVisible();
+  await modal.evaluate((element) => {
+    element.dispatchEvent(new Event('close'));
+  });
+  await expect(modal).toBeVisible();
+  await expect(modal.getByRole('heading')).toBeFocused();
+  await modal.evaluate((element) => {
+    if (!(element instanceof HTMLDialogElement))
+      throw new Error('Ожидался dialog');
+    element.close();
+  });
+  await expect(modal).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await trigger.click();
+  await expect(modal).toBeVisible();
+  await modal.getByRole('button', { name: 'Отмена' }).click();
+  await expect(trigger).toBeFocused();
+});
