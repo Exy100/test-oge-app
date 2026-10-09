@@ -58,3 +58,25 @@
   min-height: 1.5em;
   font-size: 0.875rem;
 }
+
+/* Native MathML keeps its intrinsic width in Firefox and WebKit. */
+.rich-text-container {
+  min-width: 0;
+  max-width: 100%;
+}
+.rich-text {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.rich-text .katex {
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.rich-text .katex:has(math[display='block']) {
+  display: block;
+}

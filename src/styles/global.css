@@ -676,6 +676,7 @@ h4 {
   align-items: start;
 }
 .material-card {
+  min-width: 0;
   padding: var(--space-6) var(--space-6) var(--space-2-5);
   background: var(--surface);
   border: 1px solid var(--line);
