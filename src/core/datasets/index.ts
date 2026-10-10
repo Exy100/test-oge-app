@@ -7,7 +7,7 @@ import {
   makeSpreadsheet,
   validateOdf,
 } from './odf';
-import { packZip, readZip, validateFiles, type Files } from './zip';
+import { packZip, readZip, validateFiles, limits, type Files } from './zip';
 
 const encoder = new TextEncoder();
 export const DATASET_VERSION = 'educational-files-v1';
@@ -34,6 +34,8 @@ export async function createDataset(
   generatorId: string,
   sources: readonly SourceFile[],
 ): Promise<Dataset> {
+  if (!sources.length || sources.length > limits.entries)
+    throw new Error('Превышен лимит числа файлов.');
   if (new Set(sources.map((source) => source.path)).size !== sources.length)
     throw new Error('Повтор пути файла.');
   validateFiles(new Map(sources.map((source) => [source.path, source.bytes])));

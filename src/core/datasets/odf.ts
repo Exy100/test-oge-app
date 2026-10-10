@@ -32,6 +32,16 @@ export function xml(value: string): string {
     .replace(/"/gu, '&quot;')
     .replace(/'/gu, '&apos;');
 }
+function checkTextBudget(values: readonly string[]): void {
+  let total = 0;
+  for (const value of values) {
+    if (value.length > 100_000)
+      throw new Error('Превышен размер входного текста.');
+    total += encoder.encode(value).byteLength;
+    if (total > limits.file)
+      throw new Error('Превышен размер входного текста.');
+  }
+}
 function paragraph(value: string): string {
   return `<text:p>${xml(value)
     .replace(/ /gu, '<text:s/>')
@@ -55,6 +65,7 @@ function makeOdf(kind: OdfKind, body: string): Uint8Array {
 export function makeDocument(paragraphs: readonly string[]): Uint8Array {
   if (!paragraphs.length || paragraphs.length > 1000)
     throw new Error('Нужно от 1 до 1000 абзацев.');
+  checkTextBudget(paragraphs);
   return makeOdf(
     'odt',
     `<office:text>${paragraphs.map(paragraph).join('')}</office:text>`,
@@ -71,6 +82,9 @@ export function makePresentation(slides: readonly Slide[]): Uint8Array {
     slides.some((slide) => slide.paragraphs.length > 100)
   )
     throw new Error('Превышен размер презентации.');
+  checkTextBudget(
+    slides.flatMap((slide) => [slide.title, ...slide.paragraphs]),
+  );
   const pages = slides
     .map(
       (slide, index) =>
@@ -91,6 +105,7 @@ export function makeSpreadsheet(
     )
   )
     throw new Error('Нужна прямоугольная таблица до 1000 × 50.');
+  checkTextBudget(rows.flat().filter((value) => typeof value === 'string'));
   const content = rows
     .map(
       (row) =>

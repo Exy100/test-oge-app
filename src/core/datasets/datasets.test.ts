@@ -271,3 +271,37 @@ test('manifest mismatch, hashes, extra files, extensions and duplicate paths fai
     'SHA',
   );
 });
+
+test('ODF input budgets are checked before XML expansion', () => {
+  const values = Array.from({ length: 20 }, () => ' '.repeat(60_000));
+  expect(() => makeDocument(values)).toThrow('входного текста');
+  expect(() =>
+    makePresentation([{ title: 'Текст', paragraphs: values }]),
+  ).toThrow('входного текста');
+  expect(() => makeSpreadsheet(values.map((value) => [value]))).toThrow(
+    'входного текста',
+  );
+});
+
+test('source count and byte limits reject before copying', async () => {
+  const source = {
+    path: 'a.txt',
+    format: 'txt' as const,
+    license: 'CC0-1.0',
+    bytes: new Uint8Array(limits.file + 1),
+  };
+  await expect(createDataset('id', 'seed', 'gen', [source])).rejects.toThrow(
+    'размер файла',
+  );
+  await expect(
+    createDataset(
+      'id',
+      'seed',
+      'gen',
+      Array.from({ length: 101 }, (_, index) => ({
+        ...source,
+        path: `${String(index)}.txt`,
+      })),
+    ),
+  ).rejects.toThrow('числа файлов');
+});
