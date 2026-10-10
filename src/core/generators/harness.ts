@@ -1,7 +1,7 @@
 import { TaskInstanceSchema } from '../schemas';
 import type { Generator, TaskInstance } from '../types';
 
-/** Schema boundary for the generator harness; the full property suite is T2.9. */
+/** Runtime boundary shared by sampling tools and generator tests. */
 export function validateGeneratedTask(
   generator: Generator,
   seed: string,
@@ -15,7 +15,10 @@ export function validateGeneratedTask(
   ) {
     throw new Error('Метаданные задания не совпадают с генератором и seed.');
   }
+  const before = JSON.stringify(task);
   if (!generator.verify(task))
     throw new Error('Независимая проверка задания не пройдена.');
+  if (before !== JSON.stringify(task))
+    throw new Error('verify изменил задание.');
   return task;
 }

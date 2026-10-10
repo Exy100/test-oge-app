@@ -45,6 +45,10 @@ export default defineConfig({
         'astro:config:setup': ({ command, injectRoute }) => {
           if (command === 'dev') {
             injectRoute({
+              pattern: '/dev/generators',
+              entrypoint: './src/dev/generators.astro',
+            });
+            injectRoute({
               pattern: '/dev/figures',
               entrypoint: './src/dev/figures.astro',
             });

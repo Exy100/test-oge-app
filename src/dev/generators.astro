@@ -1,0 +1,54 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import GeneratorGallery from './GeneratorGallery';
+---
+
+<SiteLayout
+  title="Проверка генераторов"
+  description="Просмотр воспроизводимых задач и решений"
+  noindex
+>
+  <div class="container generator-gallery">
+    <h1>Проверка генераторов</h1>
+    <p>
+      Одинаковые генератор и seed дают одинаковую последовательность. К seed
+      добавляются суффиксы :0 … :19.
+    </p>
+    <GeneratorGallery client:load />
+    <noscript>Для создания задач включи JavaScript.</noscript>
+  </div>
+</SiteLayout>
+<style is:global>
+  .generator-gallery {
+    padding-block: var(--space-8);
+    overflow-wrap: anywhere;
+  }
+  .generator-gallery form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-4);
+  }
+  .generator-gallery label {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 100%;
+  }
+  .generator-gallery input,
+  .generator-gallery select {
+    min-height: var(--target-size);
+    max-width: 100%;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2);
+  }
+  .generator-example {
+    margin-block: var(--space-6);
+    padding: var(--space-6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+</style>
