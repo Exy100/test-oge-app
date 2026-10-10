@@ -59,6 +59,14 @@ jobs:
       - name: Verify source, types, unit tests, coverage and build
         run: npm run verify
 
+      - name: Install LibreOffice and PDF text tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libreoffice-writer libreoffice-calc libreoffice-impress poppler-utils fonts-dejavu-core
+
+      - name: Open generated ODF files and verify content
+        run: npm run check:office
+
       - name: Install Chromium, Firefox and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
 
@@ -84,6 +92,7 @@ jobs:
           path: |
             test-results/
             .lighthouseci/reports/
+            .cache/dataset-sample/
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7

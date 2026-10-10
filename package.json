@@ -32,13 +32,18 @@
     "check:coverage": "node scripts/check-coverage.mjs",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run check:forbidden && npm run check:coverage && npm run check:contrast && npm run build",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "sample": "node scripts/sample-tasks.mjs"
+    "sample": "node scripts/sample-tasks.mjs",
+    "sample:dataset": "node scripts/sample-dataset.mjs",
+    "check:office": "npm run sample:dataset && python3 scripts/check-office.py"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.2",
     "@astrojs/react": "7.0.0",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.3.5",
+    "fast-xml-parser": "5.11.2",
+    "fast-xml-validator": "1.4.2",
+    "fflate": "0.8.3",
     "isomorphic-dompurify": "4.5.0",
     "katex": "0.19.0",
     "markdown-it": "15.0.2",

@@ -179,7 +179,7 @@ T2.5 добавляет [подсчёт баллов](docs/scoring.md) с неп
 T2.6 добавляет [RichText](docs/rich-text.md) для текста, кода, таблиц и формул.
 T2.7 добавляет [рисунки задач](docs/figures.md): девять видов схем и текстовые описания.
 T2.8 добавляет [хранилище и настройки](docs/storage.md).
-Следующий шаг — T2.10, файловые наборы и ODF. Ограничения заголовков GitHub Pages остаются (ADR-001).
+Следующий шаг — T2.11, интерпретатор «Робота». Ограничения заголовков GitHub Pages остаются (ADR-001).
 
 На сайте доступны главная с практикой, `/about/`, `/privacy/`, `/settings/` и полезная 404.
 Информационные страницы читаются без JavaScript. На странице конфиденциальности
@@ -193,3 +193,7 @@ T2.8 добавляет [хранилище и настройки](docs/storage.
 Инструменты генераторов: `npm run sample -- --task 1 --n 50` и dev-маршрут
 `/test-oge-app/dev/generators/`. Реестр, подключение общего набора тестов
 и границы файловых проверок описаны в [docs/generators.md](docs/generators.md).
+
+Файловое ядро создаёт настоящие ZIP/ODT/ODP/ODS: `npm run sample:dataset`.
+Проверка открытия в LibreOffice: `npm run check:office` (нужны Writer, Calc,
+Impress, Python 3 и poppler-utils). API и ограничения — [docs/datasets.md](docs/datasets.md).
