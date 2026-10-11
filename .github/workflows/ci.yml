@@ -91,6 +91,7 @@ jobs:
           name: quality-reports
           path: |
             test-results/
+            coverage/
             .lighthouseci/reports/
             .cache/dataset-sample/
           include-hidden-files: true
