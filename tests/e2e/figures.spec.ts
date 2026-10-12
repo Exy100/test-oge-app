@@ -3,18 +3,40 @@ import AxeBuilder from '@axe-core/playwright';
 import { figureExamples } from '../../src/dev/figure-examples';
 import { describeFigure } from '../../src/core/figures/describe';
 
+const descriptionBatches = Array.from(
+  { length: Math.ceil(figureExamples.length / 9) },
+  (_, batch) =>
+    Array.from(figureExamples.entries()).slice(batch * 9, (batch + 1) * 9),
+);
 for (const theme of ['light', 'dark']) {
-  test(`все рисунки: доступность и описание, ${theme}`, async ({ page }) => {
+  for (const [batch, examples] of descriptionBatches.entries()) {
+    test(`описания рисунков открываются, ${theme}, группа ${String(batch + 1)}`, async ({
+      page,
+    }) => {
+      await page.goto('http://127.0.0.1:4324/test-oge-app/dev/figures/');
+      await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+      await expect(page.locator('.task-figure')).toHaveCount(27);
+      for (const [index, spec] of examples) {
+        const figure = page.locator(`#example-${String(index)} .task-figure`);
+        await figure.getByText('Текстовое описание', { exact: true }).click();
+        await expect(figure.locator('.figure-description')).toBeVisible();
+        await expect(figure.locator('.figure-description')).toHaveText(
+          describeFigure(spec),
+        );
+      }
+    });
+  }
+  test(`все рисунки: доступность с раскрытыми описаниями, ${theme}`, async ({
+    page,
+  }) => {
     await page.goto('http://127.0.0.1:4324/test-oge-app/dev/figures/');
     await page.getByLabel('Тема', { exact: true }).selectOption(theme);
-    await expect(page.locator('.task-figure')).toHaveCount(27);
-    for (const [index, spec] of figureExamples.entries()) {
-      const figure = page.locator(`#example-${String(index)} .task-figure`);
-      await figure.getByText('Текстовое описание', { exact: true }).click();
-      await expect(figure.locator('.figure-description')).toHaveText(
-        describeFigure(spec),
-      );
-    }
+    // Opening by interaction is covered above; prepare the complete expanded state for axe.
+    await page.locator('.task-figure details').evaluateAll((details) => {
+      for (const element of details) element.setAttribute('open', '');
+    });
+    await expect(page.locator('.task-figure details[open]')).toHaveCount(27);
+    await expect(page.locator('.figure-description:visible')).toHaveCount(27);
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   });
 }
