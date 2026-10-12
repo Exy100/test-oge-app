@@ -1,5 +1,17 @@
 import { expect, test } from 'vitest';
 import { sampleTasks } from './sample';
+import { generatorsForTask } from './index';
+
+test.each([1, 2] as const)(
+  'samples cover all four subtypes for task %i',
+  (number) => {
+    const sample = sampleTasks(number, 12, 'review');
+    for (const generator of generatorsForTask(number)) {
+      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(3);
+    }
+    expect(sample.match(/^## /gmu)).toHaveLength(12);
+  },
+);
 
 test('samples contain real statements, answers, seeds and solutions', () => {
   const result = sampleTasks(1, 50, 'export');

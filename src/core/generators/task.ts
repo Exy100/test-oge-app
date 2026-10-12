@@ -1,0 +1,50 @@
+import type { TaskInstance } from '../types.ts';
+
+type Content = Pick<
+  TaskInstance,
+  'statement' | 'answer' | 'solution' | 'hints' | 'commonMistakes'
+>;
+
+/** Integer quantities used in the Russian task statements. */
+export function quantity(
+  value: number,
+  forms: readonly [string, string, string],
+): string {
+  const lastTwo = value % 100;
+  const last = value % 10;
+  const form =
+    lastTwo >= 11 && lastTwo <= 14
+      ? forms[2]
+      : last === 1
+        ? forms[0]
+        : last >= 2 && last <= 4
+          ? forms[1]
+          : forms[2];
+  return `${String(value)} ${form}`;
+}
+
+export const bytes = (value: number): string =>
+  quantity(value, ['байт', 'байта', 'байт']);
+
+export function taskFrom(
+  subtype: string,
+  taskNumber: 1 | 2,
+  seed: string,
+  content: Content,
+): TaskInstance {
+  const generatorId = `${subtype}-v1`;
+  return {
+    id: `${generatorId}:${seed}`,
+    generatorId,
+    seed,
+    taskNumber,
+    examPart: 1,
+    subtype,
+    difficulty: 2,
+    topics: [taskNumber === 1 ? 'Объём информации' : 'Кодирование'],
+    ...content,
+  };
+}
+
+export const bits = (value: number): string =>
+  quantity(value, ['бит', 'бита', 'бит']);

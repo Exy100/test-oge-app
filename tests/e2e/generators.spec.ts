@@ -1,6 +1,45 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { textVolume } from '../../src/core/generators/01/text-volume';
+import { generators } from '../../src/core/generators';
+
+test('all eight subtypes reproduce Node tasks and render code tables in the gallery', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  const seeds = ['', 'Пример 🧩', 'golden-1'];
+  const actual = await page.evaluate(async (seeds) => {
+    const path = '/test-oge-app/src/core/generators/index.ts';
+    const { generators } = (await import(
+      /* @vite-ignore */ path
+    )) as typeof import('../../src/core/generators');
+    return generators.map((generator) =>
+      seeds.map((seed) => {
+        const task = generator.generate(seed);
+        return { task, verified: generator.verify(task) };
+      }),
+    );
+  }, seeds);
+  expect(actual).toEqual(
+    generators.map((generator) =>
+      seeds.map((seed) => ({ task: generator.generate(seed), verified: true })),
+    ),
+  );
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption('missing-code-v1');
+  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+  await expect(page.locator('.generator-example')).toHaveCount(20);
+  await expect(
+    page.locator('.generator-example').first().getByRole('table'),
+  ).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
 
 test('generator gallery: 20 reproducible tasks, answers and solutions', async ({
   page,

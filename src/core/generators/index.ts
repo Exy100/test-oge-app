@@ -1,5 +1,10 @@
 import type { Generator, TaskNumber } from '../types.ts';
 import { textVolume } from './01/text-volume.ts';
+import { removedWord } from './01/removed-word.ts';
+import { recoding } from './01/recoding.ts';
+import { messageCapacity } from './01/message-capacity.ts';
+import { fixedCode, prefixCode, separatedCode } from './02/decode.ts';
+import { missingCode } from './02/missing-code.ts';
 
 export function createRegistry(
   entries: readonly Generator[],
@@ -26,7 +31,16 @@ export function createRegistry(
   return Object.freeze(entries.map((entry) => Object.freeze({ ...entry })));
 }
 
-export const generators = createRegistry([textVolume]);
+export const generators = createRegistry([
+  textVolume,
+  removedWord,
+  recoding,
+  messageCapacity,
+  fixedCode,
+  prefixCode,
+  separatedCode,
+  missingCode,
+]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);
   if (!generator) throw new Error(`Генератор не найден: ${id}.`);
