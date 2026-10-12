@@ -5,6 +5,18 @@ import { recoding } from './01/recoding.ts';
 import { messageCapacity } from './01/message-capacity.ts';
 import { fixedCode, prefixCode, separatedCode } from './02/decode.ts';
 import { missingCode } from './02/missing-code.ts';
+import {
+  logicAnd,
+  logicNotOr,
+  logicDivisibility,
+  logicExclusive,
+} from './03/logic.ts';
+import {
+  routeLength,
+  shortestRoute,
+  routeVia,
+  routeWithout,
+} from './04/models.ts';
 
 export function createRegistry(
   entries: readonly Generator[],
@@ -40,6 +52,14 @@ export const generators = createRegistry([
   prefixCode,
   separatedCode,
   missingCode,
+  logicAnd,
+  logicNotOr,
+  logicDivisibility,
+  logicExclusive,
+  routeLength,
+  shortestRoute,
+  routeVia,
+  routeWithout,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

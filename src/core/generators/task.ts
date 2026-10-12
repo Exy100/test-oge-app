@@ -28,7 +28,7 @@ export const bytes = (value: number): string =>
 
 export function taskFrom(
   subtype: string,
-  taskNumber: 1 | 2,
+  taskNumber: 1 | 2 | 3 | 4,
   seed: string,
   content: Content,
 ): TaskInstance {
@@ -41,7 +41,14 @@ export function taskFrom(
     examPart: 1,
     subtype,
     difficulty: 2,
-    topics: [taskNumber === 1 ? 'Объём информации' : 'Кодирование'],
+    topics: [
+      {
+        1: 'Объём информации',
+        2: 'Кодирование',
+        3: 'Логические выражения',
+        4: 'Модели и маршруты',
+      }[taskNumber],
+    ],
     ...content,
   };
 }

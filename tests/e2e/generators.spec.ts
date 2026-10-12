@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { textVolume } from '../../src/core/generators/01/text-volume';
 import { generators } from '../../src/core/generators';
 
-test('all eight subtypes reproduce Node tasks and render code tables in the gallery', async ({
+test('all registered subtypes reproduce Node tasks and render code tables in the gallery', async ({
   page,
 }) => {
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
@@ -25,20 +25,22 @@ test('all eight subtypes reproduce Node tasks and render code tables in the gall
       seeds.map((seed) => ({ task: generator.generate(seed), verified: true })),
     ),
   );
-  await page
-    .getByRole('combobox', { name: 'Генератор', exact: true })
-    .selectOption('missing-code-v1');
-  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
-  await expect(page.locator('.generator-example')).toHaveCount(20);
-  await expect(
-    page.locator('.generator-example').first().getByRole('table'),
-  ).toBeVisible();
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  for (const id of ['missing-code-v1', 'route-via-v1']) {
+    await page
+      .getByRole('combobox', { name: 'Генератор', exact: true })
+      .selectOption(id);
+    await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+    await expect(page.locator('.generator-example')).toHaveCount(20);
+    await expect(
+      page.locator('.generator-example').first().getByRole('table'),
+    ).toBeVisible();
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
 });
 
 test('generator gallery: 20 reproducible tasks, answers and solutions', async ({
