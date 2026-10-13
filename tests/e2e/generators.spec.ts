@@ -80,3 +80,22 @@ test('generator gallery is absent from production', async ({ page }) => {
   const response = await page.goto('./dev/generators/');
   expect(response?.status()).toBe(404);
 });
+
+test('Python examples render code and input tables without mobile overflow', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption('program-branch-v1');
+  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+  const example = page.locator('.generator-example').first();
+  await expect(example.locator('pre code')).toContainText('print("ДА")');
+  await expect(example.getByRole('table')).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});

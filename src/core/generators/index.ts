@@ -18,6 +18,19 @@ import {
   routeWithout,
 } from './04/models.ts';
 
+import {
+  executorFixed,
+  executorShortest,
+  executorMissing,
+  executorString,
+} from './05/executor.ts';
+import {
+  programAssign,
+  programBranch,
+  programFor,
+  programWhile,
+} from './06/programs.ts';
+
 export function createRegistry(
   entries: readonly Generator[],
 ): readonly Generator[] {
@@ -60,6 +73,14 @@ export const generators = createRegistry([
   shortestRoute,
   routeVia,
   routeWithout,
+  executorFixed,
+  executorShortest,
+  executorMissing,
+  executorString,
+  programAssign,
+  programBranch,
+  programFor,
+  programWhile,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);
