@@ -39,6 +39,14 @@ import {
   searchThree,
 } from './08/search.ts';
 
+import { pathsAll, pathsVia, pathsWithout, pathsLength } from './09/paths.ts';
+import {
+  radixToDecimal,
+  radixFromDecimal,
+  binaryOnes,
+  radixCompare,
+} from './10/numerals.ts';
+
 export function createRegistry(
   entries: readonly Generator[],
 ): readonly Generator[] {
@@ -97,6 +105,14 @@ export const generators = createRegistry([
   searchIntersection,
   searchDifference,
   searchThree,
+  pathsAll,
+  pathsVia,
+  pathsWithout,
+  pathsLength,
+  radixToDecimal,
+  radixFromDecimal,
+  binaryOnes,
+  radixCompare,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

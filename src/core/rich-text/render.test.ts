@@ -22,7 +22,7 @@ test('markdown tables, emphasis and code retain their structure', () => {
     '**Байт**\n\n| Единица | Биты |\n| --- | --- |\n| Байт | 8 |\n\n```python\nprint(8 * 8)\n```',
   );
   expect(html).toContain('<strong>Байт</strong>');
-  expect(html).toContain('<table>');
+  expect(html).toContain('<table tabindex="0">');
   expect(html).toContain('<th>Биты</th>');
   expect(html).toContain('class="language-python"');
   expect(html).toContain('print(8 * 8)');

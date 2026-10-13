@@ -100,7 +100,12 @@ test('Python examples render code and input tables without mobile overflow', asy
   ).toBe(true);
 });
 
-for (const id of ['url-move-v1', 'search-three-v1']) {
+for (const id of [
+  'url-move-v1',
+  'search-three-v1',
+  'paths-via-v1',
+  'radix-compare-v1',
+]) {
   test(`${id}: tables, answers and mobile accessibility`, async ({ page }) => {
     await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
     await page
@@ -111,6 +116,21 @@ for (const id of ['url-move-v1', 'search-three-v1']) {
     await expect(examples).toHaveCount(20);
     await expect(examples.first().getByRole('table')).toBeVisible();
     await expect(examples.first()).toContainText('Ответ:');
+    if (id === 'paths-via-v1') {
+      const table = examples.first().getByRole('table');
+      await table.focus();
+      await expect(table).toBeFocused();
+      const overflow = await table.evaluate(
+        (element) => element.scrollWidth > element.clientWidth,
+      );
+      if (overflow) {
+        await page.keyboard.press('ArrowRight');
+        await expect
+          .poll(() => table.evaluate((element) => element.scrollLeft))
+          .toBeGreaterThan(0);
+      }
+    }
+
     for (const theme of ['light', 'dark']) {
       await page.getByLabel('Тема', { exact: true }).selectOption(theme);
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);

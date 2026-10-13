@@ -7,6 +7,8 @@ const markdown = new MarkdownIt({
   linkify: false,
   typographer: false,
 });
+// CSS makes wide tables scrollable; tabindex preserves keyboard access.
+markdown.renderer.rules.table_open = () => '<table tabindex="0">\n';
 markdown.renderer.rules.link_open = () => '';
 markdown.renderer.rules.link_close = () => '';
 markdown.renderer.rules.image = (tokens, index) =>
