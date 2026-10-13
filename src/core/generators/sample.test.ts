@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import { sampleTasks } from './sample';
 import { generatorsForTask } from './index';
 
-test.each([1, 2, 3, 4, 5, 6] as const)(
+test.each([1, 2, 3, 4, 5, 6, 7, 8] as const)(
   'samples cover all four subtypes for task %i',
   (number) => {
     const sample = sampleTasks(number, 12, 'review');

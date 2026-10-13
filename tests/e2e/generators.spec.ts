@@ -99,3 +99,26 @@ test('Python examples render code and input tables without mobile overflow', asy
     ),
   ).toBe(true);
 });
+
+for (const id of ['url-move-v1', 'search-three-v1']) {
+  test(`${id}: tables, answers and mobile accessibility`, async ({ page }) => {
+    await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+    await page
+      .getByRole('combobox', { name: 'Генератор', exact: true })
+      .selectOption(id);
+    await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+    const examples = page.locator('.generator-example');
+    await expect(examples).toHaveCount(20);
+    await expect(examples.first().getByRole('table')).toBeVisible();
+    await expect(examples.first()).toContainText('Ответ:');
+    for (const theme of ['light', 'dark']) {
+      await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+      expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  });
+}

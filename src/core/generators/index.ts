@@ -31,6 +31,14 @@ import {
   programWhile,
 } from './06/programs.ts';
 
+import { urlRoot, urlDirectory, urlSelect, urlMove } from './07/addresses.ts';
+import {
+  searchUnion,
+  searchIntersection,
+  searchDifference,
+  searchThree,
+} from './08/search.ts';
+
 export function createRegistry(
   entries: readonly Generator[],
 ): readonly Generator[] {
@@ -81,6 +89,14 @@ export const generators = createRegistry([
   programBranch,
   programFor,
   programWhile,
+  urlRoot,
+  urlDirectory,
+  urlSelect,
+  urlMove,
+  searchUnion,
+  searchIntersection,
+  searchDifference,
+  searchThree,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);
