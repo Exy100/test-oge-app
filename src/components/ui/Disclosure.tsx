@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import type { ReactNode } from 'react';
 
 export function Disclosure({
@@ -10,18 +10,15 @@ export function Disclosure({
   children: ReactNode;
   defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const initialOpen = useRef(defaultOpen);
   return (
-    <details
-      className="ui-disclosure"
-      open={open}
-      onToggle={(event) => {
-        setOpen(event.currentTarget.open);
-      }}
-    >
+    <details className="ui-disclosure" open={initialOpen.current}>
       <summary>
         {summary}
-        <span aria-hidden="true">{open ? '−' : '+'}</span>
+        <span aria-hidden="true">
+          <span className="ui-disclosure-closed">+</span>
+          <span className="ui-disclosure-open">−</span>
+        </span>
       </summary>
       <div>{children}</div>
     </details>

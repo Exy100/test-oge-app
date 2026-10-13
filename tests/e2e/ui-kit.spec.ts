@@ -261,10 +261,25 @@ test('Disclosure: открытое и закрытое состояния дос
   await expect(
     section.getByText('При обратном переводе', { exact: false }),
   ).toBeVisible();
-  await opened.click();
-  await expect(
-    section.getByText('При обратном переводе', { exact: false }),
-  ).not.toBeVisible();
+  const openedDetails = opened.locator('..');
+  const openedAnswer = section.getByText('При обратном переводе', {
+    exact: false,
+  });
+  for (let cycle = 0; cycle < 3; cycle++) {
+    await opened.click();
+    await expect(openedAnswer).not.toBeVisible();
+    await expect(openedDetails).not.toHaveAttribute('open', '');
+    await expect(opened.locator('.ui-disclosure-closed')).toBeVisible();
+    await opened.press('Enter');
+    await expect(openedAnswer).toBeVisible();
+    await expect(openedDetails).toHaveAttribute('open', '');
+    await expect(opened.locator('.ui-disclosure-open')).toBeVisible();
+  }
+  await opened.press('Space');
+  await expect(openedAnswer).not.toBeVisible();
+  // A parent rerender must not restore the initial open state.
+  await page.getByRole('button', { name: 'Основная md', exact: true }).click();
+  await expect(openedAnswer).not.toBeVisible();
 });
 
 test('Badge: смысл всех меток передан текстом', async ({ page }) => {
