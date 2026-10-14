@@ -421,6 +421,11 @@ test('NumberInput: обязательность, диапазон, дроби, r
   });
   for (const invalid of ['', '0', '11', '1.5']) {
     await field.fill(invalid);
+    // Clearing the previous error moves the submit button. Wait for the
+    // controlled field's render before clicking its new position.
+    await expect(field).toHaveValue(invalid);
+    await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+    await expect(field).toHaveAccessibleDescription('От 1 до 10, шаг 1.');
     await submit.click();
     await expect(field).toBeFocused();
     await expect(field).toHaveAttribute('aria-invalid', 'true');
