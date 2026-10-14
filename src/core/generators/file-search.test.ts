@@ -13,6 +13,9 @@ import { readZip } from '../datasets/zip';
 import { verifyArchive, type Dataset } from '../datasets';
 import type { TaskInstance, Generator } from '../types';
 
+/** Byte comparison; deep toEqual on large typed arrays is element-by-element and slow. */
+const sameBytes = (left: Uint8Array, right: Uint8Array | undefined) =>
+  right !== undefined && Buffer.compare(left, right) === 0;
 function independent(
   task: TaskInstance,
   files: ReadonlyMap<string, Uint8Array>,
@@ -72,9 +75,10 @@ function check(
       );
       for (const entry of dataset.manifest.files) {
         const bytes = unpacked.get(entry.path);
-        expect(bytes).toEqual(dataset.files.get(entry.path));
-        expect(bytes?.length).toBe(entry.size);
-        if (!bytes) throw new Error('Missing file');
+        const source = dataset.files.get(entry.path);
+        if (!bytes || !source) throw new Error('Missing file');
+        expect(sameBytes(bytes, source)).toBe(true);
+        expect(bytes.length).toBe(entry.size);
         expect(createHash('sha256').update(bytes).digest('hex')).toBe(
           entry.sha256,
         );
@@ -118,7 +122,7 @@ for (const generator of generatorsForTask(11))
         check(generator, seed, dataset);
         const again = await createTaskDataset(task);
         expect(again.manifest).toEqual(dataset.manifest);
-        expect(again.archive).toEqual(dataset.archive);
+        expect(sameBytes(again.archive, dataset.archive)).toBe(true);
       }
     }, 30000);
     test.each(['golden-1', 'golden-2', 'golden-3'])(
@@ -146,9 +150,10 @@ for (const generator of generatorsForTask(11))
       broken[40] = (broken[40] ?? 0) ^ 1;
       await expect(verifyArchive(dataset.manifest, broken)).rejects.toThrow();
       if (!isSearchKind(task.subtype)) throw new Error('Unknown subtype');
-      expect([...dataset.files]).toEqual([
-        ...searchSources(task.subtype, task.seed).files,
-      ]);
+      const sources = searchSources(task.subtype, task.seed).files;
+      expect([...dataset.files.keys()]).toEqual([...sources.keys()]);
+      for (const [path, bytes] of sources)
+        expect(sameBytes(bytes, dataset.files.get(path))).toBe(true);
     });
   });
 
