@@ -1,0 +1,931 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`file-phrase-documents-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "4",
+  },
+  "commonMistakes": [
+    {
+      "answer": "11",
+      "explanation": "Посчитаны вхождения фразы, а не документы.",
+    },
+    {
+      "answer": "3",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-phrase-documents-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-phrase-documents-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Повтор фразы в том же файле не увеличивает число подходящих документов.",
+  ],
+  "id": "file-phrase-documents-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/отчёт-1.txt, reports/отчёт-3.txt, reports/отчёт-4.txt, reports/отчёт-5.txt.",
+    },
+    {
+      "text": "Найдено 11 вхождений, но подходящих файлов только 4. Ответ: 4.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В скольких TXT-файлах папки reports встречается фраза «яркий сигнал» без учёта регистра? Между словами должен быть ровно один обычный пробел; снаружи фразы не должно быть соседних русских букв. Другие папки не учитывай. Каждый подходящий файл считай один раз, независимо от числа совпадений. Ответ запиши целым числом.",
+  "subtype": "file-phrase-documents",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-phrase-documents-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/справка.txt",
+      "sha256": "e441741009bdc3b1e1cc0eca7c3fbc42cf430c9b33bf4f18ad1c68bf583f4002",
+      "size": 127,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-1.txt",
+      "sha256": "2f1e9c069a935a53a67ba99f40fd18381d2a1e4b0174720180c49fe87b18bbdd",
+      "size": 365,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-2.txt",
+      "sha256": "9559bee7145c476560b1ac060543ffaae099b2707f9d9f1cc6e3ba654508f6f9",
+      "size": 409,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-3.txt",
+      "sha256": "571b8edb50343ec882af9edb89ebd53f436620e2b8b08ba703aa1fa625a6a811",
+      "size": 412,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-4.txt",
+      "sha256": "1eb8014e11ef441e2d9eeb3e1a3716217d52a74cbc9ecac73ecbdbcf4a9a0f4d",
+      "size": 412,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-5.txt",
+      "sha256": "8c346c824122d9d9269ea4050ef391f0244cee066e8d4cccbed431454c572827",
+      "size": 412,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-6.txt",
+      "sha256": "26890ac238bc25e2293a5fc4473c4efd1a1c812e17a565d2c20699f7c635a4fe",
+      "size": 409,
+    },
+  ],
+  "generatorId": "file-phrase-documents-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-phrase-documents-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-phrase-documents-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "4",
+  },
+  "commonMistakes": [
+    {
+      "answer": "10",
+      "explanation": "Посчитаны вхождения фразы, а не документы.",
+    },
+    {
+      "answer": "3",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-phrase-documents-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-phrase-documents-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Повтор фразы в том же файле не увеличивает число подходящих документов.",
+  ],
+  "id": "file-phrase-documents-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/отчёт-1.txt, reports/отчёт-2.txt, reports/отчёт-3.txt, reports/отчёт-5.txt.",
+    },
+    {
+      "text": "Найдено 10 вхождений, но подходящих файлов только 4. Ответ: 4.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В скольких TXT-файлах папки reports встречается фраза «тихий берег» без учёта регистра? Между словами должен быть ровно один обычный пробел; снаружи фразы не должно быть соседних русских букв. Другие папки не учитывай. Каждый подходящий файл считай один раз, независимо от числа совпадений. Ответ запиши целым числом.",
+  "subtype": "file-phrase-documents",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-phrase-documents-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/справка.txt",
+      "sha256": "42748615b8cd4c5a9b43e710afc94aca1a56c77d12b052b2a11e1de4e1ef288d",
+      "size": 125,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-1.txt",
+      "sha256": "3e1dbbf62b06f712fb0238b70b2d061655fa64ddde93eaa2f0acef56f82371bb",
+      "size": 361,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-2.txt",
+      "sha256": "e90e0c32a1085212a3245f4bdd006bbd04b950d1639eea2679319e146994772b",
+      "size": 406,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-3.txt",
+      "sha256": "e4748b3d43e4e7a35067c906f9190c3b31113f3d39109e0f84c54c1c351bfa2b",
+      "size": 406,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-4.txt",
+      "sha256": "4e7bd5b2da95c7d0fd4c3d0d1be5276be21fada56d7a781e60203732b451149f",
+      "size": 409,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-5.txt",
+      "sha256": "bfc6a385904b2dcf7720048858069db4cde1c95ca651230f9ca62334dc89a4d1",
+      "size": 361,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-6.txt",
+      "sha256": "c1214ff7175ddc62cdd2e08d26e1ef902be64007197bdb63c8c8a2e0b5f4cc52",
+      "size": 409,
+    },
+  ],
+  "generatorId": "file-phrase-documents-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-phrase-documents-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-phrase-documents-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "3",
+  },
+  "commonMistakes": [
+    {
+      "answer": "7",
+      "explanation": "Посчитаны вхождения фразы, а не документы.",
+    },
+    {
+      "answer": "2",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-phrase-documents-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-phrase-documents-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Повтор фразы в том же файле не увеличивает число подходящих документов.",
+  ],
+  "id": "file-phrase-documents-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/отчёт-1.txt, reports/отчёт-3.txt, reports/отчёт-6.txt.",
+    },
+    {
+      "text": "Найдено 7 вхождений, но подходящих файлов только 3. Ответ: 3.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В скольких TXT-файлах папки reports встречается фраза «яркий сигнал» без учёта регистра? Между словами должен быть ровно один обычный пробел; снаружи фразы не должно быть соседних русских букв. Другие папки не учитывай. Каждый подходящий файл считай один раз, независимо от числа совпадений. Ответ запиши целым числом.",
+  "subtype": "file-phrase-documents",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-phrase-documents-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/справка.txt",
+      "sha256": "e441741009bdc3b1e1cc0eca7c3fbc42cf430c9b33bf4f18ad1c68bf583f4002",
+      "size": 127,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-1.txt",
+      "sha256": "2f1e9c069a935a53a67ba99f40fd18381d2a1e4b0174720180c49fe87b18bbdd",
+      "size": 365,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-2.txt",
+      "sha256": "9559bee7145c476560b1ac060543ffaae099b2707f9d9f1cc6e3ba654508f6f9",
+      "size": 409,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-3.txt",
+      "sha256": "d134f2407f740fd24bf3719c5c1241d602b72e1c3db5bf6a3772f9dc3dcd7d44",
+      "size": 365,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-4.txt",
+      "sha256": "7d5b2987489423fa28e156cabe7d269a601c8b42a073d4eba188530f24b9a20c",
+      "size": 409,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-5.txt",
+      "sha256": "2fd8b3a3e3a9796b1403844e4b269b9445f730b4a37896e8244cba038be94262",
+      "size": 409,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/отчёт-6.txt",
+      "sha256": "558d1446b446e5b2f2ca32c6f4c2cef0c1cfa9980b3b804cb01bade6deb6bba8",
+      "size": 412,
+    },
+  ],
+  "generatorId": "file-phrase-documents-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-phrase-documents-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`file-quote-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "caseSensitive": false,
+    "type": "word",
+    "value": "Горная",
+  },
+  "commonMistakes": [
+    {
+      "answer": "Северная",
+      "explanation": "Выбрана станция из другого журнала. Проверь точное совпадение цитаты.",
+    },
+    {
+      "answer": "reports/журнал-4.txt",
+      "explanation": "Это имя файла; требуется название станции из его первой строки.",
+    },
+  ],
+  "datasetId": "file-quote-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-quote-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Ищи всю цитату целиком; похожий текст не подходит.",
+    "Нужно название станции из первой строки, а не имя файла.",
+  ],
+  "id": "file-quote-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/журнал-4.txt.",
+    },
+    {
+      "text": "Первая строка найденного журнала: Станция: Горная. Ответ: Горная.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файлах папки reports найди точную цитату «Лодка доставила приборы до рассвета.». Из первой строки найденного файла выпиши название станции. Ответ — одно слово русскими буквами; регистр не учитывается.",
+  "subtype": "file-quote",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-quote-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-1.txt",
+      "sha256": "efc707d175d1785022b56a7ead184cbf59026b7f781f613744eec3775733c912",
+      "size": 486,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-2.txt",
+      "sha256": "1c74dba3c99ab84aaefe03c8dec3774afc77d2a867245fe61acefd356e61ebec",
+      "size": 484,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-3.txt",
+      "sha256": "8f7ea020d8ea7113cdb2db6808df23c01ee938a21fdc655033939a5edf8b85e1",
+      "size": 504,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-4.txt",
+      "sha256": "72896c72c6756bfff6f083a0b156ab2ff64454a84f03329235d7c09ac0990d8d",
+      "size": 496,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-5.txt",
+      "sha256": "2a851146462ca71c330431b6fc3dc1bac3780883619629fc7b97a6e65749b9d8",
+      "size": 482,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-6.txt",
+      "sha256": "9acd8e207b5b87f4abcb66a557d85f9a028edc9cb5b5985855cb291f361d75bb",
+      "size": 502,
+    },
+  ],
+  "generatorId": "file-quote-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-quote-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-quote-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "caseSensitive": false,
+    "type": "word",
+    "value": "Горная",
+  },
+  "commonMistakes": [
+    {
+      "answer": "Северная",
+      "explanation": "Выбрана станция из другого журнала. Проверь точное совпадение цитаты.",
+    },
+    {
+      "answer": "reports/журнал-1.txt",
+      "explanation": "Это имя файла; требуется название станции из его первой строки.",
+    },
+  ],
+  "datasetId": "file-quote-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-quote-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Ищи всю цитату целиком; похожий текст не подходит.",
+    "Нужно название станции из первой строки, а не имя файла.",
+  ],
+  "id": "file-quote-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/журнал-1.txt.",
+    },
+    {
+      "text": "Первая строка найденного журнала: Станция: Горная. Ответ: Горная.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файлах папки reports найди точную цитату «Карта маршрута лежала у окна.». Из первой строки найденного файла выпиши название станции. Ответ — одно слово русскими буквами; регистр не учитывается.",
+  "subtype": "file-quote",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-quote-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-1.txt",
+      "sha256": "65f6a4594062b5d5ad800daef4b4389225795d82cfef1e0207a17640beb8bcb7",
+      "size": 482,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-2.txt",
+      "sha256": "0368b159a4e4943b2c61270b9d705df438bf6d541cfc661b5573045090d1012e",
+      "size": 498,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-3.txt",
+      "sha256": "3e7384938025305a738c25e176b29ed486660355a7619ec88f6bfda5229fd8c1",
+      "size": 506,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-4.txt",
+      "sha256": "b744453dfb143438cff91784b8a49b3ddbf91c074af280ff6ffb8b867b5d4110",
+      "size": 498,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-5.txt",
+      "sha256": "bd20bc3d9db1d139fca376cdc9f9f5c446fc13475e43af764a717689d7527068",
+      "size": 496,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-6.txt",
+      "sha256": "5a5baf6acc6b3fcd15cbcf3ca1d91d0656bfb138e355ab16d082137db1aa2d7f",
+      "size": 496,
+    },
+  ],
+  "generatorId": "file-quote-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-quote-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-quote-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "caseSensitive": false,
+    "type": "word",
+    "value": "Лесная",
+  },
+  "commonMistakes": [
+    {
+      "answer": "Северная",
+      "explanation": "Выбрана станция из другого журнала. Проверь точное совпадение цитаты.",
+    },
+    {
+      "answer": "reports/журнал-4.txt",
+      "explanation": "Это имя файла; требуется название станции из его первой строки.",
+    },
+  ],
+  "datasetId": "file-quote-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-quote-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Ищи всю цитату целиком; похожий текст не подходит.",
+    "Нужно название станции из первой строки, а не имя файла.",
+  ],
+  "id": "file-quote-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой папку reports. Ищи указанную строку по правилам условия, не включая notes и README.txt.",
+    },
+    {
+      "text": "Подходящие файлы: reports/журнал-4.txt.",
+    },
+    {
+      "text": "Первая строка найденного журнала: Станция: Лесная. Ответ: Лесная.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файлах папки reports найди точную цитату «Лодка доставила приборы до рассвета.». Из первой строки найденного файла выпиши название станции. Ответ — одно слово русскими буквами; регистр не учитывается.",
+  "subtype": "file-quote",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-quote-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-1.txt",
+      "sha256": "873f83ebad7744d1907fe110d7a5b3a829910fc523103a4e2d61a74b7a5e7667",
+      "size": 486,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-2.txt",
+      "sha256": "c68b1e813c3df92210f970e30d90b2539fd2451a587ebdcb9067c32be467e1ce",
+      "size": 502,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-3.txt",
+      "sha256": "adf7472912f6cff422c20873206eab4276fb29a301c8686b00cfb249a0ee54fc",
+      "size": 482,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-4.txt",
+      "sha256": "5c533df3e61924ead797423f12efb64a728ce72d2a556648462b0d594714e04d",
+      "size": 496,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-5.txt",
+      "sha256": "6e82f8372e0a5f9a950afb563c6ee8636417cac1dc8067ed97f9f98ddb6bbb14",
+      "size": 484,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reports/журнал-6.txt",
+      "sha256": "7013f5fc4e2b88683fbc8d2a9924ee6576c5e46db016647ba661d4fb79cb5e4f",
+      "size": 484,
+    },
+  ],
+  "generatorId": "file-quote-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-quote-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "4",
+  },
+  "commonMistakes": [
+    {
+      "answer": "7",
+      "explanation": "Добавлены совпадения из notes/заметка.txt, которая не входит в область поиска.",
+    },
+    {
+      "answer": "3",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-word-count-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-word-count-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Не включай другие формы слова и совпадения из соседних файлов.",
+  ],
+  "id": "file-word-count-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой только texts/рассказ.txt. Включи поиск целого слова без учёта регистра.",
+    },
+    {
+      "text": "Подходящие файлы: texts/рассказ.txt.",
+    },
+    {
+      "text": "В указанном файле найдено 4 отдельных слов. Однокоренные слова и заметка из другой папки исключены. Ответ: 4.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файле texts/рассказ.txt посчитай отдельное слово «маяк» без учёта регистра. Слово — непрерывная последовательность русских букв А–Я, а–я, Ё, ё. Другие формы слова и другие файлы не учитывай. Ответ запиши целым числом.",
+  "subtype": "file-word-count",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/заметка.txt",
+      "sha256": "aa4724b0cb8cb0af90a705809092d5097e02ccf796578820af511ac2db7025fc",
+      "size": 99,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "texts/рассказ.txt",
+      "sha256": "ae90f30e7af513983c67a0299e68fa5956999b62e1531f8a817ab1de87700ece",
+      "size": 483,
+    },
+  ],
+  "generatorId": "file-word-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-word-count-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "9",
+  },
+  "commonMistakes": [
+    {
+      "answer": "12",
+      "explanation": "Добавлены совпадения из notes/заметка.txt, которая не входит в область поиска.",
+    },
+    {
+      "answer": "8",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-word-count-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-word-count-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Не включай другие формы слова и совпадения из соседних файлов.",
+  ],
+  "id": "file-word-count-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой только texts/рассказ.txt. Включи поиск целого слова без учёта регистра.",
+    },
+    {
+      "text": "Подходящие файлы: texts/рассказ.txt.",
+    },
+    {
+      "text": "В указанном файле найдено 9 отдельных слов. Однокоренные слова и заметка из другой папки исключены. Ответ: 9.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файле texts/рассказ.txt посчитай отдельное слово «маяк» без учёта регистра. Слово — непрерывная последовательность русских букв А–Я, а–я, Ё, ё. Другие формы слова и другие файлы не учитывай. Ответ запиши целым числом.",
+  "subtype": "file-word-count",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/заметка.txt",
+      "sha256": "aa4724b0cb8cb0af90a705809092d5097e02ccf796578820af511ac2db7025fc",
+      "size": 99,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "texts/рассказ.txt",
+      "sha256": "b1253765a3609fa3cc3a78fe721e0cb7dff5fae6ad76f3ce308085cc8b119df0",
+      "size": 737,
+    },
+  ],
+  "generatorId": "file-word-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-word-count-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "8",
+  },
+  "commonMistakes": [
+    {
+      "answer": "11",
+      "explanation": "Добавлены совпадения из notes/заметка.txt, которая не входит в область поиска.",
+    },
+    {
+      "answer": "7",
+      "explanation": "Пропущено подходящее совпадение. Проверь весь указанный набор и варианты регистра.",
+    },
+  ],
+  "datasetId": "file-word-count-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-word-count-v1",
+  "hints": [
+    "Сначала проверь папку или имя файла из условия.",
+    "Учитывай границы слов и правило регистра.",
+    "Не включай другие формы слова и совпадения из соседних файлов.",
+  ],
+  "id": "file-word-count-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой только texts/рассказ.txt. Включи поиск целого слова без учёта регистра.",
+    },
+    {
+      "text": "Подходящие файлы: texts/рассказ.txt.",
+    },
+    {
+      "text": "В указанном файле найдено 8 отдельных слов. Однокоренные слова и заметка из другой папки исключены. Ответ: 8.",
+    },
+  ],
+  "statement": "Скачай и распакуй файловый набор этого задания. Тексты — авторские, кодировка UTF-8; подключение к Интернету для поиска не требуется.
+
+В файле texts/рассказ.txt посчитай отдельное слово «маяк» без учёта регистра. Слово — непрерывная последовательность русских букв А–Я, а–я, Ё, ё. Другие формы слова и другие файлы не учитывай. Ответ запиши целым числом.",
+  "subtype": "file-word-count",
+  "taskNumber": 11,
+  "topics": [
+    "Поиск информации в файлах",
+  ],
+}
+`;
+
+exports[`file-word-count-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "size": 464,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "notes/заметка.txt",
+      "sha256": "aa4724b0cb8cb0af90a705809092d5097e02ccf796578820af511ac2db7025fc",
+      "size": 99,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "texts/рассказ.txt",
+      "sha256": "e6a2d3fc85a23d26da7c7aa24958ef0178d461993e430b1349a958c40a79062c",
+      "size": 699,
+    },
+  ],
+  "generatorId": "file-word-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-word-count-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;

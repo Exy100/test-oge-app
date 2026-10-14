@@ -1,0 +1,30 @@
+{
+  "kind": "generated",
+  "generatorId": "file-word-count-v1",
+  "id": "file-word-count-v1:files:t3.6-review:4",
+  "seed": "t3.6-review:4",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 464,
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "notes/заметка.txt",
+      "format": "txt",
+      "size": 105,
+      "sha256": "7f97fa51d584822bbe9615c36aa5ff8b8dd4f841570c191c32acd9b5c7f4ac10",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "texts/рассказ.txt",
+      "format": "txt",
+      "size": 851,
+      "sha256": "b58224dee3e9f3c3bddad9a6548789d7b7b4e563204073f6bcbf7c43f23a40ae",
+      "license": "CC0-1.0"
+    }
+  ]
+}

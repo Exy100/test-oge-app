@@ -3,6 +3,7 @@ import { generators, getGenerator } from '../core/generators';
 import { validateGeneratedTask } from '../core/generators/harness';
 import type { TaskInstance } from '../core/types';
 import RichText from '../components/RichText';
+import TaskFiles from './TaskFiles';
 
 export default function GeneratorGallery() {
   const [ready, setReady] = useState(false);
@@ -77,6 +78,7 @@ export default function GeneratorGallery() {
             Seed: <code>{task.seed}</code>
           </p>
           <RichText source={task.statement} />
+          {task.datasetId && <TaskFiles task={task} />}
           <p>
             <strong>Ответ:</strong>{' '}
             {task.answer.type === 'artifact'

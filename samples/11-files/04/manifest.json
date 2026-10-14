@@ -1,0 +1,58 @@
+{
+  "kind": "generated",
+  "generatorId": "file-quote-v1",
+  "id": "file-quote-v1:files:t3.6-review:3",
+  "seed": "t3.6-review:3",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 464,
+      "sha256": "92a777645fa4f3d0dc69f3d0d5fc82f45703c80902ce94ba9d0ba1ea4b1bff76",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-1.txt",
+      "format": "txt",
+      "size": 496,
+      "sha256": "1cae568029e7ee14f9b58612b177f9f34870c7b28f609ddd20e6eb9b6d077d7b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-2.txt",
+      "format": "txt",
+      "size": 486,
+      "sha256": "482a648d37aa4e68e97ae392bce24d1c3b8821c7758b66b9d568fa9e6f125c5e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-3.txt",
+      "format": "txt",
+      "size": 504,
+      "sha256": "548e332b2cf27000ac9419ba3b0f86d7354a73e2204b7b31c735970bc97ac260",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-4.txt",
+      "format": "txt",
+      "size": 496,
+      "sha256": "161c8d1b9c3420f4f43f6aaff9568548ab17a24041f86c2d7965e06c8dff9456",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-5.txt",
+      "format": "txt",
+      "size": 482,
+      "sha256": "7424b79464c1348150badf569612c165096e0112bce291d0b23734c0bfd6d304",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reports/журнал-6.txt",
+      "format": "txt",
+      "size": 484,
+      "sha256": "329882337325f6901ab472d2a77d2ce505e2fc404895986c09c0e11a42d4ed12",
+      "license": "CC0-1.0"
+    }
+  ]
+}

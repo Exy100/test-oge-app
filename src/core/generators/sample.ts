@@ -6,6 +6,7 @@ export function sampleTasks(
   taskNumber: TaskNumber,
   n: number,
   seed = 'sample',
+  filesPrefix?: string,
 ): string {
   if (!Number.isInteger(n) || n < 1 || n > 1000)
     throw new Error('Количество задач: целое число от 1 до 1000.');
@@ -27,6 +28,13 @@ export function sampleTasks(
       `## ${String(index + 1)}. ${generator.title}`,
       `Генератор: ${generator.id}\n\nSeed: ${JSON.stringify(task.seed)}`,
       task.statement,
+      ...(task.datasetId
+        ? [
+            filesPrefix
+              ? `[Скачать ZIP](${filesPrefix}/${String(index + 1).padStart(2, '0')}/dataset.zip) · [Манифест](${filesPrefix}/${String(index + 1).padStart(2, '0')}/manifest.json)`
+              : `Набор файлов: ${task.datasetId}. Для сохранения ZIP используй --files-dir.`,
+          ]
+        : []),
       `**Ответ:** ${answer}`,
       '### Решение',
       ...task.solution.map(

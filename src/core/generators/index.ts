@@ -47,6 +47,12 @@ import {
   radixCompare,
 } from './10/numerals.ts';
 
+import {
+  fileQuote,
+  fileWordCount,
+  filePhraseDocuments,
+} from './11/search-files.ts';
+
 export function createRegistry(
   entries: readonly Generator[],
 ): readonly Generator[] {
@@ -113,6 +119,9 @@ export const generators = createRegistry([
   radixFromDecimal,
   binaryOnes,
   radixCompare,
+  fileQuote,
+  fileWordCount,
+  filePhraseDocuments,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

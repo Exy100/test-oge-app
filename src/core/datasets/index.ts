@@ -1,12 +1,6 @@
 import { DatasetManifestSchema } from '../schemas';
 import type { DatasetFile, DatasetManifest } from '../types';
 import { Rng } from '../rng';
-import {
-  makeDocument,
-  makePresentation,
-  makeSpreadsheet,
-  validateOdf,
-} from './odf';
 import { packZip, readZip, validateFiles, limits, type Files } from './zip';
 
 const encoder = new TextEncoder();
@@ -89,9 +83,10 @@ export async function verifyDataset(
       entry.format === 'odt' ||
       entry.format === 'odp' ||
       entry.format === 'ods'
-    )
+    ) {
+      const { validateOdf } = await import('./odf');
       validateOdf(bytes, entry.format);
-    else if (entry.format === 'zip') readZip(bytes);
+    } else if (entry.format === 'zip') readZip(bytes);
     else if (['txt', 'csv', 'json', 'py', 'kum'].includes(entry.format)) {
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
       if (text.includes('\0'))
@@ -110,6 +105,8 @@ export async function verifyArchive(
 
 /** Own demonstration data for the file infrastructure, not an exam generator. */
 export async function createExampleDataset(seed: string): Promise<Dataset> {
+  const { makeDocument, makePresentation, makeSpreadsheet } =
+    await import('./odf');
   if (seed.length > 200) throw new Error('Seed слишком длинный.');
   const rng = new Rng(seed);
   const prices = Array.from({ length: 12 }, () => rng.int(10, 99) * 10);

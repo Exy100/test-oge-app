@@ -1,4 +1,6 @@
 import { createServer } from 'vite';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { resolve, dirname, basename } from 'node:path';
 
 let server;
 try {
@@ -8,11 +10,13 @@ try {
     const key = args[i];
     const value = args[i + 1];
     if (
-      !['--task', '--n', '--seed'].includes(key) ||
+      !['--task', '--n', '--seed', '--files-dir'].includes(key) ||
       value === undefined ||
       options.has(key)
     )
-      throw new Error('Используй --task 1 --n 50 [--seed пример].');
+      throw new Error(
+        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11].',
+      );
     options.set(key, value);
   }
   const task = Number(options.get('--task'));
@@ -28,7 +32,46 @@ try {
   const { sampleTasks } = await server.ssrLoadModule(
     '/src/core/generators/sample.ts',
   );
-  process.stdout.write(sampleTasks(task, n, options.get('--seed') ?? 'sample'));
+  const seed = options.get('--seed') ?? 'sample';
+  const output = options.get('--files-dir');
+  if (output !== undefined && (task !== 11 || !output.trim()))
+    throw new Error(
+      '--files-dir доступен для файловых наборов №11 и требует путь.',
+    );
+  const markdown = sampleTasks(
+    task,
+    n,
+    seed,
+    output ? encodeURIComponent(basename(resolve(output))) : undefined,
+  );
+  if (output) {
+    const { generatorsForTask } = await server.ssrLoadModule(
+      '/src/core/generators/index.ts',
+    );
+    const { createTaskDataset } = await server.ssrLoadModule(
+      '/src/core/generators/task-dataset.ts',
+    );
+    const entries = generatorsForTask(task);
+    for (let index = 0; index < n; index++) {
+      const generated = entries[index % entries.length].generate(
+        `${seed}:${index}`,
+      );
+      const dataset = await createTaskDataset(generated);
+      const directory = resolve(output, String(index + 1).padStart(2, '0'));
+      await mkdir(directory, { recursive: true });
+      for (const [path, bytes] of dataset.files) {
+        const target = resolve(directory, 'files', path);
+        await mkdir(dirname(target), { recursive: true });
+        await writeFile(target, bytes);
+      }
+      await writeFile(resolve(directory, 'dataset.zip'), dataset.archive);
+      await writeFile(
+        resolve(directory, 'manifest.json'),
+        JSON.stringify(dataset.manifest, null, 2) + '\n',
+      );
+    }
+  }
+  process.stdout.write(markdown);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;
