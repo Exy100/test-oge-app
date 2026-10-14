@@ -419,6 +419,33 @@ test('NumberInput: обязательность, диапазон, дроби, r
     name: 'Проверить число',
     exact: true,
   });
+  await field.evaluate((element: HTMLInputElement) => {
+    const form = element.form;
+    if (!form) throw new Error('Missing number form');
+    const events: string[] = [];
+    for (const type of [
+      'pointerdown',
+      'pointerup',
+      'click',
+      'submit',
+      'input',
+      'change',
+      'focusin',
+      'focusout',
+    ]) {
+      form.addEventListener(
+        type,
+        (event) => {
+          const target = event.target;
+          events.push(
+            `${event.type}:${target instanceof HTMLElement ? target.tagName : '?'}:${String(scrollY)}`,
+          );
+          form.dataset.eventTrace = events.slice(-30).join(', ');
+        },
+        true,
+      );
+    }
+  });
   for (const invalid of ['', '0', '11', '1.5']) {
     await field.fill(invalid);
     // Clearing the previous error moves the submit button. Wait for the
@@ -427,7 +454,18 @@ test('NumberInput: обязательность, диапазон, дроби, r
     await expect(field).not.toHaveAttribute('aria-invalid', 'true');
     await expect(field).toHaveAccessibleDescription('От 1 до 10, шаг 1.');
     await submit.click();
-    await expect(field).toBeFocused();
+    const submittedState = await field.evaluate(
+      (element: HTMLInputElement) => ({
+        active: document.activeElement?.outerHTML,
+        value: element.value,
+        valid: element.validity.valid,
+        invalid: element.getAttribute('aria-invalid'),
+        formText: element.form?.innerText,
+        events: element.form?.dataset.eventTrace,
+        scrollY,
+      }),
+    );
+    await expect(field, JSON.stringify(submittedState)).toBeFocused();
     await expect(field).toHaveAttribute('aria-invalid', 'true');
     await expect(field).toHaveAccessibleDescription(
       /Введи целое число от 1 до 10/,

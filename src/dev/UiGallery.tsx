@@ -392,7 +392,9 @@ export default function UiGallery() {
               if (!numberInput.current?.validity.valid) {
                 setAmountError('Введи целое число от 1 до 10.');
                 setAmountResult('');
-                numberInput.current?.focus();
+                // The invalid field is already visible when this form is submitted.
+                // Avoid starting smooth page scrolling during the next pointer action.
+                numberInput.current?.focus({ preventScroll: true });
                 return;
               }
               setAmountError('');
