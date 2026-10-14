@@ -1,0 +1,163 @@
+{
+  "kind": "generated",
+  "generatorId": "file-extension-count-v1",
+  "id": "file-extension-count-v1:files:t3.7-review:0",
+  "seed": "t3.7-review:0",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/вопросы-3.txt",
+      "format": "txt",
+      "size": 1328,
+      "sha256": "195202c4a2fe54055505a2afb1e54f8eb49a045b925870c5179a796d230bac57",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/клетки-5.kum",
+      "format": "kum",
+      "size": 903,
+      "sha256": "a4b8185a845e8cc902179c7513344b863d4cd416b656cfcc5b00fbf7f1a54cc5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/сортировка.py",
+      "format": "py",
+      "size": 1205,
+      "sha256": "f823fdb4f0d0ceccfba84bf6c492713ffbb2987fb8c5699e5c154c98f0d7901a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум-архив/клетки-6.kum",
+      "format": "kum",
+      "size": 1010,
+      "sha256": "aef7e01f1bf74a4a742535c26d58abc28f7f79bd97c51c10cb732354f6bd163f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум-архив/погода-3.csv",
+      "format": "csv",
+      "size": 1351,
+      "sha256": "156c386914b7c734433bf75bb801dccf4470481f463f30a15f4fb28acdd1f50b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум-архив/робот.kum",
+      "format": "kum",
+      "size": 766,
+      "sha256": "ae7168c2976b42c1d5bb9b987b39808eaf7a502231acd6c222f2368e73116851",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум-архив/стена-5.kum",
+      "format": "kum",
+      "size": 851,
+      "sha256": "d1a9dab35f56177b4fe3f1c2fcc088ae6fc401e2bd8a7da1e56b02da29fef53f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Отчёты/Старое/идеи.txt",
+      "format": "txt",
+      "size": 633,
+      "sha256": "b7d006054ee01a81242c66c386298d0425a62d0983b1d1547a651fb7a063510a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Отчёты/Старое/лабиринт-6.kum",
+      "format": "kum",
+      "size": 615,
+      "sha256": "0508538d8801a53d0ef4a4c444f5616820ffcb0e4b9d55984944c47190e1e07d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Отчёты/Старое/словарь-8.json",
+      "format": "json",
+      "size": 786,
+      "sha256": "a8981a9a9e8c8a22a3175d799190a3ff600711c71a90851ef956d93ba7e00769",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Отчёты/идеи-4.txt",
+      "format": "txt",
+      "size": 1509,
+      "sha256": "ca6a0630b6b073ba4c9f296f2f05b20d3abaf9d1c7813306bb52ba5abceb505f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Отчёты/стена-4.kum",
+      "format": "kum",
+      "size": 1196,
+      "sha256": "875cdf73b7f84cdc8f8747f080b4fcfbf80ff79510e26a079b7cd10e33f9cec7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Таблицы/карта.json",
+      "format": "json",
+      "size": 1375,
+      "sha256": "7242b4aa46e5ace4c8e007b89de1e03793c220474ed6062faf95f7febfc40d05",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Тексты/расписание.csv",
+      "format": "csv",
+      "size": 1461,
+      "sha256": "1556e5e8b5594867a44b5473b5e77918713bec5ff689cb4f240ca422f75cbdcb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Тексты/робот-2.kum",
+      "format": "kum",
+      "size": 365,
+      "sha256": "37d007e1e8f393f4945c06e7b93913972eecb63633ef8ecac9b375f076d4291a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Тексты/робот.kum",
+      "format": "kum",
+      "size": 714,
+      "sha256": "24a3c59bee9809385e8c5e56d21a8a3a5983cfea7ebd2db3982fd676a16dc7dd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/Тексты/стена-3.kum",
+      "format": "kum",
+      "size": 604,
+      "sha256": "9039161fa770fe9feeef6baca46505bd328db78e9ef8986d0cbbbf8a26c14a04",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/итоги-8.txt",
+      "format": "txt",
+      "size": 1531,
+      "sha256": "a816c710019c6c558ecf95bc46ca40511583b4c02bef9327fd7f7b37eef8d844",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/коридор.kum",
+      "format": "kum",
+      "size": 398,
+      "sha256": "a7689c196c1318180fff63e9059df85e4670a19d54ab900d1d81b24ee3a61432",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/лабиринт.kum",
+      "format": "kum",
+      "size": 610,
+      "sha256": "70aabff532e8c6b5d9d389962662161d5cba5491c626c5796d3ca943020aa46a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Практикум/лабиринт.kum.py",
+      "format": "py",
+      "size": 1260,
+      "sha256": "47c7a9a6d4b422472d775c5345012b936f8694cdaa978013111feddda845fe6a",
+      "license": "CC0-1.0"
+    }
+  ]
+}

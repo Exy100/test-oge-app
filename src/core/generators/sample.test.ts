@@ -36,3 +36,11 @@ test('file samples rotate through three subtypes and link archives', () => {
   expect(sample).toContain('[Манифест](11-files/09/manifest.json)');
   expect(sampleTasks(11, 1)).toContain('--files-dir');
 });
+
+test('file selection samples rotate through four subtypes', () => {
+  const sample = sampleTasks(12, 8, 'selection', '12-files');
+  for (const generator of generatorsForTask(12))
+    expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(2);
+  expect(sample).toContain('[Скачать ZIP](12-files/01/dataset.zip)');
+  expect(sample).toContain('[Манифест](12-files/08/manifest.json)');
+});

@@ -1,0 +1,45 @@
+# Учебная программа тема4.py
+total = 0
+total = total + 53
+total = total + 2
+total = total + 74
+total = total + 28
+total = total + 60
+total = total + 76
+total = total + 9
+total = total + 24
+total = total + 28
+total = total + 99
+total = total + 61
+total = total + 52
+total = total + 66
+total = total + 53
+total = total + 18
+total = total + 3
+total = total + 85
+total = total + 57
+total = total + 39
+total = total + 25
+total = total + 27
+total = total + 11
+total = total + 16
+total = total + 22
+total = total + 7
+total = total + 95
+total = total + 21
+total = total + 39
+total = total + 39
+total = total + 67
+total = total + 43
+total = total + 22
+total = total + 59
+total = total + 83
+total = total + 16
+total = total + 11
+total = total + 20
+total = total + 63
+total = total + 93
+total = total + 16
+total = total + 12
+print(total)
+# ---------------

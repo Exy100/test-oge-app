@@ -52,6 +52,12 @@ import {
   fileWordCount,
   filePhraseDocuments,
 } from './11/search-files.ts';
+import {
+  fileExtensionCount,
+  fileMaskCount,
+  fileSizeCount,
+  fileTotalVolume,
+} from './12/select-files.ts';
 
 export function createRegistry(
   entries: readonly Generator[],
@@ -122,6 +128,10 @@ export const generators = createRegistry([
   fileQuote,
   fileWordCount,
   filePhraseDocuments,
+  fileExtensionCount,
+  fileMaskCount,
+  fileSizeCount,
+  fileTotalVolume,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

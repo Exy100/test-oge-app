@@ -1,0 +1,142 @@
+{
+  "kind": "generated",
+  "generatorId": "file-extension-count-v1",
+  "id": "file-extension-count-v1:files:t3.7-review:4",
+  "seed": "t3.7-review:4",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/настройки.json",
+      "format": "json",
+      "size": 634,
+      "sha256": "4b6e11e81d18e108f08c17a6a2d60d493f56242e4c4d2ad5cce8c970f7526d9c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/стена.kum",
+      "format": "kum",
+      "size": 1217,
+      "sha256": "d8253214adffb5eb6130fde08bfc74c9be9829afee17f810becba610a7d8c0c2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы-архив/оценки-9.csv",
+      "format": "csv",
+      "size": 1543,
+      "sha256": "595d4ee03bab28d6fa0edbae0268c2afd2efc675debfdf368ebdb1df4a721c67",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы-архив/сортировка-5.py",
+      "format": "py",
+      "size": 449,
+      "sha256": "fbf364c8fc7c90594444be170947bd069000c1b9a1dc3503f013deeadb05f667",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/Копии/деление-4.py",
+      "format": "py",
+      "size": 711,
+      "sha256": "86d07c1a54726ee8e6ed2d3c54de1dfcfe02263ebe536773f69bc5136cb17ee3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/Копии/лабиринт-8.kum",
+      "format": "kum",
+      "size": 589,
+      "sha256": "bf283bae9d52116204775343e37986eb5751dc9ff2d2a91b29a948ed1efe4121",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/итоги-2.txt",
+      "format": "txt",
+      "size": 529,
+      "sha256": "afefceff352d3b29123c3f0dadc214a8c3577d52c578e243c47be9bdfe2eacc8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/итоги.txt",
+      "format": "txt",
+      "size": 1091,
+      "sha256": "56c36918e0a0f2e45815fe6890505d2f22a807ae00cf92a73c39418d40de4495",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/оценки.csv",
+      "format": "csv",
+      "size": 1519,
+      "sha256": "4d657cb6840b5920a51c43df5a16fe4dca3138aded746ed2eb6f04af5d40cca2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/сортировка-7.py",
+      "format": "py",
+      "size": 381,
+      "sha256": "5768c77b3f52f6d71eceb5565cbc33fee22e0ff4d309269cca04abe068530d21",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Данные/стена.kum",
+      "format": "kum",
+      "size": 478,
+      "sha256": "f9e9a8fea68619c7dc425119f89e8abadaf577babef8dc22bb1907e49d9f13c8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Задачи/расходы.csv",
+      "format": "csv",
+      "size": 1434,
+      "sha256": "3ba0b1a643736c12a25445cddfd3d99a9e9eeedabf5880fcf5d156aa71f2a70e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Задачи/сортировка-4.py",
+      "format": "py",
+      "size": 1398,
+      "sha256": "a1e0e48662f95e1286a77ea6c1aeda646cdf50b3cc1d6c3eb47430515784cc16",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Тексты/подсчёт.py",
+      "format": "py",
+      "size": 333,
+      "sha256": "c4819c91876c7b865cd88954a8c55b9d7012ae3c2d9f4e3491c6f35cb9e84a4b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Тексты/сортировка-5.py",
+      "format": "py",
+      "size": 669,
+      "sha256": "dc8b34f6e83c63fd501504d3478802fcc930bd4c6fbc7957dd1e499602c3c83e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Тексты/сортировка.py.kum",
+      "format": "kum",
+      "size": 514,
+      "sha256": "195836f1027fddaf3ca06ae868db82ad0a20df76ec0f1f24bc66bb6983fe59be",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Тексты/участники-6.csv",
+      "format": "csv",
+      "size": 865,
+      "sha256": "6ec784749d8b8b2b5286f40e02c7871baf816c6b821191c602f001ae79e5b9cf",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/проверка-8.py",
+      "format": "py",
+      "size": 1049,
+      "sha256": "8f4567668312c25b260849294a5cd91fd3f7c51c92888d03fdb243f09e597ca4",
+      "license": "CC0-1.0"
+    }
+  ]
+}

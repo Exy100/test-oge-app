@@ -1,29 +1,20 @@
 import { createDataset, type Dataset } from '../datasets';
 import type { TaskInstance } from '../types';
-import {
-  isSearchKind,
-  searchDatasetId,
-  searchSources,
-} from './11/search-files';
+import { taskSources } from './dataset-sources';
 
 export async function createTaskDataset(task: TaskInstance): Promise<Dataset> {
+  const sources = taskSources(task.subtype, task.seed);
   if (
-    !isSearchKind(task.subtype) ||
-    task.taskNumber !== 11 ||
+    !sources ||
+    task.taskNumber !== sources.taskNumber ||
     task.generatorId !== `${task.subtype}-v1` ||
-    task.datasetId !== searchDatasetId(task.subtype, task.seed)
+    task.datasetId !== sources.datasetId
   )
     throw new Error('Неизвестный файловый набор задания.');
-  const { files } = searchSources(task.subtype, task.seed);
   return createDataset(
-    task.datasetId,
+    sources.datasetId,
     task.seed,
     task.generatorId,
-    [...files].map(([path, bytes]) => ({
-      path,
-      format: 'txt',
-      bytes,
-      license: 'CC0-1.0',
-    })),
+    sources.files.map((file) => ({ ...file, license: 'CC0-1.0' })),
   );
 }

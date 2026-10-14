@@ -17,3 +17,5 @@ PROMPT.md
 DECISIONS.md
 QUESTIONS.md
 STATUS.md
+# Exported task datasets: exact bytes are pinned by SHA-256 in each manifest.
+samples/*-files/

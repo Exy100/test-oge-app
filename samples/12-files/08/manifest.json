@@ -1,0 +1,128 @@
+{
+  "kind": "generated",
+  "generatorId": "file-total-volume-v1",
+  "id": "file-total-volume-v1:files:t3.7-review:7",
+  "seed": "t3.7-review:7",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/лабиринт-4.kum",
+      "format": "kum",
+      "size": 3442,
+      "sha256": "719e20e8e61f16cf213d4437ea73026b92da367af120178e1ee0176a9e50eb58",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/маршрут-7.json",
+      "format": "json",
+      "size": 3294,
+      "sha256": "56688bf6660c715d0ea41e44fb4520b912d5017e762c611a4c1b818f0d1cbcb0",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/маршрут.json",
+      "format": "json",
+      "size": 400,
+      "sha256": "6c11d80a676910a93abc1f01578a129117a7e4e85df5b201e32c3da503019078",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/настройки-5.json",
+      "format": "json",
+      "size": 468,
+      "sha256": "f5f696579625d42d5cf3f78d7bcf300b00a117aeb092acebecd4ab39ac8fcdd7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/робот.kum",
+      "format": "kum",
+      "size": 3072,
+      "sha256": "2d78d9fda1d77e53d9de9a146ab497e511b05c33e328604ac09d65094ca24d35",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/стена.kum",
+      "format": "kum",
+      "size": 3072,
+      "sha256": "8966ed632f8abed9821dc57c09a507368936821c317f7b03a4db2f6ea79fd742",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/деление-8.py",
+      "format": "py",
+      "size": 3633,
+      "sha256": "56fc67888eb779176304050dcf58e4250d364fe9839082126456cdc6277b02db",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/клетки-5.kum",
+      "format": "kum",
+      "size": 5120,
+      "sha256": "4f8ea2d58352a821cad0f2692350a21841ea8d840916dd912cf5344097bb45fc",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/клетки.kum",
+      "format": "kum",
+      "size": 3072,
+      "sha256": "ad3809b468c46d7d6836d74bb3a146a45642fcd2cc4460f1f79374cd6ec3be93",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/план.txt",
+      "format": "txt",
+      "size": 2434,
+      "sha256": "b6666ec48832221b12787f583d0f7b0d229802248b2dbdd661b0efcdb84e739e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Отчёты/Копии/коридор-6.kum",
+      "format": "kum",
+      "size": 1024,
+      "sha256": "ac54b25f9966ea635adf7f4f3d5e7242cfc5aa4cac644bf52edd0273b9629f17",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Отчёты/Копии/лабиринт.kum",
+      "format": "kum",
+      "size": 4096,
+      "sha256": "71a259c0672e0dd90a75c8588ebad95b57bb82eab27be9e30b146762a6624d3d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Отчёты/словарь-2.json",
+      "format": "json",
+      "size": 4324,
+      "sha256": "4adeee0a936b11cb2a3848eb5933e2badbd0581f2e69604a2d26209364997fb1",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Отчёты/уровни.json",
+      "format": "json",
+      "size": 2859,
+      "sha256": "2dcba089fbb622b6f1eb1ae40a36415d19a0fd5fc09ca1e18570c80cb80ce9bd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Таблицы/стена-2.kum",
+      "format": "kum",
+      "size": 5120,
+      "sha256": "b5ebe4351dd9ac28d4149b5ec4695adba4adee96b9bb3349a86c9bf5342131bc",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/робот.kum",
+      "format": "kum",
+      "size": 6144,
+      "sha256": "5ae650633b776045bacb2d91e4016f45c6d5936af3cad5f4ec7d8f700172b20e",
+      "license": "CC0-1.0"
+    }
+  ]
+}

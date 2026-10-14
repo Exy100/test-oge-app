@@ -1,0 +1,47 @@
+# Учебная программа проверка.py
+total = 0
+total = total + 65
+total = total + 17
+total = total + 96
+total = total + 66
+total = total + 18
+total = total + 75
+total = total + 63
+total = total + 26
+total = total + 82
+total = total + 63
+total = total + 4
+total = total + 59
+total = total + 2
+total = total + 59
+total = total + 88
+total = total + 32
+total = total + 74
+total = total + 12
+total = total + 94
+total = total + 99
+total = total + 72
+total = total + 84
+total = total + 90
+total = total + 50
+total = total + 67
+total = total + 97
+total = total + 69
+total = total + 19
+total = total + 99
+total = total + 67
+total = total + 47
+total = total + 78
+total = total + 93
+total = total + 70
+total = total + 99
+total = total + 25
+total = total + 46
+total = total + 42
+total = total + 33
+total = total + 34
+total = total + 17
+total = total + 66
+total = total + 66
+print(total)
+# -----

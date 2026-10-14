@@ -1,0 +1,121 @@
+{
+  "kind": "generated",
+  "generatorId": "file-mask-count-v1",
+  "id": "file-mask-count-v1:files:t3.7-review:1",
+  "seed": "t3.7-review:1",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/оценки-7.csv",
+      "format": "csv",
+      "size": 575,
+      "sha256": "24677121b29cf9a9e4f6af0422202b8998a6d0e051367f5e5b66e4b58e531da3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/поиск-3.py",
+      "format": "py",
+      "size": 282,
+      "sha256": "67e02f4a697b8862dad69f5eebc42badd0f6f2ada1e65f207cb410a69ad11a33",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/расходы.csv",
+      "format": "csv",
+      "size": 295,
+      "sha256": "e8e0fa0e96c885296b0ef7a6e1df0f445ccc9b244777309472a4d00b48391217",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/проверка.py",
+      "format": "py",
+      "size": 902,
+      "sha256": "8283317c82932714c65dc0d46389d23211162afe367d16c082fdb4dca98f7f3b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/урок1.txt",
+      "format": "txt",
+      "size": 1235,
+      "sha256": "5f70b86bbb37ec71c77c6f356031af1e71846f5307fdfd8fc1bde5c5b85c5698",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/урок9.json",
+      "format": "json",
+      "size": 411,
+      "sha256": "88448abdbe85b81d46123da4935aedb3f02110e44227804d6aef8bbe7de3423f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/тема4.py",
+      "format": "py",
+      "size": 865,
+      "sha256": "f4b1c4c03d026f561875976138d4d306957f72ae1e6745c398b16a3a61e9586b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/урок1.py",
+      "format": "py",
+      "size": 1049,
+      "sha256": "bed511310989495e8e14b8790e10d55380bf5c7662f337969025bdfb29f8af54",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Задачи/урок2.py",
+      "format": "py",
+      "size": 1264,
+      "sha256": "fa632e008cc77ee1daa5a013fd1a0589bc62823f94470784ea4eb62222ab08dc",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Программы/2025/оценки-2.csv",
+      "format": "csv",
+      "size": 385,
+      "sha256": "16fb1b0017568562a5511cc2a95cd92ba301ea6d94ca96e40742056b424361e5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Программы/2025/урок5.py",
+      "format": "py",
+      "size": 514,
+      "sha256": "cde554305fc02cbe9af8c315f85cf910c004cf59bde00a0ab5f32246fc2b6a44",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Программы/погода-7.csv",
+      "format": "csv",
+      "size": 1326,
+      "sha256": "5ce40b7129df71786b2e6e2a79bfda6f6f59aaf63779910afaa112fd65dc04e5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Программы/урок.txt",
+      "format": "txt",
+      "size": 1572,
+      "sha256": "091e97fb12c5452d414c6631e31fe77130c8951ea81e281560227bd6ce51145e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Таблицы/замеры.csv",
+      "format": "csv",
+      "size": 1058,
+      "sha256": "b520439588537eeb34f7571d6950c281c54003d9c50b669691fd6f3c1f47a41f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/урок1.txt",
+      "format": "txt",
+      "size": 440,
+      "sha256": "045c2366bf291bae792f93a6152354766db717933f75e542449e16d888028ed7",
+      "license": "CC0-1.0"
+    }
+  ]
+}

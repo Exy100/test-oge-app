@@ -1,7 +1,4 @@
-import {
-  isSearchKind,
-  searchSources,
-} from '../../src/core/generators/11/search-files';
+import { taskSources } from '../../src/core/generators/dataset-sources';
 import { expect, test } from 'vitest';
 import { build } from 'vite';
 import { Miniflare } from 'miniflare';
@@ -50,11 +47,10 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
         runtimeSeeds.map((seed) => ({
           task: generator.generate(seed),
           verified: true,
-          files: isSearchKind(generator.subtype)
-            ? [...searchSources(generator.subtype, seed).files].map(
-                ([path, bytes]) => [path, Array.from(bytes)],
-              )
-            : [],
+          files:
+            taskSources(generator.subtype, seed)?.files.map(
+              ({ path, bytes }) => [path, Array.from(bytes)],
+            ) ?? [],
         })),
       ),
     );

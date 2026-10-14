@@ -1,7 +1,4 @@
-import {
-  isSearchKind,
-  searchSources,
-} from '../../src/core/generators/11/search-files';
+import { taskSources } from '../../src/core/generators/dataset-sources';
 import { generators } from '../../src/core/generators/index';
 
 export default {
@@ -14,11 +11,11 @@ export default {
           return {
             task,
             verified: generator.verify(task),
-            files: isSearchKind(task.subtype)
-              ? [...searchSources(task.subtype, seed).files].map(
-                  ([path, bytes]) => [path, Array.from(bytes)],
-                )
-              : [],
+            files:
+              taskSources(task.subtype, seed)?.files.map(({ path, bytes }) => [
+                path,
+                Array.from(bytes),
+              ]) ?? [],
           };
         }),
       ),

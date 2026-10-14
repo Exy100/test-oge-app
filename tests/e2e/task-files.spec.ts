@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { generatorsForTask } from '../../src/core/generators';
 import { createTaskDataset } from '../../src/core/generators/task-dataset';
 
-for (const generator of generatorsForTask(11)) {
+for (const generator of [...generatorsForTask(11), ...generatorsForTask(12)]) {
   test(`${generator.id}: downloaded files match preview and Node`, async ({
     page,
   }) => {

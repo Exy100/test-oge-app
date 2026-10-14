@@ -1,0 +1,86 @@
+{
+  "kind": "generated",
+  "generatorId": "file-total-volume-v1",
+  "id": "file-total-volume-v1:files:t3.7-review:3",
+  "seed": "t3.7-review:3",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/проверка-9.py",
+      "format": "py",
+      "size": 4178,
+      "sha256": "1d6f5d7212711d311671a5a56a01f256e76fb36341bf2152bedba155c0311977",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/расписание-5.csv",
+      "format": "csv",
+      "size": 982,
+      "sha256": "1e665d7ee22c099d0545cb141c0e2d4863e35c9fc7f66ac1bcfb66f6cb2c0cfe",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/вопросы.txt",
+      "format": "txt",
+      "size": 4631,
+      "sha256": "24e7259965e9ddc2475dc13c4c390d3df27092c70788a794d0ebcc47672d4c41",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада-архив/сортировка.py",
+      "format": "py",
+      "size": 2048,
+      "sha256": "b7a77ae62a35c4b9238f48974e0f6c28d9f8444da1313cde54fe3263ee1c259b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Данные/расписание.csv",
+      "format": "csv",
+      "size": 968,
+      "sha256": "08af5d6e6efe9409a021f748912befdd7e7f0f65c7b83ee7ede871e55bb4241c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Таблицы/Итоги/план-3.txt",
+      "format": "txt",
+      "size": 4714,
+      "sha256": "b1f937411bc18c56c73996d60e9c581cd1b46238a394525eba1efd7a631d365a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Таблицы/Итоги/поиск.py",
+      "format": "py",
+      "size": 1024,
+      "sha256": "d5d6153e51bdf67b632d6fb747c904c29432a3414bcf801a113bcab1d6bbf781",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/Таблицы/клетки-2.kum",
+      "format": "kum",
+      "size": 3072,
+      "sha256": "04dc060b12e824f830aafddd75b2668e7a66b65529baaeb4f2f3543ffd15f16e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/подсчёт-6.py",
+      "format": "py",
+      "size": 4096,
+      "sha256": "5536ab687767da936de29aef2897ad1273b9a40dfabe0b2a85a8c49c16772ab3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Олимпиада/проверка-5.py",
+      "format": "py",
+      "size": 2048,
+      "sha256": "607733dec798cfbf12e2d37c11d3f4a6b1f357b86a53200b7980a8978e6a9214",
+      "license": "CC0-1.0"
+    }
+  ]
+}

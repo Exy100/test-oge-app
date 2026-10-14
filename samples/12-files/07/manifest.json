@@ -1,0 +1,135 @@
+{
+  "kind": "generated",
+  "generatorId": "file-size-count-v1",
+  "id": "file-size-count-v1:files:t3.7-review:6",
+  "seed": "t3.7-review:6",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/оценки.csv",
+      "format": "csv",
+      "size": 2414,
+      "sha256": "421660c821d1ead3cd70abaa9bdd5f24d91859269fe8fb4a920fe31b83a8e29a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/план.txt",
+      "format": "txt",
+      "size": 2357,
+      "sha256": "100ad3df96e969c496d7ea28e5ad3e53b4015d5c37ef480ad4dd93fd77f5a395",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/подсчёт-7.py",
+      "format": "py",
+      "size": 2922,
+      "sha256": "4435f03fbda2ab3df0cf51b53e04dbc59489bd387ccd278fbc6456cb7f0a42c5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы-архив/коридор.kum",
+      "format": "kum",
+      "size": 9835,
+      "sha256": "7629c63605323d6ddd6d58708007f7a1b313d767eca2b2c40d59ec5a3c8a6bde",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы-архив/маршрут-6.json",
+      "format": "json",
+      "size": 1561,
+      "sha256": "8b105b415c3b53f90ef2c21e2fc52dc7eb03a9fddc1ed7da04ae1c22fde5647c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Отчёты/погода-2.csv",
+      "format": "csv",
+      "size": 2956,
+      "sha256": "e905e01415c477f73b9daa4583178ad9b18e61374dff8135cdd2ec55050b7a9a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Отчёты/робот.kum",
+      "format": "kum",
+      "size": 2925,
+      "sha256": "5c21bf6732e110103bc25c65b4531c47aeac71c08b21f418c1bf503f29adae78",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Таблицы/Старое/коридор-5.kum",
+      "format": "kum",
+      "size": 7721,
+      "sha256": "5428da62f648b3f8c3929b619d614114e0e641d7c192e812b1dac85fe6cc68a1",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Таблицы/Старое/робот-7.kum",
+      "format": "kum",
+      "size": 8905,
+      "sha256": "420df382630a8d4e84d079b1f48dd8699b8695e0dd7a91b3c5b10f4aea70609c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Таблицы/Старое/робот.kum",
+      "format": "kum",
+      "size": 4385,
+      "sha256": "b9ecfc7d8476b887cf52cb69b7a05294ea5332ea6140f0c64aff6bb221302da5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/Таблицы/робот.kum",
+      "format": "kum",
+      "size": 6850,
+      "sha256": "ae0434f9264e7a7be8d86a3ce300f5f4114c44f8ccc887ba9378fd37c056b3e2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/клетки.kum",
+      "format": "kum",
+      "size": 6323,
+      "sha256": "9449aa699f336b1f350554ed1e2476caa34b54d206eb2e1bf1731412d41a83db",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/коридор.kum",
+      "format": "kum",
+      "size": 4374,
+      "sha256": "ec775cf228e907d8f327f6e13c2a155fdbc03473c12b2d99708cce1660933c77",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/оценки-9.csv",
+      "format": "csv",
+      "size": 9195,
+      "sha256": "29e40cbfd9cf83b711325f06a2dc31f2365a71d81661a95fc8299433dc2fb411",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/расходы-9.csv",
+      "format": "csv",
+      "size": 8306,
+      "sha256": "7653c432689efbe564a5f32fd0b50faa66a201ca17e7adb7105c56ffa8e435a6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/робот.kum",
+      "format": "kum",
+      "size": 7734,
+      "sha256": "529103e959e45ab5856e3ff375adc7b45261a14254d9b26db9131f012d192004",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Материалы/стена-3.kum",
+      "format": "kum",
+      "size": 5827,
+      "sha256": "59ec009348d526e76f554f27b2452974f09e7a84ed3a49dad8207fcbc251ae43",
+      "license": "CC0-1.0"
+    }
+  ]
+}

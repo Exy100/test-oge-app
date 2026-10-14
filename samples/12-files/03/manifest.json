@@ -1,0 +1,114 @@
+{
+  "kind": "generated",
+  "generatorId": "file-size-count-v1",
+  "id": "file-size-count-v1:files:t3.7-review:2",
+  "seed": "t3.7-review:2",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 564,
+      "sha256": "71be3995afb2051001ed4474887cf555fc2ddd33d4c020762d64b7fca2283e31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/маршрут-2.json",
+      "format": "json",
+      "size": 1267,
+      "sha256": "0d429b49e1f803021cb4ee49286bbc2103f777b2d6a0c870c2090895bb6e14a3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/оценки-8.csv",
+      "format": "csv",
+      "size": 1170,
+      "sha256": "d210bfd75c2f1629337bf5c0ee29c488eb46f547b151f4144a675e854d6f7339",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Загрузки/поиск.py",
+      "format": "py",
+      "size": 2555,
+      "sha256": "fc530b383ec84ba225c8d1e7996a75820cad9fc7b5eaf4d36d66b00147cdda75",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок-архив/настройки-9.json",
+      "format": "json",
+      "size": 5074,
+      "sha256": "cd0dcf80e274bbf19c7ef5fccf51ccd2be161e4a5523d1a952b6860f7cc63fb8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок-архив/описание.txt",
+      "format": "txt",
+      "size": 912,
+      "sha256": "76dce892fd03167338507d4cf8764b373f457e450f4e317ece21b67509c31419",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Задачи/2025/заметки.txt",
+      "format": "txt",
+      "size": 1818,
+      "sha256": "c76057082fb8ea93efc39a4c2c77c05c6c06db0c3a9187de4c849489558877a9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Задачи/2025/карта-3.json",
+      "format": "json",
+      "size": 1075,
+      "sha256": "1d3ecd83ad659ddcf75859ddaad4bb6de729d14282ef67740eb98f6b9b8baa71",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Задачи/2025/карта-5.json",
+      "format": "json",
+      "size": 4242,
+      "sha256": "0135e473a24db156c919a102a667e16a2a5ce6185322d404d088c05a4c9d5f1b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Задачи/2025/маршрут-4.json",
+      "format": "json",
+      "size": 4838,
+      "sha256": "a85c7eee2c267282fe412617ed3aff22d6d2e2d88572bba42897d38098e4fa76",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Задачи/2025/словарь.json",
+      "format": "json",
+      "size": 4527,
+      "sha256": "180f643171da9214fcac6de1faff7a8d44e26f18320b1577f6601e89dea1c583",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Программы/план-9.txt",
+      "format": "txt",
+      "size": 3648,
+      "sha256": "3e6e4948e543174f8886bf3e65b991fb2206481f72f4604a7dbdaf82e3c0b657",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/Тексты/идеи.txt",
+      "format": "txt",
+      "size": 5426,
+      "sha256": "45ad6fefc77aa62a2ed2d5e8dd9699139793b6d2421ab7ae0bd49ca3206fb055",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/настройки.json",
+      "format": "json",
+      "size": 5608,
+      "sha256": "4c0687d6cce634609a6256f62f962732df0b412090fbd50b1bb29276f2148f31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Кружок/уровни.json",
+      "format": "json",
+      "size": 1655,
+      "sha256": "ceaf550b5d2e85d468342c15cbceeaa0a5177c22ff7f95877de2160eaaa0a0b8",
+      "license": "CC0-1.0"
+    }
+  ]
+}
