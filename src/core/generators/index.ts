@@ -1,3 +1,8 @@
+import {
+  fileMaskCount,
+  fileSizeTotal,
+  fileLargest,
+} from './12/select-files.ts';
 import type { Generator, TaskNumber } from '../types.ts';
 import { textVolume } from './01/text-volume.ts';
 import { removedWord } from './01/removed-word.ts';
@@ -122,6 +127,9 @@ export const generators = createRegistry([
   fileQuote,
   fileWordCount,
   filePhraseDocuments,
+  fileMaskCount,
+  fileSizeTotal,
+  fileLargest,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

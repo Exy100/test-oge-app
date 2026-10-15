@@ -1,0 +1,184 @@
+{
+  "kind": "generated",
+  "generatorId": "file-size-total-v1",
+  "id": "file-size-total-v1:files:t3.7-review:1",
+  "seed": "t3.7-review:1",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 306,
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/log_a.txt",
+      "format": "txt",
+      "size": 6144,
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/note_a.csv",
+      "format": "csv",
+      "size": 4096,
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/note_a.txt",
+      "format": "txt",
+      "size": 10240,
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/note_ab.txt",
+      "format": "txt",
+      "size": 2048,
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/note_bb.txt",
+      "format": "txt",
+      "size": 1024,
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/log_a.txt",
+      "format": "txt",
+      "size": 12288,
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/note_a.csv",
+      "format": "csv",
+      "size": 3072,
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/note_a.txt",
+      "format": "txt",
+      "size": 11264,
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/note_ab.txt",
+      "format": "txt",
+      "size": 8192,
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/note_bb.txt",
+      "format": "txt",
+      "size": 5120,
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/old/table_b.csv",
+      "format": "csv",
+      "size": 7168,
+      "sha256": "d2c1dee81b57269e6eee15ac49d16614479561cc9284a2e49b75928238b9b017",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "archive/table_b.csv",
+      "format": "csv",
+      "size": 9216,
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/log_a.txt",
+      "format": "txt",
+      "size": 5120,
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/note_a.csv",
+      "format": "csv",
+      "size": 6144,
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/note_a.txt",
+      "format": "txt",
+      "size": 2048,
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/note_ab.txt",
+      "format": "txt",
+      "size": 11264,
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/note_bb.txt",
+      "format": "txt",
+      "size": 10240,
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/log_a.txt",
+      "format": "txt",
+      "size": 8192,
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/note_a.csv",
+      "format": "csv",
+      "size": 1024,
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/note_a.txt",
+      "format": "txt",
+      "size": 7168,
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/note_ab.txt",
+      "format": "txt",
+      "size": 9216,
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/note_bb.txt",
+      "format": "txt",
+      "size": 12288,
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/old/table_b.csv",
+      "format": "csv",
+      "size": 4096,
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "project/table_b.csv",
+      "format": "csv",
+      "size": 3072,
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "license": "CC0-1.0"
+    }
+  ]
+}

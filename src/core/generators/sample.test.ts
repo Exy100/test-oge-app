@@ -28,11 +28,23 @@ test('absent generators and invalid counts fail explicitly', () => {
     expect(() => sampleTasks(1, count)).toThrow();
 });
 
-test('file samples rotate through three subtypes and link archives', () => {
-  const sample = sampleTasks(11, 9, 'files', '11-files');
-  for (const generator of generatorsForTask(11))
-    expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(3);
-  expect(sample).toContain('[Скачать ZIP](11-files/01/dataset.zip)');
-  expect(sample).toContain('[Манифест](11-files/09/manifest.json)');
-  expect(sampleTasks(11, 1)).toContain('--files-dir');
-});
+test.each([11, 12] as const)(
+  '№%i samples rotate through three subtypes and link archives',
+  (taskNumber) => {
+    const sample = sampleTasks(
+      taskNumber,
+      9,
+      'files',
+      `${String(taskNumber)}-files`,
+    );
+    for (const generator of generatorsForTask(taskNumber))
+      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(3);
+    expect(sample).toContain(
+      `[Скачать ZIP](${String(taskNumber)}-files/01/dataset.zip)`,
+    );
+    expect(sample).toContain(
+      `[Манифест](${String(taskNumber)}-files/09/manifest.json)`,
+    );
+    expect(sampleTasks(taskNumber, 1)).toContain('--files-dir');
+  },
+);

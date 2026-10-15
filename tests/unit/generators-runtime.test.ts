@@ -1,4 +1,8 @@
 import {
+  isSelectionKind,
+  selectionSources,
+} from '../../src/core/generators/12/select-files';
+import {
   isSearchKind,
   searchSources,
 } from '../../src/core/generators/11/search-files';
@@ -54,7 +58,11 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
             ? [...searchSources(generator.subtype, seed).files].map(
                 ([path, bytes]) => [path, Array.from(bytes)],
               )
-            : [],
+            : isSelectionKind(generator.subtype)
+              ? [...selectionSources(generator.subtype, seed).files].map(
+                  ([path, bytes]) => [path, Array.from(bytes)],
+                )
+              : [],
         })),
       ),
     );

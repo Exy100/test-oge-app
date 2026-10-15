@@ -1,4 +1,8 @@
 import {
+  isSelectionKind,
+  selectionSources,
+} from '../../src/core/generators/12/select-files';
+import {
   isSearchKind,
   searchSources,
 } from '../../src/core/generators/11/search-files';
@@ -18,7 +22,11 @@ export default {
               ? [...searchSources(task.subtype, seed).files].map(
                   ([path, bytes]) => [path, Array.from(bytes)],
                 )
-              : [],
+              : isSelectionKind(task.subtype)
+                ? [...selectionSources(task.subtype, seed).files].map(
+                    ([path, bytes]) => [path, Array.from(bytes)],
+                  )
+                : [],
           };
         }),
       ),

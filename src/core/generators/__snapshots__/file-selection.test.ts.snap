@@ -1,0 +1,2125 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`file-largest-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "10240",
+  },
+  "commonMistakes": [
+    {
+      "answer": "2",
+      "explanation": "Посчитаны файлы вместо размера самого большого.",
+    },
+    {
+      "answer": "12288",
+      "explanation": "Сложены размеры файлов вместо выбора максимального.",
+    },
+  ],
+  "datasetId": "file-largest-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-largest-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сортируй по числовому размеру после отбора файлов.",
+  ],
+  "id": "file-largest-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой archive. Исключи вложенные папки. Примени маску \`*.csv\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: archive/note_a.csv — 10240 байт; archive/table_b.csv — 2048 байт.",
+    },
+    {
+      "text": "Сравни размеры отобранных файлов. Максимум равен 10240 байт. Ответ: 10240.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку archive, без вложенных папок. Маска имени файла: \`«*.csv»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди размер самого большого подходящего файла в байтах. Ответ запиши целым числом.",
+  "subtype": "file-largest",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-largest-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/log_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_b.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/log_a.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_b.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "8891337a6a6f6e1f839cbd2ab3cc5b36d124926160ed94f3ed9ebddc0d297d2c",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/log_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_b.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/log_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_b.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "d2c1dee81b57269e6eee15ac49d16614479561cc9284a2e49b75928238b9b017",
+      "size": 7168,
+    },
+  ],
+  "generatorId": "file-largest-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-largest-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-largest-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "9216",
+  },
+  "commonMistakes": [
+    {
+      "answer": "2",
+      "explanation": "Посчитаны файлы вместо размера самого большого.",
+    },
+    {
+      "answer": "10240",
+      "explanation": "Сложены размеры файлов вместо выбора максимального.",
+    },
+  ],
+  "datasetId": "file-largest-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-largest-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сортируй по числовому размеру после отбора файлов.",
+  ],
+  "id": "file-largest-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой project. Исключи вложенные папки. Примени маску \`*.csv\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: project/note_a.csv — 9216 байт; project/table_b.csv — 1024 байт.",
+    },
+    {
+      "text": "Сравни размеры отобранных файлов. Максимум равен 9216 байт. Ответ: 9216.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку project, без вложенных папок. Маска имени файла: \`«*.csv»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди размер самого большого подходящего файла в байтах. Ответ запиши целым числом.",
+  "subtype": "file-largest",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-largest-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/log_a.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "f0a2a050cdc1a9a34d1f2cb3abdf439964c4516d188aa77df8cfea899ae174ed",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_b.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/log_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_b.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/log_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_b.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/log_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_b.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+  ],
+  "generatorId": "file-largest-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-largest-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-largest-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "12288",
+  },
+  "commonMistakes": [
+    {
+      "answer": "4",
+      "explanation": "Посчитаны файлы вместо размера самого большого.",
+    },
+    {
+      "answer": "36864",
+      "explanation": "Сложены размеры файлов вместо выбора максимального.",
+    },
+  ],
+  "datasetId": "file-largest-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-largest-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сортируй по числовому размеру после отбора файлов.",
+  ],
+  "id": "file-largest-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой project. Исключи вложенные папки. Примени маску \`*.txt\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: project/note_a.txt — 9216 байт; project/note_bb.txt — 12288 байт; project/note_ab.txt — 10240 байт; project/log_a.txt — 5120 байт.",
+    },
+    {
+      "text": "Сравни размеры отобранных файлов. Максимум равен 12288 байт. Ответ: 12288.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку project, без вложенных папок. Маска имени файла: \`«*.txt»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди размер самого большого подходящего файла в байтах. Ответ запиши целым числом.",
+  "subtype": "file-largest",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-largest-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/log_a.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bb.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/log_a.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bb.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "8891337a6a6f6e1f839cbd2ab3cc5b36d124926160ed94f3ed9ebddc0d297d2c",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/log_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bb.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/log_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bb.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "d2c1dee81b57269e6eee15ac49d16614479561cc9284a2e49b75928238b9b017",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+  ],
+  "generatorId": "file-largest-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-largest-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "2",
+  },
+  "commonMistakes": [
+    {
+      "answer": "1",
+      "explanation": "Не учтены вложенные папки.",
+    },
+    {
+      "answer": "4",
+      "explanation": "Включены файлы из обеих корневых папок, но указана только одна.",
+    },
+  ],
+  "datasetId": "file-mask-count-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-mask-count-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Одинаковые имена в разных каталогах обозначают разные файлы.",
+  ],
+  "id": "file-mask-count-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой project. Включи вложенные папки. Примени маску \`note_?.txt\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: project/note_a.txt — 12288 байт; project/old/note_a.txt — 4096 байт.",
+    },
+    {
+      "text": "Считай каждый файл один раз, даже если имя повторяется в другой папке. Получено 2 файлов. Ответ: 2.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку project, включая все вложенные папки. Маска имени файла: \`«note_?.txt»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Сколько файлов соответствует этим условиям? Ответ запиши целым числом.",
+  "subtype": "file-mask-count",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bbb.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/notes_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bbb.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/notes_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "8891337a6a6f6e1f839cbd2ab3cc5b36d124926160ed94f3ed9ebddc0d297d2c",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bbb.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/notes_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bbb.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/notes_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+  ],
+  "generatorId": "file-mask-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-mask-count-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "2",
+  },
+  "commonMistakes": [
+    {
+      "answer": "1",
+      "explanation": "Не учтены вложенные папки.",
+    },
+    {
+      "answer": "4",
+      "explanation": "Включены файлы из обеих корневых папок, но указана только одна.",
+    },
+  ],
+  "datasetId": "file-mask-count-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-mask-count-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Одинаковые имена в разных каталогах обозначают разные файлы.",
+  ],
+  "id": "file-mask-count-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой project. Включи вложенные папки. Примени маску \`note_?.txt\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: project/note_a.txt — 5120 байт; project/old/note_a.txt — 1024 байт.",
+    },
+    {
+      "text": "Считай каждый файл один раз, даже если имя повторяется в другой папке. Получено 2 файлов. Ответ: 2.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку project, включая все вложенные папки. Маска имени файла: \`«note_?.txt»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Сколько файлов соответствует этим условиям? Ответ запиши целым числом.",
+  "subtype": "file-mask-count",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "d2c1dee81b57269e6eee15ac49d16614479561cc9284a2e49b75928238b9b017",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bbb.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/notes_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "f0a2a050cdc1a9a34d1f2cb3abdf439964c4516d188aa77df8cfea899ae174ed",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bbb.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/notes_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "size": 4096,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bbb.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/notes_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bbb.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/notes_a.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "f0a2a050cdc1a9a34d1f2cb3abdf439964c4516d188aa77df8cfea899ae174ed",
+      "size": 8192,
+    },
+  ],
+  "generatorId": "file-mask-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-mask-count-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "6",
+  },
+  "commonMistakes": [
+    {
+      "answer": "3",
+      "explanation": "Не учтены вложенные папки.",
+    },
+    {
+      "answer": "12",
+      "explanation": "Включены файлы из обеих корневых папок, но указана только одна.",
+    },
+  ],
+  "datasetId": "file-mask-count-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-mask-count-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Одинаковые имена в разных каталогах обозначают разные файлы.",
+  ],
+  "id": "file-mask-count-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой archive. Включи вложенные папки. Примени маску \`note_*.txt\` и нижнюю границу 0 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: archive/note_a.txt — 6144 байт; archive/note_bbb.txt — 9216 байт; archive/note_ab.txt — 4096 байт; archive/old/note_a.txt — 7168 байт; archive/old/note_bbb.txt — 2048 байт; archive/old/note_ab.txt — 1024 байт.",
+    },
+    {
+      "text": "Считай каждый файл один раз, даже если имя повторяется в другой папке. Получено 6 файлов. Ответ: 6.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку archive, включая все вложенные папки. Маска имени файла: \`«note_*.txt»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 0 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Сколько файлов соответствует этим условиям? Ответ запиши целым числом.",
+  "subtype": "file-mask-count",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-mask-count-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bbb.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/notes_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "f0a2a050cdc1a9a34d1f2cb3abdf439964c4516d188aa77df8cfea899ae174ed",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bbb.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/notes_a.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "9b0974612891eb7a50950910611853fe176ff56c963835fcde05f8b6830166c4",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bbb.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/notes_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bbb.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/notes_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+  ],
+  "generatorId": "file-mask-count-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-mask-count-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-1 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "54",
+  },
+  "commonMistakes": [
+    {
+      "answer": "55296",
+      "explanation": "Ответ дан в байтах, а требуется в КиБ.",
+    },
+    {
+      "answer": "7",
+      "explanation": "Посчитаны файлы вместо их суммарного объёма.",
+    },
+  ],
+  "datasetId": "file-size-total-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-size-total-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сначала сложи размеры в байтах, затем раздели на 1024.",
+  ],
+  "id": "file-size-total-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Открой archive. Включи вложенные папки. Примени маску \`*.txt\` и нижнюю границу 4096 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: archive/note_a.txt — 4096 байт; archive/note_bbb.txt — 7168 байт; archive/note_ab.txt — 9216 байт; archive/old/note_a.txt — 11264 байт; archive/old/note_bbb.txt — 8192 байт; archive/old/note_ab.txt — 10240 байт; archive/old/log_a.txt — 5120 байт.",
+    },
+    {
+      "text": "Сумма размеров: 55296 байт. Делим на 1024: 54 КиБ. Ответ: 54.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку archive, включая все вложенные папки. Маска имени файла: \`«*.txt»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 4096 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди суммарный размер отобранных файлов в КиБ. 1 КиБ = 1024 байта. Ответ запиши целым числом.",
+  "subtype": "file-size-total",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/log_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bbb.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/log_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "8891337a6a6f6e1f839cbd2ab3cc5b36d124926160ed94f3ed9ebddc0d297d2c",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bbb.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/log_a.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bbb.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/log_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bbb.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "d2c1dee81b57269e6eee15ac49d16614479561cc9284a2e49b75928238b9b017",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "size": 4096,
+    },
+  ],
+  "generatorId": "file-size-total-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-size-total-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-2 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "35",
+  },
+  "commonMistakes": [
+    {
+      "answer": "35840",
+      "explanation": "Ответ дан в байтах, а требуется в КиБ.",
+    },
+    {
+      "answer": "4",
+      "explanation": "Посчитаны файлы вместо их суммарного объёма.",
+    },
+  ],
+  "datasetId": "file-size-total-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-size-total-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сначала сложи размеры в байтах, затем раздели на 1024.",
+  ],
+  "id": "file-size-total-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Открой archive. Включи вложенные папки. Примени маску \`*.csv\` и нижнюю границу 4096 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: archive/note_a.csv — 4096 байт; archive/table_b.csv — 12288 байт; archive/old/note_a.csv — 9216 байт; archive/old/table_b.csv — 10240 байт.",
+    },
+    {
+      "text": "Сумма размеров: 35840 байт. Делим на 1024: 35 КиБ. Ответ: 35.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку archive, включая все вложенные папки. Маска имени файла: \`«*.csv»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 4096 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди суммарный размер отобранных файлов в КиБ. 1 КиБ = 1024 байта. Ответ запиши целым числом.",
+  "subtype": "file-size-total",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "1411d5a8fa132518be7ceafe3522717a980a7d9fe650593a02b45139ab56520b",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_bbb.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/notes_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_bbb.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/notes_a.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "a72a42fd8d47488e63067bb71d232e46a7428130403b945d8efaa8c025b7de41",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "47d7c498c5bbcb8f9bc12416b37c689169143020a1a21ddfc81293c453b75c41",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_bbb.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/notes_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "72d831e6d10247d8f9d41b87f99882f24e89cc31b77270c0d2f6b91fbffe6831",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_bbb.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/notes_a.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "8891337a6a6f6e1f839cbd2ab3cc5b36d124926160ed94f3ed9ebddc0d297d2c",
+      "size": 2048,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "9fdd9ba1e75133d11a07a60a2314ad4cab3852514c82efba37a5dd185271664c",
+      "size": 5120,
+    },
+  ],
+  "generatorId": "file-size-total-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-size-total-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-3 1`] = `
+{
+  "answer": {
+    "type": "integer",
+    "value": "39",
+  },
+  "commonMistakes": [
+    {
+      "answer": "39936",
+      "explanation": "Ответ дан в байтах, а требуется в КиБ.",
+    },
+    {
+      "answer": "4",
+      "explanation": "Посчитаны файлы вместо их суммарного объёма.",
+    },
+  ],
+  "datasetId": "file-size-total-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "file-size-total-v1",
+  "hints": [
+    "Проверь корневую папку и правило обработки вложенных папок.",
+    "Применяй маску к имени с расширением. Сверяй точный размер в байтах.",
+    "Сначала сложи размеры в байтах, затем раздели на 1024.",
+  ],
+  "id": "file-size-total-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Открой archive. Включи вложенные папки. Примени маску \`*.csv\` и нижнюю границу 4096 байт.",
+    },
+    {
+      "text": "Подходящие файлы и точные размеры: archive/note_a.csv — 10240 байт; archive/table_b.csv — 8192 байт; archive/old/note_a.csv — 12288 байт; archive/old/table_b.csv — 9216 байт.",
+    },
+    {
+      "text": "Сумма размеров: 39936 байт. Делим на 1024: 39 КиБ. Ответ: 39.",
+    },
+  ],
+  "statement": "Скачай и распакуй авторский набор №12. Рассматривай папку archive, включая все вложенные папки. Маска имени файла: \`«*.csv»\`. Регистр учитывается; * заменяет любую последовательность символов (в том числе пустую), ? — ровно один символ. Маска применяется только к имени файла с расширением, а не к пути. Другую корневую папку и README.txt не учитывай.
+
+Минимальный размер: 4096 байт включительно. Размер — число байтов содержимого файла, а не размер ZIP и не место на диске. Найди суммарный размер отобранных файлов в КиБ. 1 КиБ = 1024 байта. Ответ запиши целым числом.",
+  "subtype": "file-size-total",
+  "taskNumber": 12,
+  "topics": [
+    "Отбор и объём файлов",
+  ],
+}
+`;
+
+exports[`file-size-total-v1 > golden golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1dfa55329cdbc7e126dc06b7f73c218c801e76eec663f082b62c4400a2715c31",
+      "size": 306,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/log_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/note_b.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/log_a.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_a.txt",
+      "sha256": "a63e5b76e34f786463aeb50d6cc8ef6dfd1e88ebc8a04e62e53aad14bf6a2d0f",
+      "size": 11264,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_ab.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "archive/old/note_b.txt",
+      "sha256": "8a6359f567bf27e15da3ef22a8f19370c7c84a5c9760ddcf7350f95d8fe7444d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/old/table_b.csv",
+      "sha256": "bc13ad60490b35a0a5a2b1dfe15a0d8c49d9c987c3f15370cbc357855e4fa2d7",
+      "size": 9216,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "archive/table_b.csv",
+      "sha256": "f0a2a050cdc1a9a34d1f2cb3abdf439964c4516d188aa77df8cfea899ae174ed",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/log_a.txt",
+      "sha256": "e8d0765c415e065a0c9d010c247baf70554a38c880cb63b3b8d905d837fe083c",
+      "size": 3072,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/note_a.csv",
+      "sha256": "869aba9aa9d0906fcdc9fe6f33e275f8c7ca3a793b1f1ff0c79b067f191ad7cf",
+      "size": 12288,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_a.txt",
+      "sha256": "18142d21c908dff176ee16aded028ebcabe9cb988af0e6743c2eb3eeca262db7",
+      "size": 8192,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_ab.txt",
+      "sha256": "3dfdfa002e1c88249cda26c0c41e8bd87fb1a1b81b0ca439fe2ec14d353a6566",
+      "size": 4096,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/note_b.txt",
+      "sha256": "a9b46bf4703b00b5c127926493fa64c28025f8985bbc77693a68a710dacf7cd2",
+      "size": 1024,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/log_a.txt",
+      "sha256": "a14a47953b59edc860f3cdbaf9d8e0dc76ffb06a8d7d995ef8bc0d8e49d5ce75",
+      "size": 7168,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.csv",
+      "sha256": "42b05dee945495d44c0ee908f40441b395325907ff18c1362090e312b4c510cb",
+      "size": 10240,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_a.txt",
+      "sha256": "8fea7c37e4f6d13bc4ef216699e1592c9c08570a895ff8280a328b25a6329cff",
+      "size": 5120,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_ab.txt",
+      "sha256": "198141535d1b432a41209f112187eeaa95eb3cf0e6efde669665d9b054adbba5",
+      "size": 9216,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "project/old/note_b.txt",
+      "sha256": "9b266bc05aa0afcb231435d0b3b373dee3c8d3f2619389b9c3f797d9749e9de0",
+      "size": 2048,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/old/table_b.csv",
+      "sha256": "b7adee4bca866217d07952b3209faaaa85651be99dc2f69bd49224bae86a954d",
+      "size": 6144,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "project/table_b.csv",
+      "sha256": "14496ac70c239d46b53d54091c262d705fd9ac5a9ba33d510716b5c656786834",
+      "size": 11264,
+    },
+  ],
+  "generatorId": "file-size-total-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "file-size-total-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;

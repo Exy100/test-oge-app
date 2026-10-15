@@ -35,53 +35,56 @@ test.each([
   expect(result.stderr.trim().length).toBeGreaterThan(0);
 });
 
-test('file sample CLI exports the exact datasets linked in Markdown', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'oge-file-cli-'));
-  try {
-    const directory = join(root, 'files');
-    const output = execFileSync(
-      process.execPath,
-      [
-        'scripts/sample-tasks.mjs',
-        '--task',
-        '11',
-        '--n',
-        '3',
-        '--seed',
-        'cli',
-        '--files-dir',
-        directory,
-      ],
-      { encoding: 'utf8' },
-    );
-    const generators = generatorsForTask(11);
-    for (let index = 0; index < generators.length; index++) {
-      const expected = await createTaskDataset(
-        generators[index].generate(`cli:${index}`),
+test.each([11, 12])(
+  'file sample CLI exports №%i datasets linked in Markdown',
+  async (taskNumber) => {
+    const root = await mkdtemp(join(tmpdir(), 'oge-file-cli-'));
+    try {
+      const directory = join(root, 'files');
+      const output = execFileSync(
+        process.execPath,
+        [
+          'scripts/sample-tasks.mjs',
+          '--task',
+          String(taskNumber),
+          '--n',
+          '3',
+          '--seed',
+          'cli',
+          '--files-dir',
+          directory,
+        ],
+        { encoding: 'utf8' },
       );
-      const entry = String(index + 1).padStart(2, '0');
-      expect(output).toContain(`files/${entry}/dataset.zip`);
-      expect(
-        Buffer.compare(
-          await readFile(join(directory, entry, 'dataset.zip')),
-          Buffer.from(expected.archive),
-        ),
-      ).toBe(0);
-      expect(
-        JSON.parse(
-          await readFile(join(directory, entry, 'manifest.json'), 'utf8'),
-        ),
-      ).toEqual(expected.manifest);
-      for (const [path, bytes] of expected.files) {
+      const generators = generatorsForTask(taskNumber);
+      for (let index = 0; index < generators.length; index++) {
+        const expected = await createTaskDataset(
+          generators[index].generate(`cli:${index}`),
+        );
+        const entry = String(index + 1).padStart(2, '0');
+        expect(output).toContain(`files/${entry}/dataset.zip`);
         expect(
           Buffer.compare(
-            await readFile(join(directory, entry, 'files', path)),
-            Buffer.from(bytes),
+            await readFile(join(directory, entry, 'dataset.zip')),
+            Buffer.from(expected.archive),
           ),
         ).toBe(0);
+        expect(
+          JSON.parse(
+            await readFile(join(directory, entry, 'manifest.json'), 'utf8'),
+          ),
+        ).toEqual(expected.manifest);
+        for (const [path, bytes] of expected.files) {
+          expect(
+            Buffer.compare(
+              await readFile(join(directory, entry, 'files', path)),
+              Buffer.from(bytes),
+            ),
+          ).toBe(0);
+        }
       }
+    } finally {
+      await rm(root, { recursive: true, force: true });
     }
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});
+  },
+);

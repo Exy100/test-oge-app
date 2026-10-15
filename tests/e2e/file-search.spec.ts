@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { generatorsForTask } from '../../src/core/generators';
 import { createTaskDataset } from '../../src/core/generators/task-dataset';
 
-for (const generator of generatorsForTask(11)) {
+for (const generator of [...generatorsForTask(11), ...generatorsForTask(12)]) {
   test(`${generator.id}: downloaded files match preview and Node`, async ({
     page,
   }) => {
@@ -16,9 +16,15 @@ for (const generator of generatorsForTask(11)) {
     await page.getByRole('button', { name: 'Показать 20 задач' }).click();
     const example = page.locator('.generator-example').first();
     await example.getByRole('button', { name: 'Подготовить файлы' }).click();
-    const expected = await createTaskDataset(
-      generator.generate('file-browser:0'),
-    );
+    const task = generator.generate('file-browser:0');
+    const expected = await createTaskDataset(task);
+    if (task.taskNumber === 12) {
+      const mask = /«([^»]+)»/u.exec(task.statement)?.[0];
+      if (!mask) throw new Error('Missing filename mask');
+      await expect(example.locator('code').filter({ hasText: '«' })).toHaveText(
+        mask,
+      );
+    }
     for (const [name, bytes] of [
       ['Скачать ZIP', expected.archive],
       [
