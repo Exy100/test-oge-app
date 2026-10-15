@@ -72,9 +72,10 @@ function check(
       );
       for (const entry of dataset.manifest.files) {
         const bytes = unpacked.get(entry.path);
-        expect(bytes).toEqual(dataset.files.get(entry.path));
-        expect(bytes?.length).toBe(entry.size);
-        if (!bytes) throw new Error('Missing file');
+        const source = dataset.files.get(entry.path);
+        if (!bytes || !source) throw new Error('Missing file');
+        expect(Buffer.from(bytes).equals(Buffer.from(source))).toBe(true);
+        expect(bytes.length).toBe(entry.size);
         expect(createHash('sha256').update(bytes).digest('hex')).toBe(
           entry.sha256,
         );
@@ -118,7 +119,9 @@ for (const generator of generatorsForTask(11))
         check(generator, seed, dataset);
         const again = await createTaskDataset(task);
         expect(again.manifest).toEqual(dataset.manifest);
-        expect(again.archive).toEqual(dataset.archive);
+        expect(
+          Buffer.from(again.archive).equals(Buffer.from(dataset.archive)),
+        ).toBe(true);
       }
     }, 30000);
     test.each(['golden-1', 'golden-2', 'golden-3'])(
