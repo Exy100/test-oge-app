@@ -16,7 +16,9 @@ export class Drawing {
     readonly height = 320,
   ) {
     this.pixels = new Uint8Array(width * height * 4);
-    this.rect(0, 0, width, height, colors.paper);
+    const row = new Uint8Array(width * 4);
+    for (let x = 0; x < width; x++) row.set([...colors.paper, 255], x * 4);
+    for (let y = 0; y < height; y++) this.pixels.set(row, y * width * 4);
   }
   pixel(x: number, y: number, color: Color): void {
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) return;

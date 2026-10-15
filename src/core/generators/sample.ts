@@ -53,6 +53,11 @@ export function sampleTasks(
           ]
         : []),
       `**Ответ:** ${answer}`,
+      ...(task.taskNumber === 15 && filesPrefix
+        ? [
+            `[Пример поля PNG](${filesPrefix}/${String(index + 1).padStart(2, '0')}/files/source/example.png) · [Эталон TXT](${filesPrefix}/${String(index + 1).padStart(2, '0')}/files/reference/answer.txt)`,
+          ]
+        : []),
       ...(task.taskNumber === 14 && filesPrefix
         ? [
             `[Эталон ODS](${filesPrefix}/${String(index + 1).padStart(2, '0')}/files/reference/answer.ods)`,

@@ -178,3 +178,39 @@ test('№14: downloadable ODS dataset matches Node and binary preview stays read
   );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
+
+test('№15: field diagram, accessible mobile layout and downloaded Robot family', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  await page.getByLabel('Seed', { exact: true }).fill('browser-robot');
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption('robot-comb-v1');
+  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+  const example = page.locator('.generator-example').first();
+  await expect(example.getByRole('img')).toBeVisible();
+  await example.getByRole('button', { name: 'Подготовить файлы' }).click();
+  const link = example.getByRole('link', { name: 'Скачать ZIP', exact: true });
+  await expect(link).toBeVisible();
+  const pending = page.waitForEvent('download');
+  await link.click();
+  const path = await (await pending).path();
+  if (!path) throw new Error('Missing Robot archive');
+  const { readFile } = await import('node:fs/promises');
+  const { createTaskDataset } =
+    await import('../../src/core/generators/task-dataset');
+  const task = generators
+    .find((item) => item.id === 'robot-comb-v1')
+    ?.generate('browser-robot:0');
+  if (!task) throw new Error('Missing generator');
+  expect(await readFile(path)).toEqual(
+    Buffer.from((await createTaskDataset(task)).archive),
+  );
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});

@@ -1,0 +1,62 @@
+{
+  "kind": "robot-wall-gaps",
+  "seed": "robot-review:5",
+  "parameters": [
+    {
+      "kind": "robot-wall-gaps",
+      "height": 2,
+      "column": 3,
+      "rightPad": 0,
+      "mask": 3
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 1,
+      "column": 1,
+      "rightPad": 0,
+      "mask": 0
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 12,
+      "column": 3,
+      "rightPad": 2,
+      "mask": 4095
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 12,
+      "column": 1,
+      "rightPad": 1,
+      "mask": 1365
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 8,
+      "column": 1,
+      "rightPad": 2,
+      "mask": 124
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 1,
+      "column": 1,
+      "rightPad": 2,
+      "mask": 1
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 3,
+      "column": 3,
+      "rightPad": 1,
+      "mask": 7
+    },
+    {
+      "kind": "robot-wall-gaps",
+      "height": 6,
+      "column": 3,
+      "rightPad": 1,
+      "mask": 32
+    }
+  ]
+}

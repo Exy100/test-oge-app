@@ -1,0 +1,70 @@
+{
+  "kind": "robot-corridor",
+  "seed": "robot-review:4",
+  "parameters": [
+    {
+      "kind": "robot-corridor",
+      "length": 3,
+      "left": 1,
+      "top": 2,
+      "rightPad": 2,
+      "bottomPad": 1
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 1,
+      "left": 0,
+      "top": 0,
+      "rightPad": 0,
+      "bottomPad": 0
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 12,
+      "left": 2,
+      "top": 2,
+      "rightPad": 2,
+      "bottomPad": 2
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 12,
+      "left": 2,
+      "top": 2,
+      "rightPad": 1,
+      "bottomPad": 2
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 1,
+      "left": 2,
+      "top": 1,
+      "rightPad": 2,
+      "bottomPad": 0
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 9,
+      "left": 2,
+      "top": 2,
+      "rightPad": 0,
+      "bottomPad": 0
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 12,
+      "left": 0,
+      "top": 2,
+      "rightPad": 1,
+      "bottomPad": 0
+    },
+    {
+      "kind": "robot-corridor",
+      "length": 2,
+      "left": 1,
+      "top": 2,
+      "rightPad": 1,
+      "bottomPad": 2
+    }
+  ]
+}

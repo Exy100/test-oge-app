@@ -1,3 +1,4 @@
+import { robotGenerators } from './15/robots.ts';
 import { spreadsheetGenerators } from './14/spreadsheets.ts';
 import {
   fileMaskCount,
@@ -132,6 +133,7 @@ export const generators = createRegistry([
   fileSizeTotal,
   fileLargest,
   ...spreadsheetGenerators,
+  ...robotGenerators,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

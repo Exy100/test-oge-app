@@ -18,7 +18,7 @@ test('sample CLI writes reproducible Markdown with 50 tasks', () => {
 });
 
 test.each([
-  ['--task', '15', '--n', '50'],
+  ['--task', '16', '--n', '50'],
   ['--task', '1', '--n', '0'],
   ['--task', '17'],
   ['--task', '13', '--n', '13'],
@@ -39,7 +39,7 @@ test.each([
   expect(result.stderr.trim().length).toBeGreaterThan(0);
 });
 
-test.each([11, 12, 14])(
+test.each([11, 12, 14, 15])(
   'file sample CLI exports №%i datasets linked in Markdown',
   async (taskNumber) => {
     const root = await mkdtemp(join(tmpdir(), 'oge-file-cli-'));

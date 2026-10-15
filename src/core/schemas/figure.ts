@@ -1,11 +1,11 @@
-import { z } from '../zod';
+import { z } from '../zod.ts';
 import {
   FiniteNumberSchema,
   NaturalSchema,
   RelativePathSchema,
   TextSchema,
   unique,
-} from './shared';
+} from './shared.ts';
 
 const description = { description: TextSchema };
 const node = z.strictObject({ id: TextSchema, label: TextSchema });

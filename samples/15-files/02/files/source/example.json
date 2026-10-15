@@ -1,0 +1,71 @@
+{
+  "kind": "robot-field",
+  "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+  "rows": 11,
+  "columns": 4,
+  "start": {
+    "row": 10,
+    "column": 3
+  },
+  "painted": [],
+  "targets": [
+    {
+      "row": 0,
+      "column": 3
+    },
+    {
+      "row": 1,
+      "column": 3
+    },
+    {
+      "row": 5,
+      "column": 3
+    },
+    {
+      "row": 9,
+      "column": 3
+    }
+  ],
+  "walls": [
+    {
+      "from": {
+        "row": 0,
+        "column": 2
+      },
+      "to": {
+        "row": 0,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 2
+      },
+      "to": {
+        "row": 1,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 2
+      },
+      "to": {
+        "row": 5,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 9,
+        "column": 2
+      },
+      "to": {
+        "row": 9,
+        "column": 3
+      }
+    }
+  ]
+}

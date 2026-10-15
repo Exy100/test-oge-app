@@ -36,7 +36,13 @@ function DataTable({
   );
 }
 
-export default function Figure({ spec }: { spec: FigureSpec }) {
+export default function Figure({
+  spec,
+  label,
+}: {
+  spec: FigureSpec;
+  label?: string;
+}) {
   const id = useId().replaceAll(':', '');
   const text = describeFigure(spec);
   let drawing: ReactNode;
@@ -319,7 +325,7 @@ export default function Figure({ spec }: { spec: FigureSpec }) {
         className="figure-scroll"
         tabIndex={0}
         role="region"
-        aria-label={`Рисунок: ${spec.description}`}
+        aria-label={label ?? `Рисунок: ${spec.description}`}
       >
         {drawing}
       </div>

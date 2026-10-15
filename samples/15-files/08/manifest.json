@@ -1,0 +1,72 @@
+{
+  "kind": "generated",
+  "generatorId": "robot-room-v1",
+  "id": "robot-room-v1:files:robot-review:7",
+  "seed": "robot-review:7",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 2169,
+      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1758,
+      "sha256": "a174f346c1df7ddfad6d78b42aa72611d6f244e10084fdb1545c6e1d95f17b0f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 838,
+      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.txt",
+      "format": "txt",
+      "size": 519,
+      "sha256": "5f40d748c0391d3337b1500b8fb679cfd129929b7078f02a9162a6f718670d06",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/results.json",
+      "format": "json",
+      "size": 18802,
+      "sha256": "452a75d990c7c45e82ff297fff9e73a054d4a5ef793f3f80b9bb77a0299e4510",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/example.json",
+      "format": "json",
+      "size": 2096,
+      "sha256": "136c2aa3d78880ae4c27474c6bc2e263fe39dc9fd3d09c14409a5b699d8b9bf1",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/example.png",
+      "format": "png",
+      "size": 4809,
+      "sha256": "997f8b9edfe70c74dbf1a3edd95b6225ccb9b5072540e0566293e9ac5e554a21",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/family.json",
+      "format": "json",
+      "size": 1305,
+      "sha256": "cc520f1a73893b4b07e3d0cf6ddb0b44389ba069c7900b571a55e01382260d7b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "validation/fields.json",
+      "format": "json",
+      "size": 42255,
+      "sha256": "92507940429f563cb9392558e510a59d509458e03c2da4de30e9e4c95ed58812",
+      "license": "CC0-1.0"
+    }
+  ]
+}

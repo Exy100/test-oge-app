@@ -1,13 +1,13 @@
-import { FigureSpecSchema } from '../schemas';
-import type { FigureSpec } from '../types';
+import { FigureSpecSchema } from '../schemas/figure.ts';
+import type { FigureSpec } from '../types.ts';
 import {
   compileRobot,
   robotLimits,
   type Direction,
   type Instruction,
   type Condition,
-} from './parser';
-export { compileRobot, RobotSyntaxError, robotLimits } from './parser';
+} from './parser.ts';
+export { compileRobot, RobotSyntaxError, robotLimits } from './parser.ts';
 export type RobotField = Extract<FigureSpec, { kind: 'robot-field' }>;
 type Cell = RobotField['start'];
 export type RobotStatus =

@@ -1,0 +1,72 @@
+{
+  "kind": "generated",
+  "generatorId": "robot-comb-v1",
+  "id": "robot-comb-v1:files:robot-review:10",
+  "seed": "robot-review:10",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 2169,
+      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1817,
+      "sha256": "1ff029b1cb8593fd9ca4825dfb8c3fb5eae3b7d33b25ccb4d59392c8ba74da2b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 838,
+      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.txt",
+      "format": "txt",
+      "size": 403,
+      "sha256": "9f861036f530650504dc40568e5a6da3edc72ec94dedc42cb02d2c7d6382f9c5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/results.json",
+      "format": "json",
+      "size": 8613,
+      "sha256": "e4d06f2d97b87ea2b931f18509cc6216295b4bbc9abae48cb6af6497a746b0ab",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/example.json",
+      "format": "json",
+      "size": 6923,
+      "sha256": "3c6ac69e2b91e24f66ceba2bb74f293508a7a59eda32219f43cfd31698c2daed",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/example.png",
+      "format": "png",
+      "size": 5408,
+      "sha256": "dc53ac3a0c57926344447ec181e6457511ffdf6f092ee38201a76ffc72090626",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/family.json",
+      "format": "json",
+      "size": 1098,
+      "sha256": "8ed255262cf6cdb0eab99ec891888dbed64097f2efa3e9599015ecb31210d809",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "validation/fields.json",
+      "format": "json",
+      "size": 44792,
+      "sha256": "8c9d220a1be4b08ab1894d35cbdb42e8637c14b6a393f3862c57a9a6a3801191",
+      "license": "CC0-1.0"
+    }
+  ]
+}
