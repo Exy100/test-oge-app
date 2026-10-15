@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { isDeepStrictEqual } from 'node:util';
 import fc from 'fast-check';
 import {
   createStreamSession,
@@ -476,60 +477,66 @@ test('queue capacity and statistics overflow fail atomically; absent evidence st
     ),
   ).toThrow();
 });
-test('500 session seeds: stable after JSON restore and permutations, unique generated references', () => {
-  const seeds =
-    fc.sample(
-      fc.uniqueArray(fc.string({ maxLength: 100 }), {
-        minLength: 500,
-        maxLength: 500,
-      }),
-      { seed: 20261015, numRuns: 1 },
-    )[0] ?? [];
-  expect(seeds).toHaveLength(500);
-  for (const seed of seeds) {
-    let left = createStreamSession(seed, { sources, numbers });
-    let right = createStreamSession(seed, {
-      sources: [...sources].reverse(),
-      numbers: [...numbers].reverse(),
-    });
-    const randomKeys = new Set<string>();
-    for (let index = 0; index < 20; index += 1) {
-      const active = nextStreamTask(left);
-      expect(nextStreamTask(right)).toEqual(active);
-      if (
-        active.current.kind === 'random' &&
-        active.current.reference.taskNumber !== 13
-      ) {
-        const key = referenceKey(active.current.reference);
-        expect(randomKeys.has(key)).toBe(false);
-        randomKeys.add(key);
+const replaySeeds =
+  fc.sample(
+    fc.uniqueArray(fc.string({ maxLength: 100 }), {
+      minLength: 500,
+      maxLength: 500,
+    }),
+    { seed: 20261015, numRuns: 1 },
+  )[0] ?? [];
+test.each([0, 1, 2, 3])(
+  '500 session seeds, batch %i: stable after JSON restore and permutations, unique generated references',
+  (batch) => {
+    expect(replaySeeds).toHaveLength(500);
+    const seeds = replaySeeds.slice(batch * 125, (batch + 1) * 125);
+    expect(seeds).toHaveLength(125);
+    for (const seed of seeds) {
+      let left = createStreamSession(seed, { sources, numbers });
+      let right = createStreamSession(seed, {
+        sources: [...sources].reverse(),
+        numbers: [...numbers].reverse(),
+      });
+      const randomKeys = new Set<string>();
+      for (let index = 0; index < 20; index += 1) {
+        const active = nextStreamTask(left);
+        const saved = JSON.stringify(active);
+        expect(isDeepStrictEqual(nextStreamTask(right), active)).toBe(true);
+        if (
+          active.current.kind === 'random' &&
+          active.current.reference.taskNumber !== 13
+        ) {
+          const key = referenceKey(active.current.reference);
+          expect(randomKeys.has(key)).toBe(false);
+          randomKeys.add(key);
+        }
+        const outcome: StreamOutcome =
+          index % 7 === 0
+            ? { kind: 'skip' }
+            : active.current.reference.taskNumber <= 12
+              ? { kind: 'automatic', correct: index % 3 !== 0 }
+              : {
+                  kind: 'practice',
+                  score:
+                    index % 3 === 0
+                      ? 0
+                      : examConfig.tasks[active.current.reference.taskNumber]
+                          .maxScore,
+                  source: 'self',
+                };
+        left = recordStreamResult(active, outcome);
+        expect(JSON.stringify(active)).toBe(saved);
+        right = restoreStreamState(
+          JSON.parse(
+            JSON.stringify(recordStreamResult(nextStreamTask(right), outcome)),
+          ),
+        );
+        expect(isDeepStrictEqual(left, right)).toBe(true);
       }
-      const outcome: StreamOutcome =
-        index % 7 === 0
-          ? { kind: 'skip' }
-          : active.current.reference.taskNumber <= 12
-            ? { kind: 'automatic', correct: index % 3 !== 0 }
-            : {
-                kind: 'practice',
-                score:
-                  index % 3 === 0
-                    ? 0
-                    : examConfig.tasks[active.current.reference.taskNumber]
-                        .maxScore,
-                source: 'self',
-              };
-      const saved = JSON.stringify(active);
-      left = recordStreamResult(active, outcome);
-      expect(JSON.stringify(active)).toBe(saved);
-      right = restoreStreamState(
-        JSON.parse(
-          JSON.stringify(recordStreamResult(nextStreamTask(right), outcome)),
-        ),
-      );
-      expect(left).toEqual(right);
     }
-  }
-}, 30000);
+  },
+  30000,
+);
 test.each([
   { label: 'empty', seed: '' },
   { label: 'unicode', seed: 'Информатика 🧩' },
