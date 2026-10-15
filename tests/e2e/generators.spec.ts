@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { textVolume } from '../../src/core/generators/01/text-volume';
 import { generators } from '../../src/core/generators';
+import {
+  assessProgramRuns,
+  programCases,
+  programKinds,
+  programParameters,
+} from '../../src/core/generators/16/problems';
 
 test('all registered subtypes reproduce Node tasks and render code tables in the gallery', async ({
   page,
@@ -92,6 +98,100 @@ test('Python examples render code and input tables without mobile overflow', asy
   const example = page.locator('.generator-example').first();
   await expect(example.locator('pre code')).toContainText('print("ДА")');
   await expect(example.getByRole('table')).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+
+test('№16: all Python test suites and output assessments match Node in the browser', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  const actual = await page.evaluate(async () => {
+    const path = '/test-oge-app/src/core/generators/16/problems.ts';
+    const api = (await import(
+      /* @vite-ignore */ path
+    )) as typeof import('../../src/core/generators/16/problems');
+    return api.programKinds.map((kind) => {
+      const parameters = api.programParameters(kind, 'browser-python');
+      const cases = api.programCases(parameters, 'browser-python');
+      return {
+        parameters,
+        cases,
+        assessment: api.assessProgramRuns(
+          parameters,
+          'browser-python',
+          cases.map((item) => ({
+            stdout: item.output,
+            exitCode: 0,
+            timedOut: false,
+          })),
+        ),
+      };
+    });
+  });
+  expect(actual).toEqual(
+    programKinds.map((kind) => {
+      const parameters = programParameters(kind, 'browser-python'),
+        cases = programCases(parameters, 'browser-python');
+      return {
+        parameters,
+        cases,
+        assessment: assessProgramRuns(
+          parameters,
+          'browser-python',
+          cases.map((item) => ({
+            stdout: item.output,
+            exitCode: 0,
+            timedOut: false,
+          })),
+        ),
+      };
+    }),
+  );
+});
+
+test('№16: Python source and test files download with accessible mobile preview', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  await page.getByLabel('Seed', { exact: true }).fill('browser-python');
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption('python-pairs-v1');
+  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+  const example = page.locator('.generator-example').first();
+  await example.getByRole('button', { name: 'Подготовить файлы' }).click();
+  const link = example.getByRole('link', { name: 'Скачать ZIP', exact: true });
+  await expect(link).toBeVisible();
+  const pending = page.waitForEvent('download');
+  await link.click();
+  const path = await (await pending).path();
+  if (!path) throw new Error('Missing Python archive');
+  const { readFile } = await import('node:fs/promises');
+  const { createTaskDataset } =
+    await import('../../src/core/generators/task-dataset');
+  const generator = generators.find((item) => item.id === 'python-pairs-v1');
+  if (!generator) throw new Error('Missing Python generator');
+  const dataset = await createTaskDataset(
+    generator.generate('browser-python:0'),
+  );
+  expect(await readFile(path)).toEqual(Buffer.from(dataset.archive));
+  await example
+    .getByLabel('Файл для просмотра')
+    .selectOption('reference/answer.py');
+  await expect(example.locator('.task-file-preview')).toHaveText(
+    new TextDecoder().decode(dataset.files.get('reference/answer.py')),
+  );
+  await example
+    .getByLabel('Файл для просмотра')
+    .selectOption('tests/04.expected.txt');
+  await expect(example.locator('.task-file-preview')).toHaveText(
+    new TextDecoder().decode(dataset.files.get('tests/04.expected.txt')),
+  );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(
     await page.evaluate(

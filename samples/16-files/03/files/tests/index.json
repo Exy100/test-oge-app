@@ -1,0 +1,69 @@
+{
+  "parameters": {
+    "kind": "python-pairs",
+    "divisor": 4
+  },
+  "timeoutSeconds": 2,
+  "cases": [
+    {
+      "id": "01",
+      "label": "Пример",
+      "input": "tests/01.input.txt",
+      "expected": "tests/01.expected.txt"
+    },
+    {
+      "id": "02",
+      "label": "Пары отсутствуют",
+      "input": "tests/02.input.txt",
+      "expected": "tests/02.expected.txt"
+    },
+    {
+      "id": "03",
+      "label": "Нулевая сумма",
+      "input": "tests/03.input.txt",
+      "expected": "tests/03.expected.txt"
+    },
+    {
+      "id": "04",
+      "label": "Отрицательный максимум",
+      "input": "tests/04.input.txt",
+      "expected": "tests/04.expected.txt"
+    },
+    {
+      "id": "05",
+      "label": "Ни одна пара не подходит",
+      "input": "tests/05.input.txt",
+      "expected": "tests/05.expected.txt"
+    },
+    {
+      "id": "06",
+      "label": "Перекрывающиеся пары",
+      "input": "tests/06.input.txt",
+      "expected": "tests/06.expected.txt"
+    },
+    {
+      "id": "07",
+      "label": "Границы значений",
+      "input": "tests/07.input.txt",
+      "expected": "tests/07.expected.txt"
+    },
+    {
+      "id": "08",
+      "label": "Только нули",
+      "input": "tests/08.input.txt",
+      "expected": "tests/08.expected.txt"
+    },
+    {
+      "id": "09",
+      "label": "Максимум меняется",
+      "input": "tests/09.input.txt",
+      "expected": "tests/09.expected.txt"
+    },
+    {
+      "id": "10",
+      "label": "Максимальное N",
+      "input": "tests/10.input.txt",
+      "expected": "tests/10.expected.txt"
+    }
+  ]
+}

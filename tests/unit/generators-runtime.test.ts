@@ -11,6 +11,11 @@ import { build } from 'vite';
 import { Miniflare } from 'miniflare';
 import { generators } from '../../src/core/generators';
 import { runtimeSeeds } from '../fixtures/rng-source';
+import {
+  buildVariant,
+  buildFixedVariant,
+  fixedVariants,
+} from '../../src/core/variants';
 
 test('all generator subtypes reproduce complete tasks in Workers', async () => {
   const bundle = await build({
@@ -66,6 +71,21 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
         })),
       ),
     );
+    const variants = await worker.dispatchFetch(
+      'http://worker.local/variants',
+      { method: 'POST', body: JSON.stringify(runtimeSeeds.slice(0, 3)) },
+    );
+    expect(variants.status).toBe(200);
+    expect(await variants.json()).toEqual({
+      fixed: fixedVariants.map((item) => ({
+        presentation: buildFixedVariant(item.id),
+        document: buildFixedVariant(item.id, 'document'),
+      })),
+      generated: runtimeSeeds.slice(0, 3).map((seed) => ({
+        presentation: buildVariant(seed),
+        document: buildVariant(seed, 'document'),
+      })),
+    });
   } finally {
     await worker.dispose();
   }

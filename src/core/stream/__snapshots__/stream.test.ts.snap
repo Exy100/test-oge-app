@@ -1,0 +1,346 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`versioned sequence golden: empty 1`] = `
+{
+  "reviews": [
+    {
+      "dueAfter": 0,
+      "generatorId": "fixture-15",
+      "seed": "["informatics-stream-v1",2166136261,0]",
+      "step": 3,
+      "taskNumber": 15,
+    },
+  ],
+  "sequence": [
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",2166136261,0]",
+        "taskNumber": 15,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-5",
+        "seed": "["informatics-stream-v1",2166136261,1]",
+        "taskNumber": 5,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",2166136261,2]",
+        "taskNumber": 1,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-presentation",
+        "seed": "P02",
+        "taskNumber": 13,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",2166136261,0]",
+        "taskNumber": 15,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-4",
+        "seed": "["informatics-stream-v1",2166136261,4]",
+        "taskNumber": 4,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-16",
+        "seed": "["informatics-stream-v1",2166136261,5]",
+        "taskNumber": 16,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-12",
+        "seed": "["informatics-stream-v1",2166136261,6]",
+        "taskNumber": 12,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",2166136261,0]",
+        "taskNumber": 15,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-4",
+        "seed": "["informatics-stream-v1",2166136261,7]",
+        "taskNumber": 4,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-2",
+        "seed": "["informatics-stream-v1",2166136261,8]",
+        "taskNumber": 2,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-11",
+        "seed": "["informatics-stream-v1",2166136261,9]",
+        "taskNumber": 11,
+      },
+    },
+  ],
+  "version": "informatics-stream-v1",
+}
+`;
+
+exports[`versioned sequence golden: unicode 1`] = `
+{
+  "reviews": [
+    {
+      "dueAfter": 0,
+      "generatorId": "fixture-15",
+      "seed": "["informatics-stream-v1",3511015406,0]",
+      "step": 3,
+      "taskNumber": 15,
+    },
+  ],
+  "sequence": [
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",3511015406,0]",
+        "taskNumber": 15,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-12",
+        "seed": "["informatics-stream-v1",3511015406,1]",
+        "taskNumber": 12,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",3511015406,2]",
+        "taskNumber": 15,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-14",
+        "seed": "["informatics-stream-v1",3511015406,3]",
+        "taskNumber": 14,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",3511015406,0]",
+        "taskNumber": 15,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",3511015406,4]",
+        "taskNumber": 1,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-2",
+        "seed": "["informatics-stream-v1",3511015406,5]",
+        "taskNumber": 2,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-14",
+        "seed": "["informatics-stream-v1",3511015406,6]",
+        "taskNumber": 14,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",3511015406,0]",
+        "taskNumber": 15,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",3511015406,7]",
+        "taskNumber": 1,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-15",
+        "seed": "["informatics-stream-v1",3511015406,8]",
+        "taskNumber": 15,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-6",
+        "seed": "["informatics-stream-v1",3511015406,9]",
+        "taskNumber": 6,
+      },
+    },
+  ],
+  "version": "informatics-stream-v1",
+}
+`;
+
+exports[`versioned sequence golden: unpaired-surrogate 1`] = `
+{
+  "reviews": [
+    {
+      "dueAfter": 0,
+      "generatorId": "fixture-1",
+      "seed": "["informatics-stream-v1",3111624773,0]",
+      "step": 3,
+      "taskNumber": 1,
+    },
+  ],
+  "sequence": [
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",3111624773,0]",
+        "taskNumber": 1,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-9",
+        "seed": "["informatics-stream-v1",3111624773,1]",
+        "taskNumber": 9,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-4",
+        "seed": "["informatics-stream-v1",3111624773,2]",
+        "taskNumber": 4,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-10",
+        "seed": "["informatics-stream-v1",3111624773,3]",
+        "taskNumber": 10,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",3111624773,0]",
+        "taskNumber": 1,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-2",
+        "seed": "["informatics-stream-v1",3111624773,4]",
+        "taskNumber": 2,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-2",
+        "seed": "["informatics-stream-v1",3111624773,5]",
+        "taskNumber": 2,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-2",
+        "seed": "["informatics-stream-v1",3111624773,6]",
+        "taskNumber": 2,
+      },
+    },
+    {
+      "kind": "review",
+      "reference": {
+        "generatorId": "fixture-1",
+        "seed": "["informatics-stream-v1",3111624773,0]",
+        "taskNumber": 1,
+      },
+      "step": 3,
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-9",
+        "seed": "["informatics-stream-v1",3111624773,7]",
+        "taskNumber": 9,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-10",
+        "seed": "["informatics-stream-v1",3111624773,8]",
+        "taskNumber": 10,
+      },
+    },
+    {
+      "kind": "random",
+      "reference": {
+        "generatorId": "fixture-7",
+        "seed": "["informatics-stream-v1",3111624773,9]",
+        "taskNumber": 7,
+      },
+    },
+  ],
+  "version": "informatics-stream-v1",
+}
+`;

@@ -70,6 +70,12 @@ jobs:
       - name: Run independent Robot family checks
         run: npm run check:robots
 
+      - name: Execute Python references and exported checkers
+        run: npm run check:python
+
+      - name: Verify complete variant files, programs and Calc results
+        run: npm run check:variants
+
       - name: Save coverage and generated file reports
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
@@ -81,6 +87,7 @@ jobs:
             .cache/presentation-office/
             .cache/document-office/
             .cache/spreadsheet-office/
+            .cache/variant-office/
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7
