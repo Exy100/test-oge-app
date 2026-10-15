@@ -15,12 +15,12 @@ try {
       options.has(key)
     )
       throw new Error(
-        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–12].',
+        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–13.1].',
       );
     options.set(key, value);
   }
   const task = Number(options.get('--task'));
-  const n = Number(options.get('--n') ?? '20');
+  const n = Number(options.get('--n') ?? (task === 13 ? '12' : '20'));
   if (!Number.isInteger(task) || task < 1 || task > 16)
     throw new Error('Укажи номер задания от 1 до 16 через --task.');
   server = await createServer({
@@ -34,9 +34,9 @@ try {
   );
   const seed = options.get('--seed') ?? 'sample';
   const output = options.get('--files-dir');
-  if (output !== undefined && (![11, 12].includes(task) || !output.trim()))
+  if (output !== undefined && (![11, 12, 13].includes(task) || !output.trim()))
     throw new Error(
-      '--files-dir доступен для файловых наборов №11–12 и требует путь.',
+      '--files-dir доступен для файловых наборов №11–13.1 и требует путь.',
     );
   const markdown = sampleTasks(
     task,
@@ -52,10 +52,14 @@ try {
       '/src/core/generators/task-dataset.ts',
     );
     const entries = generatorsForTask(task);
+    const { bankTasks } = await server.ssrLoadModule(
+      '/src/core/banks/index.ts',
+    );
     for (let index = 0; index < n; index++) {
-      const generated = entries[index % entries.length].generate(
-        `${seed}:${index}`,
-      );
+      const generated =
+        task === 13
+          ? bankTasks[index]
+          : entries[index % entries.length].generate(`${seed}:${index}`);
       const dataset = await createTaskDataset(generated);
       const directory = resolve(output, String(index + 1).padStart(2, '0'));
       await mkdir(directory, { recursive: true });

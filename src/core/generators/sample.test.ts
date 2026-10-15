@@ -48,3 +48,14 @@ test.each([11, 12] as const)(
     expect(sampleTasks(taskNumber, 1)).toContain('--files-dir');
   },
 );
+
+test('curated presentation samples enumerate twelve sets without inventing seeds', () => {
+  const markdown = sampleTasks(13, 12, 'unused', 'sets');
+  expect(markdown.match(/^## /gmu)).toHaveLength(12);
+  expect(markdown).toContain('P01');
+  expect(markdown).toContain('P12');
+  expect(markdown).toContain('sets/12/files/reference/answer.odp');
+  expect(markdown).toContain('Учебные критерии');
+  expect(markdown).toBe(sampleTasks(13, 12, 'another', 'sets'));
+  expect(() => sampleTasks(13, 13)).toThrow('12');
+});

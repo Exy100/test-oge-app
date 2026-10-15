@@ -1,6 +1,7 @@
 import { XMLParser } from 'fast-xml-parser';
 import { SyntaxValidator } from 'fast-xml-validator';
 import { packZip, readZip, limits } from './zip';
+import { readPng } from './png';
 
 export type OdfKind = 'odt' | 'odp' | 'ods';
 export const mimeTypes = Object.freeze({
@@ -42,22 +43,41 @@ function checkTextBudget(values: readonly string[]): void {
       throw new Error('Превышен размер входного текста.');
   }
 }
-function paragraph(value: string): string {
-  return `<text:p>${xml(value)
+export function paragraph(value: string, style?: string): string {
+  return `<text:p${style ? ` text:style-name="${xml(style)}"` : ''}>${xml(value)
     .replace(/ /gu, '<text:s/>')
     .replace(/\t/gu, '<text:tab/>')
     .replace(/\r\n|\r|\n/gu, '<text:line-break/>')}</text:p>`;
 }
-function makeOdf(kind: OdfKind, body: string): Uint8Array {
-  const content = `${header}<office:document-content ${namespaces} office:version="1.3"><office:body>${body}</office:body></office:document-content>`;
-  const styles = `${header}<office:document-styles ${namespaces} office:version="1.3"><office:styles/><office:automatic-styles><style:page-layout style:name="pm1"><style:page-layout-properties fo:page-width="28cm" fo:page-height="21cm" style:print-orientation="landscape"/></style:page-layout></office:automatic-styles><office:master-styles><style:master-page style:name="Default" style:page-layout-name="pm1"/></office:master-styles></office:document-styles>`;
-  const manifest = `${header}<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3"><manifest:file-entry manifest:full-path="/" manifest:media-type="${mimeTypes[kind]}"/><manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/><manifest:file-entry manifest:full-path="styles.xml" manifest:media-type="text/xml"/></manifest:manifest>`;
+export function makeOdf(
+  kind: OdfKind,
+  body: string,
+  options: {
+    styles?: string;
+    automaticStyles?: string;
+    images?: ReadonlyMap<string, Uint8Array>;
+  } = {},
+): Uint8Array {
+  const images = options.images ?? new Map<string, Uint8Array>();
+  if (images.size && kind !== 'odp')
+    throw new Error('Иллюстрации разрешены только в презентациях.');
+  for (const [path, bytes] of images) {
+    if (!/^Pictures\/image-[1-3]\.png$/u.test(path))
+      throw new Error('Недопустимый путь иллюстрации.');
+    readPng(bytes);
+  }
+  const content = `${header}<office:document-content ${namespaces}${images.size ? ' xmlns:xlink="http://www.w3.org/1999/xlink"' : ''} office:version="1.3">${options.automaticStyles ?? ''}<office:body>${body}</office:body></office:document-content>`;
+  const styles =
+    options.styles ??
+    `${header}<office:document-styles ${namespaces} office:version="1.3"><office:styles/><office:automatic-styles><style:page-layout style:name="pm1"><style:page-layout-properties fo:page-width="28cm" fo:page-height="21cm" style:print-orientation="landscape"/></style:page-layout></office:automatic-styles><office:master-styles><style:master-page style:name="Default" style:page-layout-name="pm1"/></office:master-styles></office:document-styles>`;
+  const manifest = `${header}<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3"><manifest:file-entry manifest:full-path="/" manifest:media-type="${mimeTypes[kind]}"/><manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/><manifest:file-entry manifest:full-path="styles.xml" manifest:media-type="text/xml"/>${[...images.keys()].map((path) => `<manifest:file-entry manifest:full-path="${xml(path)}" manifest:media-type="image/png"/>`).join('')}</manifest:manifest>`;
   return packZip(
     new Map([
       ['mimetype', encoder.encode(mimeTypes[kind])],
       ['content.xml', encoder.encode(content)],
       ['styles.xml', encoder.encode(styles)],
       ['META-INF/manifest.xml', encoder.encode(manifest)],
+      ...images,
     ]),
     'mimetype',
   );
@@ -68,7 +88,7 @@ export function makeDocument(paragraphs: readonly string[]): Uint8Array {
   checkTextBudget(paragraphs);
   return makeOdf(
     'odt',
-    `<office:text>${paragraphs.map(paragraph).join('')}</office:text>`,
+    `<office:text>${paragraphs.map((value) => paragraph(value)).join('')}</office:text>`,
   );
 }
 export interface Slide {
@@ -88,7 +108,7 @@ export function makePresentation(slides: readonly Slide[]): Uint8Array {
   const pages = slides
     .map(
       (slide, index) =>
-        `<draw:page draw:name="Слайд ${String(index + 1)}" draw:master-page-name="Default"><draw:frame svg:x="1cm" svg:y="1cm" svg:width="26cm" svg:height="3cm"><draw:text-box>${paragraph(slide.title)}</draw:text-box></draw:frame><draw:frame svg:x="1cm" svg:y="5cm" svg:width="26cm" svg:height="14cm"><draw:text-box>${slide.paragraphs.map(paragraph).join('')}</draw:text-box></draw:frame></draw:page>`,
+        `<draw:page draw:name="Слайд ${String(index + 1)}" draw:master-page-name="Default"><draw:frame svg:x="1cm" svg:y="1cm" svg:width="26cm" svg:height="3cm"><draw:text-box>${paragraph(slide.title)}</draw:text-box></draw:frame><draw:frame svg:x="1cm" svg:y="5cm" svg:width="26cm" svg:height="14cm"><draw:text-box>${slide.paragraphs.map((value) => paragraph(value)).join('')}</draw:text-box></draw:frame></draw:page>`,
     )
     .join('');
   return makeOdf('odp', `<office:presentation>${pages}</office:presentation>`);
@@ -135,11 +155,15 @@ function record(value: unknown): Record<string, unknown> {
     throw new Error('Недопустимая структура XML.');
   return value as Record<string, unknown>;
 }
-function parseXml(bytes: Uint8Array): Record<string, unknown> {
+function parseXml(
+  bytes: Uint8Array,
+  imageLinks = false,
+): Record<string, unknown> {
   const text = decoder.decode(bytes);
   if (
     bytes.byteLength > limits.file ||
-    /<!DOCTYPE|<!ENTITY|<\?xml-stylesheet|<(?:script:|office:scripts\b)|\sxlink:/iu.test(
+    (!imageLinks && /\sxlink:/iu.test(text)) ||
+    /<!DOCTYPE|<!ENTITY|<\?xml-stylesheet|<(?:script:|office:scripts\b)/iu.test(
       text,
     )
   )
@@ -159,7 +183,7 @@ export function validateOdf(
   kind: OdfKind,
 ): Map<string, Uint8Array> {
   const files = readZip(bytes);
-  if (files.keys().next().value !== 'mimetype' || files.size !== 4)
+  if (files.keys().next().value !== 'mimetype' || files.size < 4)
     throw new Error('Неверный состав ODF.');
   const mime = files.get('mimetype');
   const content = files.get('content.xml');
@@ -173,7 +197,57 @@ export function validateOdf(
     decoder.decode(mime) !== mimeTypes[kind]
   )
     throw new Error('Тип или файлы ODF не совпадают.');
-  const document = record(parseXml(content)['office:document-content']);
+  const imagePaths = [...files.keys()].filter(
+    (path) =>
+      ![
+        'mimetype',
+        'content.xml',
+        'styles.xml',
+        'META-INF/manifest.xml',
+      ].includes(path),
+  );
+  if (
+    imagePaths.some(
+      (path) => kind !== 'odp' || !/^Pictures\/image-[1-3]\.png$/u.test(path),
+    )
+  )
+    throw new Error('Неверный состав ODF.');
+  for (const path of imagePaths) {
+    const image = files.get(path);
+    if (!image) throw new Error('Иллюстрация отсутствует.');
+    readPng(image);
+  }
+  const parsedContent = parseXml(content, imagePaths.length > 0);
+  function checkLinks(value: unknown, tag = ''): void {
+    if (Array.isArray(value)) {
+      for (const item of value) checkLinks(item, tag);
+      return;
+    }
+    if (!value || typeof value !== 'object') return;
+    const node = value as Record<string, unknown>;
+    for (const [key, item] of Object.entries(node)) {
+      if (key.startsWith('@_xlink:')) {
+        const allowed =
+          tag === 'draw:image' &&
+          (key === '@_xlink:href'
+            ? typeof item === 'string' && imagePaths.includes(item)
+            : key === '@_xlink:type'
+              ? item === 'simple'
+              : key === '@_xlink:show'
+                ? item === 'embed'
+                : key === '@_xlink:actuate' && item === 'onLoad');
+        if (!allowed) throw new Error('Недопустимая ссылка ODF.');
+      } else checkLinks(item, key);
+    }
+    if (
+      tag === 'draw:image' &&
+      (typeof node['@_xlink:href'] !== 'string' ||
+        node['@_xlink:type'] !== 'simple')
+    )
+      throw new Error('Недопустимая иллюстрация ODF.');
+  }
+  checkLinks(parsedContent);
+  const document = record(parsedContent['office:document-content']);
   if (
     document['@_office:version'] !== '1.3' ||
     document['@_xmlns:office'] !==
@@ -195,7 +269,7 @@ export function validateOdf(
   )
     throw new Error('Неверное пространство имён манифеста.');
   const entries = root['manifest:file-entry'];
-  if (!Array.isArray(entries) || entries.length !== 3)
+  if (!Array.isArray(entries) || entries.length !== 3 + imagePaths.length)
     throw new Error('Неверный манифест ODF.');
   const paths = new Map<string, string>();
   for (const entry of entries as unknown[]) {
@@ -209,7 +283,8 @@ export function validateOdf(
   if (
     paths.get('/') !== mimeTypes[kind] ||
     paths.get('content.xml') !== 'text/xml' ||
-    paths.get('styles.xml') !== 'text/xml'
+    paths.get('styles.xml') !== 'text/xml' ||
+    imagePaths.some((path) => paths.get(path) !== 'image/png')
   )
     throw new Error('Манифест ODF не совпадает с файлами.');
   record(parseXml(styles)['office:document-styles']);

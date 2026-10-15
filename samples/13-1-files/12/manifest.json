@@ -1,0 +1,107 @@
+{
+  "kind": "curated",
+  "author": "Проект «ОГЭ по информатике»",
+  "id": "curated-presentations-v1:files:P12",
+  "seed": "P12",
+  "generatorVersion": "curated-presentations-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 1017,
+      "sha256": "7ca81bdb6acbb39dd30c6251452f9b2e613fc84bcb55eb566d23e8998b20697f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1278,
+      "sha256": "314e7e2363f0ad96fcab2a36b73abc582ccf589f5d1e3db9a05ae773e5a286f9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 1886,
+      "sha256": "34690c1aac446000838b29948a5b4a96928b79969fc6b2eb6f82e6208c077edf",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "images/image-1.png",
+      "format": "png",
+      "size": 2495,
+      "sha256": "c154ac1606fe8fab5e7fae44c0db34e9223cd8d7ce25de13b93ada6af59b117d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "images/image-2.png",
+      "format": "png",
+      "size": 2495,
+      "sha256": "c154ac1606fe8fab5e7fae44c0db34e9223cd8d7ce25de13b93ada6af59b117d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "images/image-3.png",
+      "format": "png",
+      "size": 2673,
+      "sha256": "80199b41faf63f89046a2df279c348a1aeb2c67fa566e24917db9da029e6cc02",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/guide.txt",
+      "format": "txt",
+      "size": 992,
+      "sha256": "04d92f7130b21bae101e6f586c8f38f256f27c880dc14874e57a2a3f99965847",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/slide-1.png",
+      "format": "png",
+      "size": 1686,
+      "sha256": "756273a1404af4216f6bc33408cd4216d035b0eb785f6c33f99334554757d1ee",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/slide-2.png",
+      "format": "png",
+      "size": 2055,
+      "sha256": "613ab349460112b872e5fdf9ca08dfe22f5de14243a6c5ba75cd657e24f0b21c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/slide-3.png",
+      "format": "png",
+      "size": 2393,
+      "sha256": "bcf8352b3b7e59488d4e4d9312ffa19dd630926f621113b14b00b5044ff82c2e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/slides.json",
+      "format": "json",
+      "size": 4468,
+      "sha256": "2dbf055933dda01a172e2e841cc5e6bcd0532720c0a2aaa1e05c22429405c257",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.odp",
+      "format": "odp",
+      "size": 17302,
+      "sha256": "8bfe27fecfaff856e00db44f9ed8428ccca84f3af8d74cd99dcd8552a77947eb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/checks.json",
+      "format": "json",
+      "size": 2373,
+      "sha256": "745df36aeadb7c7d47b8c5b6e5bf7aec8cf1df4bd94d875f2cd561a65e53e7ab",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/material.odt",
+      "format": "odt",
+      "size": 3790,
+      "sha256": "48f7dda98a24b6fce18aa2cf422f55c54a27d9e8571eb8fcbf47cd174b55bc5b",
+      "license": "CC0-1.0"
+    }
+  ]
+}

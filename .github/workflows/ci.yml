@@ -94,6 +94,7 @@ jobs:
             coverage/
             .lighthouseci/reports/
             .cache/dataset-sample/
+            .cache/presentation-office/
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7

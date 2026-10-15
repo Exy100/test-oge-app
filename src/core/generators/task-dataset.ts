@@ -12,6 +12,11 @@ import {
 } from './11/search-files';
 
 export async function createTaskDataset(task: TaskInstance): Promise<Dataset> {
+  if (task.taskNumber === 13 && task.variant13 === 'presentation') {
+    const { createPresentationDataset } =
+      await import('../banks/presentation-dataset');
+    return createPresentationDataset(task);
+  }
   let files: Map<string, Uint8Array>;
   if (task.generatorId !== `${task.subtype}-v1`)
     throw new Error('Неизвестный файловый набор задания.');

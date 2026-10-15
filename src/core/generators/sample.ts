@@ -1,3 +1,4 @@
+import { bankTasks } from '../banks/index';
 import { generatorsForTask } from './index';
 import { validateGeneratedTask } from './harness';
 import type { TaskNumber } from '../types';
@@ -10,6 +11,19 @@ export function sampleTasks(
 ): string {
   if (!Number.isInteger(n) || n < 1 || n > 1000)
     throw new Error('Количество задач: целое число от 1 до 1000.');
+  if (taskNumber === 13) {
+    if (n > bankTasks.length)
+      throw new Error('Количество кураторских наборов не должно превышать 12.');
+    return (
+      [
+        `# Задание №13.1 — ${String(n)} авторских наборов`,
+        ...bankTasks.slice(0, n).map((task, index) => {
+          const prefix = `${filesPrefix ?? '13-1-files'}/${String(index + 1).padStart(2, '0')}`;
+          return `## ${String(index + 1)}. ${task.seed}\n\n${task.statement}\n\n[Набор файлов](${prefix}/dataset.zip) · [Манифест](${prefix}/manifest.json) · [Эталон ODP](${prefix}/files/reference/answer.odp)\n\n### Решение\n\n${task.solution.map((step, i) => `${String(i + 1)}. ${step.text}`).join('\n')}\n\n### Учебные критерии\n\n${task.criteria?.levels.map((level) => `- ${String(level.score)}: ${level.description}`).join('\n') ?? ''}`;
+        }),
+      ].join('\n\n') + '\n'
+    );
+  }
   const entries = generatorsForTask(taskNumber);
   if (!entries.length)
     throw new Error(

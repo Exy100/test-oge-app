@@ -1,6 +1,7 @@
 import { DatasetManifestSchema } from '../schemas';
 import type { DatasetFile, DatasetManifest } from '../types';
 import { Rng } from '../rng';
+import { readPng } from './png';
 import { packZip, readZip, validateFiles, limits, type Files } from './zip';
 
 const encoder = new TextEncoder();
@@ -28,6 +29,52 @@ export async function createDataset(
   generatorId: string,
   sources: readonly SourceFile[],
 ): Promise<Dataset> {
+  return buildDataset(
+    {
+      kind: 'generated',
+      id,
+      seed,
+      generatorId,
+      generatorVersion: DATASET_VERSION,
+    },
+    sources,
+  );
+}
+export async function createCuratedDataset(
+  id: string,
+  seed: string,
+  author: string,
+  sources: readonly SourceFile[],
+): Promise<Dataset> {
+  return buildDataset(
+    {
+      kind: 'curated',
+      id,
+      seed,
+      author,
+      generatorVersion: 'curated-presentations-v1',
+    },
+    sources,
+  );
+}
+async function buildDataset(
+  identity:
+    | {
+        kind: 'generated';
+        id: string;
+        seed: string;
+        generatorId: string;
+        generatorVersion: string;
+      }
+    | {
+        kind: 'curated';
+        id: string;
+        seed: string;
+        author: string;
+        generatorVersion: string;
+      },
+  sources: readonly SourceFile[],
+): Promise<Dataset> {
   if (!sources.length || sources.length > limits.entries)
     throw new Error('Превышен лимит числа файлов.');
   if (new Set(sources.map((source) => source.path)).size !== sources.length)
@@ -52,14 +99,7 @@ export async function createDataset(
       };
     }),
   );
-  const manifest = DatasetManifestSchema.parse({
-    kind: 'generated',
-    id,
-    seed,
-    generatorId,
-    generatorVersion: DATASET_VERSION,
-    files: entries,
-  });
+  const manifest = DatasetManifestSchema.parse({ ...identity, files: entries });
   await verifyDataset(manifest, files);
   return { manifest, files, archive: packZip(files) };
 }
@@ -86,7 +126,8 @@ export async function verifyDataset(
     ) {
       const { validateOdf } = await import('./odf');
       validateOdf(bytes, entry.format);
-    } else if (entry.format === 'zip') readZip(bytes);
+    } else if (entry.format === 'png') readPng(bytes);
+    else if (entry.format === 'zip') readZip(bytes);
     else if (['txt', 'csv', 'json', 'py', 'kum'].includes(entry.format)) {
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
       if (text.includes('\0'))

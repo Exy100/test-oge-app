@@ -34,7 +34,7 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "sample": "node scripts/sample-tasks.mjs",
     "sample:dataset": "node scripts/sample-dataset.mjs",
-    "check:office": "npm run sample:dataset && python3 scripts/check-office.py",
+    "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {

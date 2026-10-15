@@ -1,0 +1,544 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden task and manifest P01 1`] = `
+{
+  "answer": {
+    "kind": "presentation",
+    "referenceId": "curated-presentations-v1:P01:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "pptx",
+      "explanation": "В этом задании результат нужно сохранить в формате ODP.",
+    },
+    {
+      "answer": "personal-name",
+      "explanation": "На титульном слайде нужен только заданный учебный идентификатор.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODP отсутствует или не открывается либо выполнены не более трёх из шести пунктов учебного чек-листа.",
+        "score": 0,
+      },
+      {
+        "description": "ODP открывается; выполнены четыре или пять из шести пунктов учебного чек-листа.",
+        "score": 1,
+      },
+      {
+        "description": "ODP открывается; выполнены все шесть пунктов учебного чек-листа.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "curated-presentations-v1:files:P01",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "curated-presentations-v1",
+  "hints": [
+    "Начни с числа слайдов, формата страницы и заголовков.",
+    "Сначала перенеси смысловые пункты, затем размещай иллюстрации с сохранением пропорций.",
+    "Открой сохранённую ODP повторно и просмотри каждый слайд целиком.",
+  ],
+  "id": "curated-presentations-v1:P01",
+  "seed": "P01",
+  "solution": [
+    {
+      "text": "Открой исходный ODT, изображения и макеты. Создай три широкоформатных слайда, выбери единые шрифты и цвета.",
+    },
+    {
+      "text": "Распредели текст: титул, «Что нужно ростку», «Сравниваем этапы». Размести иллюстрации по макету, добавь подписи и идентификатор P01.",
+    },
+    {
+      "text": "Сохрани P01.odp, открой файл повторно и сравни с шестью пунктами чек-листа. Проверь отсутствие обрезанного текста и искажённых изображений; затем при необходимости открой эталон.",
+    },
+  ],
+  "statement": "Создай презентацию «От семени к дереву» из трёх слайдов по макету набора. Используй исходный ODT и три авторские иллюстрации. Формат слайда — 16:9; заголовки — 30–32 пт, основной текст — не меньше 20 пт.
+
+Первый слайд: название, подзаголовок и учебный идентификатор P01. Второй: «Что нужно ростку», два смысловых пункта и иллюстрация. Третий: «Сравниваем этапы», два изображения с подписями. Сохраняй пропорции изображений; текст и изображения должны помещаться на слайде. Используй единое оформление. Сохрани результат как P01.odp.
+
+Имена, фамилии и контакты вводить не нужно. Это авторское учебное задание; критерии в наборе предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "presentation",
+  "taskNumber": 13,
+  "topics": [
+    "Создание презентаций",
+    "Размещение текста и изображений",
+  ],
+  "variant13": "presentation",
+}
+`;
+
+exports[`golden task and manifest P01 2`] = `
+{
+  "author": "Проект «ОГЭ по информатике»",
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "1b200fc7e13128cc86bda56784cfbeec083e0dad4c2ea0817ba4426b7b04e4a4",
+      "size": 1018,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "2ac3b6a47554adc3ac530e57b1e0c2dff75593bf7ef6479c9a75ab24c0f1af15",
+      "size": 1265,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4d3eaef6f65e07acf6c3ba64456e674cad58f5ec7ae31f7ca57203832799fb28",
+      "size": 1886,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-1.png",
+      "sha256": "29003296d168af9b80f77fb1a9f523d14d9979fee26012f41bb1be028c9cf26f",
+      "size": 2143,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-2.png",
+      "sha256": "c165a10b81112f1d6d22b0a27ed34b17e8310be95cbf786904c6b86223deae83",
+      "size": 2700,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-3.png",
+      "sha256": "00f6052968a7b4d69a03052434df3444c049c38d3562888c231306869de2b5ba",
+      "size": 2784,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "layout/guide.txt",
+      "sha256": "04d92f7130b21bae101e6f586c8f38f256f27c880dc14874e57a2a3f99965847",
+      "size": 992,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-1.png",
+      "sha256": "756273a1404af4216f6bc33408cd4216d035b0eb785f6c33f99334554757d1ee",
+      "size": 1686,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-2.png",
+      "sha256": "c969e2f9086c2ef913b2c90606b0aec0515b42150e6c547c3e4faec9b24b0e7c",
+      "size": 2045,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-3.png",
+      "sha256": "bcf8352b3b7e59488d4e4d9312ffa19dd630926f621113b14b00b5044ff82c2e",
+      "size": 2393,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "layout/slides.json",
+      "sha256": "61ae08498b282a2aa393af3f40c81067e6a0fa00ea619fde3e01f0145e9ad44f",
+      "size": 4197,
+    },
+    {
+      "format": "odp",
+      "license": "CC0-1.0",
+      "path": "reference/answer.odp",
+      "sha256": "41ba69f725a34057c8a8bad9fcf7dd5456ddeefe8c2ba26fb66683dc5a793f60",
+      "size": 16947,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/checks.json",
+      "sha256": "3737f3fbdd7a844c355705e6cab87530fafe48a98d8274c4443deb188eb528d9",
+      "size": 2007,
+    },
+    {
+      "format": "odt",
+      "license": "CC0-1.0",
+      "path": "source/material.odt",
+      "sha256": "5f95f1e90c0b04c0962c18419f8d172ecde732e6097b427a280fa012b921632c",
+      "size": 3584,
+    },
+  ],
+  "generatorVersion": "curated-presentations-v1",
+  "id": "curated-presentations-v1:files:P01",
+  "kind": "curated",
+  "seed": "P01",
+}
+`;
+
+exports[`golden task and manifest P06 1`] = `
+{
+  "answer": {
+    "kind": "presentation",
+    "referenceId": "curated-presentations-v1:P06:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "pptx",
+      "explanation": "В этом задании результат нужно сохранить в формате ODP.",
+    },
+    {
+      "answer": "personal-name",
+      "explanation": "На титульном слайде нужен только заданный учебный идентификатор.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODP отсутствует или не открывается либо выполнены не более трёх из шести пунктов учебного чек-листа.",
+        "score": 0,
+      },
+      {
+        "description": "ODP открывается; выполнены четыре или пять из шести пунктов учебного чек-листа.",
+        "score": 1,
+      },
+      {
+        "description": "ODP открывается; выполнены все шесть пунктов учебного чек-листа.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "curated-presentations-v1:files:P06",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "curated-presentations-v1",
+  "hints": [
+    "Начни с числа слайдов, формата страницы и заголовков.",
+    "Сначала перенеси смысловые пункты, затем размещай иллюстрации с сохранением пропорций.",
+    "Открой сохранённую ODP повторно и просмотри каждый слайд целиком.",
+  ],
+  "id": "curated-presentations-v1:P06",
+  "seed": "P06",
+  "solution": [
+    {
+      "text": "Открой исходный ODT, изображения и макеты. Создай три широкоформатных слайда, выбери единые шрифты и цвета.",
+    },
+    {
+      "text": "Распредели текст: титул, «Команды и проверка», «План и исполнение». Размести иллюстрации по макету, добавь подписи и идентификатор P06.",
+    },
+    {
+      "text": "Сохрани P06.odp, открой файл повторно и сравни с шестью пунктами чек-листа. Проверь отсутствие обрезанного текста и искажённых изображений; затем при необходимости открой эталон.",
+    },
+  ],
+  "statement": "Создай презентацию «Робот на маршруте» из трёх слайдов по макету набора. Используй исходный ODT и три авторские иллюстрации. Формат слайда — 16:9; заголовки — 30–32 пт, основной текст — не меньше 20 пт.
+
+Первый слайд: название, подзаголовок и учебный идентификатор P06. Второй: «Команды и проверка», два смысловых пункта и иллюстрация. Третий: «План и исполнение», два изображения с подписями. Сохраняй пропорции изображений; текст и изображения должны помещаться на слайде. Используй единое оформление. Сохрани результат как P06.odp.
+
+Имена, фамилии и контакты вводить не нужно. Это авторское учебное задание; критерии в наборе предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "presentation",
+  "taskNumber": 13,
+  "topics": [
+    "Создание презентаций",
+    "Размещение текста и изображений",
+  ],
+  "variant13": "presentation",
+}
+`;
+
+exports[`golden task and manifest P06 2`] = `
+{
+  "author": "Проект «ОГЭ по информатике»",
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "8b819bafd20f151b9740ce484f3936409b9f12d92a6dad70489e912b01798552",
+      "size": 1017,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "4810e4b63737273da0c49b27fdf8cfdc29a87b3ca011409bd2f337c65805cb05",
+      "size": 1269,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "35cd0f927b10a3f87ef8e895e2f72ff9c5dd4a7ffe6ad6a2e6a10bd9b0728d6d",
+      "size": 1886,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-1.png",
+      "sha256": "09d9fa01b56f59e8fd59cd7299476cc5088e5263872e8f92fe3b44000708768e",
+      "size": 3117,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-2.png",
+      "sha256": "c13fdd15b8a3746a7a8dcfd1677be48b078ab366a2ce082d9add6e96cae1802b",
+      "size": 3143,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-3.png",
+      "sha256": "9787d260e59d3ebb805d0682e8c8220a8fe5175f124639dbde924dc9fe3b054d",
+      "size": 2913,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "layout/guide.txt",
+      "sha256": "04d92f7130b21bae101e6f586c8f38f256f27c880dc14874e57a2a3f99965847",
+      "size": 992,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-1.png",
+      "sha256": "756273a1404af4216f6bc33408cd4216d035b0eb785f6c33f99334554757d1ee",
+      "size": 1686,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-2.png",
+      "sha256": "613ab349460112b872e5fdf9ca08dfe22f5de14243a6c5ba75cd657e24f0b21c",
+      "size": 2055,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-3.png",
+      "sha256": "bcf8352b3b7e59488d4e4d9312ffa19dd630926f621113b14b00b5044ff82c2e",
+      "size": 2393,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "layout/slides.json",
+      "sha256": "e3900b32f85c54af35e3c5fc97db0c1ae6ffd7ac529824231644a2b2000b3aee",
+      "size": 4366,
+    },
+    {
+      "format": "odp",
+      "license": "CC0-1.0",
+      "path": "reference/answer.odp",
+      "sha256": "0105f32fa1f53ba4f83311a256f9e759398f4516d4d4cc7f54e595231f0495d2",
+      "size": 18686,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/checks.json",
+      "sha256": "0937db522f8bc7e60e0a19bb5f3ca935e0933a31b199d0ee2d1109eee88d7d28",
+      "size": 2227,
+    },
+    {
+      "format": "odt",
+      "license": "CC0-1.0",
+      "path": "source/material.odt",
+      "sha256": "4b49c7223bd19448fe45433c9c0dcc3fe44d9979bc0029df5980812c76d8f84c",
+      "size": 3703,
+    },
+  ],
+  "generatorVersion": "curated-presentations-v1",
+  "id": "curated-presentations-v1:files:P06",
+  "kind": "curated",
+  "seed": "P06",
+}
+`;
+
+exports[`golden task and manifest P12 1`] = `
+{
+  "answer": {
+    "kind": "presentation",
+    "referenceId": "curated-presentations-v1:P12:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "pptx",
+      "explanation": "В этом задании результат нужно сохранить в формате ODP.",
+    },
+    {
+      "answer": "personal-name",
+      "explanation": "На титульном слайде нужен только заданный учебный идентификатор.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODP отсутствует или не открывается либо выполнены не более трёх из шести пунктов учебного чек-листа.",
+        "score": 0,
+      },
+      {
+        "description": "ODP открывается; выполнены четыре или пять из шести пунктов учебного чек-листа.",
+        "score": 1,
+      },
+      {
+        "description": "ODP открывается; выполнены все шесть пунктов учебного чек-листа.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "curated-presentations-v1:files:P12",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "curated-presentations-v1",
+  "hints": [
+    "Начни с числа слайдов, формата страницы и заголовков.",
+    "Сначала перенеси смысловые пункты, затем размещай иллюстрации с сохранением пропорций.",
+    "Открой сохранённую ODP повторно и просмотри каждый слайд целиком.",
+  ],
+  "id": "curated-presentations-v1:P12",
+  "seed": "P12",
+  "solution": [
+    {
+      "text": "Открой исходный ODT, изображения и макеты. Создай три широкоформатных слайда, выбери единые шрифты и цвета.",
+    },
+    {
+      "text": "Распредели текст: титул, «Световой ориентир», «Ориентир и наблюдатель». Размести иллюстрации по макету, добавь подписи и идентификатор P12.",
+    },
+    {
+      "text": "Сохрани P12.odp, открой файл повторно и сравни с шестью пунктами чек-листа. Проверь отсутствие обрезанного текста и искажённых изображений; затем при необходимости открой эталон.",
+    },
+  ],
+  "statement": "Создай презентацию «Маяк на побережье» из трёх слайдов по макету набора. Используй исходный ODT и три авторские иллюстрации. Формат слайда — 16:9; заголовки — 30–32 пт, основной текст — не меньше 20 пт.
+
+Первый слайд: название, подзаголовок и учебный идентификатор P12. Второй: «Световой ориентир», два смысловых пункта и иллюстрация. Третий: «Ориентир и наблюдатель», два изображения с подписями. Сохраняй пропорции изображений; текст и изображения должны помещаться на слайде. Используй единое оформление. Сохрани результат как P12.odp.
+
+Имена, фамилии и контакты вводить не нужно. Это авторское учебное задание; критерии в наборе предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "presentation",
+  "taskNumber": 13,
+  "topics": [
+    "Создание презентаций",
+    "Размещение текста и изображений",
+  ],
+  "variant13": "presentation",
+}
+`;
+
+exports[`golden task and manifest P12 2`] = `
+{
+  "author": "Проект «ОГЭ по информатике»",
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "7ca81bdb6acbb39dd30c6251452f9b2e613fc84bcb55eb566d23e8998b20697f",
+      "size": 1017,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "314e7e2363f0ad96fcab2a36b73abc582ccf589f5d1e3db9a05ae773e5a286f9",
+      "size": 1278,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "34690c1aac446000838b29948a5b4a96928b79969fc6b2eb6f82e6208c077edf",
+      "size": 1886,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-1.png",
+      "sha256": "c154ac1606fe8fab5e7fae44c0db34e9223cd8d7ce25de13b93ada6af59b117d",
+      "size": 2495,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-2.png",
+      "sha256": "c154ac1606fe8fab5e7fae44c0db34e9223cd8d7ce25de13b93ada6af59b117d",
+      "size": 2495,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "images/image-3.png",
+      "sha256": "80199b41faf63f89046a2df279c348a1aeb2c67fa566e24917db9da029e6cc02",
+      "size": 2673,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "layout/guide.txt",
+      "sha256": "04d92f7130b21bae101e6f586c8f38f256f27c880dc14874e57a2a3f99965847",
+      "size": 992,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-1.png",
+      "sha256": "756273a1404af4216f6bc33408cd4216d035b0eb785f6c33f99334554757d1ee",
+      "size": 1686,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-2.png",
+      "sha256": "613ab349460112b872e5fdf9ca08dfe22f5de14243a6c5ba75cd657e24f0b21c",
+      "size": 2055,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "layout/slide-3.png",
+      "sha256": "bcf8352b3b7e59488d4e4d9312ffa19dd630926f621113b14b00b5044ff82c2e",
+      "size": 2393,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "layout/slides.json",
+      "sha256": "2dbf055933dda01a172e2e841cc5e6bcd0532720c0a2aaa1e05c22429405c257",
+      "size": 4468,
+    },
+    {
+      "format": "odp",
+      "license": "CC0-1.0",
+      "path": "reference/answer.odp",
+      "sha256": "8bfe27fecfaff856e00db44f9ed8428ccca84f3af8d74cd99dcd8552a77947eb",
+      "size": 17302,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/checks.json",
+      "sha256": "745df36aeadb7c7d47b8c5b6e5bf7aec8cf1df4bd94d875f2cd561a65e53e7ab",
+      "size": 2373,
+    },
+    {
+      "format": "odt",
+      "license": "CC0-1.0",
+      "path": "source/material.odt",
+      "sha256": "48f7dda98a24b6fce18aa2cf422f55c54a27d9e8571eb8fcbf47cd174b55bc5b",
+      "size": 3790,
+    },
+  ],
+  "generatorVersion": "curated-presentations-v1",
+  "id": "curated-presentations-v1:files:P12",
+  "kind": "curated",
+  "seed": "P12",
+}
+`;

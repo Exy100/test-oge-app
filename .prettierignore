@@ -17,3 +17,5 @@ PROMPT.md
 DECISIONS.md
 QUESTIONS.md
 STATUS.md
+# Curated binary/text payloads retain the exact bytes recorded in their manifests.
+samples/13-1-files/
