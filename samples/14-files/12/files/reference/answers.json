@@ -1,0 +1,22 @@
+{
+  "kind": "sheet-growth",
+  "group": "Юг",
+  "threshold": 9,
+  "answers": [
+    49,
+    1257,
+    80
+  ],
+  "cells": [
+    "H2",
+    "H3",
+    "H4"
+  ],
+  "rowCount": 240,
+  "referenceId": "sheet-growth-v1:review:11:reference",
+  "formulas": [
+    "of:=COUNTIF([.E2:.E241];\">0\")",
+    "of:=SUM([.E2:.E241])",
+    "of:=MAX([.E2:.E241])"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "sheet-group",
+  "group": "Бета",
+  "threshold": 8,
+  "answers": [
+    80,
+    107.06,
+    163
+  ],
+  "cells": [
+    "H2",
+    "H3",
+    "H4"
+  ],
+  "rowCount": 240,
+  "referenceId": "sheet-group-v1:review:2:reference",
+  "formulas": [
+    "of:=COUNTIF([.B2:.B241];\"Бета\")",
+    "of:=ROUND(SUM([.E2:.E241])/[.H2];2)",
+    "of:=MAX([.E2:.E241])"
+  ]
+}

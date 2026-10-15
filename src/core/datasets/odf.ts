@@ -1,5 +1,4 @@
-import { XMLParser } from 'fast-xml-parser';
-import { SyntaxValidator } from 'fast-xml-validator';
+import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import { packZip, readZip, limits } from './zip';
 import { readPng } from './png';
 
@@ -163,14 +162,39 @@ function parseXml(
   if (
     bytes.byteLength > limits.file ||
     (!imageLinks && /\sxlink:/iu.test(text)) ||
-    /<!DOCTYPE|<!ENTITY|<\?xml-stylesheet|<(?:script:|office:scripts\b)/iu.test(
+    /&(?!(?:amp|lt|gt|quot|apos);)/u.test(text) ||
+    /<!DOCTYPE|<!ENTITY|<!--|<!\[CDATA\[|\]\]>|<\?xml-stylesheet|<(?:script:|office:scripts\b)/iu.test(
       text,
     )
   )
     throw new Error('Недопустимый XML.');
-  SyntaxValidator.validate(text, {
-    invalidCharSequence: { comment: true, tagValue: true, attrLt: true },
-  });
+  // This generated profile has no comments, CDATA, DTD or custom entities.
+  // Check XML characters explicitly as the portable validator accepts some controls.
+  for (const character of text) {
+    const code = character.codePointAt(0) ?? 0;
+    if (
+      (code < 32 && ![9, 10, 13].includes(code)) ||
+      (code >= 0xd800 && code <= 0xdfff) ||
+      code === 0xfffe ||
+      code === 0xffff
+    )
+      throw new Error('Недопустимый символ XML.');
+  }
+  let inTag = false;
+  let quote = '';
+  for (const character of text) {
+    if (!inTag) {
+      if (character === '<') inTag = true;
+    } else if (character === '<')
+      throw new Error('Недопустимый знак в теге XML.');
+    else if (quote) {
+      if (character === quote) quote = '';
+    } else if (character === '"' || character === "'") quote = character;
+    else if (character === '>') inTag = false;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- ADR-027: portable XML validation until the replacement supports browsers.
+  if (XMLValidator.validate(text) !== true)
+    throw new Error('Недопустимый синтаксис XML.');
   const parsed: unknown = new XMLParser({
     ignoreAttributes: false,
     processEntities: false,

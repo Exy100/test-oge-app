@@ -1,3 +1,4 @@
+import { spreadsheetGenerators } from './14/spreadsheets.ts';
 import {
   fileMaskCount,
   fileSizeTotal,
@@ -130,6 +131,7 @@ export const generators = createRegistry([
   fileMaskCount,
   fileSizeTotal,
   fileLargest,
+  ...spreadsheetGenerators,
 ]);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);

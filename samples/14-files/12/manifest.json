@@ -1,0 +1,58 @@
+{
+  "kind": "generated",
+  "generatorId": "sheet-growth-v1",
+  "id": "sheet-growth-v1:files:review:11",
+  "seed": "review:11",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 628,
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1215,
+      "sha256": "a62f10e21b721cbf294f8108584c90784d49b5cc69c399b73a522e63ac45d4f7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 824,
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.ods",
+      "format": "ods",
+      "size": 209383,
+      "sha256": "d2d8f746df56f3db68d06af446b246cc9d6728a04dcfefef152ae80b9270feec",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answers.json",
+      "format": "json",
+      "size": 348,
+      "sha256": "7107281334b29e47beae66974892d545f846cae83554d53ece979e3a3aa5e7e4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/data.csv",
+      "format": "csv",
+      "size": 4498,
+      "sha256": "d4e9d7397ad253aaf5c52c58ef003ed0bd07847d9a1a4bc26eeaf1a8fb9e802d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/data.ods",
+      "format": "ods",
+      "size": 104957,
+      "sha256": "cb578cf51abfb54e00a2147a0ec6bff14bca58de7de258accd491b3eb997b11c",
+      "license": "CC0-1.0"
+    }
+  ]
+}

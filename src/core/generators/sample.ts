@@ -53,6 +53,19 @@ export function sampleTasks(
           ]
         : []),
       `**Ответ:** ${answer}`,
+      ...(task.taskNumber === 14 && filesPrefix
+        ? [
+            `[Эталон ODS](${filesPrefix}/${String(index + 1).padStart(2, '0')}/files/reference/answer.ods)`,
+          ]
+        : []),
+      ...(task.criteria
+        ? [
+            '### Учебные критерии',
+            ...task.criteria.levels.map(
+              (level) => `- ${String(level.score)}: ${level.description}`,
+            ),
+          ]
+        : []),
       '### Решение',
       ...task.solution.map(
         (step, i) =>

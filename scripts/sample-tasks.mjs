@@ -15,7 +15,7 @@ try {
       options.has(key)
     )
       throw new Error(
-        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–13] [--variant presentation|document].',
+        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–14] [--variant presentation|document].',
       );
     options.set(key, value);
   }
@@ -40,9 +40,12 @@ try {
   );
   const seed = options.get('--seed') ?? 'sample';
   const output = options.get('--files-dir');
-  if (output !== undefined && (![11, 12, 13].includes(task) || !output.trim()))
+  if (
+    output !== undefined &&
+    (![11, 12, 13, 14].includes(task) || !output.trim())
+  )
     throw new Error(
-      '--files-dir доступен для файловых наборов №11–13 и требует путь.',
+      '--files-dir доступен для файловых наборов №11–14 и требует путь.',
     );
   const markdown = sampleTasks(
     task,

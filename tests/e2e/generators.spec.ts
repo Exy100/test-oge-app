@@ -142,3 +142,39 @@ for (const id of [
     ).toBe(true);
   });
 }
+
+test('№14: downloadable ODS dataset matches Node and binary preview stays readable', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  await page.getByLabel('Seed', { exact: true }).fill('browser-sheet');
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption('sheet-revenue-v1');
+  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+  const example = page.locator('.generator-example').first();
+  await example.getByRole('button', { name: 'Подготовить файлы' }).click();
+  const link = example.getByRole('link', { name: 'Скачать ZIP', exact: true });
+  await expect(link).toBeVisible();
+  const pending = page.waitForEvent('download');
+  await link.click();
+  const download = await pending;
+  const path = await download.path();
+  if (!path) throw new Error('Missing ZIP download');
+  const { readFile } = await import('node:fs/promises');
+  const { createTaskDataset } =
+    await import('../../src/core/generators/task-dataset');
+  const task = generators
+    .find((item) => item.id === 'sheet-revenue-v1')
+    ?.generate('browser-sheet:0');
+  if (!task) throw new Error('Missing spreadsheet generator');
+  const expected = await createTaskDataset(task);
+  expect(await readFile(path)).toEqual(Buffer.from(expected.archive));
+  await example
+    .getByLabel('Файл для просмотра')
+    .selectOption('source/data.ods');
+  await expect(example.locator('.task-file-preview')).toHaveText(
+    'Офисный файл. Скачай ZIP и открой файл в LibreOffice.',
+  );
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});

@@ -39,7 +39,7 @@ test.each([
   expect(result.stderr.trim().length).toBeGreaterThan(0);
 });
 
-test.each([11, 12])(
+test.each([11, 12, 14])(
   'file sample CLI exports №%i datasets linked in Markdown',
   async (taskNumber) => {
     const root = await mkdtemp(join(tmpdir(), 'oge-file-cli-'));
@@ -52,7 +52,7 @@ test.each([11, 12])(
           '--task',
           String(taskNumber),
           '--n',
-          '3',
+          String(generatorsForTask(taskNumber).length),
           '--seed',
           'cli',
           '--files-dir',

@@ -195,6 +195,30 @@ describe('real ODF', () => {
     );
     expect(() => validateOdf(packZip(entries), 'odt')).toThrow('состав');
   });
+  test('portable XML profile rejects controls, unsafe attribute text, declarations and unsupported entities', () => {
+    const original = readZip(makeDocument(['Текст']));
+    const content = dec.decode(original.get('content.xml'));
+    for (const broken of [
+      content.replace('Текст', '\u0001'),
+      content.replace('Текст', '\ufffe'),
+      content.replace('Текст', 'text]]>tail'),
+      content.replace('Текст', '<![CDATA[text]]>'),
+      content.replace('Текст', '&#0;'),
+      content.replace('Текст', '&unknown;'),
+      content.replace(
+        'office:version="1.3"',
+        'data-test="<" office:version="1.3"',
+      ),
+      content + '<!--comment-->',
+    ]) {
+      const files = new Map(original);
+      files.set('content.xml', enc.encode(broken));
+      expect(() => validateOdf(packZip(files, 'mimetype'), 'odt')).toThrow();
+    }
+    expect(() =>
+      validateOdf(makeDocument(['< & > " \' 😀']), 'odt'),
+    ).not.toThrow();
+  });
   test('rejects invalid XML characters, dimensions and numeric values', () => {
     for (const value of ['\0', '\ud800', '\uffff'])
       expect(() => xml(value)).toThrow();

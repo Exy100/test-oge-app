@@ -1,0 +1,1645 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-filter-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-filter-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-filter-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-filter-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIFS([.B2:.B241];"Гамма";[.C2:.C241];">=9"). Ответ: 28.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Гамма";[.C2]>=9);[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 1610.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 99. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: кружок «Гамма», класс не меньше 9.
+2. Сумма баллов этих записей.
+3. Максимальный балл среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-filter",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "bf3aa999f463d700eab0bfe3e5a7b87d5190ddd7dc7e93e9bf42582c705e6402",
+      "size": 1072,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "88fa42a24027fa0c3664ef8bc6e26427f0e13320be36e15e9d8c9eed41b41438",
+      "size": 207511,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "e85277ecf4b2ad142c0d573b10467db0bfc2c22f16f05c3c1d94093703381e9b",
+      "size": 382,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "8285688d4dfebe4ebf044e7702209db33935e88887eacae46151afc60aab87d1",
+      "size": 4570,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "cca7b39f40c37231473c9daf5427c0b9c2651b0e17f5b0378f91f1bdcd236dc9",
+      "size": 104771,
+    },
+  ],
+  "generatorId": "sheet-filter-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-filter-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-filter-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-filter-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-filter-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-filter-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIFS([.B2:.B241];"Бета";[.C2:.C241];">=9"). Ответ: 28.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Бета";[.C2]>=9);[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 1780.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 99. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: кружок «Бета», класс не меньше 9.
+2. Сумма баллов этих записей.
+3. Максимальный балл среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-filter",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "9f9013e68419103d83dae650922461b888c2020c51442b7402e9229b96295c9b",
+      "size": 1070,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "d7cd81550bc3b5e6310c619f6ecd5013c62449fe4d42b004d3a00ae89e996d20",
+      "size": 207027,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "94c2e62cf776487ae19642e26e2e6c18fa51160c3d7b4a73b71608611a7cc9d7",
+      "size": 378,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "d98428258cc16db6426a56e10c8af58d20a2c3749c77ee73d525b38711a8b652",
+      "size": 4570,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "801459fbc6ac71439655d95699f2fa511589ad4e98cbee62609c93e5a92baf97",
+      "size": 104771,
+    },
+  ],
+  "generatorId": "sheet-filter-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-filter-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-filter-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-filter-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-filter-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-filter-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIFS([.B2:.B241];"Альфа";[.C2:.C241];">=9"). Ответ: 22.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Альфа";[.C2]>=9);[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 1397.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 94. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: кружок «Альфа», класс не меньше 9.
+2. Сумма баллов этих записей.
+3. Максимальный балл среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-filter",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-filter-v1 > golden task, files and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "504dfde7c73bd4b9068abcbd3caa3f07dbb45baf443fb586be3d1ad3e45f1fa6",
+      "size": 1072,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "63b741a349030cb43d72d4214cfdbfd05e8576d79894eea382de189b8f808899",
+      "size": 207501,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "30468e46931380854e2af182bb40baab0eeb07564b38c242f69b18fec7d9ece6",
+      "size": 382,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "d1edc9ff068da40e7ec6d1a987ca64c6265425f21295a2bb6ac78d299d0b8b5a",
+      "size": 4571,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "5032e282a7f5379f1a9d181e8620aa08676b446eb8f7e4976862a8f7ef961508",
+      "size": 104773,
+    },
+  ],
+  "generatorId": "sheet-filter-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-filter-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-group-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-group-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-group-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-group-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Гамма"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Гамма";[.C2]+[.D2];0) и протяни до E241. Для H3 используй of:=ROUND(SUM([.E2:.E241])/[.H2];2). Ответ: 111.84.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 168. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: команда «Гамма».
+2. Средний суммарный балл двух тестов среди этих записей, округлённый до двух знаков после запятой.
+3. Максимальный суммарный балл двух тестов среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-group",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "2cde2b7d8c5a7a7d527599146245bc15fe145d73d4d49147711d4e3c3b217574",
+      "size": 1212,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "82b08a87f35a4f3412cbbada6b37b738fc84c278205769d9177d1645c90d121c",
+      "size": 205782,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "07f2e1fabb6ad0c499bc825a136d898a2dd14083613c3d575b30ddc66b99bb5c",
+      "size": 377,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "01daf6e14c51fa55d4bc7f0d1b64629da4d12bf4a35f21af43123189a4a65ffb",
+      "size": 4813,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "585620e4f492ed0b2a64cf928ffc60ff9e8ac7626021ee3a5bd819a84cdad4fd",
+      "size": 105271,
+    },
+  ],
+  "generatorId": "sheet-group-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-group-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-group-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-group-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-group-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-group-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Гамма"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Гамма";[.C2]+[.D2];0) и протяни до E241. Для H3 используй of:=ROUND(SUM([.E2:.E241])/[.H2];2). Ответ: 110.71.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 175. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: команда «Гамма».
+2. Средний суммарный балл двух тестов среди этих записей, округлённый до двух знаков после запятой.
+3. Максимальный суммарный балл двух тестов среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-group",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "2cde2b7d8c5a7a7d527599146245bc15fe145d73d4d49147711d4e3c3b217574",
+      "size": 1212,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "04739ec60d25b1c4c40191ad003f4e50040ff740a6cde07671720ef397ade753",
+      "size": 205788,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "430b9541f25b531228d27b084879d55e86ba60f865fc9fd6ebbe41f0c0f676e8",
+      "size": 377,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "2220e8884d52f25004b12a9e815fdcf36fc3f4d39644d5fa7ef530cf261e51f3",
+      "size": 4818,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "5419d92a420a0350e73c0cc37619f8fb21c017f6d122f2872a7b7a1aaeea50d8",
+      "size": 105281,
+    },
+  ],
+  "generatorId": "sheet-group-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-group-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-group-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-group-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-group-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-group-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Гамма"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Гамма";[.C2]+[.D2];0) и протяни до E241. Для H3 используй of:=ROUND(SUM([.E2:.E241])/[.H2];2). Ответ: 104.44.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 168. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: команда «Гамма».
+2. Средний суммарный балл двух тестов среди этих записей, округлённый до двух знаков после запятой.
+3. Максимальный суммарный балл двух тестов среди этих записей.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-group",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-group-v1 > golden task, files and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "2cde2b7d8c5a7a7d527599146245bc15fe145d73d4d49147711d4e3c3b217574",
+      "size": 1212,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "ac32ab08eb1964373612515e81f96aa456cb097d80e560545810728739c991ee",
+      "size": 205766,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "03f5b371e8551028d80de50250a70012cb948a39d29862795f2a0ca3a7aec5cd",
+      "size": 377,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "b9d9b717ec0b42caec7609d5c90be8b991c2bfc562d348bc1a3a754b8e705f3a",
+      "size": 4815,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "de73a7b55d67b64d24dd5eb88e6dbc84186d08a9b1b8fa258763ba225a1feb2f",
+      "size": 105275,
+    },
+  ],
+  "generatorId": "sheet-group-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-group-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-growth-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-growth-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-growth-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-growth-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.E2:.E241];">0"). Ответ: 60.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Центр";[.D2]>[.C2]);[.D2]-[.C2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 1726.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 77. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: район «Центр», показатель после строго больше показателя до.
+2. Суммарный прирост (после − до) только этих записей, в единицах.
+3. Максимальный прирост одной из этих записей, в единицах.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-growth",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "814105eb2d895f19c6d954431f3fe503fbe59342337cc8a34a6f582081f1dfe7",
+      "size": 1221,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "83c0b5ccc530fa2715cea73b95e6ff28f8fc9359b0c3adb2b9e62a6037487bd1",
+      "size": 210859,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "835fda6a102cb8672bab6b1bc230371a29acda82ada91e9f34eb74872bb2e546",
+      "size": 353,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "3bb0219f57c7ce145f22b7576a63a83dc3949dc034f7cc05a72f550a82259fa0",
+      "size": 4502,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "c7778be8d2881811757f2791aa579ad5992c4a02999c7bae7d5524996071207f",
+      "size": 104965,
+    },
+  ],
+  "generatorId": "sheet-growth-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-growth-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-growth-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-growth-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-growth-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-growth-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.E2:.E241];">0"). Ответ: 49.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Север";[.D2]>[.C2]);[.D2]-[.C2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 1411.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 70. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: район «Север», показатель после строго больше показателя до.
+2. Суммарный прирост (после − до) только этих записей, в единицах.
+3. Максимальный прирост одной из этих записей, в единицах.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-growth",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "576ac06b8bd7acb900d0d9f5b5393e54733c3bf0a41d791e9ed2ea1c44a54083",
+      "size": 1221,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "927b99d1ae941a41922992313cfe2456bea8449c338c1af4362b8b32fafef759",
+      "size": 210833,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "9134856d911afeb7a30cb1177faa554d7870774b910c9153b87f78b225bedca2",
+      "size": 353,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "eb7e85092f1631aa243bd8bc2885efba7c34607d968484df88a7be94836f0d9e",
+      "size": 4498,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "82af10e6d2bcf5dfd097fbf87b1fe1006d3bdc089a0ffe7d6a7620efcb71abdf",
+      "size": 104957,
+    },
+  ],
+  "generatorId": "sheet-growth-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-growth-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-growth-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-growth-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-growth-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-growth-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.E2:.E241];">0"). Ответ: 41.",
+    },
+    {
+      "text": "В E2 запиши of:=IF(AND([.B2]="Центр";[.D2]>[.C2]);[.D2]-[.C2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 999.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 64. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: район «Центр», показатель после строго больше показателя до.
+2. Суммарный прирост (после − до) только этих записей, в единицах.
+3. Максимальный прирост одной из этих записей, в единицах.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-growth",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-growth-v1 > golden task, files and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "814105eb2d895f19c6d954431f3fe503fbe59342337cc8a34a6f582081f1dfe7",
+      "size": 1221,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "2f6d5f52274cbdbf35557e9b9d8e663bea66a21349d5ec72a3278def75a01ac4",
+      "size": 210811,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "82eb0db6b9520e780d4776717ac7fd46fcce8eb41d7bef45e9eee477fd63b829",
+      "size": 352,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "083932ac153e2e6bb1df6d6020b99d7472c055ab3d5e23fba1c3ab9a0840f24a",
+      "size": 4498,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "a9ba3dfc79f0436b53b5b710e7572f154eccb496d64934efccc9e0fb9c1e4edf",
+      "size": 104957,
+    },
+  ],
+  "generatorId": "sheet-growth-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-growth-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-revenue-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-revenue-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-revenue-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-revenue-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Краски"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Краски";[.C2]*[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 122870.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 4400. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: категория «Краски».
+2. Суммарная выручка этих записей (цена × количество), в рублях.
+3. Максимальная выручка одной из этих записей, в рублях.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-revenue",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "bbe24a23b97beb710d3107e1152ca14c149499237b3beddc1c70c557a626fe0a",
+      "size": 1138,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "ec765b2e1ae3996ca46357d1e200464789c99201f1810411399f42b80051ba9a",
+      "size": 206853,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "8493d0e5963ad833546fa8984816ff293d1e641b8d5c72ef5753f88592030c07",
+      "size": 371,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "59910c9e5865b277c502dfde64355ae008840bc9aee420b340986dbf4c4e4411",
+      "size": 5348,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "9ac65c161dbaed7d0d8618f0a74331f8f4a33da0f0e991a410c957a1f1ef9559",
+      "size": 105833,
+    },
+  ],
+  "generatorId": "sheet-revenue-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-revenue-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-revenue-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-revenue-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-revenue-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-revenue-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Бумага"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Бумага";[.C2]*[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 119180.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 4680. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: категория «Бумага».
+2. Суммарная выручка этих записей (цена × количество), в рублях.
+3. Максимальная выручка одной из этих записей, в рублях.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-revenue",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "3efec2b043f37072cd6fb2b906ebfd9324fec03db6cac59a6a5c15ad601da487",
+      "size": 1138,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "25a81ddb538da6e8484bd6e2bc14a1a0edc3b0ce9e485aa7c36277981cca739e",
+      "size": 206845,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "c75d5ac0362765344f252ed07fcfa461f7a0312ba0eb86ac2b33761c06c7470d",
+      "size": 371,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "606953a49a35ff0619972f0a1562908dbf1ca579829a72c398676c74de07f0c0",
+      "size": 5346,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "ec9d999e38ecd40be0a1738c4823d3d08df9d7c1b5d0af54c0d28653dec0b5ca",
+      "size": 105829,
+    },
+  ],
+  "generatorId": "sheet-revenue-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-revenue-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "spreadsheet",
+    "referenceId": "sheet-revenue-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "all-rows",
+      "explanation": "Обработка всех строк вместо отбора по заданному условию.",
+    },
+    {
+      "answer": "wrong-range",
+      "explanation": "Диапазон включает заголовок или пропускает последнюю запись.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "ODS отсутствует или не открывается либо ни один из трёх результатов не верен.",
+        "score": 0,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верен один из трёх результатов.",
+        "score": 1,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны два из трёх результатов.",
+        "score": 2,
+      },
+      {
+        "description": "ODS открывается, исходные данные сохранены; верны все три результата.",
+        "score": 3,
+      },
+    ],
+    "max": 3,
+  },
+  "datasetId": "sheet-revenue-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "sheet-revenue-v1",
+  "hints": [
+    "Сначала проверь заголовки, первую и последнюю строки данных.",
+    "Вспомогательный столбец позволяет отдельно проверить условие и вычисление для каждой строки.",
+    "Счётчик, сумма и максимум должны учитывать одну и ту же выбранную группу записей.",
+  ],
+  "id": "sheet-revenue-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Проверь исходные столбцы и выдели строки по условию первого запроса. Формула H2 в записи OpenFormula: of:=COUNTIF([.B2:.B241];"Бумага"). Ответ: 80.",
+    },
+    {
+      "text": "В E2 запиши of:=IF([.B2]="Бумага";[.C2]*[.D2];0) и протяни до E241. Для H3 используй of:=SUM([.E2:.E241]). Ответ: 118250.",
+    },
+    {
+      "text": "В H4 запиши of:=MAX([.E2:.E241]). Ответ: 4400. Открой сохранённый result.ods повторно и сравни три результата. В интерфейсе Calc имена функций могут быть локализованы; of:= и квадратные скобки — запись внутри ODS.",
+    },
+  ],
+  "statement": "Открой source/data.ods: лист «Данные», заголовки в A1:D1, 240 записей в A2:D241. Каждый ID — отдельная запись.
+
+Выполни три связанных запроса:
+1. Количество записей: категория «Бумага».
+2. Суммарная выручка этих записей (цена × количество), в рублях.
+3. Максимальная выручка одной из этих записей, в рублях.
+
+Запиши ответы в H2, H3, H4 по порядку. Для вычислений можно использовать E и другие свободные столбцы; исходные A:D не меняй. Не включай заголовки и ячейки ответов в диапазоны. Сохрани result.ods с формулами и исходными данными. Это авторское учебное задание; критерии 0–3 предназначены для самооценки и не заменяют официальную экспертную проверку.",
+  "subtype": "sheet-revenue",
+  "taskNumber": 14,
+  "topics": [
+    "Обработка данных в электронных таблицах",
+  ],
+}
+`;
+
+exports[`sheet-revenue-v1 > golden task, files and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 628,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "3efec2b043f37072cd6fb2b906ebfd9324fec03db6cac59a6a5c15ad601da487",
+      "size": 1138,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 824,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "reference/answer.ods",
+      "sha256": "7fe0abdfc7b9dffd0e6419e23cffcecae3d7954890dc728c8032fec312fc1e78",
+      "size": 206833,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/answers.json",
+      "sha256": "213cdcfb36a511b67c77ed2a1c335bfc76f99a1c3aca30863ba1740c35a4f035",
+      "size": 371,
+    },
+    {
+      "format": "csv",
+      "license": "CC0-1.0",
+      "path": "source/data.csv",
+      "sha256": "ceec4adfa46cefbff6c807f74e0711deebc10045ee942387ae207d4727f4c168",
+      "size": 5339,
+    },
+    {
+      "format": "ods",
+      "license": "CC0-1.0",
+      "path": "source/data.ods",
+      "sha256": "150f52434e6240cefd7eb49d7e5f208975bfb0043f9a462dc559930f1bf6d502",
+      "size": 105815,
+    },
+  ],
+  "generatorId": "sheet-revenue-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "sheet-revenue-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
