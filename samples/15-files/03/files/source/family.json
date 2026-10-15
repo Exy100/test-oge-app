@@ -1,0 +1,87 @@
+{
+  "kind": "robot-comb",
+  "seed": "robot-review:2",
+  "parameters": [
+    {
+      "kind": "robot-comb",
+      "heights": [
+        3,
+        5,
+        4
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        0
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        6
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        0,
+        6,
+        0,
+        1,
+        6,
+        0,
+        4,
+        2,
+        0,
+        6
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        3,
+        2,
+        2,
+        6,
+        3,
+        2,
+        4,
+        4
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        4,
+        2,
+        4,
+        0,
+        1,
+        0,
+        4
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        0,
+        0,
+        6,
+        6,
+        2,
+        4,
+        6,
+        0
+      ]
+    },
+    {
+      "kind": "robot-comb",
+      "heights": [
+        0,
+        1,
+        0
+      ]
+    }
+  ]
+}

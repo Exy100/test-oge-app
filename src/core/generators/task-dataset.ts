@@ -12,6 +12,10 @@ import {
 } from './11/search-files';
 
 export async function createTaskDataset(task: TaskInstance): Promise<Dataset> {
+  if (task.taskNumber === 15) {
+    const { createRobotDataset } = await import('./15/dataset');
+    return createRobotDataset(task);
+  }
   if (task.taskNumber === 14) {
     const { createSpreadsheetDataset } = await import('./14/dataset');
     return createSpreadsheetDataset(task);

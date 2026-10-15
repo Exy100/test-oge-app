@@ -90,8 +90,10 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
           </select>
           <pre className="task-file-preview">
             {bytes
-              ? /\.(?:ods|odt|odp)$/u.test(path)
-                ? 'Офисный файл. Скачай ZIP и открой файл в LibreOffice.'
+              ? /\.(?:ods|odt|odp|png)$/u.test(path)
+                ? path.endsWith('.png')
+                  ? 'Изображение поля находится в ZIP. Скачай и открой его в просмотрщике изображений.'
+                  : 'Офисный файл. Скачай ZIP и открой файл в LibreOffice.'
                 : new TextDecoder().decode(bytes)
               : ''}
           </pre>

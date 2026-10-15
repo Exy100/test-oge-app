@@ -22,11 +22,10 @@ export type Instruction =
   | { kind: 'repeat'; count: number; end: number; line: number }
   | { kind: 'next'; start: number; line: number };
 export class RobotSyntaxError extends Error {
-  constructor(
-    public readonly line: number,
-    message: string,
-  ) {
+  readonly line: number;
+  constructor(line: number, message: string) {
     super(`Строка ${String(line)}: ${message}`);
+    this.line = line;
     this.name = 'RobotSyntaxError';
   }
 }

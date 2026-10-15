@@ -67,6 +67,9 @@ jobs:
       - name: Open generated ODF files and verify content
         run: npm run check:office
 
+      - name: Run independent Robot family checks
+        run: npm run check:robots
+
       - name: Install Chromium, Firefox and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
 

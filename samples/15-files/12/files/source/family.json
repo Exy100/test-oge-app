@@ -1,0 +1,78 @@
+{
+  "kind": "robot-room",
+  "seed": "robot-review:11",
+  "parameters": [
+    {
+      "kind": "robot-room",
+      "height": 12,
+      "width": 3,
+      "top": 2,
+      "left": 1,
+      "bottomPad": 2,
+      "rightPad": 2
+    },
+    {
+      "kind": "robot-room",
+      "height": 1,
+      "width": 1,
+      "top": 0,
+      "left": 0,
+      "bottomPad": 0,
+      "rightPad": 0
+    },
+    {
+      "kind": "robot-room",
+      "height": 12,
+      "width": 12,
+      "top": 2,
+      "left": 2,
+      "bottomPad": 2,
+      "rightPad": 2
+    },
+    {
+      "kind": "robot-room",
+      "height": 11,
+      "width": 1,
+      "top": 1,
+      "left": 1,
+      "bottomPad": 1,
+      "rightPad": 1
+    },
+    {
+      "kind": "robot-room",
+      "height": 2,
+      "width": 6,
+      "top": 2,
+      "left": 2,
+      "bottomPad": 0,
+      "rightPad": 1
+    },
+    {
+      "kind": "robot-room",
+      "height": 3,
+      "width": 11,
+      "top": 2,
+      "left": 0,
+      "bottomPad": 2,
+      "rightPad": 1
+    },
+    {
+      "kind": "robot-room",
+      "height": 8,
+      "width": 7,
+      "top": 0,
+      "left": 1,
+      "bottomPad": 1,
+      "rightPad": 0
+    },
+    {
+      "kind": "robot-room",
+      "height": 9,
+      "width": 5,
+      "top": 1,
+      "left": 1,
+      "bottomPad": 2,
+      "rightPad": 0
+    }
+  ]
+}

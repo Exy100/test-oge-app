@@ -54,3 +54,35 @@ test('Robot produces identical Node and browser traces; batches can be cancelled
     success: false,
   });
 });
+
+test('all four generated Robot references produce identical family results in Node and browsers', async ({
+  page,
+}) => {
+  await page.goto('http://127.0.0.1:4324/test-oge-app/');
+  const actual = await page.evaluate(async () => {
+    const path = '/test-oge-app/src/core/generators/15/robots.ts';
+    const { robotGenerators, assessRobot, referenceProgram } = (await import(
+      /* @vite-ignore */ path
+    )) as typeof import('../../src/core/generators/15/robots');
+    const fields = '/test-oge-app/src/core/generators/15/fields.ts';
+    const { robotKinds } = (await import(
+      /* @vite-ignore */ fields
+    )) as typeof import('../../src/core/generators/15/fields');
+    return {
+      tasks: robotGenerators.map((generator) => generator.generate('browser')),
+      results: robotKinds.map((kind) =>
+        assessRobot(kind, 'browser', referenceProgram(kind)),
+      ),
+    };
+  });
+  const { robotGenerators, assessRobot, referenceProgram } =
+    await import('../../src/core/generators/15/robots');
+  const { robotKinds } = await import('../../src/core/generators/15/fields');
+  expect(actual).toEqual({
+    tasks: robotGenerators.map((generator) => generator.generate('browser')),
+    results: robotKinds.map((kind) =>
+      assessRobot(kind, 'browser', referenceProgram(kind)),
+    ),
+  });
+  expect(actual.results.every((result) => result.score === 2)).toBe(true);
+});

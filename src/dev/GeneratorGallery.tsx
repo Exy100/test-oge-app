@@ -4,6 +4,8 @@ import { validateGeneratedTask } from '../core/generators/harness';
 import type { TaskInstance } from '../core/types';
 import RichText from '../components/RichText';
 import TaskFiles from './TaskFiles';
+import Figure from '../components/Figure';
+import { isRobotKind, robotExample } from '../core/generators/15/fields';
 
 export default function GeneratorGallery() {
   const [ready, setReady] = useState(false);
@@ -78,6 +80,12 @@ export default function GeneratorGallery() {
             Seed: <code>{task.seed}</code>
           </p>
           <RichText source={task.statement} />
+          {isRobotKind(task.subtype) && (
+            <Figure
+              spec={robotExample(task.subtype, task.seed)}
+              label={`Поле Робота, задача ${String(index + 1)}`}
+            />
+          )}
           {task.datasetId && <TaskFiles task={task} />}
           <p>
             <strong>Ответ:</strong>{' '}

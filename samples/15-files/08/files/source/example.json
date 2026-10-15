@@ -1,0 +1,145 @@
+{
+  "kind": "robot-field",
+  "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+  "rows": 6,
+  "columns": 3,
+  "start": {
+    "row": 0,
+    "column": 1
+  },
+  "painted": [],
+  "targets": [
+    {
+      "row": 0,
+      "column": 1
+    },
+    {
+      "row": 1,
+      "column": 1
+    },
+    {
+      "row": 2,
+      "column": 1
+    },
+    {
+      "row": 3,
+      "column": 1
+    },
+    {
+      "row": 4,
+      "column": 1
+    }
+  ],
+  "walls": [
+    {
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "to": {
+        "row": 0,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "to": {
+        "row": 0,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 1
+      },
+      "to": {
+        "row": 1,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 1
+      },
+      "to": {
+        "row": 1,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 1
+      },
+      "to": {
+        "row": 2,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 1
+      },
+      "to": {
+        "row": 2,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 1
+      },
+      "to": {
+        "row": 3,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 1
+      },
+      "to": {
+        "row": 3,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 1
+      },
+      "to": {
+        "row": 5,
+        "column": 1
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 1
+      },
+      "to": {
+        "row": 4,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 1
+      },
+      "to": {
+        "row": 4,
+        "column": 2
+      }
+    }
+  ]
+}
