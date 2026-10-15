@@ -2,6 +2,8 @@ import js from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import astro from 'eslint-plugin-astro';
+import jsxA11y from 'eslint-plugin-jsx-a11y-x';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
@@ -28,6 +30,24 @@ export default defineConfig([
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+  },
+  {
+    files: ['**/*.tsx'],
+    extends: [
+      reactHooks.configs.flat['recommended-latest'],
+      jsxA11y.configs.recommended,
+    ],
+    rules: {
+      // A labelled scrollable region must be focusable (axe scrollable-region-focusable).
+      'jsx-a11y-x/no-noninteractive-tabindex': [
+        'error',
+        {
+          tags: [],
+          roles: ['tabpanel', 'region'],
+          allowExpressionValues: true,
+        },
+      ],
     },
   },
   ...astro.configs.recommended,

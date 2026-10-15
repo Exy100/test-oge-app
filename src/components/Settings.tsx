@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { browserCache, browserStore } from '../core/storage/browser';
 import {
   defaults,
@@ -8,10 +8,27 @@ import {
 import type { Area, Areas, Backup } from '../core/storage/schemas';
 import { Button } from './ui/Button';
 import { Modal } from './ui/Modal';
+import { useHydrated } from './useHydrated';
+
+const initialAreas = defaults();
+let cached: { revision: number; data: Areas } | undefined;
+function subscribe(onChange: () => void) {
+  return browserStore().subscribe(onChange);
+}
+/** A stable copy until the store reports a change, as useSyncExternalStore requires. */
+function storedSnapshot(): Areas {
+  const store = browserStore();
+  if (cached?.revision !== store.revision)
+    cached = { revision: store.revision, data: store.snapshot() };
+  return cached.data;
+}
+function serverSnapshot(): Areas {
+  return initialAreas;
+}
 
 export default function Settings() {
-  const [data, setData] = useState(defaults);
-  const [ready, setReady] = useState(false);
+  const data = useSyncExternalStore(subscribe, storedSnapshot, serverSnapshot);
+  const ready = useHydrated();
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [pending, setPending] = useState<Backup | null>(null);
@@ -19,14 +36,6 @@ export default function Settings() {
   const [reading, setReading] = useState(false);
   const deleteButton = useRef<HTMLButtonElement>(null);
   const importInput = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    const store = browserStore();
-    setData(store.snapshot());
-    setReady(true);
-    return store.subscribe(() => {
-      setData(store.snapshot());
-    });
-  }, []);
   function save<K extends Area>(area: K, value: Areas[K]) {
     setError('');
     try {

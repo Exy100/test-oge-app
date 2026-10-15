@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useHydrated } from './useHydrated';
 import { renderRichText } from '../core/rich-text/render';
 import '../styles/rich-text.css';
 
 export default function RichText({ source }: { source: string }) {
   const root = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
+  const ready = useHydrated();
   const [notice, setNotice] = useState('');
-  useEffect(() => {
-    setReady(true);
-  }, []);
   async function copyCode() {
     const blocks = root.current?.querySelectorAll('pre code');
     if (!blocks?.length) return;

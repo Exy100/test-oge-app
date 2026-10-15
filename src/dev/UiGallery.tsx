@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useHydrated } from '../components/useHydrated';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Tabs } from '../components/ui/Tabs';
@@ -22,7 +23,7 @@ const modes = [
 ];
 
 export default function UiGallery() {
-  const [ready, setReady] = useState(false);
+  const ready = useHydrated();
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [bytes, setBytes] = useState('2');
@@ -45,9 +46,6 @@ export default function UiGallery() {
   const [amountError, setAmountError] = useState('');
   const [amountResult, setAmountResult] = useState('');
   const numberInput = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    setReady(true);
-  }, []);
 
   return (
     <fieldset

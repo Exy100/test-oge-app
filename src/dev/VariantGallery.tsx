@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Dataset } from '../core/datasets';
+import { useHydrated } from '../components/useHydrated';
 import type { Variant } from '../core/types';
 import {
   buildFixedVariant,
@@ -14,31 +14,23 @@ import { createVariantDataset } from '../core/variants/dataset';
 import RichText from '../components/RichText';
 
 export default function VariantGallery() {
-  const [ready, setReady] = useState(false),
-    [id, setId] = useState('V01'),
+  const ready = useHydrated();
+  const [id, setId] = useState('V01'),
     [selection, setSelection] = useState<Variant13Choice>('presentation'),
     [seed, setSeed] = useState('review');
   const [variant, setVariant] = useState<Variant | null>(null),
-    [dataset, setDataset] = useState<Dataset | null>(null),
     [link, setLink] = useState<string | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState('');
+  // The link is created with the archive; the effect only releases replaced ones.
   useEffect(() => {
-    setReady(true);
-  }, []);
-  useEffect(() => {
-    if (!dataset) return;
-    const url = URL.createObjectURL(
-      new Blob([Uint8Array.from(dataset.archive)], { type: 'application/zip' }),
-    );
-    setLink(url);
+    if (!link) return;
     return () => {
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(link);
     };
-  }, [dataset]);
+  }, [link]);
   const assemble = (fixed: boolean) => {
     setError('');
-    setDataset(null);
     setLink(null);
     try {
       setVariant(
@@ -140,7 +132,15 @@ export default function VariantGallery() {
               setBusy(true);
               setError('');
               void createVariantDataset(variant)
-                .then(setDataset)
+                .then((next) => {
+                  setLink(
+                    URL.createObjectURL(
+                      new Blob([Uint8Array.from(next.archive)], {
+                        type: 'application/zip',
+                      }),
+                    ),
+                  );
+                })
                 .catch((cause: unknown) => {
                   setError(
                     cause instanceof Error

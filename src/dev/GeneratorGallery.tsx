@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useHydrated } from '../components/useHydrated';
 import { generators, getGenerator } from '../core/generators';
 import { validateGeneratedTask } from '../core/generators/harness';
 import type { TaskInstance } from '../core/types';
@@ -8,10 +9,7 @@ import Figure from '../components/Figure';
 import { isRobotKind, robotExample } from '../core/generators/15/fields';
 
 export default function GeneratorGallery() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    setReady(true);
-  }, []);
+  const ready = useHydrated();
   const [id, setId] = useState(generators[0]?.id ?? '');
   const [seed, setSeed] = useState('example');
   const [tasks, setTasks] = useState<TaskInstance[]>([]);
