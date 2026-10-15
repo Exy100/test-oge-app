@@ -1,0 +1,61 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import VariantGallery from './VariantGallery';
+---
+
+<SiteLayout
+  title="Проверка сборщика вариантов"
+  description="Состав и воспроизводимость учебных вариантов"
+  noindex
+>
+  <div class="container variant-gallery">
+    <h1>Проверка сборщика вариантов</h1>
+    <p>
+      16 номеров, один выбор №13, оба задания №15 и №16. Одинаковые параметры
+      дают одинаковые задачи и файлы.
+    </p>
+    <VariantGallery client:load />
+    <noscript>Для сборки варианта включи JavaScript.</noscript>
+  </div>
+</SiteLayout>
+<style is:global>
+  .variant-gallery {
+    padding-block: var(--space-8);
+    overflow-wrap: anywhere;
+  }
+  .variant-gallery fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    min-width: 0;
+  }
+  .variant-gallery legend {
+    padding-inline: var(--space-2);
+  }
+  .variant-gallery label {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 100%;
+  }
+  .variant-gallery input,
+  .variant-gallery select {
+    min-height: var(--target-size);
+    max-width: 100%;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2);
+  }
+  .variant-task {
+    margin-block: var(--space-6);
+    padding: var(--space-6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+</style>

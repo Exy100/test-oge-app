@@ -1,0 +1,142 @@
+{
+  "kind": "generated",
+  "generatorId": "informatics-variant-v1",
+  "id": "informatics-variant-v1:files:V01:presentation",
+  "seed": "informatics-variant-v1:V01",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 1714,
+      "sha256": "e986ec13b56ed6b6c2fd95f1a9eb7860fad0b9d780df6e3bea38f1c25b470946",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "alternatives13.json",
+      "format": "json",
+      "size": 8861,
+      "sha256": "484b51f74ea5507da88205c98392bef541fcef805b73087a53398411fe60cf6f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/11.manifest.json",
+      "format": "json",
+      "size": 1965,
+      "sha256": "497f85c8d803fff827c2f1561e6249ca4e34852d349feacb775d0ab34021d0a6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/11.zip",
+      "format": "zip",
+      "size": 3946,
+      "sha256": "53b80231bd65b11e0664f36c40473d0088916a7c8f9d32f31fe1f4531df8c791",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/12.manifest.json",
+      "format": "json",
+      "size": 5431,
+      "sha256": "97a2074d441a9bdb0594728f38a96eb50b3486cfd6d2dd88848289f7f5e06826",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/12.zip",
+      "format": "zip",
+      "size": 162968,
+      "sha256": "e7e364b604c4da0174a1e944012474d16bf11f95c85c3434a133cbb6c5197c2a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/13-document.manifest.json",
+      "format": "json",
+      "size": 2084,
+      "sha256": "54b20e14595a5af8f7411f642c1b537facb5881f868ba3a2b9c0c87adab98c11",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/13-document.zip",
+      "format": "zip",
+      "size": 29609,
+      "sha256": "2fdec302b4d4258a3c72070fd78d1f919d7e2b1821fb198c7b8e42baa8ea1687",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/13-presentation.manifest.json",
+      "format": "json",
+      "size": 3053,
+      "sha256": "3b70632cea6e29ead7c73c7c8a5303f46777e00fd61113eb79bca1be1c0487b8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/13-presentation.zip",
+      "format": "zip",
+      "size": 47060,
+      "sha256": "7a48e36ba00b5c777375d52448770ee970720bfbf8286b61ae35415d44ff88c4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/14.manifest.json",
+      "format": "json",
+      "size": 1706,
+      "sha256": "02564045fbc7f80cc1b8013fbd9527a27b3cdc3d148d43d69ed7b07fe21f6173",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/14.zip",
+      "format": "zip",
+      "size": 321834,
+      "sha256": "388c9fcf473dfc06c4609d8cb0b9e3dc88e1de3799cfd3b33739dc3584c2b0c4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/15.manifest.json",
+      "format": "json",
+      "size": 2126,
+      "sha256": "e57d7a85a8950bdee2c57f057e6607784769da6a0af7b1357eeb52dfb816a493",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/15.zip",
+      "format": "zip",
+      "size": 33868,
+      "sha256": "d2747e9c7b2c5fa23a15c82cb554b5ab01adda30b5338a96ccb25977d03da80d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/16.manifest.json",
+      "format": "json",
+      "size": 5733,
+      "sha256": "fec2900f7f8cffd8e4c0a62d8785c6cc4d93aa38220ac259dd84e30d66c1fd35",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "files/16.zip",
+      "format": "zip",
+      "size": 17473,
+      "sha256": "29852a6fbefef2308fb34ac931489753e7316680a08a563a845a5562b74b00a9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "index.json",
+      "format": "json",
+      "size": 2331,
+      "sha256": "86b9acdaca156bdf8b8b7750799fe4f4441a7d507347f674cb4c6e23997b9ac4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "variant.json",
+      "format": "json",
+      "size": 49727,
+      "sha256": "4b89faf1f2143ce9e0e6ef23220bcc51b54b0d01eae8f9617a54646f56521748",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "variant.txt",
+      "format": "txt",
+      "size": 28757,
+      "sha256": "d143c4ec57077c6529cf678ea757ae71767a6e058e71ef4b0ca177ad6b06e26d",
+      "license": "CC0-1.0"
+    }
+  ]
+}

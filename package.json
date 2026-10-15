@@ -33,8 +33,10 @@
     "verify": "npm run lint && npm run typecheck && npm run test:coverage && npm run check:forbidden && npm run check:coverage && npm run check:contrast && npm run build",
     "check:robots": "python3 scripts/check-robots.py",
     "check:python": "python3 scripts/check-python.py",
+    "check:variants": "python3 scripts/check-variants.py",
     "check:contrast": "node scripts/check-contrast.mjs",
     "sample": "node scripts/sample-tasks.mjs",
+    "sample:variant": "node scripts/sample-variant.mjs",
     "sample:dataset": "node scripts/sample-dataset.mjs",
     "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py && python3 scripts/check-documents.py && python3 scripts/check-spreadsheets.py",
     "test:coverage": "vitest run --coverage"
