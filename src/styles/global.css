@@ -18,6 +18,10 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--space-7);
 }
+/* Native focus scrolling must finish before the next pointer action. */
+html:focus-within {
+  scroll-behavior: auto;
+}
 body {
   margin: 0;
   min-width: 320px;

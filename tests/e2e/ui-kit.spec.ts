@@ -448,6 +448,7 @@ test('NumberInput: обязательность, диапазон, дроби, r
   });
   for (const invalid of ['', '0', '11', '1.5']) {
     await field.fill(invalid);
+    await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
     // Clearing the previous error moves the submit button. Wait for the
     // controlled field's render before clicking its new position.
     await expect(field).toHaveValue(invalid);
