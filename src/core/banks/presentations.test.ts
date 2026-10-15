@@ -1,7 +1,11 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { describe, expect, test } from 'vitest';
-import { bankTasks, presentationSets, getPresentationSet } from './index';
+import {
+  presentationTasks,
+  presentationSets,
+  getPresentationSet,
+} from './index';
 import { createPresentationDataset } from './presentation-dataset';
 import { createTaskDataset } from '../generators/task-dataset';
 import { TaskInstanceSchema } from '../schemas';
@@ -14,11 +18,13 @@ import { illustrate } from './illustrations';
 
 const decoder = new TextDecoder();
 test('twelve unique original sets have valid artifact tasks and complete learning criteria', () => {
-  expect(bankTasks).toHaveLength(12);
-  expect(new Set(bankTasks.map((task) => task.datasetId)).size).toBe(12);
+  expect(presentationTasks).toHaveLength(12);
+  expect(new Set(presentationTasks.map((task) => task.datasetId)).size).toBe(
+    12,
+  );
   expect(new Set(presentationSets.map((set) => set.title)).size).toBe(12);
   expect(new Set(presentationSets.map((set) => set.scene)).size).toBe(12);
-  for (const task of bankTasks) {
+  for (const task of presentationTasks) {
     expect(TaskInstanceSchema.parse(task)).toEqual(task);
     expect(task.variant13).toBe('presentation');
     expect(task.criteria?.levels.map((level) => level.score)).toEqual([
@@ -32,7 +38,7 @@ test('twelve unique original sets have valid artifact tasks and complete learnin
   }
   expect(() => getPresentationSet('unknown')).toThrow();
 });
-for (const [index, task] of bankTasks.entries())
+for (const [index, task] of presentationTasks.entries())
   describe(task.seed, () => {
     test('all original files, hashes, editable ODF, images, layout and archived sample agree', async () => {
       const dataset = await createTaskDataset(task);
@@ -106,13 +112,13 @@ for (const [index, task] of bankTasks.entries())
     });
   });
 test.each(['P01', 'P06', 'P12'])('golden task and manifest %s', async (id) => {
-  const task = bankTasks.find((item) => item.seed === id);
+  const task = presentationTasks.find((item) => item.seed === id);
   if (!task) throw new Error('Missing task');
   expect(task).toMatchSnapshot();
   expect((await createPresentationDataset(task)).manifest).toMatchSnapshot();
 });
 test('rejects external links, altered image bytes and undeclared ODF resources', async () => {
-  const task = bankTasks[0];
+  const task = presentationTasks[0];
   if (!task) throw new Error('Missing task');
   const dataset = await createPresentationDataset(task);
   const reference = dataset.files.get('reference/answer.odp');

@@ -1,3 +1,6 @@
+import { documentSets, type DocumentSet } from './document-content.ts';
+export { documentSets } from './document-content.ts';
+export const DOCUMENT_VERSION = 'curated-documents-v1';
 import type { TaskInstance } from '../types.ts';
 import {
   presentationSets,
@@ -72,10 +75,96 @@ export function presentationTask(set: PresentationSet): TaskInstance {
     },
   };
 }
-export const bankTasks: readonly TaskInstance[] =
+export const presentationTasks: readonly TaskInstance[] =
   presentationSets.map(presentationTask);
 export function getPresentationSet(id: string): PresentationSet {
   const set = presentationSets.find((item) => item.id === id);
   if (!set) throw new Error('Набор презентации не найден.');
+  return set;
+}
+
+export function documentTask(set: DocumentSet): TaskInstance {
+  const f = set.format;
+  return {
+    id: `${DOCUMENT_VERSION}:${set.id}`,
+    generatorId: DOCUMENT_VERSION,
+    seed: set.id,
+    taskNumber: 13,
+    examPart: 2,
+    subtype: 'document',
+    variant13: 'document',
+    difficulty: 2,
+    topics: ['Создание текстовых документов', 'Таблицы и форматирование'],
+    datasetId: `${DOCUMENT_VERSION}:files:${set.id}`,
+    statement: `Оформи одностраничный документ «${set.title}» по образцу layout/sample.odt. Возьми текст и данные из source/material.odt; слова образца заменяются исходными материалами.
+
+Страница A4, книжная ориентация, все поля 2 см. Шрифт DejaVu Serif. Заголовок: 18 пт, полужирный, ${f.titleAlign === 'center' ? 'по центру' : 'по левому краю'}, отступ после 0,5 см. Два основных абзаца: ${String(f.bodySize)} пт, ${f.bodyAlign === 'justify' ? 'по ширине' : 'по левому краю'}, первая строка ${String(f.indent).replace('.', ',')} см, межстрочный интервал ${String(f.lineHeight)}%, отступ после 0,3 см.
+
+Создай настоящую таблицу: ${String(set.headers.length)} столбца, строк — ${String(set.rows.length + 1)} (включая заголовки). Ширины столбцов слева направо: ${f.widths.join(', ')} см. Таблица слева, отступ перед 0,3 см; все границы 0,5 пт, внутренние поля ячеек 0,15 см. Текст ячеек 12 пт. Заголовки столбцов полужирные, по центру, заливка ${f.headerColor}; остальные ячейки по левому краю. Подпись «Учебный идентификатор: ${set.id}»: 10 пт, курсив, справа, отступ перед 0,4 см. Сохрани ${set.id}.odt.
+
+Имена, фамилии и контакты вводить не нужно. Это авторское учебное задание; критерии предназначены для самооценки и не заменяют официальную экспертную проверку.`,
+    answer: {
+      type: 'artifact',
+      kind: 'document',
+      referenceId: `${DOCUMENT_VERSION}:${set.id}:reference`,
+    },
+    solution: [
+      {
+        text: 'Открой исходный текст и образец. Настрой A4, поля и шрифт; перенеси заголовок и оба абзаца без изменения текста.',
+      },
+      {
+        text: 'Задай параметры абзацев. Вставь таблицу нужного размера, перенеси все ячейки и настрой ширины, границы, заливку и выравнивание.',
+      },
+      {
+        text: `Добавь подпись ${set.id}, сохрани ${set.id}.odt и открой повторно. Сравни с шестью пунктами учебного чек-листа; затем при необходимости открой эталон.`,
+      },
+    ],
+    hints: [
+      'Не имитируй таблицу пробелами или табуляцией.',
+      'Задавай интервалы и отступы свойствами абзаца, а не пустыми строками.',
+      'Проверь печатный вид: документ должен помещаться на одной странице.',
+    ],
+    commonMistakes: [
+      {
+        answer: 'spaces',
+        explanation: 'Пробелы не заменяют таблицу с настоящими ячейками.',
+      },
+      {
+        answer: 'pdf',
+        explanation:
+          'Нужен редактируемый ODT, а не только PDF или изображение.',
+      },
+    ],
+    criteria: {
+      max: 2,
+      levels: [
+        {
+          score: 0,
+          description:
+            'ODT отсутствует или не открывается либо выполнены не более трёх из шести пунктов учебного чек-листа.',
+        },
+        {
+          score: 1,
+          description:
+            'ODT открывается; выполнены четыре или пять из шести пунктов учебного чек-листа.',
+        },
+        {
+          score: 2,
+          description:
+            'ODT открывается; выполнены все шесть пунктов учебного чек-листа.',
+        },
+      ],
+    },
+  };
+}
+export const documentTasks: readonly TaskInstance[] =
+  documentSets.map(documentTask);
+export const bankTasks: readonly TaskInstance[] = [
+  ...presentationTasks,
+  ...documentTasks,
+];
+export function getDocumentSet(id: string): DocumentSet {
+  const set = documentSets.find((item) => item.id === id);
+  if (!set) throw new Error('Набор документа не найден.');
   return set;
 }

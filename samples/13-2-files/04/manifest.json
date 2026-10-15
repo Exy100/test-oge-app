@@ -1,0 +1,72 @@
+{
+  "kind": "curated",
+  "author": "Проект «ОГЭ по информатике»: авторские учебные материалы",
+  "id": "curated-documents-v1:files:D04",
+  "seed": "D04",
+  "generatorVersion": "curated-documents-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 1087,
+      "sha256": "c935b65727e2433a64a04151db0f3c638b919dbfd567144fa8bf783bf55150c6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1685,
+      "sha256": "9db76ab99705a064ef9729880908621bcad0fa667587484434daca5ec52c6e89",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 1646,
+      "sha256": "6cada4cb1d9e8b9264d9c314a704c99902449d259ff0cb15ae5d25b35318d22a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/format.json",
+      "format": "json",
+      "size": 283,
+      "sha256": "58078a77bc8a282ebbd4e0becad054433d18def3786c42de2b6a8bc17682f40f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "layout/sample.odt",
+      "format": "odt",
+      "size": 7238,
+      "sha256": "a675841c3ff0c25411267092f7c4ec01c7959f08bf958c10dced70e8b325cdfd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.odt",
+      "format": "odt",
+      "size": 7116,
+      "sha256": "d0e1ffbb5abc01c574a9a7cf8533338efd97c94752338a6ef8e7296a8bb9f8e4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/checks.json",
+      "format": "json",
+      "size": 3035,
+      "sha256": "b33065ea690c31eb04d8b3cdd34557f88eb0cf0a0b9b63401a4a181400ad67f5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/material.odt",
+      "format": "odt",
+      "size": 3565,
+      "sha256": "80b90650e2864617b6208cef502f1cf999b3e0ee5ca4184f9fc82c8d99013fb0",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/material.txt",
+      "format": "txt",
+      "size": 660,
+      "sha256": "b758d6ec003c546ed16ddccfeac777187958b7db186be6f295a5cf1d0df23ea4",
+      "license": "CC0-1.0"
+    }
+  ]
+}

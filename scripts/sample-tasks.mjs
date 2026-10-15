@@ -10,16 +10,22 @@ try {
     const key = args[i];
     const value = args[i + 1];
     if (
-      !['--task', '--n', '--seed', '--files-dir'].includes(key) ||
+      !['--task', '--n', '--seed', '--files-dir', '--variant'].includes(key) ||
       value === undefined ||
       options.has(key)
     )
       throw new Error(
-        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–13.1].',
+        'Используй --task 1 --n 50 [--seed пример] [--files-dir путь для №11–13] [--variant presentation|document].',
       );
     options.set(key, value);
   }
   const task = Number(options.get('--task'));
+  const variant = options.get('--variant') ?? 'presentation';
+  if (
+    !['presentation', 'document'].includes(variant) ||
+    (options.has('--variant') && task !== 13)
+  )
+    throw new Error('--variant presentation|document доступен только для №13.');
   const n = Number(options.get('--n') ?? (task === 13 ? '12' : '20'));
   if (!Number.isInteger(task) || task < 1 || task > 16)
     throw new Error('Укажи номер задания от 1 до 16 через --task.');
@@ -36,13 +42,14 @@ try {
   const output = options.get('--files-dir');
   if (output !== undefined && (![11, 12, 13].includes(task) || !output.trim()))
     throw new Error(
-      '--files-dir доступен для файловых наборов №11–13.1 и требует путь.',
+      '--files-dir доступен для файловых наборов №11–13 и требует путь.',
     );
   const markdown = sampleTasks(
     task,
     n,
     seed,
     output ? encodeURIComponent(basename(resolve(output))) : undefined,
+    variant,
   );
   if (output) {
     const { generatorsForTask } = await server.ssrLoadModule(
@@ -58,7 +65,7 @@ try {
     for (let index = 0; index < n; index++) {
       const generated =
         task === 13
-          ? bankTasks[index]
+          ? bankTasks.filter((item) => item.variant13 === variant)[index]
           : entries[index % entries.length].generate(`${seed}:${index}`);
       const dataset = await createTaskDataset(generated);
       const directory = resolve(output, String(index + 1).padStart(2, '0'));

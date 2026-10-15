@@ -45,6 +45,7 @@ export async function createCuratedDataset(
   seed: string,
   author: string,
   sources: readonly SourceFile[],
+  generatorVersion = 'curated-presentations-v1',
 ): Promise<Dataset> {
   return buildDataset(
     {
@@ -52,7 +53,7 @@ export async function createCuratedDataset(
       id,
       seed,
       author,
-      generatorVersion: 'curated-presentations-v1',
+      generatorVersion,
     },
     sources,
   );

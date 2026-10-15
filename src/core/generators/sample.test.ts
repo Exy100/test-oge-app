@@ -59,3 +59,17 @@ test('curated presentation samples enumerate twelve sets without inventing seeds
   expect(markdown).toBe(sampleTasks(13, 12, 'another', 'sets'));
   expect(() => sampleTasks(13, 13)).toThrow('12');
 });
+
+test('document samples use a separate twelve-set bank and ODT references', () => {
+  const markdown = sampleTasks(13, 12, 'unused', undefined, 'document');
+  expect(markdown.match(/^## /gmu)).toHaveLength(12);
+  expect(markdown).toContain('№13.2');
+  expect(markdown).toContain('D01');
+  expect(markdown).toContain('D12');
+  expect(markdown).not.toContain('P01');
+  expect(markdown).toContain('13-2-files/12/files/reference/answer.odt');
+  expect(markdown).toBe(sampleTasks(13, 12, 'other', undefined, 'document'));
+  expect(() => sampleTasks(13, 13, 'unused', undefined, 'document')).toThrow(
+    '12',
+  );
+});

@@ -1,0 +1,20 @@
+{
+  "page": {
+    "width": 21,
+    "height": 29.7,
+    "margin": 2,
+    "units": "cm"
+  },
+  "font": "DejaVu Serif",
+  "bodySize": 12,
+  "titleAlign": "center",
+  "bodyAlign": "justify",
+  "lineHeight": 115,
+  "indent": 1.25,
+  "widths": [
+    5,
+    5,
+    7
+  ],
+  "headerColor": "#E6F0EF"
+}

@@ -1,4 +1,4 @@
-import { bankTasks } from '../../src/core/banks';
+import { bankTasks, documentTasks } from '../../src/core/banks';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { expect, test } from 'vitest';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
@@ -24,6 +24,8 @@ test.each([
   ['--task', '13', '--n', '13'],
   ['--task', '1', '--task', '1'],
   ['--unknown', '1'],
+  ['--task', '1', '--variant', 'document'],
+  ['--task', '13', '--variant', 'wrong'],
   ['--task', '1', '--files-dir', 'unused'],
   ['--task', '11', '--files-dir', '  '],
 ])('sample CLI rejects unsupported arguments %j', (...args) => {
@@ -91,51 +93,56 @@ test.each([11, 12])(
   },
 );
 
-test('curated sample CLI exports the original office dataset and defaults to twelve sets', async () => {
-  const listing = execFileSync(
-    process.execPath,
-    ['scripts/sample-tasks.mjs', '--task', '13'],
-    { encoding: 'utf8' },
-  );
-  expect(listing.match(/^## /gmu)).toHaveLength(12);
-  const directory = await mkdtemp(join(tmpdir(), 'oge-presentation-cli-'));
-  try {
-    const output = execFileSync(
+test.each(['presentation', 'document'])(
+  'curated %s CLI exports the original dataset and defaults to twelve sets',
+  async (variant) => {
+    const listing = execFileSync(
       process.execPath,
-      [
-        'scripts/sample-tasks.mjs',
-        '--task',
-        '13',
-        '--n',
-        '1',
-        '--files-dir',
-        directory,
-      ],
+      ['scripts/sample-tasks.mjs', '--task', '13', '--variant', variant],
       { encoding: 'utf8' },
     );
-    const task = bankTasks[0];
-    if (!task) throw new Error('Missing curated task');
-    const dataset = await createTaskDataset(task);
-    expect(output).toContain('P01.odp');
-    expect(
-      JSON.parse(
-        await readFile(join(directory, '01', 'manifest.json'), 'utf8'),
-      ),
-    ).toEqual(dataset.manifest);
-    expect(
-      Buffer.compare(
-        await readFile(join(directory, '01', 'dataset.zip')),
-        Buffer.from(dataset.archive),
-      ),
-    ).toBe(0);
-    for (const [path, bytes] of dataset.files)
+    expect(listing.match(/^## /gmu)).toHaveLength(12);
+    const directory = await mkdtemp(join(tmpdir(), 'oge-presentation-cli-'));
+    try {
+      const output = execFileSync(
+        process.execPath,
+        [
+          'scripts/sample-tasks.mjs',
+          '--task',
+          '13',
+          '--variant',
+          variant,
+          '--n',
+          '1',
+          '--files-dir',
+          directory,
+        ],
+        { encoding: 'utf8' },
+      );
+      const task = variant === 'document' ? documentTasks[0] : bankTasks[0];
+      if (!task) throw new Error('Missing curated task');
+      const dataset = await createTaskDataset(task);
+      expect(output).toContain(variant === 'document' ? 'D01.odt' : 'P01.odp');
+      expect(
+        JSON.parse(
+          await readFile(join(directory, '01', 'manifest.json'), 'utf8'),
+        ),
+      ).toEqual(dataset.manifest);
       expect(
         Buffer.compare(
-          await readFile(join(directory, '01', 'files', path)),
-          Buffer.from(bytes),
+          await readFile(join(directory, '01', 'dataset.zip')),
+          Buffer.from(dataset.archive),
         ),
       ).toBe(0);
-  } finally {
-    await rm(directory, { recursive: true, force: true });
-  }
-});
+      for (const [path, bytes] of dataset.files)
+        expect(
+          Buffer.compare(
+            await readFile(join(directory, '01', 'files', path)),
+            Buffer.from(bytes),
+          ),
+        ).toBe(0);
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  },
+);
