@@ -1,0 +1,198 @@
+{
+  "kind": "generated",
+  "generatorId": "python-filter-v1",
+  "id": "python-filter-v1:files:python-review:8",
+  "seed": "python-review:8",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 2291,
+      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "assignment.txt",
+      "format": "txt",
+      "size": 1513,
+      "sha256": "3e9916800751561f99f7ddf7058a34b5383257694ffc1bd9e9cad32855a185fb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "check.py",
+      "format": "py",
+      "size": 2177,
+      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "criteria.json",
+      "format": "json",
+      "size": 790,
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "reference/answer.py",
+      "format": "py",
+      "size": 165,
+      "sha256": "b914a361193cd0cbe8bccf228faad9409146f90fb9d6c0e03535fc136125bf8f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "source/parameters.json",
+      "format": "json",
+      "size": 64,
+      "sha256": "0ef01babe090e0a5f683a8b857a601c1b57861ed8f64384db608ab65c6de94dc",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/01.expected.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/01.input.txt",
+      "format": "txt",
+      "size": 59,
+      "sha256": "6bde3526b2f463aac95f67062c41ced898f761caba9dcfd061e6def96c25093e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/02.expected.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/02.input.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "70df528934492a33f66bffe9f5206ac62d6d27ab1b32db0ce1425c0e7c5e3342",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/03.expected.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/03.input.txt",
+      "format": "txt",
+      "size": 9,
+      "sha256": "bcefb054d6035cd9d8688a0cc43c705a4aca8f526a30dbfd9686da9d8bc46d7a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/04.expected.txt",
+      "format": "txt",
+      "size": 5,
+      "sha256": "865d03a46ff8cfc3e4904bc75b802252b98df20b3547645245ab04ffcb5165af",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/04.input.txt",
+      "format": "txt",
+      "size": 9,
+      "sha256": "cf4eb152b7b3e4a06a7e1989d126033e35280f59c330c8e5cd9acef1e7752a3f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/05.expected.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/05.input.txt",
+      "format": "txt",
+      "size": 9,
+      "sha256": "b47b851fd1bb0a41e64c915d91214567ff3d91531edc354d44216748161aedd5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/06.expected.txt",
+      "format": "txt",
+      "size": 8,
+      "sha256": "3d6bf5e37d5f614f8a9ba04929f1fb5ca8500e7e90f6f46eba38e0108bbfa219",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/06.input.txt",
+      "format": "txt",
+      "size": 15,
+      "sha256": "733dc5707576f4065ec00cb477e0b378d91c32ca27586d84369663d112f305ad",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/07.expected.txt",
+      "format": "txt",
+      "size": 4,
+      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/07.input.txt",
+      "format": "txt",
+      "size": 8,
+      "sha256": "a70f9145e7e500bf9b5c42bdec03573d6eddf464bed90786b889db16f06b0b42",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/08.expected.txt",
+      "format": "txt",
+      "size": 7,
+      "sha256": "841d2ea0f17de3d4a7fa5beaf349d84a614b3e093d0edce2a4a2539e0e1c5ebb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/08.input.txt",
+      "format": "txt",
+      "size": 38,
+      "sha256": "e57c46ff0cf6d4dccaeac87b46d9e43bbce687abb178f0bc7da4b02b7d666ece",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/09.expected.txt",
+      "format": "txt",
+      "size": 5,
+      "sha256": "69abf4e1b4c2c89b9d6b25e993480c32b55c9f406f1c918b8d941e422e1be14b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/09.input.txt",
+      "format": "txt",
+      "size": 8,
+      "sha256": "5f70d722634be69979400651322e639cf116292ce636d22793ce4a7c69277edb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/10.expected.txt",
+      "format": "txt",
+      "size": 10,
+      "sha256": "d07754d09782f82e8909c023588126491a91162146ada03622a094b4da7b5ec5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/10.input.txt",
+      "format": "txt",
+      "size": 5382,
+      "sha256": "780af9f674aaddda2bb2b43c881cf69b647d4c9896b6f2120c82c9a71bf3dd43",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "tests/index.json",
+      "format": "json",
+      "size": 1723,
+      "sha256": "436b190a611c4f3e407cb696719ea41763734e4593c23e552ded0e2e94956041",
+      "license": "CC0-1.0"
+    }
+  ]
+}

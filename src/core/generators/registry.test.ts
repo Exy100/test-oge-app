@@ -48,9 +48,10 @@ test('registry supports lookup and rejects duplicates', () => {
   expect(generatorsForTask(11)).toHaveLength(3);
   expect(generatorsForTask(12)).toHaveLength(3);
   expect(generatorsForTask(14)).toHaveLength(4);
-  expect(generators).toHaveLength(54);
+  expect(generators).toHaveLength(58);
   expect(generatorsForTask(15)).toHaveLength(4);
-  expect(generatorsForTask(16)).toEqual([]);
+  expect(generatorsForTask(16)).toHaveLength(4);
+  expect(generatorsForTask(13)).toEqual([]);
   expect(() => getGenerator('missing')).toThrow('не найден');
   expect(() => createRegistry([textVolume, textVolume])).toThrow();
   expect(() =>

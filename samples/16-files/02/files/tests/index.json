@@ -1,0 +1,69 @@
+{
+  "parameters": {
+    "kind": "python-digits",
+    "divisor": 9
+  },
+  "timeoutSeconds": 2,
+  "cases": [
+    {
+      "id": "01",
+      "label": "Пример",
+      "input": "tests/01.input.txt",
+      "expected": "tests/01.expected.txt"
+    },
+    {
+      "id": "02",
+      "label": "Ноль — одна цифра",
+      "input": "tests/02.input.txt",
+      "expected": "tests/02.expected.txt"
+    },
+    {
+      "id": "03",
+      "label": "Нет подходящих цифр",
+      "input": "tests/03.input.txt",
+      "expected": "tests/03.expected.txt"
+    },
+    {
+      "id": "04",
+      "label": "Однозначное число",
+      "input": "tests/04.input.txt",
+      "expected": "tests/04.expected.txt"
+    },
+    {
+      "id": "05",
+      "label": "Ноль в конце",
+      "input": "tests/05.input.txt",
+      "expected": "tests/05.expected.txt"
+    },
+    {
+      "id": "06",
+      "label": "Длинная цепочка нулей",
+      "input": "tests/06.input.txt",
+      "expected": "tests/06.expected.txt"
+    },
+    {
+      "id": "07",
+      "label": "Верхняя граница",
+      "input": "tests/07.input.txt",
+      "expected": "tests/07.expected.txt"
+    },
+    {
+      "id": "08",
+      "label": "Все цифры не подходят",
+      "input": "tests/08.input.txt",
+      "expected": "tests/08.expected.txt"
+    },
+    {
+      "id": "09",
+      "label": "Все цифры подходят",
+      "input": "tests/09.input.txt",
+      "expected": "tests/09.expected.txt"
+    },
+    {
+      "id": "10",
+      "label": "Чередование цифр и нулей",
+      "input": "tests/10.input.txt",
+      "expected": "tests/10.expected.txt"
+    }
+  ]
+}

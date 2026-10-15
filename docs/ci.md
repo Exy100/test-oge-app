@@ -12,8 +12,9 @@ Workflow `.github/workflows/ci.yml` запускается на push, pull reque
 2. `npm audit --audit-level=high`: зависимости, включая инструменты разработки.
 3. `npm run verify`: формат, ESLint, типы, unit-тесты, forbidden, покрытие текущего
    этапа и production-сборка.
-4. `npm run check:office` и `npm run check:robots`: реальные офисные файлы
-   открываются в LibreOffice, программы Робота проверяются независимым исполнителем.
+4. `npm run check:office`, `npm run check:robots` и `npm run check:python`:
+   реальные офисные файлы открываются в LibreOffice, программы Робота проверяются
+   независимым исполнителем, Python-эталоны реально запускаются на граничных тестах.
 5. `npm run e2e`: все проекты Playwright — Chromium, Firefox, WebKit и mobile;
    вместе с ними выполняется axe. Браузеры и системные библиотеки устанавливаются
    самим workflow, поэтому результат не зависит от набора браузеров облачной среды.

@@ -32,6 +32,7 @@
     "check:coverage": "node scripts/check-coverage.mjs",
     "verify": "npm run lint && npm run typecheck && npm run test:coverage && npm run check:forbidden && npm run check:coverage && npm run check:contrast && npm run build",
     "check:robots": "python3 scripts/check-robots.py",
+    "check:python": "python3 scripts/check-python.py",
     "check:contrast": "node scripts/check-contrast.mjs",
     "sample": "node scripts/sample-tasks.mjs",
     "sample:dataset": "node scripts/sample-dataset.mjs",
