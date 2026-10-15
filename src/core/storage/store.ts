@@ -21,6 +21,8 @@ export class LocalStore {
   private listeners = new Set<() => void>();
   private notices = new Set<string>();
   memoryOnly = false;
+  /** Increases on every notification; lets UI cache snapshots between changes. */
+  revision = 0;
   constructor(getStorage: StorageGetter) {
     try {
       this.port = getStorage();
@@ -36,6 +38,7 @@ export class LocalStore {
     );
   }
   private emit() {
+    this.revision += 1;
     for (const listener of this.listeners) listener();
   }
   subscribe(listener: () => void) {

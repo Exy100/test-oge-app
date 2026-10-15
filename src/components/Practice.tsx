@@ -1,7 +1,8 @@
 import { Button } from './ui/Button';
 import { Card } from './ui/Card';
 import { Badge } from './ui/Badge';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useHydrated } from './useHydrated';
 import type { SubmitEvent } from 'react';
 import {
   checkPracticeAnswer,
@@ -12,7 +13,7 @@ import {
 import type { PracticeTopic } from '../lib/practice';
 
 export default function Practice() {
-  const [ready, setReady] = useState(false);
+  const ready = useHydrated();
   const [topic, setTopic] = useState<PracticeTopic>('volume');
   const [indices, setIndices] = useState<Record<PracticeTopic, number>>({
     volume: 0,
@@ -29,9 +30,6 @@ export default function Practice() {
   const answerInput = useRef<HTMLInputElement>(null);
   const task = makePracticeTask(topic, indices[topic]);
   const currentTopic = practiceTopics.find((item) => item.id === topic);
-  useEffect(() => {
-    setReady(true);
-  }, []);
 
   function resetAnswer() {
     setAnswer('');

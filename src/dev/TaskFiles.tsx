@@ -12,22 +12,14 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
   const [path, setPath] = useState('README.txt');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  // Links are created with the dataset; the effect only releases replaced ones.
   useEffect(() => {
-    if (!dataset) return;
-    const zip = URL.createObjectURL(
-      new Blob([Uint8Array.from(dataset.archive)], { type: 'application/zip' }),
-    );
-    const manifest = URL.createObjectURL(
-      new Blob([JSON.stringify(dataset.manifest, null, 2) + '\n'], {
-        type: 'application/json',
-      }),
-    );
-    setLinks({ zip, manifest });
+    if (!links) return;
     return () => {
-      URL.revokeObjectURL(zip);
-      URL.revokeObjectURL(manifest);
+      URL.revokeObjectURL(links.zip);
+      URL.revokeObjectURL(links.manifest);
     };
-  }, [dataset]);
+  }, [links]);
   const bytes = dataset?.files.get(path);
   return (
     <div className="task-files">
@@ -40,7 +32,21 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
             setBusy(true);
             setError('');
             void createTaskDataset(task)
-              .then(setDataset)
+              .then((next) => {
+                setDataset(next);
+                setLinks({
+                  zip: URL.createObjectURL(
+                    new Blob([Uint8Array.from(next.archive)], {
+                      type: 'application/zip',
+                    }),
+                  ),
+                  manifest: URL.createObjectURL(
+                    new Blob([JSON.stringify(next.manifest, null, 2) + '\n'], {
+                      type: 'application/json',
+                    }),
+                  ),
+                });
+              })
               .catch((cause: unknown) => {
                 setError(
                   cause instanceof Error

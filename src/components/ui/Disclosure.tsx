@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 export function Disclosure({
@@ -10,9 +10,10 @@ export function Disclosure({
   children: ReactNode;
   defaultOpen?: boolean;
 }) {
-  const initialOpen = useRef(defaultOpen);
+  // Fixed at mount: later renders never override the reader's native toggle.
+  const [initialOpen] = useState(defaultOpen);
   return (
-    <details className="ui-disclosure" open={initialOpen.current}>
+    <details className="ui-disclosure" open={initialOpen}>
       <summary>
         {summary}
         <span aria-hidden="true">

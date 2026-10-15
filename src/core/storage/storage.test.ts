@@ -151,6 +151,20 @@ describe('хранилище', () => {
     store.clear();
     expect(calls).toBe(1);
   });
+  it('меняет ревизию при каждом оповещении и только при нём', () => {
+    const port = new MemoryStorage();
+    const store = new LocalStore(() => port);
+    expect(store.revision).toBe(0);
+    store.read('settings');
+    store.snapshot();
+    expect(store.revision).toBe(0);
+    store.write('settings', { ...defaults().settings, theme: 'dark' });
+    expect(store.revision).toBe(1);
+    store.refresh();
+    store.replace(defaults());
+    store.clear();
+    expect(store.revision).toBe(4);
+  });
 });
 describe('импорт', () => {
   it('принимает полный экспорт', () => {
