@@ -10,6 +10,10 @@ import { expect, test } from 'vitest';
 import { build } from 'vite';
 import { Miniflare } from 'miniflare';
 import { generators } from '../../src/core/generators';
+import { confirmedShortGenerators } from '../../src/core/generators/exam/short-generators';
+import { confirmedFileGenerators } from '../../src/core/generators/exam/file-generators';
+import { createTaskDataset } from '../../src/core/generators/task-dataset';
+import { sha256 } from '../../src/core/datasets';
 import { runtimeSeeds } from '../fixtures/rng-source';
 import {
   buildVariant,
@@ -17,7 +21,7 @@ import {
   fixedVariants,
 } from '../../src/core/variants';
 
-test('all generator subtypes reproduce complete tasks in Workers', async () => {
+test('current and confirmed exam generators reproduce complete tasks and files in Workers', async () => {
   const bundle = await build({
     configFile: false,
     logLevel: 'silent',
@@ -28,10 +32,11 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
     },
   });
   const outputs = Array.isArray(bundle) ? bundle : [bundle];
-  const script = outputs
+  const chunks = outputs
     .flatMap((output) => ('output' in output ? output.output : []))
-    .find((output) => output.type === 'chunk')?.code;
-  if (!script) throw new Error('Не собран Worker.');
+    .filter((output) => output.type === 'chunk');
+  const entry = chunks.find((chunk) => chunk.isEntry);
+  if (!entry) throw new Error('Не собран Worker.');
   const worker = new Miniflare({
     workers: [
       {
@@ -39,10 +44,13 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
           name: 'generator-parity',
           compatibilityDate: '2026-10-01',
           manifest: {
-            mainModule: 'worker.js',
-            modules: {
-              'worker.js': { type: 'esm', contents: script },
-            },
+            mainModule: entry.fileName,
+            modules: Object.fromEntries(
+              chunks.map((chunk) => [
+                chunk.fileName,
+                { type: 'esm' as const, contents: chunk.code },
+              ]),
+            ),
           },
         },
       },
@@ -69,6 +77,36 @@ test('all generator subtypes reproduce complete tasks in Workers', async () => {
                 )
               : [],
         })),
+      ),
+    );
+    const confirmed = await worker.dispatchFetch(
+      'http://worker.local/confirmed-exam',
+      { method: 'POST', body: JSON.stringify(runtimeSeeds.slice(0, 3)) },
+    );
+    expect(confirmed.status).toBe(200);
+    expect(await confirmed.json()).toEqual(
+      await Promise.all(
+        [...confirmedShortGenerators, ...confirmedFileGenerators].map(
+          (generator) =>
+            Promise.all(
+              runtimeSeeds.slice(0, 3).map(async (seed) => {
+                const task = generator.generate(seed),
+                  dataset = task.datasetId
+                    ? await createTaskDataset(task)
+                    : undefined;
+                return {
+                  task,
+                  verified: true,
+                  ...(dataset
+                    ? {
+                        manifest: dataset.manifest,
+                        archiveSha256: await sha256(dataset.archive),
+                      }
+                    : {}),
+                };
+              }),
+            ),
+        ),
       ),
     );
     const variants = await worker.dispatchFetch(

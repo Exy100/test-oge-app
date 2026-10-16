@@ -1,5 +1,6 @@
 import { z } from '../zod';
 import { examConfig } from '../exam/exam.config';
+import { FigureSpecSchema } from './figure';
 import {
   AnswerTypeSchema,
   ArtifactKindSchema,
@@ -9,11 +10,41 @@ import {
   unique,
 } from './shared';
 
+const canonicalInteger = /^(?:0|-?[1-9][0-9]*)$/u;
+const IntegerValueSchema = z.string().regex(canonicalInteger);
 export const CorrectAnswerSchema = z.discriminatedUnion('type', [
-  z.strictObject({
-    type: z.literal(AnswerTypeSchema.enum.integer),
-    value: z.string().regex(/^(?:0|-?[1-9][0-9]*)$/u),
-  }),
+  z
+    .strictObject({
+      type: z.literal(AnswerTypeSchema.enum.integer),
+      value: IntegerValueSchema,
+      acceptedRange: z
+        .strictObject({
+          min: IntegerValueSchema.optional(),
+          max: IntegerValueSchema.optional(),
+        })
+        .optional(),
+    })
+    .refine(
+      (answer) =>
+        !answer.acceptedRange ||
+        ((answer.acceptedRange.min !== undefined ||
+          answer.acceptedRange.max !== undefined) &&
+          [
+            answer.value,
+            answer.acceptedRange.min,
+            answer.acceptedRange.max,
+          ].every(
+            (value) => value === undefined || canonicalInteger.test(value),
+          ) &&
+          (answer.acceptedRange.min === undefined ||
+            BigInt(answer.acceptedRange.min) <= BigInt(answer.value)) &&
+          (answer.acceptedRange.max === undefined ||
+            BigInt(answer.value) <= BigInt(answer.acceptedRange.max))),
+      {
+        message: 'Эталон должен входить в допустимый целочисленный диапазон.',
+        path: ['acceptedRange'],
+      },
+    ),
   z.strictObject({
     type: z.literal('word'),
     value: TextSchema,
@@ -25,6 +56,7 @@ export const CorrectAnswerSchema = z.discriminatedUnion('type', [
       value: TextSchema,
       alphabet: z.enum(['digits', 'latin', 'cyrillic']),
       caseSensitive: z.boolean(),
+      alternatives: z.array(TextSchema).min(1).max(63).optional(),
     })
     .refine(
       (answer) => {
@@ -33,10 +65,21 @@ export const CorrectAnswerSchema = z.discriminatedUnion('type', [
           latin: /^[A-Za-z]+$/u,
           cyrillic: /^[А-Яа-яЁё]+$/u,
         };
-        return alphabet[answer.alphabet].test(answer.value);
+        const values = [answer.value, ...(answer.alternatives ?? [])];
+        return (
+          values.every((value) => alphabet[answer.alphabet].test(value)) &&
+          unique(
+            values.map((value) =>
+              answer.caseSensitive
+                ? value
+                : value.toLowerCase().normalize('NFC'),
+            ),
+          )
+        );
       },
       {
-        message: 'Последовательность не соответствует алфавиту.',
+        message:
+          'Эталоны последовательности должны быть различными и соответствовать алфавиту.',
         path: ['value'],
       },
     ),
@@ -78,6 +121,7 @@ export const TaskInstanceSchema = z
     difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
     topics: z.array(TextSchema).min(1).refine(unique),
     statement: TextSchema,
+    figure: FigureSpecSchema.optional(),
     answer: CorrectAnswerSchema,
     solution: z
       .array(

@@ -70,6 +70,65 @@ test.each(['+1', '01', '-0', '1.0', '1e3', ' 1', 'NaN', 'Infinity', ''])(
     ).toBe(false);
   },
 );
+test('alternative answer metadata round-trips and rejects malformed, duplicate or unbounded declarations', () => {
+  for (const answer of [
+    {
+      type: 'sequence',
+      value: 'АБ',
+      alternatives: ['БА'],
+      alphabet: 'cyrillic',
+      caseSensitive: false,
+    },
+    { type: 'integer', value: '2', acceptedRange: { min: '-1', max: '5' } },
+  ])
+    expect(
+      CorrectAnswerSchema.parse(JSON.parse(JSON.stringify(answer))),
+    ).toEqual(answer);
+  for (const answer of [
+    {
+      type: 'sequence',
+      value: 'АБ',
+      alternatives: [],
+      alphabet: 'cyrillic',
+      caseSensitive: false,
+    },
+    {
+      type: 'sequence',
+      value: 'АБ',
+      alternatives: ['аб'],
+      alphabet: 'cyrillic',
+      caseSensitive: false,
+    },
+    {
+      type: 'sequence',
+      value: 'АБ',
+      alternatives: ['БА', 'ба'],
+      alphabet: 'cyrillic',
+      caseSensitive: false,
+    },
+    {
+      type: 'sequence',
+      value: 'АБ',
+      alternatives: ['BA'],
+      alphabet: 'cyrillic',
+      caseSensitive: false,
+    },
+    {
+      type: 'sequence',
+      value: '12',
+      alternatives: Array.from({ length: 64 }, (_, n) => String(n)),
+      alphabet: 'digits',
+      caseSensitive: true,
+    },
+    { type: 'integer', value: '2', acceptedRange: { min: '3', max: '5' } },
+    { type: 'integer', value: '2', acceptedRange: { min: '5', max: '1' } },
+    { type: 'integer', value: '2', acceptedRange: { min: '1.5', max: '5' } },
+    { type: 'integer', value: '2', acceptedRange: { min: '0', max: 'x' } },
+    { type: 'integer', value: '2', acceptedRange: { min: '+1', max: '5' } },
+    { type: 'word', value: 'АБ', caseSensitive: false, alternatives: ['БА'] },
+  ])
+    expect(CorrectAnswerSchema.safeParse(answer).success).toBe(false);
+});
 test.each([
   { type: 'integer', value: 1 },
   { type: 'word', value: 'А' },

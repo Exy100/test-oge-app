@@ -22,29 +22,29 @@
     {
       "path": "files/11.manifest.json",
       "format": "json",
-      "size": 1965,
-      "sha256": "6d85e2aa1b543366f8f7b95edd31a1cd3a63fe4a3722a7892d0ffa3c5c14c89f",
+      "size": 10933,
+      "sha256": "6dee38618a6aaf38d3e9a3992cde9745b6b83a07ba5fb954294487af9eb0e832",
       "license": "CC0-1.0"
     },
     {
       "path": "files/11.zip",
       "format": "zip",
-      "size": 4043,
-      "sha256": "27dde4fefd678d8d092bd9a5dc8ad4e6e97f8bc3b94e38fc3ec0e4a3ac9575f2",
+      "size": 859686,
+      "sha256": "d59ed4178e7ff78e79fe316bb858f935346f73fd4fe54314d174a7835bf8aeb4",
       "license": "CC0-1.0"
     },
     {
       "path": "files/12.manifest.json",
       "format": "json",
-      "size": 5427,
-      "sha256": "45f3f5c7a3ebab6f311412f9295f71530373565cfb14f6c1378db437aeb211c7",
+      "size": 24449,
+      "sha256": "f37967618eaa0309512b05fe63d197fbc1a320104d2736d02f1014d4b50acc68",
       "license": "CC0-1.0"
     },
     {
       "path": "files/12.zip",
       "format": "zip",
-      "size": 162960,
-      "sha256": "10c9c1415b9f8df998b30d4ed2239ec1b3a059521ccaa0169d6ec46f70e0c059",
+      "size": 425587,
+      "sha256": "7c71bf0079f0f703b29ec315d2643165e5682696c14249d1c4dcca476a3a43db",
       "license": "CC0-1.0"
     },
     {
@@ -120,22 +120,22 @@
     {
       "path": "index.json",
       "format": "json",
-      "size": 2331,
-      "sha256": "ec833c55a20c0637b020e734732afe1f0f652d4d1b191598626a16efd285abf0",
+      "size": 2319,
+      "sha256": "ad4aab530462bc9e183bf6cfb992002f659bc947f47d7fc0359f3801af012e56",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.json",
       "format": "json",
-      "size": 51392,
-      "sha256": "163bca190ed4e8e27a853081330f9aab39a79905df1210aaefe7f8a3d6e88faa",
+      "size": 52091,
+      "sha256": "924b77abe6e586f5a80f97b3059402568701e3dfc98790f5b95866bb835f922f",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.txt",
       "format": "txt",
-      "size": 30409,
-      "sha256": "a8e610f851c2c30286b2b419005747c2fe3384e4d2a4fd4d01ce5bf794748470",
+      "size": 29723,
+      "sha256": "372b52744d236ce6bb80d30360b2ff3aafdf53021d46e8533be267d2dfb2817e",
       "license": "CC0-1.0"
     }
   ]

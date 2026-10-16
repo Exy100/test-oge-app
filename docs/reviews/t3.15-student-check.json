@@ -1,0 +1,849 @@
+{
+  "date": "2026-10-17",
+  "timezone": "Asia/Novosibirsk",
+  "selection": "Python random.Random(20261017), ten of twelve sample blocks per number; base seed t3.15-final-20261017",
+  "reviewer": "Codex technical walkthrough, not human teacher approval",
+  "method": "Conditions were read with answers and solutions hidden; manual calculations, independent code-table decoding and searches in the actual ZIPs; only then checked against the application checker. Task 6 wording was subsequently corrected without changing parameters.",
+  "results": [
+    {
+      "number": 1,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "шиповник",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "берёза",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "крапива",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "берёза",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "шиповник",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "сосна",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "шиповник",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "шиповник",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "хризантема",
+      "verdict": "correct"
+    },
+    {
+      "number": 1,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "земляника",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "ГЕ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "ГААБГГ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "АВГ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "ЕВАВВАВВВ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "ЕДДГААЕД",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "ААВДДДД",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "АБЕ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "БББАЕАА",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "ГВВВБГААГБ",
+      "verdict": "correct"
+    },
+    {
+      "number": 2,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "ЕВЕВБЕВВДЕ",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "13",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "11",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "2",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "25",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "5",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "8",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "22",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "4",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "15",
+      "verdict": "correct"
+    },
+    {
+      "number": 3,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "22",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "2",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "17",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "13",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "5",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "18",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "5",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "17",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "17",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "7",
+      "verdict": "correct"
+    },
+    {
+      "number": 4,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "1",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "112",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "22112",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "21122",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "12122",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "221",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "22121",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "211",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "2122",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "121",
+      "verdict": "correct"
+    },
+    {
+      "number": 5,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "121",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "13",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "-7",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "-9",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "-9",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "-1",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "15",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "-14",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "-6",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "-6",
+      "verdict": "correct"
+    },
+    {
+      "number": 6,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "8",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "5234176",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "2617453",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "2435167",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "4173652",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "7634521",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "7563421",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "7651243",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "4276513",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "3152674",
+      "verdict": "correct"
+    },
+    {
+      "number": 7,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "7612543",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "700",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "600",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "160",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "470",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "430",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "490",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "810",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "520",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "410",
+      "verdict": "correct"
+    },
+    {
+      "number": 8,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "380",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "2",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "3",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "23",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "15",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "20",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "17",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "4",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "14",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "22",
+      "verdict": "correct"
+    },
+    {
+      "number": 9,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "13",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "728",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "68",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "50",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "904",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "66",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "1332",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "178",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "1362",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "123",
+      "verdict": "correct"
+    },
+    {
+      "number": 10,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "997",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "Зайцев",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "Буран",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 11,
+      "seed": "t3.15-final-20261017:10",
+      "answer": "учитель",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "Ильин",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "Серов",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 10,
+      "seed": "t3.15-final-20261017:9",
+      "answer": "Шустрик",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "смотритель",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "картограф",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "картограф",
+      "verdict": "correct"
+    },
+    {
+      "number": 11,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "смотритель",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 8,
+      "seed": "t3.15-final-20261017:7",
+      "answer": "22",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 12,
+      "seed": "t3.15-final-20261017:11",
+      "answer": "6",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 5,
+      "seed": "t3.15-final-20261017:4",
+      "answer": "4",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 4,
+      "seed": "t3.15-final-20261017:3",
+      "answer": "24",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 6,
+      "seed": "t3.15-final-20261017:5",
+      "answer": "19",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 9,
+      "seed": "t3.15-final-20261017:8",
+      "answer": "7",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 3,
+      "seed": "t3.15-final-20261017:2",
+      "answer": "13",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 7,
+      "seed": "t3.15-final-20261017:6",
+      "answer": "7",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 1,
+      "seed": "t3.15-final-20261017:0",
+      "answer": "23",
+      "verdict": "correct"
+    },
+    {
+      "number": 12,
+      "index": 2,
+      "seed": "t3.15-final-20261017:1",
+      "answer": "23",
+      "verdict": "correct"
+    }
+  ]
+}

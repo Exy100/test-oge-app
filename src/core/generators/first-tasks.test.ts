@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { testGenerator } from '../../../tests/generator-suite';
 import type { TaskInstance } from '../types';
-import { generatorsForTask } from './index';
+import { learningGeneratorsForTask as generatorsForTask } from './learning';
 import { decodings, encode, readCodes } from './02/codes';
 import { fixedCode, prefixCode, separatedCode } from './02/decode';
 import { missingCode } from './02/missing-code';

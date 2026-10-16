@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { describe, expect, test } from 'vitest';
 import fc from 'fast-check';
-import { generatorsForTask } from './index';
+import { learningGeneratorsForTask as generatorsForTask } from './learning';
 import { createTaskDataset } from './task-dataset';
 import { checkGeneratorSeed } from './quality';
 import { matchesMask, selectFiles } from './12/select-files';

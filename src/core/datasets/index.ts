@@ -2,10 +2,35 @@ import { DatasetManifestSchema } from '../schemas';
 import type { DatasetFile, DatasetManifest } from '../types';
 import { Rng } from '../rng';
 import { readPng } from './png';
+import { readHtm } from './htm';
+import { readTiff } from './tiff';
+import { readPdf } from './pdf';
+import { validateOriginalJpeg } from './jpeg';
 import { packZip, readZip, validateFiles, limits, type Files } from './zip';
 
 const encoder = new TextEncoder();
 export const DATASET_VERSION = 'educational-files-v1';
+// Fixed reading collections share bytes across questions. Every call still hashes
+// actual bytes; only a previously successful format parse for that digest is reused.
+const validatedReadingFormats = new Map<string, true>();
+function validateReadingFormat(
+  format: string,
+  bytes: Uint8Array,
+  digest: string,
+): void {
+  const key = format + ':' + digest;
+  if (validatedReadingFormats.has(key)) return;
+  if (format === 'htm') readHtm(bytes);
+  else if (format === 'tiff') readTiff(bytes);
+  else if (format === 'pdf') readPdf(bytes);
+  else if (format === 'jpeg') validateOriginalJpeg(bytes);
+  else throw new Error('Неизвестный формат корпуса.');
+  if (validatedReadingFormats.size >= 128) {
+    const oldest = validatedReadingFormats.keys().next().value;
+    if (oldest !== undefined) validatedReadingFormats.delete(oldest);
+  }
+  validatedReadingFormats.set(key, true);
+}
 export async function sha256(bytes: Uint8Array): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', Uint8Array.from(bytes));
   return Array.from(new Uint8Array(digest), (byte) =>
@@ -128,6 +153,8 @@ export async function verifyDataset(
       const { validateOdf } = await import('./odf');
       validateOdf(bytes, entry.format);
     } else if (entry.format === 'png') readPng(bytes);
+    else if (['htm', 'tiff', 'pdf', 'jpeg'].includes(entry.format))
+      validateReadingFormat(entry.format, bytes, entry.sha256);
     else if (entry.format === 'zip') readZip(bytes);
     else if (['txt', 'csv', 'json', 'py', 'kum'].includes(entry.format)) {
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);

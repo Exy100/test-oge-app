@@ -40,7 +40,7 @@ export async function checkCoverage(
   const fail = (file, message, line = 1) =>
     findings.push({ file, line, rule: 'coverage', message });
   const metric = (label, actual, minimum, requiredPhase, file) => {
-    const required = phase >= requiredPhase;
+    const required = requiredPhase !== null && phase >= requiredPhase;
     metrics.push({ label, actual, minimum, requiredPhase, required });
     if (required && actual < minimum)
       fail(file, `${label}: ${actual}/${minimum}.`);
@@ -110,18 +110,58 @@ export async function checkCoverage(
       );
     subtypeKeys.add(key);
   }
-  for (const [number, minimum] of Object.entries(config.generators))
+  const learning = await loadRegistry('learning', 'learningGenerators');
+  const validLearning = unique(
+    learning.entries,
+    config.sources.learning,
+    (item) =>
+      Number.isInteger(item.taskNumber) &&
+      Object.hasOwn(config.examFormats, item.taskNumber) &&
+      nonempty(item.subtype) &&
+      typeof item.generate === 'function' &&
+      typeof item.verify === 'function',
+  );
+  for (const [number, minimum] of Object.entries(config.generators)) {
+    const requiredIds = config.examFormats[number];
+    if (requiredIds) {
+      const matching = validGenerators.filter(
+        (item) => item.taskNumber === Number(number),
+      );
+      metric(
+        `№${number}: подтверждённые генераторы`,
+        requiredIds.filter((id) => matching.some((item) => item.id === id))
+          .length,
+        requiredIds.length,
+        config.phases.generators,
+        config.sources.generators,
+      );
+      if (phase >= config.phases.generators) {
+        for (const id of requiredIds)
+          if (!matching.some((item) => item.id === id))
+            fail(
+              config.sources.generators,
+              `№${number}: отсутствует подтверждённый формат ${id}.`,
+            );
+        for (const item of matching)
+          if (!requiredIds.includes(item.id))
+            fail(
+              config.sources.generators,
+              `№${number}: ${item.id} не подтверждён для экзаменационного подбора.`,
+            );
+      }
+    }
     metric(
-      `№${number}: подтипы`,
+      `№${number}: ${requiredIds ? 'учебный инвентарь' : 'подтипы'}`,
       new Set(
-        validGenerators
+        (requiredIds ? validLearning : validGenerators)
           .filter((item) => item.taskNumber === Number(number))
           .map((item) => item.subtype),
       ).size,
       minimum,
-      config.phases.generators,
-      config.sources.generators,
+      requiredIds ? null : config.phases.generators,
+      requiredIds ? config.sources.learning : config.sources.generators,
     );
+  }
 
   const banks = await loadRegistry('banks', 'bankTasks');
   const validBanks = unique(
@@ -306,7 +346,7 @@ if (
     console.log(`Покрытие: фаза ${result.phase}. Формат: факт/минимум.`);
     for (const item of result.metrics)
       console.log(
-        `${item.label}: ${item.actual}/${item.minimum}${item.required ? '' : ` — обязательно с фазы ${item.requiredPhase}`}`,
+        `${item.label}: ${item.actual}/${item.minimum}${item.required ? '' : item.requiredPhase === null ? ' — справочно (ADR-038)' : ` — обязательно с фазы ${item.requiredPhase}`}`,
       );
     for (const item of result.deferred)
       console.log(

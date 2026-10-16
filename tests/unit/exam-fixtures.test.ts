@@ -184,6 +184,8 @@ describe('official exam fixtures, with explicit separation from generated tasks'
       } else expect(fixture.parameters.kind).toBe('file-search');
       const answer = fixture.answers[0] ?? '';
       const format = answerFormat(fixture);
+      for (const alternative of fixture.answers)
+        expect(checkAnswer(format, alternative).verdict).toBe('correct');
       expect(checkAnswer(format, answer)).toMatchObject({
         verdict: 'correct',
         counted: true,

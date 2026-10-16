@@ -124,6 +124,42 @@ test('fixed IDs and seeds are unique, reproducible and protected from mutation',
       ?.statement,
   ).not.toBe('changed');
 });
+
+test('V01–V10 cover every confirmed №1–12 generator and varied difficulty, without learning substitutions', () => {
+  const tasks = fixedVariants.flatMap(({ id }) => buildFixedVariant(id).tasks);
+  for (let number = 1; number <= 12; number++) {
+    const selected = tasks.filter((task) => task.taskNumber === number);
+    expect(new Set(selected.map((task) => task.generatorId))).toEqual(
+      new Set(
+        generators
+          .filter((generator) => generator.taskNumber === number)
+          .map(({ id }) => id),
+      ),
+    );
+    expect(
+      new Set(selected.map((task) => task.difficulty)).size,
+    ).toBeGreaterThan(1);
+    expect(selected.every((task) => task.generatorId.endsWith('-v2'))).toBe(
+      true,
+    );
+  }
+  const reading = tasks
+    .filter((task) => task.taskNumber === 11)
+    .map((task) => task.statement);
+  for (const question of ['Как звали щенка', 'Какова фамилия', 'Кем работал'])
+    expect(reading.some((statement) => statement.includes(question))).toBe(
+      true,
+    );
+  const selected = tasks
+    .filter((task) => task.taskNumber === 12)
+    .map((task) => task.statement);
+  for (const extensions of ['.htm', '.htm, .tiff', '.jpeg, .pdf'])
+    expect(
+      selected.some((statement) =>
+        statement.includes(`${extensions} находится`),
+      ),
+    ).toBe(true);
+});
 test.each(selections)(
   'real scoring includes only the selected %s task',
   (selection) => {

@@ -67,6 +67,9 @@ jobs:
       - name: Open generated ODF files and verify content
         run: npm run check:office
 
+      - name: Verify original reading corpora, image formats and file-search answers
+        run: python3 scripts/check-exam-files.py
+
       - name: Run independent Robot family checks
         run: npm run check:robots
 

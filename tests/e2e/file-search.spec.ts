@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { generatorsForTask } from '../../src/core/generators';
+import { learningGeneratorsForTask as generatorsForTask } from '../../src/core/generators/learning';
 import { createTaskDataset } from '../../src/core/generators/task-dataset';
 
 for (const generator of [...generatorsForTask(11), ...generatorsForTask(12)]) {

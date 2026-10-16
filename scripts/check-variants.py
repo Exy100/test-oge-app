@@ -67,6 +67,7 @@ def main():
     python = helper("check-python")
     robot = helper("check-robots")
     spreadsheets = helper("check-spreadsheets")
+    exam_files = helper("check-exam-files")
     directories = sorted((ROOT / "samples/variants").iterdir())
     assert [item.name for item in directories] == [f"V{i:02}" for i in range(1, 11)]
     nested_count = file_count = python_runs = robot_fields = 0
@@ -99,7 +100,12 @@ def main():
                 assert child_manifest["kind"] == "curated" and entry["taskNumber"] == 13
             nested_count += 1
             file_count += len(child)
-            if entry["taskNumber"] == 13:
+            if entry["taskNumber"] == 11:
+                blocks = {path: exam_files.Paragraphs(payload).blocks for path, payload in child.items() if path.endswith('.htm')}
+                assert exam_files.reading(task, blocks) == task['answer']['value']
+            elif entry["taskNumber"] == 12:
+                assert exam_files.selection(task, child) == task['answer']['value']
+            elif entry["taskNumber"] == 13:
                 bank = "13-1-files" if entry["variant13"] == "presentation" else "13-2-files"
                 original = ROOT / "samples" / bank / task["seed"][1:] / "dataset.zip"
                 assert original.read_bytes() == files[entry["archive"]]
@@ -154,6 +160,7 @@ def main():
             assert [float(rows[i][7]) for i in [1, 2, 3]] == expected
     print(f"Variants: 10 complete packages, 70 nested datasets and {file_count} component files verified with CRC/SHA-256.")
     print("Python: 100 independent runs passed; Robot: 80 fields passed; both curated alternatives match the verified originals.")
+    print("File tasks №11–12: 20 answers independently recovered from the actual variant archives.")
     print("LibreOffice: 20 ODS opened, all source cells preserved, 2430 uncached formulas recalculated, all 30 answers matched.")
 
 

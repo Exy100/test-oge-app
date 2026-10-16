@@ -1,0 +1,681 @@
+{
+  "kind": "generated",
+  "generatorId": "file-extensions-v2",
+  "id": "file-extensions-v2:files:t3.15-files-review-20261017:12:0:3",
+  "seed": "t3.15-files-review-20261017:12:0:3",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 562,
+      "sha256": "f7729cbdbbe90e8c68cbad3a881d82703c3e1f93aefad4137a8998ff9c9e3a44",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/Черновики/работа-05.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "7ec59458b91365119c7e692350eeac2ef7aa8f68dcb7a42a4d3335f6a6dea6aa",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/Черновики/работа-11.htm",
+      "format": "htm",
+      "size": 6262,
+      "sha256": "919c4a2b8ce1188f028a000778742eb31b48812d2258ce723342a46079ad294e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/Черновики/работа-14.jpeg",
+      "format": "jpeg",
+      "size": 2091,
+      "sha256": "76022f09524f2c18f127a5c66140c1cf59554929fe381f938b09a49256a75f0b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-03.htm",
+      "format": "htm",
+      "size": 6185,
+      "sha256": "7e1da0605961c6f628a3a323833b6235d9325400e41b8d4a83daa66d6d0c8516",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-04.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "e06a1740d76d9ee11ad465f39a606a86ac92f88115d0c0ddf3221ac151b3b539",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-06.jpeg",
+      "format": "jpeg",
+      "size": 2142,
+      "sha256": "ab07caac6b6c10f33e27c9a1439c05446ec15e6889cb8455010e6eaa54541ed8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-12.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "1e9bd7dfe5b69637b6c827b9784a39725d4e8518707607a3e4556fb52b54758c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-13.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "902daeaf0ab706ccbf3e769be354e33768096d01470c008f0c87ffdafb0efef7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Алла Северина/работа-19.htm",
+      "format": "htm",
+      "size": 6377,
+      "sha256": "0c0d07a6a722eb5417490c5fe8e36d4df4874063d6fc8e8f440d10e9dd6addb9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/Черновики/работа-02.jpeg",
+      "format": "jpeg",
+      "size": 2166,
+      "sha256": "cb942a37aa41a0b976d383942227fe278d791fd570066bd07170795cfa4e5835",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/Черновики/работа-08.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "29ab9ca1722d843590ea521734f213c65ce52e95e1c5ef260cb7c6369119b45a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/Черновики/работа-17.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "c85ecfcf7a478a17425c2c9d448d86db2a6b310c6ef60ad14d037737093d1268",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-01.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "610b4265bca0ce8d50992fa164702d7fc5c878f60d3085b0be2dd3e5536946fc",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-07.htm",
+      "format": "htm",
+      "size": 6453,
+      "sha256": "80c99cfbe92b0a7a443ec8318140bf7b6777c49a9d5cec091436541e2761b835",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-09.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "6471a7c0c755d88020bbb1220c41a9b0e2493f8e89d6f670ba55d28ca8b27d15",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-10.jpeg",
+      "format": "jpeg",
+      "size": 2168,
+      "sha256": "0434c9445f4892544327555110bec946ca8d451e625fb30ad7d6e93118e602e2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-15.htm",
+      "format": "htm",
+      "size": 6339,
+      "sha256": "2812147c0b73a8bd30f2d3e67e7a06a0dcbd127c362e2dc99381ead4985f9b3c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-16.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "e9cfe508b289ceaa0da9a2046d2a8ffc09c8f7f952781fb0088c24236f9861cd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Заметки/Глеб Озёрный/работа-18.jpeg",
+      "format": "jpeg",
+      "size": 2184,
+      "sha256": "7a3c3c349bc8f917862fe043a6695b9da0073bb3fca4a01bfd6ff64fe74e70c2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/Черновики/работа-01.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "98c0ca056355d5cc09bcc7d01c27d190f08853d6243abaf87c572ef702243bef",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/Черновики/работа-10.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "e521e887b5f4bdeed0e46545d972c2dedfac39172989c1bb1dd33589f4a0af65",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/Черновики/работа-16.htm",
+      "format": "htm",
+      "size": 6242,
+      "sha256": "609b9592856b2c6ed0aba8f6e5d4fc3a55d58ebe6a67ccfa1d08e7ed2111976f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/Черновики/работа-19.jpeg",
+      "format": "jpeg",
+      "size": 2142,
+      "sha256": "ab07caac6b6c10f33e27c9a1439c05446ec15e6889cb8455010e6eaa54541ed8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-02.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "f121b41ca61cab5b79b4842a565a632dfbb4f4ec2da1ede5bfb7253660f72100",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-03.jpeg",
+      "format": "jpeg",
+      "size": 2200,
+      "sha256": "3aa65a68f74f8d37dcf575d1bc5e2f65f4beb6b8bd405f03191c4f299e97ddbb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-08.htm",
+      "format": "htm",
+      "size": 6300,
+      "sha256": "a33f8b63625fc3c4f030ab75e1124cae551f9e88acbf46f76d8a07a53931785e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-09.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "83359a4b5caf09aced39acb4f6378bc9caf36c0c012a995746270cbb715b9c04",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-11.jpeg",
+      "format": "jpeg",
+      "size": 2132,
+      "sha256": "0d36f996f56582974b9fadb75f0471cbe53057062247a2e0a0ef52f0b7222356",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-17.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "afcc5e4b1e4caf27e203a8649cc5c359e726b07d8f0e001c5377fc2cf728e666",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Нина Речная/работа-18.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "0a8aa1d611becc4ed77fd5cd61fd073dc371501d599775718a714c95fc6033a6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/Черновики/работа-04.htm",
+      "format": "htm",
+      "size": 6297,
+      "sha256": "bbdfdb170c6a0af9d869b95a3ded7f24b2d242e005b225e6df5a082475885c48",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/Черновики/работа-07.jpeg",
+      "format": "jpeg",
+      "size": 2186,
+      "sha256": "f83b2239788f2db9d33eca5b00eaa212873db1f42c91f23120522679f255fcf9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/Черновики/работа-13.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "fac48a771f18ba24b254f62d7e8d1a81dd52d5dad720acd03d849f1395e3c67d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/работа-05.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "76165acf4fea690e9eec1317be32110f477335ec227b20d06d9a808c616a2c84",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/работа-06.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "d2f7d5af458146c1a41c90dae6c3e6c9a90b3a28a08d76dbd394c82a7eb5374e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/работа-12.htm",
+      "format": "htm",
+      "size": 6294,
+      "sha256": "9e151179de428cf98a921d4c7c8c08b4be41431f214ddf9df154b27962cae778",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/работа-14.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "cc6e1f2965c9d4bc3f745e8b66abd3e5aac5c32833061c49e1497931c42603e1",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Иллюстрации/Олег Ветров/работа-15.jpeg",
+      "format": "jpeg",
+      "size": 2166,
+      "sha256": "cb942a37aa41a0b976d383942227fe278d791fd570066bd07170795cfa4e5835",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/Черновики/работа-06.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "979049b8c3dadd89f55072166aae6ea7671239a329d4a05e2ccac06ffbdc8dbb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/Черновики/работа-15.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "1884a21544b69ad774edefd1166846af42682cfaf7bfd0d0f689d4734b21085c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-05.htm",
+      "format": "htm",
+      "size": 6230,
+      "sha256": "dcf9fe3db05f7f8c2be741bc36b603579b1fe3ceec6e9a3f0799d75e697f8de1",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-07.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "a8d3641342c749638c8911c6871711734e52ba091861446b3822c583e3bb5e79",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-08.jpeg",
+      "format": "jpeg",
+      "size": 2091,
+      "sha256": "76022f09524f2c18f127a5c66140c1cf59554929fe381f938b09a49256a75f0b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-13.htm",
+      "format": "htm",
+      "size": 6226,
+      "sha256": "aefb2517b75f5ece9967ef23c4cf83de6097431d709d3b325bd5d6727dba2c7a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-14.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "faf1c2be50ae705930966c7c7cc41ea932fd52d845acdd12ff9394f176f073d5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Ирина Полевая/работа-16.jpeg",
+      "format": "jpeg",
+      "size": 2200,
+      "sha256": "3aa65a68f74f8d37dcf575d1bc5e2f65f4beb6b8bd405f03191c4f299e97ddbb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/Черновики/работа-03.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "ec4872b60a60fbd558fdb8182893c4c2211d55ad9658718fbd298a7f9ba98164",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/Черновики/работа-09.htm",
+      "format": "htm",
+      "size": 6331,
+      "sha256": "5e633ab29f159aedc3addb514dd943d1687ad4be604c5c07042ac70d0f240f66",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/Черновики/работа-12.jpeg",
+      "format": "jpeg",
+      "size": 2184,
+      "sha256": "7a3c3c349bc8f917862fe043a6695b9da0073bb3fca4a01bfd6ff64fe74e70c2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/Черновики/работа-18.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "9ea2a52e2b4efb0647a14ed1764405fec12583cb6ce99e962559a60d9f2ee3c8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-01.htm",
+      "format": "htm",
+      "size": 6228,
+      "sha256": "309c42079233ce637b934fbc714d27a7cd5b73bc4a16f41eebedc48cae734166",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-02.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "0d96e6f6f75b052c1b3c0ee915a901f61fffbfd75e8e3c68ae1a5f7c6d78a443",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-04.jpeg",
+      "format": "jpeg",
+      "size": 2168,
+      "sha256": "0434c9445f4892544327555110bec946ca8d451e625fb30ad7d6e93118e602e2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-10.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "a88b5f59fdafc5cfdb7bc8ab7d2c3f540fc5bede83047d1519eba9143acf3677",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-11.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "1d8b544655d4b92ad9fffa753687ed7e18b4590bbbe62019abeb794a3b970491",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-17.htm",
+      "format": "htm",
+      "size": 6294,
+      "sha256": "932faa329f18d5942e2543339bf358246799a38cb5c42ac72e3964327df3a39a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Письма/Павел Листьев/работа-19.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "79d152400eaa5c39ca373dcaed52473d755b72636ffaea8bcb097623ae38a1d2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/Черновики/работа-06.htm",
+      "format": "htm",
+      "size": 6230,
+      "sha256": "e3ad3846d4892996b51b12d27e5a7f3cd747167b75b29f65bd18d53930783324",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/Черновики/работа-09.jpeg",
+      "format": "jpeg",
+      "size": 2200,
+      "sha256": "3aa65a68f74f8d37dcf575d1bc5e2f65f4beb6b8bd405f03191c4f299e97ddbb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/Черновики/работа-15.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "03f5c93b018acbceca549cd79d825e79ce570ca1ff4063ba5962b87803133ab6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-01.jpeg",
+      "format": "jpeg",
+      "size": 2091,
+      "sha256": "76022f09524f2c18f127a5c66140c1cf59554929fe381f938b09a49256a75f0b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-07.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "6c4f03b3e44289e5f0a92762ba423aa6540bbb493db7532c3fe03bff7fe6802d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-08.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "ecf952319a7f91bca0882b1685c9fbb931924d9da7b3de0be286c77674f9ec8d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-14.htm",
+      "format": "htm",
+      "size": 6226,
+      "sha256": "8543641304a302a6f36e46188fe02eb8b6d8c2185e8e593c6607798d606b706c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-16.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "76087a181159b9b9c0e38878532b898fcac5d9bdbff5737d60f5ef1cd0fd7952",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Ирина Полевая/работа-17.jpeg",
+      "format": "jpeg",
+      "size": 2132,
+      "sha256": "0d36f996f56582974b9fadb75f0471cbe53057062247a2e0a0ef52f0b7222356",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/Черновики/работа-03.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "270331ddb3b8e7ee8ce7fb6ebfbe46dbc52a7b4dca1b93d9fe30b1e97bda755d",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/Черновики/работа-12.pdf",
+      "format": "pdf",
+      "size": 862,
+      "sha256": "ff4d193defa7fb1480f20da867ac582bdd83d54daf8f4dbacc4bfffe64cd23d8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/Черновики/работа-18.htm",
+      "format": "htm",
+      "size": 6294,
+      "sha256": "73d997618758f1d2918c5cff00484bc0b09c2d15d687a367bcac7e88be89106b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-02.htm",
+      "format": "htm",
+      "size": 6228,
+      "sha256": "6293f522c266f3cfabf223a0d5cf39ac4210b68dd7f232fc25bb4f920c478d48",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-04.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "7f8214dc41b7439c5cd51ea94abee278c9f4e9f4c404b1e45cab2f86cd90085a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-05.jpeg",
+      "format": "jpeg",
+      "size": 2184,
+      "sha256": "7a3c3c349bc8f917862fe043a6695b9da0073bb3fca4a01bfd6ff64fe74e70c2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-10.htm",
+      "format": "htm",
+      "size": 6331,
+      "sha256": "c9e25efb534fb70ceed1b10447167a9131892f1f0ddd6c997c718c71dec1cb28",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-11.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "d1d28955d139bcb153037aadefe43fd2f2617e0ebfbbd1ed26e7a1ed738e9ed4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-13.jpeg",
+      "format": "jpeg",
+      "size": 2186,
+      "sha256": "f83b2239788f2db9d33eca5b00eaa212873db1f42c91f23120522679f255fcf9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза-архив/Павел Листьев/работа-19.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "2eaa39a6f66434c8176ea56fb43a11ccde97588b4ce70b68defdb319d729c5a7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/Черновики/работа-01.htm",
+      "format": "htm",
+      "size": 6270,
+      "sha256": "4885a33a8f40b5fe6f4b66031d5bcc8f79cfaf3f1453132e254afbf664ab6de3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/Черновики/работа-04.jpeg",
+      "format": "jpeg",
+      "size": 2132,
+      "sha256": "0d36f996f56582974b9fadb75f0471cbe53057062247a2e0a0ef52f0b7222356",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/Черновики/работа-10.tiff",
+      "format": "tiff",
+      "size": 7086,
+      "sha256": "b1cd07f0957732f41f57591841087daef12e67e91412c0b244b45646f585f786",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/Черновики/работа-19.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "d61a5dc26818ff103cf7819c6904318faf0db7dcb0431e72d9a0fd74f1b0cfaa",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-02.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "3c57808287c727bb323481664b1caf7b1c3da7813738457eeba40c2e952bef50",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-03.pdf",
+      "format": "pdf",
+      "size": 861,
+      "sha256": "5af798bf5f3f314cea30cf2f20687f5ba220395dd4edef2a2562a2a79ce29ec9",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-09.htm",
+      "format": "htm",
+      "size": 6299,
+      "sha256": "32fe43470d8eb0cacceea0271e86f0acb5436457d8d54c81e02026eb2e3aa556",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-11.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "5e62fe237cd4a68f88cfe2cbae7a615569fa02ff5125686f374a26f634bc2fc8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-12.jpeg",
+      "format": "jpeg",
+      "size": 2142,
+      "sha256": "ab07caac6b6c10f33e27c9a1439c05446ec15e6889cb8455010e6eaa54541ed8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-17.htm",
+      "format": "htm",
+      "size": 6242,
+      "sha256": "fb383e99200952621de342285bdcac8f6ff3fef8dc48c45ff305255ed315bf62",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Нина Речная/работа-18.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "a5d226f1b71235df2cc02fe52dc31432179a3f24334768ee16de75114bc77245",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/Черновики/работа-07.pdf",
+      "format": "pdf",
+      "size": 861,
+      "sha256": "52cd5618c27f05969a966854d046975f70cd1217fd9278b215ae9b7ae6aeef52",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/Черновики/работа-13.htm",
+      "format": "htm",
+      "size": 6294,
+      "sha256": "7ae455e199253278a5dd4a5fa2c461d45ca0b84f14d68a8a156bc5628f532f4f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/Черновики/работа-16.jpeg",
+      "format": "jpeg",
+      "size": 2168,
+      "sha256": "0434c9445f4892544327555110bec946ca8d451e625fb30ad7d6e93118e602e2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/работа-05.htm",
+      "format": "htm",
+      "size": 6296,
+      "sha256": "aba9a0365acfef47c4eede6e4d02cef710cce5099414c0d1560aab12d7c4a623",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/работа-06.tiff",
+      "format": "tiff",
+      "size": 8238,
+      "sha256": "9ab69dafa525981b4040cfdcbf5af5fc9e2128c99e3461c812e94f77bffb2b4b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/работа-08.jpeg",
+      "format": "jpeg",
+      "size": 2166,
+      "sha256": "cb942a37aa41a0b976d383942227fe278d791fd570066bd07170795cfa4e5835",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/работа-14.tiff",
+      "format": "tiff",
+      "size": 7662,
+      "sha256": "314ddb3569f26793d0d096cdd1416f526d8a4f4023bf8585dabd9ddb27c215d7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Проза/Олег Ветров/работа-15.pdf",
+      "format": "pdf",
+      "size": 863,
+      "sha256": "1574e18bf3150b777364bf9cdd4c97e5ff292708653d02d965cd84f4127565e7",
+      "license": "CC0-1.0"
+    }
+  ]
+}

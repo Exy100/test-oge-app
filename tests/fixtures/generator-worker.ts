@@ -7,6 +7,10 @@ import {
   searchSources,
 } from '../../src/core/generators/11/search-files';
 import { generators } from '../../src/core/generators/index';
+import { confirmedShortGenerators } from '../../src/core/generators/exam/short-generators';
+import { confirmedFileGenerators } from '../../src/core/generators/exam/file-generators';
+import { createTaskDataset } from '../../src/core/generators/task-dataset';
+import { sha256 } from '../../src/core/datasets';
 import {
   buildVariant,
   buildFixedVariant,
@@ -16,6 +20,32 @@ import {
 export default {
   async fetch(request: Request): Promise<Response> {
     const seeds = (await request.json()) as string[];
+    if (new URL(request.url).pathname === '/confirmed-exam')
+      return Response.json(
+        await Promise.all(
+          [...confirmedShortGenerators, ...confirmedFileGenerators].map(
+            (generator) =>
+              Promise.all(
+                seeds.map(async (seed) => {
+                  const task = generator.generate(seed),
+                    dataset = task.datasetId
+                      ? await createTaskDataset(task)
+                      : undefined;
+                  return {
+                    task,
+                    verified: generator.verify(task),
+                    ...(dataset
+                      ? {
+                          manifest: dataset.manifest,
+                          archiveSha256: await sha256(dataset.archive),
+                        }
+                      : {}),
+                  };
+                }),
+              ),
+          ),
+        ),
+      );
     if (new URL(request.url).pathname === '/variants')
       return Response.json({
         fixed: fixedVariants.map((item) => ({

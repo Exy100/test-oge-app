@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from 'react';
 import type { Dataset } from '../core/datasets';
 import type { TaskInstance } from '../core/types';
 import { createTaskDataset } from '../core/generators/task-dataset';
+import { readHtm } from '../core/datasets/htm';
 
 export default function TaskFiles({ task }: { task: TaskInstance }) {
   const id = useId();
@@ -65,7 +66,7 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
       {error && <p role="alert">{error}</p>}
       {dataset && (
         <>
-          <p>{dataset.manifest.files.length} файлов · UTF-8 · CC0-1.0</p>
+          <p>{dataset.manifest.files.length} файлов · CC0-1.0</p>
           {links && (
             <p>
               <a href={links.zip} download={`${task.subtype}.zip`}>
@@ -96,11 +97,17 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
           </select>
           <pre className="task-file-preview">
             {bytes
-              ? /\.(?:ods|odt|odp|png)$/u.test(path)
-                ? path.endsWith('.png')
-                  ? 'Изображение поля находится в ZIP. Скачай и открой его в просмотрщике изображений.'
-                  : 'Офисный файл. Скачай ZIP и открой файл в LibreOffice.'
-                : new TextDecoder().decode(bytes)
+              ? /\.(?:ods|odt|odp|png|tiff|jpeg|pdf)$/u.test(path)
+                ? /\.(?:png|tiff|jpeg)$/u.test(path)
+                  ? 'Изображение находится в ZIP. Скачай и открой его в просмотрщике изображений.'
+                  : path.endsWith('.pdf')
+                    ? 'Документ PDF находится в ZIP. Скачай и открой его в программе чтения PDF.'
+                    : 'Офисный файл. Скачай ZIP и открой файл в LibreOffice.'
+                : path.endsWith('.htm')
+                  ? readHtm(bytes)
+                      .blocks.map(({ text }) => text)
+                      .join('\n\n')
+                  : new TextDecoder().decode(bytes)
               : ''}
           </pre>
         </>

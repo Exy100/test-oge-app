@@ -55,6 +55,9 @@ test('generator gallery: 20 reproducible tasks, answers and solutions', async ({
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+  await page
+    .getByRole('combobox', { name: 'Генератор', exact: true })
+    .selectOption(textVolume.id);
   await page.getByLabel('Seed', { exact: true }).fill('browser');
   await page.getByRole('button', { name: 'Показать 20 задач' }).click();
   const examples = page.locator('.generator-example');

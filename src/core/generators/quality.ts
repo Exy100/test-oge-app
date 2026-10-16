@@ -1,4 +1,5 @@
 import { renderRichText } from '../rich-text/render';
+import { checkTaskAnswer } from '../checker';
 import { DatasetManifestSchema, FigureSpecSchema } from '../schemas';
 import type {
   Generator,
@@ -47,8 +48,7 @@ export function checkGeneratorSeed(
   if (
     task.answer.type !== 'artifact' &&
     task.commonMistakes.some(
-      (item) =>
-        task.answer.type !== 'artifact' && item.answer === task.answer.value,
+      (item) => checkTaskAnswer(task, item.answer).verdict === 'correct',
     )
   )
     throw new Error('Типичная ошибка совпадает с ответом.');

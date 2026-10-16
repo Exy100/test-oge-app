@@ -30,6 +30,11 @@ test('markdown tables, emphasis and code retain their structure', () => {
 test('inline and display formulas contain accessible MathML without inline styles', () => {
   const html = renderRichText(String.raw`$x^2$ и $$\frac{8}{2}$$`);
   expect(html.match(/<math\b/gu)).toHaveLength(2);
+  expect(
+    html.match(
+      /class="katex" tabindex="0" role="region" aria-label="Формула"/gu,
+    ),
+  ).toHaveLength(2);
   expect(html).toContain('<msup>');
   expect(html).toContain('<mfrac>');
   expect(html).toContain('display="block"');

@@ -12,6 +12,7 @@ import {
 } from '../core/variants';
 import { createVariantDataset } from '../core/variants/dataset';
 import RichText from '../components/RichText';
+import Figure from '../components/Figure';
 
 export default function VariantGallery() {
   const ready = useHydrated();
@@ -189,6 +190,12 @@ export default function VariantGallery() {
                 </>
               ) : (
                 <RichText source={task.statement} />
+              )}
+              {task.figure && (
+                <Figure
+                  spec={task.figure}
+                  label={`Схема задания №${String(task.taskNumber)}`}
+                />
               )}
             </article>
           ))}

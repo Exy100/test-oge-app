@@ -1,142 +1,23 @@
 import { robotGenerators } from './15/robots.ts';
 import { pythonGenerators } from './16/programs.ts';
 import { spreadsheetGenerators } from './14/spreadsheets.ts';
-import {
-  fileMaskCount,
-  fileSizeTotal,
-  fileLargest,
-} from './12/select-files.ts';
+import { confirmedShortGenerators } from './exam/short-generators.ts';
+import { confirmedFileGenerators } from './exam/file-generators.ts';
+import { createRegistry } from './registry.ts';
 import type { Generator, TaskNumber } from '../types.ts';
-import { textVolume } from './01/text-volume.ts';
-import { removedWord } from './01/removed-word.ts';
-import { recoding } from './01/recoding.ts';
-import { messageCapacity } from './01/message-capacity.ts';
-import { fixedCode, prefixCode, separatedCode } from './02/decode.ts';
-import { missingCode } from './02/missing-code.ts';
-import {
-  logicAnd,
-  logicNotOr,
-  logicDivisibility,
-  logicExclusive,
-} from './03/logic.ts';
-import {
-  routeLength,
-  shortestRoute,
-  routeVia,
-  routeWithout,
-} from './04/models.ts';
 
-import {
-  executorFixed,
-  executorShortest,
-  executorMissing,
-  executorString,
-} from './05/executor.ts';
-import {
-  programAssign,
-  programBranch,
-  programFor,
-  programWhile,
-} from './06/programs.ts';
+export { createRegistry } from './registry.ts';
 
-import { urlRoot, urlDirectory, urlSelect, urlMove } from './07/addresses.ts';
-import {
-  searchUnion,
-  searchIntersection,
-  searchDifference,
-  searchThree,
-} from './08/search.ts';
-
-import { pathsAll, pathsVia, pathsWithout, pathsLength } from './09/paths.ts';
-import {
-  radixToDecimal,
-  radixFromDecimal,
-  binaryOnes,
-  radixCompare,
-} from './10/numerals.ts';
-
-import {
-  fileQuote,
-  fileWordCount,
-  filePhraseDocuments,
-} from './11/search-files.ts';
-
-export function createRegistry(
-  entries: readonly Generator[],
-): readonly Generator[] {
-  const ids = new Set<string>();
-  const subtypes = new Set<string>();
-  for (const entry of entries) {
-    const key = `${String(entry.taskNumber)}:${entry.subtype}`;
-    if (
-      !entry.id.trim() ||
-      !entry.title.trim() ||
-      !entry.subtype.trim() ||
-      !Number.isInteger(entry.taskNumber) ||
-      entry.taskNumber < 1 ||
-      entry.taskNumber > 16 ||
-      ids.has(entry.id) ||
-      subtypes.has(key)
-    ) {
-      throw new Error(`Некорректный или повторный генератор: ${entry.id}.`);
-    }
-    ids.add(entry.id);
-    subtypes.add(key);
-  }
-  return Object.freeze(entries.map((entry) => Object.freeze({ ...entry })));
-}
-
-export const generators = createRegistry([
-  textVolume,
-  removedWord,
-  recoding,
-  messageCapacity,
-  fixedCode,
-  prefixCode,
-  separatedCode,
-  missingCode,
-  logicAnd,
-  logicNotOr,
-  logicDivisibility,
-  logicExclusive,
-  routeLength,
-  shortestRoute,
-  routeVia,
-  routeWithout,
-  executorFixed,
-  executorShortest,
-  executorMissing,
-  executorString,
-  programAssign,
-  programBranch,
-  programFor,
-  programWhile,
-  urlRoot,
-  urlDirectory,
-  urlSelect,
-  urlMove,
-  searchUnion,
-  searchIntersection,
-  searchDifference,
-  searchThree,
-  pathsAll,
-  pathsVia,
-  pathsWithout,
-  pathsLength,
-  radixToDecimal,
-  radixFromDecimal,
-  binaryOnes,
-  radixCompare,
-  fileQuote,
-  fileWordCount,
-  filePhraseDocuments,
-  fileMaskCount,
-  fileSizeTotal,
-  fileLargest,
-  ...spreadsheetGenerators,
-  ...robotGenerators,
-  ...pythonGenerators,
-]);
+/** №1–12 contain only sourced exam formats; later numbers retain their current owner tasks. */
+export const generators = createRegistry(
+  [
+    ...confirmedShortGenerators,
+    ...confirmedFileGenerators,
+    ...spreadsheetGenerators,
+    ...robotGenerators,
+    ...pythonGenerators,
+  ].sort((a, b) => a.taskNumber - b.taskNumber),
+);
 export function getGenerator(id: string): Generator {
   const generator = generators.find((entry) => entry.id === id);
   if (!generator) throw new Error(`Генератор не найден: ${id}.`);

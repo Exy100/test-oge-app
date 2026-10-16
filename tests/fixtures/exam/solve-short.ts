@@ -24,7 +24,9 @@ function predicate(expression: Predicate, x: number): boolean {
   }
 }
 export function solveShort(fixture: ShortFixture): string[] | null {
-  const p = fixture.parameters;
+  return solveParameters(fixture.parameters, fixture.year);
+}
+export function solveParameters(p: Parameters, year?: number): string[] | null {
   switch (p.kind) {
     case 'deleted-word': {
       const size = (text: string) =>
@@ -69,7 +71,26 @@ export function solveShort(fixture: ShortFixture): string[] | null {
       ];
     }
     case 'logic': {
-      const candidates = Array.from({ length: 100 }, (_, index) => index + 1);
+      function largest(expression: Predicate): number {
+        switch (expression[0]) {
+          case 'not':
+            return largest(expression[1]);
+          case 'and':
+          case 'or':
+            return Math.max(largest(expression[1]), largest(expression[2]));
+          case 'odd':
+            return 1;
+          default:
+            return expression[1];
+        }
+      }
+      const last = largest(p.predicate) + 2;
+      if (
+        p.mode === 'count-true' &&
+        (predicate(p.predicate, last) || predicate(p.predicate, last + 1))
+      )
+        throw new Error('Infinite set of natural solutions');
+      const candidates = Array.from({ length: last }, (_, index) => index + 1);
       return [
         String(
           p.mode === 'count-true'
@@ -170,7 +191,9 @@ export function solveShort(fixture: ShortFixture): string[] | null {
         ),
       ];
     case 'file-selection':
-      return [String(selectedFiles(fixture.year, p).length)];
+      if (year === undefined)
+        throw new Error('Для официального инвентаря нужен год источника.');
+      return [String(selectedFiles(year, p).length)];
     // Contextual literary search needs the original texts and semantic interpretation.
     // Only the answer boundary is executable without redistributing that corpus.
     case 'file-search':

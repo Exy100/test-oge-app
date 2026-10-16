@@ -18,6 +18,10 @@ const extensions = {
   svg: '.svg',
   py: '.py',
   kum: '.kum',
+  htm: '.htm',
+  tiff: '.tiff',
+  jpeg: '.jpeg',
+  pdf: '.pdf',
 } as const;
 export const DatasetFileSchema = z
   .strictObject({
@@ -34,6 +38,10 @@ export const DatasetFileSchema = z
       'svg',
       'py',
       'kum',
+      'htm',
+      'tiff',
+      'jpeg',
+      'pdf',
     ]),
     size: NaturalSchema,
     sha256: z.string().regex(/^[0-9a-f]{64}$/u),

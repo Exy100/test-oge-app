@@ -5,6 +5,65 @@ import type { ShortAnswer } from './index';
 import { taskExample } from '../../../tests/fixtures/model-examples';
 
 const integer = { type: 'integer', value: '48' } as const;
+test('only explicitly declared sequence alternatives are accepted; order and multiplicity remain significant elsewhere', () => {
+  const answer: ShortAnswer = {
+    type: 'sequence',
+    value: 'АБ',
+    alternatives: ['БА'],
+    alphabet: 'cyrillic',
+    caseSensitive: false,
+  };
+  for (const raw of ['АБ', 'БА', ' б а ', 'Б\u00a0А'])
+    expect(checkAnswer(answer, raw).verdict).toBe('correct');
+  for (const raw of ['А', 'Б', 'АА', 'ББ', 'АБА', 'БАБ', 'АВ'])
+    expect(checkAnswer(answer, raw).verdict).toBe('incorrect');
+  for (const raw of ['AB', 'Б,А', 'Б\tА'])
+    expect(checkAnswer(answer, raw).verdict).toBe('format_error');
+  expect(
+    checkAnswer({ ...answer, alternatives: undefined }, 'БА').verdict,
+  ).toBe('incorrect');
+  expect(
+    checkAnswer(answer, 'БА', [
+      { answer: 'БА', explanation: 'Старый список ошибок.' },
+    ]).verdict,
+  ).toBe('correct');
+  expect(() => checkAnswer({ ...answer, alternatives: ['AБ'] }, 'АБ')).toThrow(
+    TypeError,
+  );
+});
+test('an explicit integer interval accepts all and only its integers, with exact large boundaries', () => {
+  const answer: ShortAnswer = {
+    type: 'integer',
+    value: '-2',
+    acceptedRange: { min: '-4', max: '1' },
+  };
+  for (let n = -8; n <= 8; n++)
+    expect(checkAnswer(answer, String(n)).verdict).toBe(
+      n >= -4 && n <= 1 ? 'correct' : 'incorrect',
+    );
+  expect(checkAnswer(answer, '+0001').verdict).toBe('correct');
+  for (const raw of ['0.5', '-2,0', '', '1 0'])
+    expect(checkAnswer(answer, raw).verdict).toBe('format_error');
+  expect(
+    checkAnswer(
+      {
+        type: 'integer',
+        value: '9007199254740993',
+        acceptedRange: { min: '9007199254740992', max: '9007199254740994' },
+      },
+      '9007199254740995',
+    ).verdict,
+  ).toBe('incorrect');
+  for (const acceptedRange of [
+    { min: '3', max: '1' },
+    { min: '0', max: '1' },
+    { min: 'x', max: '1' },
+    { min: '-4', max: '1.5' },
+  ])
+    expect(() => checkAnswer({ ...answer, acceptedRange }, '0')).toThrow(
+      TypeError,
+    );
+});
 test.each([
   ['48', 'correct'],
   [' 48 ', 'correct'],

@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { expect, test } from 'vitest';
 import { testGenerator } from '../../../tests/generator-suite';
 import type { TaskInstance } from '../types';
-import { generatorsForTask } from './index';
+import { learningGeneratorsForTask as generatorsForTask } from './learning';
 
 function programs(task: TaskInstance): string[] {
   const numeric =

@@ -1,5 +1,6 @@
 import { examConfig } from '../exam/exam.config.ts';
 import type { TaskInstance, Variant } from '../types.ts';
+import { reviewAnswer, reviewFigure } from '../generators/review.ts';
 import {
   selectedVariant13,
   variant13Alternatives,
@@ -7,12 +8,10 @@ import {
 } from './index.ts';
 
 function taskReview(task: TaskInstance): string {
-  const answer =
-    task.answer.type === 'artifact'
-      ? task.answer.referenceId
-      : task.answer.value;
+  const answer = reviewAnswer(task);
   return [
     task.statement,
+    ...reviewFigure(task),
     `**Ответ / эталон:** ${answer}`,
     '#### Решение',
     ...task.solution.map(

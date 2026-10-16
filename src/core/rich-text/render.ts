@@ -38,15 +38,20 @@ markdown.renderer.rules.math = (tokens, index) => {
   const token = tokens[index];
   if (!token) return '';
   try {
-    return katex.renderToString(token.content, {
-      trust: false,
-      strict: 'warn',
-      throwOnError: true,
-      output: 'mathml',
-      displayMode: token.markup === '$$',
-      maxExpand: 1000,
-      maxSize: 20,
-    });
+    return katex
+      .renderToString(token.content, {
+        trust: false,
+        strict: 'warn',
+        throwOnError: true,
+        output: 'mathml',
+        displayMode: token.markup === '$$',
+        maxExpand: 1000,
+        maxSize: 20,
+      })
+      .replace(
+        '<span class="katex">',
+        '<span class="katex" tabindex="0" role="region" aria-label="Формула">',
+      );
   } catch {
     return `<span class="math-error">Не удалось отобразить формулу: <code>${markdown.utils.escapeHtml(token.content)}</code></span>`;
   }

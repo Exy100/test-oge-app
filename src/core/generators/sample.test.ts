@@ -3,11 +3,13 @@ import { sampleTasks } from './sample';
 import { generatorsForTask } from './index';
 
 test.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const)(
-  'samples cover all four subtypes for task %i',
+  'samples cover every confirmed subtype for task %i',
   (number) => {
     const sample = sampleTasks(number, 12, 'review');
     for (const generator of generatorsForTask(number)) {
-      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(3);
+      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(
+        12 / generatorsForTask(number).length,
+      );
     }
     expect(sample.match(/^## /gmu)).toHaveLength(12);
   },
@@ -22,6 +24,26 @@ test('samples contain real statements, answers, seeds and solutions', () => {
   expect(result).toBe(sampleTasks(1, 50, 'export'));
   expect(result).not.toBe(sampleTasks(1, 50, 'other'));
 });
+
+test('review exports preserve graph arrows and every valid answer, including unbounded ranges', () => {
+  const diagram = sampleTasks(9, 1, 'export');
+  expect(diagram).toContain('```mermaid\nflowchart LR');
+  expect(diagram).toContain(' --> ');
+  expect(diagram).toContain('Текстовое описание:');
+  const parameters = sampleTasks(6, 12, 'export');
+  expect(parameters).toContain('**Ответ:** любое целое A');
+  const repeated = generatorsForTask(2).find(
+    ({ id }) => id === 'decode-repeated-v2',
+  );
+  if (!repeated) throw new Error('Missing repeated-letter generator');
+  const task = repeated.generate('export:2');
+  if (task.answer.type !== 'sequence' || !task.answer.alternatives)
+    throw new Error('Missing alternatives');
+  const output = sampleTasks(2, 3, 'export');
+  expect(output).toContain(
+    `**Ответ:** ${[task.answer.value, ...task.answer.alternatives].join(', ')}`,
+  );
+});
 test('absent generators and invalid counts fail explicitly', () => {
   expect(() => sampleTasks(17 as never, 50)).toThrow('нет зарегистрированных');
   expect(sampleTasks(16, 4)).toContain('python-run-v1');
@@ -30,7 +52,7 @@ test('absent generators and invalid counts fail explicitly', () => {
 });
 
 test.each([11, 12] as const)(
-  '№%i samples rotate through three subtypes and link archives',
+  '№%i samples use confirmed file formats and link archives',
   (taskNumber) => {
     const sample = sampleTasks(
       taskNumber,
@@ -39,7 +61,9 @@ test.each([11, 12] as const)(
       `${String(taskNumber)}-files`,
     );
     for (const generator of generatorsForTask(taskNumber))
-      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(3);
+      expect(sample.split(`Генератор: ${generator.id}`).length - 1).toBe(
+        9 / generatorsForTask(taskNumber).length,
+      );
     expect(sample).toContain(
       `[Скачать ZIP](${String(taskNumber)}-files/01/dataset.zip)`,
     );

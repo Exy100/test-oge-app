@@ -7,8 +7,9 @@ import {
   generatorsForTask,
 } from './index';
 import { textVolume } from './01/text-volume';
+import { learningGenerators, learningGeneratorsForTask } from './learning';
 import { checkGeneratorSeed, type GeneratorChecks } from './quality';
-import type { TaskInstance } from '../types';
+import type { TaskInstance, TaskNumber } from '../types';
 
 const checks: GeneratorChecks = {
   assertUnique(task) {
@@ -34,21 +35,25 @@ const checks: GeneratorChecks = {
 testGenerator(textVolume, checks);
 
 test('registry supports lookup and rejects duplicates', () => {
-  expect(getGenerator(textVolume.id)).toEqual(textVolume);
-  expect(generatorsForTask(1)).toHaveLength(4);
-  expect(generatorsForTask(2)).toHaveLength(4);
-  expect(generatorsForTask(3)).toHaveLength(4);
-  expect(generatorsForTask(4)).toHaveLength(4);
-  expect(generatorsForTask(5)).toHaveLength(4);
-  expect(generatorsForTask(6)).toHaveLength(4);
-  expect(generatorsForTask(7)).toHaveLength(4);
-  expect(generatorsForTask(8)).toHaveLength(4);
-  expect(generatorsForTask(9)).toHaveLength(4);
-  expect(generatorsForTask(10)).toHaveLength(4);
-  expect(generatorsForTask(11)).toHaveLength(3);
-  expect(generatorsForTask(12)).toHaveLength(3);
+  const expectedCounts = [1, 3, 2, 1, 2, 3, 1, 2, 1, 1, 1, 1] as const;
+  for (let i = 0; i < expectedCounts.length; i++) {
+    const number = (i + 1) as TaskNumber;
+    expect(generatorsForTask(number)).toHaveLength(expectedCounts[i] ?? 0);
+    expect(learningGeneratorsForTask(number)).toHaveLength(
+      number <= 10 ? 4 : 3,
+    );
+  }
+  expect(getGenerator('removed-word-v2').id).toBe('removed-word-v2');
+  expect(() => getGenerator(textVolume.id)).toThrow('не найден');
+  expect(learningGenerators).toContainEqual(textVolume);
+  expect(learningGenerators).toHaveLength(46);
+  expect(
+    generators.some((generator) =>
+      learningGenerators.some(({ id }) => id === generator.id),
+    ),
+  ).toBe(false);
   expect(generatorsForTask(14)).toHaveLength(4);
-  expect(generators).toHaveLength(61);
+  expect(generators).toHaveLength(34);
   expect(generatorsForTask(15).map((generator) => generator.id)).toEqual([
     'robot-corridor-v2',
     'robot-wall-gaps-v2',

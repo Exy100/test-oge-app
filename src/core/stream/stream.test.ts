@@ -562,7 +562,7 @@ test.each([
     reviews: state.reviews,
   }).toMatchSnapshot();
 });
-test('real catalogue: all 61 generators and 24 curated references resolve, isolation and rejection', () => {
+test('real catalogue: all selected generators and 24 curated references resolve, isolation and rejection', () => {
   const catalog = streamSources();
   expect(catalog.filter((source) => source.kind === 'generated')).toHaveLength(
     generators.length,

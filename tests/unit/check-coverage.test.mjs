@@ -55,20 +55,15 @@ function lesson(id = 'bits', section = 'i1', fallback = false) {
 
 async function stageThree() {
   const generators = Object.entries(config.generators).flatMap(
-    ([number, minimum]) =>
-      Array.from(
-        { length: minimum },
-        (_, i) =>
-          '{ id: "g' +
-          number +
-          '-' +
-          i +
-          '", taskNumber: ' +
-          number +
-          ', subtype: "type-' +
-          i +
-          '", generate: (seed) => ({ seed }), verify: (task) => typeof task.seed === "string" }',
-      ),
+    ([number, minimum]) => {
+      const ids =
+        config.examFormats[number] ??
+        Array.from({ length: minimum }, (_, i) => `g${number}-${i}`);
+      return ids.map(
+        (id, i) =>
+          `{ id: ${JSON.stringify(id)}, taskNumber: ${number}, subtype: "type-${i}", generate: (seed) => ({ seed }), verify: (task) => typeof task.seed === "string" }`,
+      );
+    },
   );
   await file(
     config.sources.generators,
@@ -126,7 +121,7 @@ async function allLessons(fallback = false) {
 }
 
 describe('coverage configuration and phase checks', () => {
-  it('keeps the exact product minima, without substituting overall totals for per-number limits', () => {
+  it('keeps learning inventory and other minima, with explicit owner-approved exam formats', () => {
     expect(config.generators).toEqual({
       1: 4,
       2: 4,
@@ -147,6 +142,13 @@ describe('coverage configuration and phase checks', () => {
     expect(Object.values(config.generators).reduce((a, b) => a + b, 0)).toBe(
       58,
     );
+    expect(Object.keys(config.examFormats)).toHaveLength(12);
+    expect(Object.values(config.examFormats).flat()).toHaveLength(19);
+    expect(config.examFormats[2]).toEqual([
+      'decode-prefix-v2',
+      'decode-nonprefix-v2',
+      'decode-repeated-v2',
+    ]);
     expect(config.banks).toEqual({ presentation: 12, document: 12 });
     expect(Object.values(config.lessons.sections)).toEqual([
       3, 3, 3, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4,
@@ -194,7 +196,14 @@ describe('coverage configuration and phase checks', () => {
         item.message.includes('Обязательный реестр отсутствует'),
       ),
     ).toBe(true);
-    expect(final.metrics.every((item) => item.required)).toBe(true);
+    expect(
+      final.metrics
+        .filter((item) => item.requiredPhase !== null)
+        .every((item) => item.required),
+    ).toBe(true);
+    expect(
+      final.metrics.filter((item) => item.requiredPhase === null),
+    ).toHaveLength(12);
   });
 
   it('reads imported generator implementations from the real registry and rejects repeated subtypes', async () => {
@@ -208,8 +217,10 @@ describe('coverage configuration and phase checks', () => {
     );
     const result = await checkCoverage(root, 1);
     expect(
-      result.metrics.find((item) => item.label === '№1: подтипы').actual,
-    ).toBe(1);
+      result.metrics.find(
+        (item) => item.label === '№1: подтверждённые генераторы',
+      ).actual,
+    ).toBe(0);
     expect(
       result.findings.some((item) =>
         item.message.includes('Повтор подтипа 1:text'),
@@ -226,7 +237,9 @@ describe('coverage configuration and phase checks', () => {
     const result = await checkCoverage(root, 1);
     expect(result.findings).toHaveLength(2);
     expect(
-      result.metrics.find((item) => item.label === '№1: подтипы').actual,
+      result.metrics.find(
+        (item) => item.label === '№1: подтверждённые генераторы',
+      ).actual,
     ).toBe(0);
   });
 
@@ -237,6 +250,30 @@ describe('coverage configuration and phase checks', () => {
     expect(seven.findings.some((item) => item.message === 'Уроки: 0/45.')).toBe(
       true,
     );
+  });
+
+  it('requires each sourced format and rejects learning substitutions in exam selection', async () => {
+    await stageThree();
+    const path = join(root, config.sources.generators);
+    const { readFile } = await import('node:fs/promises');
+    const source = await readFile(path, 'utf8');
+    await file(
+      config.sources.generators,
+      source.replace('decode-nonprefix-v2', 'unverified-code-v1'),
+    );
+    const result = await checkCoverage(root, 3);
+    expect(
+      result.findings.some((item) =>
+        item.message.includes(
+          'отсутствует подтверждённый формат decode-nonprefix-v2',
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      result.findings.some((item) =>
+        item.message.includes('unverified-code-v1 не подтверждён'),
+      ),
+    ).toBe(true);
   });
 
   it('does not inflate curated banks with duplicate datasets or mix the two alternatives', async () => {

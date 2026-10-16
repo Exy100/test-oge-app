@@ -37,7 +37,6 @@
 .rich-text math[display='block'] {
   display: block;
   max-width: 100%;
-  overflow-x: auto;
   margin: 1rem 0;
 }
 .rich-text-copy {
@@ -79,4 +78,8 @@
 
 .rich-text .katex:has(math[display='block']) {
   display: block;
+}
+.rich-text .katex:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }

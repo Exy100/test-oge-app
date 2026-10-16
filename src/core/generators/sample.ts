@@ -2,6 +2,7 @@ import { bankTasks } from '../banks/index';
 import { generatorsForTask } from './index';
 import { validateGeneratedTask } from './harness';
 import type { TaskNumber } from '../types';
+import { reviewAnswer, reviewFigure } from './review';
 
 export function sampleTasks(
   taskNumber: TaskNumber,
@@ -37,14 +38,12 @@ export function sampleTasks(
     const generator = entries[index % entries.length];
     if (!generator) throw new Error('Генератор не найден.');
     const task = validateGeneratedTask(generator, `${seed}:${String(index)}`);
-    const answer =
-      task.answer.type === 'artifact'
-        ? task.answer.referenceId
-        : task.answer.value;
+    const answer = reviewAnswer(task);
     blocks.push(
       `## ${String(index + 1)}. ${generator.title}`,
       `Генератор: ${generator.id}\n\nSeed: ${JSON.stringify(task.seed)}`,
       task.statement,
+      ...reviewFigure(task),
       ...(task.datasetId
         ? [
             filesPrefix

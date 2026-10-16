@@ -57,7 +57,12 @@ export type Parameters =
       end: string;
     }
   | { kind: 'numerals'; terms: readonly (readonly [string, number])[] }
-  | { kind: 'file-search'; author: string; needles: readonly string[] }
+  | {
+      kind: 'file-search';
+      author: string;
+      needles: readonly string[];
+      response: 'nickname' | 'character' | 'role';
+    }
   | {
       kind: 'file-selection';
       folders: readonly string[];
@@ -424,16 +429,19 @@ export const shortFixtures: readonly ShortFixture[] = [
     kind: 'file-search',
     author: 'Чехов',
     needles: ['взятый приучаться', 'щенок'],
+    response: 'nickname',
   }),
   fixture(2026, 11, 'word', ['Плюшкин'], {
     kind: 'file-search',
     author: 'Гоголь',
     needles: ['Мавра', 'разбойница'],
+    response: 'character',
   }),
   fixture(2027, 11, 'word', ['городовой'], {
     kind: 'file-search',
     author: 'Чехов',
     needles: ['Елдырин'],
+    response: 'role',
   }),
   fixture(2025, 12, 'integer', ['6'], {
     kind: 'file-selection',
@@ -469,5 +477,8 @@ export function answerFormat(
     value,
     alphabet: fixture.taskNumber === 2 ? 'cyrillic' : 'digits',
     caseSensitive: false,
+    ...(fixture.answers.length > 1
+      ? { alternatives: fixture.answers.filter((answer) => answer !== value) }
+      : {}),
   };
 }

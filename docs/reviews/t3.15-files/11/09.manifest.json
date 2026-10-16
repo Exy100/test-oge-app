@@ -1,0 +1,303 @@
+{
+  "kind": "generated",
+  "generatorId": "context-reading-v2",
+  "id": "context-reading-v2:files:t3.15-files-review-20261017:11:8:0",
+  "seed": "t3.15-files-review-20261017:11:8:0",
+  "generatorVersion": "educational-files-v1",
+  "files": [
+    {
+      "path": "README.txt",
+      "format": "txt",
+      "size": 403,
+      "sha256": "e41839202efc8f329fe287352e31a1127231421ae30bda2d0bc2a6098fbe8c9c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Дальняя переправа.htm",
+      "format": "htm",
+      "size": 21084,
+      "sha256": "8debd6aa1626dc194219dbf7172cab60c0f3354d1cde8e54a48a96c5fa4f5901",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Летняя переправа.htm",
+      "format": "htm",
+      "size": 20759,
+      "sha256": "ac069fcd778ae5b0548a956312c36ba1f8a1aefb18567bbda46a0f2437d60933",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Новая переправа.htm",
+      "format": "htm",
+      "size": 20368,
+      "sha256": "a1476eacf18c18c943835e5728c59c65a85427dceaec812e336c6bc5e40b0aa4",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Озёрная переправа.htm",
+      "format": "htm",
+      "size": 20642,
+      "sha256": "60e3862755e6c29fc199ab56ef190651e4eb0552e28c6fd5ff8106515d8709de",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Речная переправа.htm",
+      "format": "htm",
+      "size": 20586,
+      "sha256": "cac55046acb220f5b3e1ebbc024b070549f55ffc617c802d4abe171e57ce9ccd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Северная переправа.htm",
+      "format": "htm",
+      "size": 20645,
+      "sha256": "f646c7ca3d4b194d2306fb5fe281b5192359d755adcf3d5635758d91f84ba9bb",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Алла Северина/Тихая переправа.htm",
+      "format": "htm",
+      "size": 20606,
+      "sha256": "3535faffed29cc44969754949ac3f8d10a7dda2660285a9c9d67efba3fc8421c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Дальняя встреча.htm",
+      "format": "htm",
+      "size": 20751,
+      "sha256": "68229f54ef6ff4fc83b15070c3d4d6d4c65528dfbfe1d15e1ce887c32d63d13e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Летняя встреча.htm",
+      "format": "htm",
+      "size": 20739,
+      "sha256": "1190a8b1713fc2880b34a241957b8eb1283167b819628290bf006619d9ab5c87",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Новая встреча.htm",
+      "format": "htm",
+      "size": 20716,
+      "sha256": "ae1c64fad6c6438c3ef211d85daa9820197d0df774c249673429674a06b90f0c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Речная встреча.htm",
+      "format": "htm",
+      "size": 21036,
+      "sha256": "87f5084b1759944adf2a2eabfc0fbe8974d09bb48677bc2e3b390bae5a44adb8",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Северная встреча.htm",
+      "format": "htm",
+      "size": 20673,
+      "sha256": "daa60aae47087dca1b3398828ea921523b4901792c5fe908c3268bd9d436e592",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Глеб Озёрный/Тихая встреча.htm",
+      "format": "htm",
+      "size": 20680,
+      "sha256": "31c0249d3dd75c241c203d4d1dac98cdbdda54a5dd46f56d9273605d203a4bc2",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Дальняя записка.htm",
+      "format": "htm",
+      "size": 21026,
+      "sha256": "90ae3e0856001544b75a4857525f221fcdb04a41e8cfecccc82c45fff887ecb6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Летняя записка.htm",
+      "format": "htm",
+      "size": 20850,
+      "sha256": "fc74c1dc13e5d7ca8eb1dff729b3021e6e5a41b235dbe2c8053b91a88fc4eeb7",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Новая записка.htm",
+      "format": "htm",
+      "size": 20831,
+      "sha256": "c7498f04b06c73b78ca1f619855014fb5a822c3f90ad13d94b28b7643e895e48",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Озёрная записка.htm",
+      "format": "htm",
+      "size": 20605,
+      "sha256": "a6cff6496d951e5c35cc628304cdf03915f466fa7dbcb110f067054ebae4102e",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Речная записка.htm",
+      "format": "htm",
+      "size": 20740,
+      "sha256": "43a6072c19211e09dc9bddc34332ca076e918be1b22b27e16e0f9556bb7eb304",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Северная записка.htm",
+      "format": "htm",
+      "size": 20546,
+      "sha256": "c62542249cd7843fd20d89410f8d5b2a3472211181ead84f5b04d33df2381894",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Ирина Полевая/Тихая записка.htm",
+      "format": "htm",
+      "size": 20653,
+      "sha256": "47625b5bc51c45cc59e76c7eb5d37daa3e48c97c4f07c1ffe4722cac0d7a2d97",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Дальняя пристань.htm",
+      "format": "htm",
+      "size": 20843,
+      "sha256": "6a22f4380b40eef7ca022a2875fc7c37e9ff79a5152990685907fb9b9170a683",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Летняя пристань.htm",
+      "format": "htm",
+      "size": 20817,
+      "sha256": "d611364c4f42479def555afced43203e2e780e7d7c4aed981067d2a7f023a1fd",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Новая пристань.htm",
+      "format": "htm",
+      "size": 20766,
+      "sha256": "4a07ab433401646527c1d1de772920df21381914d2a3d6797cb26ef37c1c3ae0",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Озёрная пристань.htm",
+      "format": "htm",
+      "size": 20687,
+      "sha256": "597fef95cb53256403a13bcc8c2661dfd5f6bf2a53044d19df61dd5c2e4b85ff",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Речная пристань.htm",
+      "format": "htm",
+      "size": 20718,
+      "sha256": "84257e232b9ea9228a75af66e00320ba8468c68ba5088d223a6a9c6601e999ff",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Северная пристань.htm",
+      "format": "htm",
+      "size": 20776,
+      "sha256": "5d31e37453f491fe51b4627ba28b5a9c1b1d6b4d71c0cf82a5b7ccf2b91929ee",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Нина Речная/Тихая пристань.htm",
+      "format": "htm",
+      "size": 20703,
+      "sha256": "e0a2ecd9dca39cd056dd633131defb1a2f2d1d8d2da223344ed6a447d11d0506",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Дальняя тропа.htm",
+      "format": "htm",
+      "size": 20741,
+      "sha256": "6eefb1c484a14a8fe9e70830010ec967a9c694a2fc000f6612c17f29e936eedf",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Летняя тропа.htm",
+      "format": "htm",
+      "size": 20746,
+      "sha256": "90ad95a22b4e1591a192292956c7b57de5d26efc2d667d1f3b55107b0e66424c",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Новая тропа.htm",
+      "format": "htm",
+      "size": 20789,
+      "sha256": "bdfd8d72b242986bbb654da4c03fe1f6ad8cef54fe4dc497f6ff8e2136a0ee75",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Озёрная тропа.htm",
+      "format": "htm",
+      "size": 20758,
+      "sha256": "1eb2d96294d23da20e80d4989923d07f1ab6b66ed45be7ff2d7adc5bc4a872d3",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Речная тропа.htm",
+      "format": "htm",
+      "size": 20781,
+      "sha256": "df73af783845d15e623c98159da13a3e04924d44073a58c09b40e6e8409ef983",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Северная тропа.htm",
+      "format": "htm",
+      "size": 20774,
+      "sha256": "bcd8f09458638dd86e5f26ad18b3927abbe26066225ea43a9d35762da160fa45",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Олег Ветров/Тихая тропа.htm",
+      "format": "htm",
+      "size": 20894,
+      "sha256": "d8bdd69c53dfa552eee9251621f3c3dfef08122268a3e55cb6b5ec1dbe63b904",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Дальняя карта.htm",
+      "format": "htm",
+      "size": 20683,
+      "sha256": "4d8d72b8afd25d9ccc01a7bcb4ae2e6bfc80926f041a9c1a86642b93ec36ed7a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Летняя карта.htm",
+      "format": "htm",
+      "size": 20840,
+      "sha256": "81b7ebce08800046de6f18ffdff8ad4f9832fcec17ac3ea80ad758b612384ac6",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Новая карта.htm",
+      "format": "htm",
+      "size": 20824,
+      "sha256": "e81e24c9e7fe5ae239b70910bb53b7720fb92510754a87ddcc1ff96c10e92311",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Озёрная карта.htm",
+      "format": "htm",
+      "size": 20518,
+      "sha256": "963e35ab6f9830f52f65a8bd02f3a05faf6c37a03a10d283f4d9017e7bd4c1ad",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Речная карта.htm",
+      "format": "htm",
+      "size": 20783,
+      "sha256": "c929cac3b1b7b558a1e64961fc5e70d6b5dacc87eb0ff0acb5c1e906c3a2ff37",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Северная карта.htm",
+      "format": "htm",
+      "size": 20573,
+      "sha256": "79a2ecdb3976fae24b151bd94596ded2613599f57c21f5f592db0484c258d213",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "Тексты/Павел Листьев/Тихая карта.htm",
+      "format": "htm",
+      "size": 20879,
+      "sha256": "3f655c9ad3957884cf67e9cf088da0d115c6c39242f6bf1c222588895a36afb9",
+      "license": "CC0-1.0"
+    }
+  ]
+}

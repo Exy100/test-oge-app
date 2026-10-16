@@ -55,6 +55,15 @@ test('variant review: sixteen numbers, one selected №13, exact downloaded file
     .click();
   await expect(page.locator('.variant-task')).toHaveCount(16);
   await expect(
+    page.locator('.variant-task').nth(8).getByRole('img'),
+  ).toBeVisible();
+  const formula = page
+    .locator('.variant-task')
+    .nth(9)
+    .getByRole('region', { name: 'Формула', exact: true });
+  await formula.focus();
+  await expect(formula).toBeFocused();
+  await expect(
     page.getByRole('status', { name: 'Состав варианта' }),
   ).toHaveText('V03: 16 заданий, максимум 21 балл. Выбрана работа №13.2.');
   await expect(

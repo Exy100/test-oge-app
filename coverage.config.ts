@@ -1,9 +1,10 @@
-/** Product minima from spec §§6.3, 9.5, 10.1–10.3. Advance currentPhase at each gate. */
+/** Product minima; №1–12 use the owner-approved sourced formats (Q-I9 / ADR-038). */
 export default {
   currentPhase: 3,
   phases: { generators: 3, banks: 3, variants: 3, lessons: 7, interactives: 8 },
   sources: {
     generators: 'src/core/generators/index.ts',
+    learning: 'src/core/generators/learning.ts',
     banks: 'src/core/banks/index.ts',
     variants: 'src/core/variants/index.ts',
     lessons: 'src/content/lessons',
@@ -25,6 +26,22 @@ export default {
     14: 4,
     15: 4,
     16: 4,
+  },
+  // The old 4/3 values above remain visible as learning inventory for №1–12.
+  // Every ID below is mandatory in exam selection; an overall total cannot replace it.
+  examFormats: {
+    1: ['removed-word-v2'],
+    2: ['decode-prefix-v2', 'decode-nonprefix-v2', 'decode-repeated-v2'],
+    3: ['logic-count-true-v2', 'logic-min-false-v2'],
+    4: ['shortest-road-v2'],
+    5: ['executor-multiply-v2', 'executor-square-v2'],
+    6: ['parameter-min-v2', 'parameter-max-v2', 'parameter-any-v2'],
+    7: ['url-fragments-v2'],
+    8: ['search-conditional-triple-v2', 'search-conditional-pair-v2'],
+    9: ['paths-diagram-v2'],
+    10: ['numeral-sum-v2'],
+    11: ['context-reading-v2'],
+    12: ['file-extensions-v2'],
   },
   banks: { presentation: 12, document: 12 },
   variants: {

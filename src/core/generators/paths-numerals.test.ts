@@ -1,7 +1,10 @@
 import { expect, test } from 'vitest';
 import { testGenerator } from '../../../tests/generator-suite';
 import type { TaskInstance } from '../types';
-import { generatorsForTask, getGenerator } from './index';
+import {
+  learningGeneratorsForTask as generatorsForTask,
+  getLearningGenerator as getGenerator,
+} from './learning';
 
 const labels = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж'];
 // Enumerate every ordered subset independently of the graph's edges.

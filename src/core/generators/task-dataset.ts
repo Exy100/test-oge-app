@@ -6,12 +6,18 @@ import {
 import { createDataset, type Dataset } from '../datasets';
 import type { TaskInstance } from '../types';
 import {
+  confirmedFileGenerators,
+  createConfirmedFileDataset,
+} from './exam/file-generators';
+import {
   isSearchKind,
   searchDatasetId,
   searchSources,
 } from './11/search-files';
 
 export async function createTaskDataset(task: TaskInstance): Promise<Dataset> {
+  if (confirmedFileGenerators.some(({ id }) => id === task.generatorId))
+    return createConfirmedFileDataset(task);
   if (task.taskNumber === 16) {
     const { createPythonDataset } = await import('./16/dataset');
     return createPythonDataset(task);
