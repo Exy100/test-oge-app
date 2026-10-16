@@ -1,15 +1,15 @@
 {
   "kind": "generated",
-  "generatorId": "robot-room-v1",
-  "id": "robot-room-v1:files:robot-review:3",
+  "generatorId": "robot-room-v2",
+  "id": "robot-room-v2:files:robot-review:3",
   "seed": "robot-review:3",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2169,
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "size": 3066,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
       "license": "CC0-1.0"
     },
     {
@@ -22,8 +22,8 @@
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 838,
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "size": 1208,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
       "license": "CC0-1.0"
     },
     {
@@ -36,8 +36,8 @@
     {
       "path": "reference/results.json",
       "format": "json",
-      "size": 24944,
-      "sha256": "185cf98c10c28d8ff79bb1055eea66d7ee3b3fb000cbd62458fb7691a69a710b",
+      "size": 25248,
+      "sha256": "ae291c28150cff1d9329dc675bb613b6febe86bf1232f1df2f442f598dd53cad",
       "license": "CC0-1.0"
     },
     {

@@ -1,134 +1,28 @@
 {
   "kind": "robot-field",
   "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
-  "rows": 4,
-  "columns": 5,
+  "rows": 5,
+  "columns": 6,
   "start": {
-    "row": 2,
-    "column": 0
+    "row": 4,
+    "column": 3
   },
   "painted": [],
   "targets": [
     {
-      "row": 2,
-      "column": 0
-    },
-    {
-      "row": 2,
-      "column": 1
-    },
-    {
-      "row": 2,
-      "column": 2
-    },
-    {
-      "row": 2,
+      "row": 3,
       "column": 3
-    },
-    {
-      "row": 2,
-      "column": 4
     }
   ],
   "walls": [
     {
       "from": {
-        "row": 2,
-        "column": 0
-      },
-      "to": {
-        "row": 1,
-        "column": 0
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 0
-      },
-      "to": {
-        "row": 3,
-        "column": 0
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 1
-      },
-      "to": {
-        "row": 1,
-        "column": 1
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 1
-      },
-      "to": {
-        "row": 3,
-        "column": 1
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 2
-      },
-      "to": {
-        "row": 1,
-        "column": 2
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 2
-      },
-      "to": {
         "row": 3,
         "column": 2
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 3
-      },
-      "to": {
-        "row": 1,
-        "column": 3
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 3
       },
       "to": {
         "row": 3,
         "column": 3
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 4
-      },
-      "to": {
-        "row": 1,
-        "column": 4
-      }
-    },
-    {
-      "from": {
-        "row": 2,
-        "column": 4
-      },
-      "to": {
-        "row": 3,
-        "column": 4
       }
     }
   ]

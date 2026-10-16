@@ -9,7 +9,11 @@ import { verifyArchive } from '../datasets';
 import { FigureSpecSchema } from '../schemas';
 import { runRobot } from '../robot';
 import { robotCases, fieldFor, type RobotCase, isRobotKind } from './15/fields';
-import { assessRobot, referenceProgram } from './15/robots';
+import { assessRobot, referenceProgram, robotPracticeScore } from './15/robots';
+import {
+  examTarget,
+  examBarrier,
+} from '../../../tests/fixtures/exam/robot-oracle';
 function targets(p: RobotCase): string[] {
   const result: string[] = [];
   if (p.kind === 'robot-corridor') {
@@ -23,11 +27,15 @@ function targets(p: RobotCase): string[] {
     for (let r = 0; r < p.height; r++)
       if (Math.floor(p.mask / 2 ** r) % 2 === 1)
         result.push(`${String(r)},${String(p.column)}`);
-  } else {
+  } else if (p.kind === 'robot-comb') {
     const bottom = Math.max(1, ...p.heights);
     for (let c = 0; c < p.heights.length; c++)
       for (let d = 0; d < (p.heights[c] ?? 0); d++)
         result.push(`${String(bottom - 1 - d)},${String(c)}`);
+  } else {
+    for (let r = 0; r < 25; r++)
+      for (let c = 0; c < 30; c++)
+        if (examTarget(p, r, c)) result.push(`${String(r)},${String(c)}`);
   }
   return result.sort();
 }
@@ -56,14 +64,18 @@ function checkCase(p: RobotCase): void {
         const a = `${String(r)},${String(c)}`,
           b = `${String(nr)},${String(nc)}`;
         const barrier =
-          p.kind === 'robot-wall-gaps'
-            ? r === nr &&
-              c === p.column - 1 &&
-              Math.floor(p.mask / 2 ** r) % 2 === 1
-            : occupied.has(a) !== occupied.has(b) ||
-              (p.kind === 'robot-comb' &&
-                r === nr &&
-                r < Math.max(1, ...p.heights));
+          p.kind === 'robot-corner-right' ||
+          p.kind === 'robot-corner-left' ||
+          p.kind === 'robot-stairs'
+            ? examBarrier(p, r, c, nr)
+            : p.kind === 'robot-wall-gaps'
+              ? r === nr &&
+                c === p.column - 1 &&
+                Math.floor(p.mask / 2 ** r) % 2 === 1
+              : occupied.has(a) !== occupied.has(b) ||
+                (p.kind === 'robot-comb' &&
+                  r === nr &&
+                  r < Math.max(1, ...p.heights));
         if (barrier) walls.push(edge(a, b));
       }
   expect(
@@ -214,10 +226,64 @@ test('exhaustive short wall masks, comb profiles, corridor lengths and all room 
         rightPad: 1,
       });
 }, 30000);
-test.each(Array.from({ length: 12 }, (_, i) => i))(
+test('exam families: all 100 independent rise/fall pairs and every interior gap in short joined walls', () => {
+  for (let rise = 1; rise <= 10; rise++)
+    for (let fall = 1; fall <= 10; fall++)
+      checkCase({ kind: 'robot-stairs', rise, fall, top: 2, left: 2 });
+  for (const kind of ['robot-corner-left', 'robot-corner-right'] as const)
+    for (let width = 3; width <= 6; width++)
+      for (let height = 3; height <= 6; height++)
+        for (let holeX = 1; holeX < width - 1; holeX++)
+          for (let holeWidth = 1; holeWidth < width - holeX; holeWidth++)
+            for (let holeY = 1; holeY < height - 1; holeY++)
+              for (
+                let holeHeight = 1;
+                holeHeight < height - holeY;
+                holeHeight++
+              )
+                checkCase({
+                  kind,
+                  width,
+                  height,
+                  holeX,
+                  holeWidth,
+                  holeY,
+                  holeHeight,
+                  top: 2,
+                  left: 2,
+                });
+  const stairs = {
+    kind: 'robot-stairs' as const,
+    rise: 1,
+    fall: 1,
+    top: 1,
+    left: 1,
+  };
+  for (const invalid of [
+    { ...stairs, rise: 0 },
+    { ...stairs, fall: 11 },
+    { ...stairs, top: 0 },
+    { ...stairs, left: 1.5 },
+  ])
+    expect(() => fieldFor(invalid)).toThrow('параметры');
+  expect(() =>
+    fieldFor({
+      kind: 'robot-corner-left',
+      width: 3,
+      height: 3,
+      holeX: 1,
+      holeY: 1,
+      holeWidth: 2,
+      holeHeight: 1,
+      top: 1,
+      left: 1,
+    }),
+  ).toThrow('параметры');
+}, 30000);
+test.each(Array.from({ length: 21 }, (_, i) => i))(
   'committed sample %i reproduces exact bytes',
   async (i) => {
-    const generator = generatorsForTask(15)[i % 4];
+    const generator = generatorsForTask(15)[i % 7];
     if (!generator) throw new Error('Missing Robot');
     const dataset = await createTaskDataset(
       generator.generate(`robot-review:${String(i)}`),
@@ -252,7 +318,53 @@ test('rejects out-of-family dimensions and reports partial training success', ()
     }),
   ).toThrow();
   const score = assessRobot('robot-corridor', 'partial', 'закрасить');
-  expect(score.score).toBe(1);
+  expect(score.score).toBe(0); // The 12-cell field has 11 missing, despite a passed 1-cell field.
   expect(score.passed).toBeGreaterThan(0);
   expect(score.passed).toBeLessThan(score.total);
+});
+test('partial criterion requires normal completion and at most ten extra AND ten missing on EVERY field', () => {
+  const program = 'нц пока справа свободно\nвправо\nзакрасить\nкц'; // Misses only the start.
+  const partial = assessRobot('robot-corridor', 'partial', program);
+  expect(partial.score).toBe(1);
+  expect(partial.passed).toBe(0);
+  expect(partial.results.every((r) => r.missing === 1 && r.extra === 0)).toBe(
+    true,
+  );
+  expect(assessRobot('robot-corridor', 'partial', 'влево').score).toBe(0);
+  expect(
+    assessRobot('robot-corridor', 'partial', 'нц 10000 раз\nзакрасить\nкц')
+      .score,
+  ).toBe(0);
+  expect(assessRobot('robot-stairs', 'partial', '').score).toBe(0);
+});
+test('criterion boundaries: ten inclusive, eleven exclusive; a single failure invalidates partial credit', () => {
+  const result = {
+    status: 'completed' as const,
+    success: false,
+    extra: 0,
+    missing: 0,
+  };
+  expect(robotPracticeScore([])).toBe(0);
+  expect(robotPracticeScore([{ ...result, success: true }])).toBe(2);
+  for (const [extra, missing, score] of [
+    [10, 0, 1],
+    [0, 10, 1],
+    [10, 10, 1],
+    [11, 0, 0],
+    [0, 11, 0],
+  ])
+    expect(
+      robotPracticeScore([
+        { ...result, success: true },
+        { ...result, extra: extra ?? 0, missing: missing ?? 0 },
+      ]),
+    ).toBe(score);
+  for (const status of [
+    'crashed',
+    'cancelled',
+    'step_limit',
+    'running',
+    'ready',
+  ] as const)
+    expect(robotPracticeScore([{ ...result, status }])).toBe(0);
 });

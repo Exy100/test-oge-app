@@ -1,10 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`robot-comb-v1 > golden task and manifest golden-1 1`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-1 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-comb-v1:golden-1:reference",
+    "referenceId": "robot-comb-v2:golden-1:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -20,11 +20,11 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -34,16 +34,16 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-comb-v1:files:golden-1",
+  "datasetId": "robot-comb-v2:files:golden-1",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Вернись вниз до стены под основанием; переместись вправо лишь после проверки датчика.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-comb-v1:golden-1",
+  "id": "robot-comb-v2:golden-1",
   "seed": "golden-1",
   "solution": [
     {
@@ -91,15 +91,15 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 1`] = `
 }
 `;
 
-exports[`robot-comb-v1 > golden task and manifest golden-1 2`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-1 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -112,8 +112,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -126,8 +126,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "17ff7e22de5309a27e06d7ff3be093fb4729b5609fc422bf31aa182fd1cee4dc",
-      "size": 8738,
+      "sha256": "6fbbe6683a2e95e4631bde80523f7a9886f6141fe3973a8c2502b29e3c5ea2a4",
+      "size": 9042,
     },
     {
       "format": "json",
@@ -158,19 +158,19 @@ exports[`robot-comb-v1 > golden task and manifest golden-1 2`] = `
       "size": 49116,
     },
   ],
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-comb-v1:files:golden-1",
+  "id": "robot-comb-v2:files:golden-1",
   "kind": "generated",
   "seed": "golden-1",
 }
 `;
 
-exports[`robot-comb-v1 > golden task and manifest golden-2 1`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-2 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-comb-v1:golden-2:reference",
+    "referenceId": "robot-comb-v2:golden-2:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -186,11 +186,11 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -200,16 +200,16 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-comb-v1:files:golden-2",
+  "datasetId": "robot-comb-v2:files:golden-2",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Вернись вниз до стены под основанием; переместись вправо лишь после проверки датчика.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-comb-v1:golden-2",
+  "id": "robot-comb-v2:golden-2",
   "seed": "golden-2",
   "solution": [
     {
@@ -257,15 +257,15 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 1`] = `
 }
 `;
 
-exports[`robot-comb-v1 > golden task and manifest golden-2 2`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-2 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -278,8 +278,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -292,8 +292,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "befbc64db309b36edc2082feabad312c300a0b4cf82139af6a54615590bbcf78",
-      "size": 7539,
+      "sha256": "21a850658a6b9d647b7d6f75da556f68dbf1d0054be77473f5074ea925f17583",
+      "size": 7843,
     },
     {
       "format": "json",
@@ -324,19 +324,19 @@ exports[`robot-comb-v1 > golden task and manifest golden-2 2`] = `
       "size": 30592,
     },
   ],
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-comb-v1:files:golden-2",
+  "id": "robot-comb-v2:files:golden-2",
   "kind": "generated",
   "seed": "golden-2",
 }
 `;
 
-exports[`robot-comb-v1 > golden task and manifest golden-3 1`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-3 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-comb-v1:golden-3:reference",
+    "referenceId": "robot-comb-v2:golden-3:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -352,11 +352,11 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -366,16 +366,16 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-comb-v1:files:golden-3",
+  "datasetId": "robot-comb-v2:files:golden-3",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Вернись вниз до стены под основанием; переместись вправо лишь после проверки датчика.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-comb-v1:golden-3",
+  "id": "robot-comb-v2:golden-3",
   "seed": "golden-3",
   "solution": [
     {
@@ -423,15 +423,15 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 1`] = `
 }
 `;
 
-exports[`robot-comb-v1 > golden task and manifest golden-3 2`] = `
+exports[`robot-comb-v2 > golden task and manifest golden-3 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -444,8 +444,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -458,8 +458,8 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "9e20c235ed451a25d00d4c6057b6cb6e6d13e70805ab9f047b13ffda059e8b4a",
-      "size": 7416,
+      "sha256": "6202f8354b61f80e5c1bf9277777430e89c7ce8abb33185a0221459bc1220ab2",
+      "size": 7720,
     },
     {
       "format": "json",
@@ -490,19 +490,19 @@ exports[`robot-comb-v1 > golden task and manifest golden-3 2`] = `
       "size": 36254,
     },
   ],
-  "generatorId": "robot-comb-v1",
+  "generatorId": "robot-comb-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-comb-v1:files:golden-3",
+  "id": "robot-comb-v2:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-1 1`] = `
+exports[`robot-corner-left-v2 > golden task and manifest golden-1 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-corridor-v1:golden-1:reference",
+    "referenceId": "robot-corner-left-v2:golden-1:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -518,11 +518,11 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -532,16 +532,1042 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-corridor-v1:files:golden-1",
+  "datasetId": "robot-corner-left-v2:files:golden-1",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corner-left-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-left-v2:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Поднимайся вдоль вертикальной стены справа, закрашивая клетки у стены и пропуская её проход.",
+    },
+    {
+      "text": "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+кц
+нц пока справа свободно
+вверх
+кц
+нц пока сверху свободно
+закрасить
+вверх
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+кон
+",
+      "text": "Движение по каждой оси однонаправленно, расстояние до угла или конца убывает. Датчики различают стены и проходы независимо от их длины.",
+    },
+  ],
+  "statement": "Горизонтальная стена соединена правым концом с верхним концом вертикальной стены, идущей вниз. В каждой стене ровно один проход произвольной положительной ширины, не касающийся концов. Робот стоит слева от нижнего конца вертикальной стены. Закрась клетки непосредственно слева от вертикальной и под горизонтальной стеной, исключая проходы. Длины неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2026.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 15 × 21, старт (строка 12, столбец 18), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-left",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-left-v2 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "6007804979e103b4d83d7c38b38c8e1dfed39f137fcaabeeda9cb63210bb9452",
+      "size": 2021,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "c1f31c6bb5376a89206999d95643928f35672b793c1c3da63c8f8fe347ac3128",
+      "size": 508,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "cc494bdecbf1d79fd1577913b7c9550f98dc5435c6a370a381991713b0335aa5",
+      "size": 9588,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "34db8d21ae977f7a04af12f0cd7583a1e581bf5725ccdfa5d3c420cf070b0745",
+      "size": 4225,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "30daebbf068141a9b1b6d186639bf7633a31351d405c4f36b8deb97dc1cfb373",
+      "size": 4212,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "029c51563442608a0c8046a9fdd87cb15ee3efc8ab81d6b41d257441765bc512",
+      "size": 1678,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "48f5d5d1ae548421cc9be95a41252f98a70c7d0b317d4c3644a6744c22a3dd28",
+      "size": 30571,
+    },
+  ],
+  "generatorId": "robot-corner-left-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-left-v2:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`robot-corner-left-v2 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corner-left-v2:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corner-left-v2:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corner-left-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-left-v2:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Поднимайся вдоль вертикальной стены справа, закрашивая клетки у стены и пропуская её проход.",
+    },
+    {
+      "text": "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+кц
+нц пока справа свободно
+вверх
+кц
+нц пока сверху свободно
+закрасить
+вверх
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+кон
+",
+      "text": "Движение по каждой оси однонаправленно, расстояние до угла или конца убывает. Датчики различают стены и проходы независимо от их длины.",
+    },
+  ],
+  "statement": "Горизонтальная стена соединена правым концом с верхним концом вертикальной стены, идущей вниз. В каждой стене ровно один проход произвольной положительной ширины, не касающийся концов. Робот стоит слева от нижнего конца вертикальной стены. Закрась клетки непосредственно слева от вертикальной и под горизонтальной стеной, исключая проходы. Длины неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2026.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 21 × 13, старт (строка 18, столбец 10), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-left",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-left-v2 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "ed138bab91ae818bbd9f45a8cf886d79aa8638593c8a5d7a8fe4a4c39f171aee",
+      "size": 2021,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "c1f31c6bb5376a89206999d95643928f35672b793c1c3da63c8f8fe347ac3128",
+      "size": 508,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "fd028a9c54a322c3fa03b5035715cde97db7f422ff94d12646c176d1dbb021db",
+      "size": 9921,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "8378f6de0e46087c1bc1ebacddb1a2f44650a00366ffc3a527ea66f491174efb",
+      "size": 4612,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "e574c9255050c5141819a808c0f840f752b3317bcd51da752f1930456e6b701f",
+      "size": 4746,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "75dacb00132642732deb158780c7a63ee9f64c10add9b7c47b82546fe6d44deb",
+      "size": 1678,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "cfed674266253bf381464cfc958da1461c4c7eb2a679a5c9213acabc48403340",
+      "size": 31676,
+    },
+  ],
+  "generatorId": "robot-corner-left-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-left-v2:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`robot-corner-left-v2 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corner-left-v2:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corner-left-v2:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corner-left-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-left-v2:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Поднимайся вдоль вертикальной стены справа, закрашивая клетки у стены и пропуская её проход.",
+    },
+    {
+      "text": "В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+кц
+нц пока справа свободно
+вверх
+кц
+нц пока сверху свободно
+закрасить
+вверх
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока не сверху свободно
+закрасить
+влево
+кц
+кон
+",
+      "text": "Движение по каждой оси однонаправленно, расстояние до угла или конца убывает. Датчики различают стены и проходы независимо от их длины.",
+    },
+  ],
+  "statement": "Горизонтальная стена соединена правым концом с верхним концом вертикальной стены, идущей вниз. В каждой стене ровно один проход произвольной положительной ширины, не касающийся концов. Робот стоит слева от нижнего конца вертикальной стены. Закрась клетки непосредственно слева от вертикальной и под горизонтальной стеной, исключая проходы. Длины неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2026.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 11 × 16, старт (строка 8, столбец 13), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-left",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-left-v2 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "42989591ae5a39bd89a54d242c0d2155874d0a478f305e75ad4b0a0e75e466a0",
+      "size": 2020,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "c1f31c6bb5376a89206999d95643928f35672b793c1c3da63c8f8fe347ac3128",
+      "size": 508,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "4e75cb33567740dc5760118d058e01ddcafdaf88a1a0f2530140818c210c45cf",
+      "size": 7907,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "4f52b329d4e15042b402bb368df3f05f86213f5ed65a1eb11b2c1171ba30160e",
+      "size": 3285,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "e60af147378faef7e2199d4409d17a717ef76633dba4a5f39f767ae1691ba768",
+      "size": 4531,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "b33a2900237ebc22fa0bd72073b7ffcec62641d53161a5fddefa3bb32914bffc",
+      "size": 1672,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "3b195bb2c85face68f3110190e84a3947228fc66771b2ac502fc61b403041c17",
+      "size": 24950,
+    },
+  ],
+  "generatorId": "robot-corner-left-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-left-v2:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corner-right-v2:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corner-right-v2:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corner-right-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-right-v2:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Иди влево под горизонтальной стеной с закраской, затем пройди её проход без закраски.",
+    },
+    {
+      "text": "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока слева свободно
+закрасить
+влево
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+нц пока слева свободно
+вниз
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+кон
+",
+      "text": "На каждом участке расстояние до прохода или конца стены убывает. Оба прохода внутренние, поэтому после них снова находится стена. Закраска выполняется только рядом со стеной.",
+    },
+  ],
+  "statement": "Две стены соединены в верхнем левом углу: горизонтальная идёт вправо, вертикальная — вниз. В каждой ровно один проход произвольной положительной ширины; проходы не касаются концов стен. Робот стоит под правым концом горизонтальной стены. Закрась клетки непосредственно под горизонтальной и справа от вертикальной стены, не закрашивая клетки у проходов. Длины стен неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2025.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 15 × 11, старт (строка 1, столбец 8), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-right",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "afbbdcfa35ec7efcd34b8d6a61ad72061dd9b8d15502796a84b4a678ee820804",
+      "size": 2050,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "d43be074a44ee10577b599bf0fe60dd4e75637c2898a53d893f33915d44611c4",
+      "size": 494,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "5c0a487dc64116ca9a61bc71f5d790f64d019dfea7372a9d2f49d5a737895219",
+      "size": 9033,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "07c88e864a14d8aa5ce0d94f1e5a4ef7642dabacd8ef0a81cfd0999d3117b07e",
+      "size": 2898,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "9b51f9c7b523e1f75e19477de2b4efe2ba0400435acaf911474b2fcc9288bf86",
+      "size": 5278,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "a82e295694f11bde2fb1e0a966aeb867c60bbfccea2489f439c63ac9a1741cec",
+      "size": 1684,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "9a77ec495e8b96c9d8cd32c233a65b1c7b5b84b7e9dff85808f441f53ce2d92d",
+      "size": 28698,
+    },
+  ],
+  "generatorId": "robot-corner-right-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-right-v2:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corner-right-v2:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corner-right-v2:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corner-right-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-right-v2:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Иди влево под горизонтальной стеной с закраской, затем пройди её проход без закраски.",
+    },
+    {
+      "text": "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока слева свободно
+закрасить
+влево
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+нц пока слева свободно
+вниз
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+кон
+",
+      "text": "На каждом участке расстояние до прохода или конца стены убывает. Оба прохода внутренние, поэтому после них снова находится стена. Закраска выполняется только рядом со стеной.",
+    },
+  ],
+  "statement": "Две стены соединены в верхнем левом углу: горизонтальная идёт вправо, вертикальная — вниз. В каждой ровно один проход произвольной положительной ширины; проходы не касаются концов стен. Робот стоит под правым концом горизонтальной стены. Закрась клетки непосредственно под горизонтальной и справа от вертикальной стены, не закрашивая клетки у проходов. Длины стен неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2025.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 15 × 17, старт (строка 3, столбец 14), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-right",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "3e142c5c119600c8d74d0597f4d90c86a6488e18f2d7b99063808768ed5e10d5",
+      "size": 2051,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "d43be074a44ee10577b599bf0fe60dd4e75637c2898a53d893f33915d44611c4",
+      "size": 494,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "4a6c38210fb742ab486baf4b9f454cd151056a5e95492d69c2d4bff850e0a93a",
+      "size": 9228,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "16acc589925f1552919f33d2d705c13d78e74940ca991ebbc8353a382cbc39bf",
+      "size": 3646,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "04518cb01b4ae82b1a8f09ccd561a43293497417f64559d6e3dbf14a377b209d",
+      "size": 5079,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "44c36fe6e9bc045901aa35a76608cdf7e12ca2e5409cb9b2841fe041ff0e463f",
+      "size": 1685,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "c6a5f93fa204e82f04454d22e35fcb9c86ae23c5b96c5358f811d8b54267cee0",
+      "size": 29351,
+    },
+  ],
+  "generatorId": "robot-corner-right-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-right-v2:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corner-right-v2:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corner-right-v2:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corner-right-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-corner-right-v2:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Иди влево под горизонтальной стеной с закраской, затем пройди её проход без закраски.",
+    },
+    {
+      "text": "Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не сверху свободно
+закрасить
+влево
+кц
+нц пока сверху свободно
+влево
+кц
+нц пока слева свободно
+закрасить
+влево
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+нц пока слева свободно
+вниз
+кц
+нц пока не слева свободно
+закрасить
+вниз
+кц
+кон
+",
+      "text": "На каждом участке расстояние до прохода или конца стены убывает. Оба прохода внутренние, поэтому после них снова находится стена. Закраска выполняется только рядом со стеной.",
+    },
+  ],
+  "statement": "Две стены соединены в верхнем левом углу: горизонтальная идёт вправо, вертикальная — вниз. В каждой ровно один проход произвольной положительной ширины; проходы не касаются концов стен. Робот стоит под правым концом горизонтальной стены. Закрась клетки непосредственно под горизонтальной и справа от вертикальной стены, не закрашивая клетки у проходов. Длины стен неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2025.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 11 × 23, старт (строка 2, столбец 20), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-corner-right",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-corner-right-v2 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "ccf8250951d4db5e3bd16b0d56eba298cd02c7da34e2728f275bc4d0e981fd63",
+      "size": 2051,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "d43be074a44ee10577b599bf0fe60dd4e75637c2898a53d893f33915d44611c4",
+      "size": 494,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "29db8f2ba12494adeb1e8c7de35de1f514649b53a4c69b22ac23fbc4c684a970",
+      "size": 8275,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "b45c9a8c329e717c5c5dd73a777f997b9149ffa224ba2fa4061474d6ff614bf5",
+      "size": 3835,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "f01981cb6ca441d7e9c1dd103cc27371d43f71959004765c1d213b3953fe698e",
+      "size": 3536,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "269c17dd34ff05647446b04ab148f9411771d50f710ace07ca438893c6ed2ed7",
+      "size": 1683,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "2f3d5a0dde3dceb24d04b581dac0442a366ed5e8edd81fa7fca19b195f81aed9",
+      "size": 26168,
+    },
+  ],
+  "generatorId": "robot-corner-right-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-corner-right-v2:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`robot-corridor-v2 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-corridor-v2:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-corridor-v2:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-corridor-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Перед каждым шагом вправо проверяй датчик; после шага закрась новую клетку.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-corridor-v1:golden-1",
+  "id": "robot-corridor-v2:golden-1",
   "seed": "golden-1",
   "solution": [
     {
@@ -577,15 +1603,15 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 1`] = `
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-1 2`] = `
+exports[`robot-corridor-v2 > golden task and manifest golden-1 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -598,8 +1624,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -612,8 +1638,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "e71055f62a79f9c1dd4d8033d49d682ccfd75573a1067d6d8e6985fba8ebed84",
-      "size": 4973,
+      "sha256": "757a5066e2f0ec9263d1238e832975847f3d0bb9057a312a009a2e490cb13ff9",
+      "size": 5277,
     },
     {
       "format": "json",
@@ -644,19 +1670,19 @@ exports[`robot-corridor-v1 > golden task and manifest golden-1 2`] = `
       "size": 22313,
     },
   ],
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corridor-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-corridor-v1:files:golden-1",
+  "id": "robot-corridor-v2:files:golden-1",
   "kind": "generated",
   "seed": "golden-1",
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-2 1`] = `
+exports[`robot-corridor-v2 > golden task and manifest golden-2 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-corridor-v1:golden-2:reference",
+    "referenceId": "robot-corridor-v2:golden-2:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -672,11 +1698,11 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -686,16 +1712,16 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-corridor-v1:files:golden-2",
+  "datasetId": "robot-corridor-v2:files:golden-2",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corridor-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Перед каждым шагом вправо проверяй датчик; после шага закрась новую клетку.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-corridor-v1:golden-2",
+  "id": "robot-corridor-v2:golden-2",
   "seed": "golden-2",
   "solution": [
     {
@@ -731,15 +1757,15 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 1`] = `
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-2 2`] = `
+exports[`robot-corridor-v2 > golden task and manifest golden-2 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -752,8 +1778,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -766,8 +1792,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "0b6cd097aa5603acbd70f135aec968b9e1eed8dbb31b3121e8c724ee4b488917",
-      "size": 4717,
+      "sha256": "1d4a51cb42d067fdbe7a8d62e2ddd5cf5e83f507254527a66f90a1477529eba4",
+      "size": 5021,
     },
     {
       "format": "json",
@@ -798,19 +1824,19 @@ exports[`robot-corridor-v1 > golden task and manifest golden-2 2`] = `
       "size": 21620,
     },
   ],
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corridor-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-corridor-v1:files:golden-2",
+  "id": "robot-corridor-v2:files:golden-2",
   "kind": "generated",
   "seed": "golden-2",
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-3 1`] = `
+exports[`robot-corridor-v2 > golden task and manifest golden-3 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-corridor-v1:golden-3:reference",
+    "referenceId": "robot-corridor-v2:golden-3:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -826,11 +1852,11 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -840,16 +1866,16 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-corridor-v1:files:golden-3",
+  "datasetId": "robot-corridor-v2:files:golden-3",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corridor-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Перед каждым шагом вправо проверяй датчик; после шага закрась новую клетку.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-corridor-v1:golden-3",
+  "id": "robot-corridor-v2:golden-3",
   "seed": "golden-3",
   "solution": [
     {
@@ -885,15 +1911,15 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 1`] = `
 }
 `;
 
-exports[`robot-corridor-v1 > golden task and manifest golden-3 2`] = `
+exports[`robot-corridor-v2 > golden task and manifest golden-3 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -906,8 +1932,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -920,8 +1946,8 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "28558714a8c5c7bbb75c14ea933594f38a07ad29663371ceae1350ec88a27985",
-      "size": 4654,
+      "sha256": "06e789424140db2eb7b916684eb837c9faade6bc43d3a36f491b6159b58cc206",
+      "size": 4958,
     },
     {
       "format": "json",
@@ -952,19 +1978,19 @@ exports[`robot-corridor-v1 > golden task and manifest golden-3 2`] = `
       "size": 17812,
     },
   ],
-  "generatorId": "robot-corridor-v1",
+  "generatorId": "robot-corridor-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-corridor-v1:files:golden-3",
+  "id": "robot-corridor-v2:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-1 1`] = `
+exports[`robot-room-v2 > golden task and manifest golden-1 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-room-v1:golden-1:reference",
+    "referenceId": "robot-room-v2:golden-1:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -980,11 +2006,11 @@ exports[`robot-room-v1 > golden task and manifest golden-1 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -994,16 +2020,16 @@ exports[`robot-room-v1 > golden task and manifest golden-1 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-room-v1:files:golden-1",
+  "datasetId": "robot-room-v2:files:golden-1",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Если снизу свободно, спустись на строку и пройди её влево. Следующий спуск и проход вправо выполняй только при свободной клетке снизу.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-room-v1:golden-1",
+  "id": "robot-room-v2:golden-1",
   "seed": "golden-1",
   "solution": [
     {
@@ -1055,15 +2081,15 @@ exports[`robot-room-v1 > golden task and manifest golden-1 1`] = `
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-1 2`] = `
+exports[`robot-room-v2 > golden task and manifest golden-1 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1076,8 +2102,8 @@ exports[`robot-room-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1090,8 +2116,8 @@ exports[`robot-room-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "644c8c52cae986993846a8b3171f1a56c47c3dc112f9d2a3a330bfe74c90ad69",
-      "size": 18993,
+      "sha256": "87f08b5392b7ba230f01aa7b4753704b98409d260005b7dde98bac24b9e11493",
+      "size": 19297,
     },
     {
       "format": "json",
@@ -1122,19 +2148,19 @@ exports[`robot-room-v1 > golden task and manifest golden-1 2`] = `
       "size": 39306,
     },
   ],
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-room-v1:files:golden-1",
+  "id": "robot-room-v2:files:golden-1",
   "kind": "generated",
   "seed": "golden-1",
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-2 1`] = `
+exports[`robot-room-v2 > golden task and manifest golden-2 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-room-v1:golden-2:reference",
+    "referenceId": "robot-room-v2:golden-2:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -1150,11 +2176,11 @@ exports[`robot-room-v1 > golden task and manifest golden-2 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -1164,16 +2190,16 @@ exports[`robot-room-v1 > golden task and manifest golden-2 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-room-v1:files:golden-2",
+  "datasetId": "robot-room-v2:files:golden-2",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Если снизу свободно, спустись на строку и пройди её влево. Следующий спуск и проход вправо выполняй только при свободной клетке снизу.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-room-v1:golden-2",
+  "id": "robot-room-v2:golden-2",
   "seed": "golden-2",
   "solution": [
     {
@@ -1225,15 +2251,15 @@ exports[`robot-room-v1 > golden task and manifest golden-2 1`] = `
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-2 2`] = `
+exports[`robot-room-v2 > golden task and manifest golden-2 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1246,8 +2272,8 @@ exports[`robot-room-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1260,8 +2286,8 @@ exports[`robot-room-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "da88e8beb9cb35a920ebfa20b779dc6949f62e9280b16a2b8b36d9296b504a8e",
-      "size": 24251,
+      "sha256": "292ed607a122c77c5988ed567c332a354de81c773fbf02aa3e92ecdce6861951",
+      "size": 24555,
     },
     {
       "format": "json",
@@ -1292,19 +2318,19 @@ exports[`robot-room-v1 > golden task and manifest golden-2 2`] = `
       "size": 46567,
     },
   ],
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-room-v1:files:golden-2",
+  "id": "robot-room-v2:files:golden-2",
   "kind": "generated",
   "seed": "golden-2",
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-3 1`] = `
+exports[`robot-room-v2 > golden task and manifest golden-3 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-room-v1:golden-3:reference",
+    "referenceId": "robot-room-v2:golden-3:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -1320,11 +2346,11 @@ exports[`robot-room-v1 > golden task and manifest golden-3 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -1334,16 +2360,16 @@ exports[`robot-room-v1 > golden task and manifest golden-3 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-room-v1:files:golden-3",
+  "datasetId": "robot-room-v2:files:golden-3",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Если снизу свободно, спустись на строку и пройди её влево. Следующий спуск и проход вправо выполняй только при свободной клетке снизу.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-room-v1:golden-3",
+  "id": "robot-room-v2:golden-3",
   "seed": "golden-3",
   "solution": [
     {
@@ -1395,15 +2421,15 @@ exports[`robot-room-v1 > golden task and manifest golden-3 1`] = `
 }
 `;
 
-exports[`robot-room-v1 > golden task and manifest golden-3 2`] = `
+exports[`robot-room-v2 > golden task and manifest golden-3 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1416,8 +2442,8 @@ exports[`robot-room-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1430,8 +2456,8 @@ exports[`robot-room-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "002dcb144d7f2605a035dac10e49f94e6c1c8853cbcc13896e8ec1fdf3b5ed0b",
-      "size": 20447,
+      "sha256": "36e1d4bf846c5e2d9a15fba89c9de45dfe69fed7f468dcbb359a40fb58a38504",
+      "size": 20751,
     },
     {
       "format": "json",
@@ -1462,19 +2488,19 @@ exports[`robot-room-v1 > golden task and manifest golden-3 2`] = `
       "size": 41990,
     },
   ],
-  "generatorId": "robot-room-v1",
+  "generatorId": "robot-room-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-room-v1:files:golden-3",
+  "id": "robot-room-v2:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 1`] = `
+exports[`robot-stairs-v2 > golden task and manifest golden-1 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-wall-gaps-v1:golden-1:reference",
+    "referenceId": "robot-stairs-v2:golden-1:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -1490,11 +2516,11 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -1504,16 +2530,502 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-wall-gaps-v1:files:golden-1",
+  "datasetId": "robot-stairs-v2:files:golden-1",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-stairs-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-stairs-v2:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Пока справа стена, закрась клетку, поднимись и шагни вправо. На вершине справа свободно.",
+    },
+    {
+      "text": "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+вправо
+кц
+закрасить
+вправо
+вниз
+нц пока не слева свободно
+закрасить
+вправо
+вниз
+кц
+кон
+",
+      "text": "Каждый проход цикла обрабатывает одну ступень. Число оставшихся ступеней убывает; свободный датчик после последней останавливает цикл без лишней закраски.",
+    },
+  ],
+  "statement": "Стена образует лестницу: сначала подъём, затем спуск; ширина и высота каждой ступени — одна клетка. Число ступеней подъёма и спуска неизвестно и может различаться (в проверочных полях 1–10 каждого вида). Робот стоит на первой нижней ступени подъёма, справа от него стена. Закрась все клетки ступеней, включая верхнюю площадку; за последней ступенью закрашивать нельзя. Других стен рядом нет. Это авторское семейство по формату проекта демоверсии ФИПИ 2027.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 7 × 8, старт (строка 4, столбец 1), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-stairs",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-stairs-v2 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "b67724a77454f53d9782879f37e37d14c7f0f002467b797936316c2730fa26ae",
+      "size": 1984,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "5658e6b14421c9092bdf77fb7a17e49a6dd9660d16595c6cfe78bdc2e45585dd",
+      "size": 288,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "8453025cddc4f3254d8f11399f72686c2587ee2f45ac40af6dbefce91cb22142",
+      "size": 7144,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "53d3dae2ba2968b09f7f595df43d0fc6c66b70470a0bf3f654c11ad089f664bd",
+      "size": 1562,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "8c8f7b9e185465cb326d2c4ca2c089137213a0645d6104ba5ac56835d1d0c6ba",
+      "size": 5866,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "30d1067f1227042eec4aa8ff08657a698f84a3b3fe0e42e59f32accd9eaa2c21",
+      "size": 949,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "0469f82ec6de0d2ee8bb292b32ddcecfcf87833550dc99c74e60add78cf36389",
+      "size": 30535,
+    },
+  ],
+  "generatorId": "robot-stairs-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-stairs-v2:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`robot-stairs-v2 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-stairs-v2:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-stairs-v2:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-stairs-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-stairs-v2:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Пока справа стена, закрась клетку, поднимись и шагни вправо. На вершине справа свободно.",
+    },
+    {
+      "text": "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+вправо
+кц
+закрасить
+вправо
+вниз
+нц пока не слева свободно
+закрасить
+вправо
+вниз
+кц
+кон
+",
+      "text": "Каждый проход цикла обрабатывает одну ступень. Число оставшихся ступеней убывает; свободный датчик после последней останавливает цикл без лишней закраски.",
+    },
+  ],
+  "statement": "Стена образует лестницу: сначала подъём, затем спуск; ширина и высота каждой ступени — одна клетка. Число ступеней подъёма и спуска неизвестно и может различаться (в проверочных полях 1–10 каждого вида). Робот стоит на первой нижней ступени подъёма, справа от него стена. Закрась все клетки ступеней, включая верхнюю площадку; за последней ступенью закрашивать нельзя. Других стен рядом нет. Это авторское семейство по формату проекта демоверсии ФИПИ 2027.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 12 × 14, старт (строка 9, столбец 1), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-stairs",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-stairs-v2 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "19e91f29cc069f5d8d9f233cfb9dcbac88253eb2a856420f22c874438eb989c7",
+      "size": 1986,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "5658e6b14421c9092bdf77fb7a17e49a6dd9660d16595c6cfe78bdc2e45585dd",
+      "size": 288,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "a6432e28917b1136242e2a4376185cf651809300f53f9657092f63d7e9290a15",
+      "size": 7590,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "d67aa913735ecb7a55a9063c756b6e9ebaaab632e3313940bd5dc5914eebaa9e",
+      "size": 3485,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "76666696cc7ecf7e763489fd63163cb713cd4cb6af77a4e309d486bfa1efe2c8",
+      "size": 5257,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "9525424de8dc4c612144d28a340eb29ea9c0d3b8303e0f02a32671796f613166",
+      "size": 949,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "b8d4f7977f9c6c33fb5b29ce2cb216f1b51ebe334613cd27a808f79f663f9908",
+      "size": 33129,
+    },
+  ],
+  "generatorId": "robot-stairs-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-stairs-v2:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`robot-stairs-v2 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-stairs-v2:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-stairs-v2:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-stairs-v2",
+  "hints": [
+    "Начни с датчиков и границ: размер на рисунке — только пример.",
+    "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
+  ],
+  "id": "robot-stairs-v2:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Пока справа стена, закрась клетку, поднимись и шагни вправо. На вершине справа свободно.",
+    },
+    {
+      "text": "Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.",
+    },
+    {
+      "code": "использовать Робот
+алг
+нач
+нц пока не справа свободно
+закрасить
+вверх
+вправо
+кц
+закрасить
+вправо
+вниз
+нц пока не слева свободно
+закрасить
+вправо
+вниз
+кц
+кон
+",
+      "text": "Каждый проход цикла обрабатывает одну ступень. Число оставшихся ступеней убывает; свободный датчик после последней останавливает цикл без лишней закраски.",
+    },
+  ],
+  "statement": "Стена образует лестницу: сначала подъём, затем спуск; ширина и высота каждой ступени — одна клетка. Число ступеней подъёма и спуска неизвестно и может различаться (в проверочных полях 1–10 каждого вида). Робот стоит на первой нижней ступени подъёма, справа от него стена. Закрась все клетки ступеней, включая верхнюю площадку; за последней ступенью закрашивать нельзя. Других стен рядом нет. Это авторское семейство по формату проекта демоверсии ФИПИ 2027.
+
+Все клетки первоначально не закрашены. Лишние клетки закрашивать нельзя; конечная позиция не задана. Используй датчики и циклы, не подставляй размеры с рисунка. Показан только один пример семейства: сетка 16 × 19, старт (строка 13, столбец 1), индексы с 0. Данные и рисунок находятся в source; проверочные поля — в validation/fields.json.
+
+Сохрани программу в answer.txt, UTF-8. Поддерживаются движения, закраска, датчики, если/иначе и нц пока; описание языка есть в README.txt. Нужно нормальное завершение без столкновений и точная закраска на всех допустимых полях семейства. Учебные критерии 0/1/2 и конечный набор проверок не заменяют официальную экспертную оценку.",
+  "subtype": "robot-stairs",
+  "taskNumber": 15,
+  "topics": [
+    "Алгоритмы исполнителя «Робот»",
+  ],
+}
+`;
+
+exports[`robot-stairs-v2 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "0b721cd7df003812ac242c5f23cb7407e591454d469d33c9ff5e0c3e79b96bc1",
+      "size": 1987,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "reference/answer.txt",
+      "sha256": "5658e6b14421c9092bdf77fb7a17e49a6dd9660d16595c6cfe78bdc2e45585dd",
+      "size": 288,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "reference/results.json",
+      "sha256": "9b2f952ddea538bd47cf2390762eaa3d5a84829de0922d4df08314bd504a315f",
+      "size": 8743,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/example.json",
+      "sha256": "836ac774824bd7cc9a6d5f791d4e53320fb3e0e61f7b15cba14c36b82cf0a05b",
+      "size": 5125,
+    },
+    {
+      "format": "png",
+      "license": "CC0-1.0",
+      "path": "source/example.png",
+      "sha256": "35d7146a07cc69a0aec374eccdb48a5f5231f44f0e15c1d061e569731d8e7e05",
+      "size": 5293,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/family.json",
+      "sha256": "3f373f4c60363429fd167083250dcda14ef62b69924cea42622b2e24a98400af",
+      "size": 950,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "validation/fields.json",
+      "sha256": "409e7aec70465930e432f8b45202b549daeff0de2b0b136f94e21df9fcaff243",
+      "size": 39825,
+    },
+  ],
+  "generatorId": "robot-stairs-v2",
+  "generatorVersion": "educational-files-v1",
+  "id": "robot-stairs-v2:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "robot",
+    "referenceId": "robot-wall-gaps-v2:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "fixed-moves",
+      "explanation": "Фиксированное число шагов решает один рисунок, но не семейство.",
+    },
+    {
+      "answer": "paint-all",
+      "explanation": "Лишняя закрашенная клетка также делает результат неверным.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
+        "score": 0,
+      },
+      {
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
+        "score": 1,
+      },
+      {
+        "description": "Все восемь проверочных полей пройдены с нормальным завершением, без столкновений и с точной закраской.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "robot-wall-gaps-v2:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "robot-wall-gaps-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Поднимайся по одной клетке, пока сверху свободно, и после каждого шага проверяй стену слева.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-wall-gaps-v1:golden-1",
+  "id": "robot-wall-gaps-v2:golden-1",
   "seed": "golden-1",
   "solution": [
     {
@@ -1553,15 +3065,15 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 1`] = `
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 2`] = `
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-1 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1574,8 +3086,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1588,8 +3100,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "add932c04252d83444929a31a082d28161167278a373b880c4e35aa25837cfa2",
-      "size": 3633,
+      "sha256": "c25edeb2358247a2655c0fa2b89c42b39f29984c05fe4035ad53d264bd99c63d",
+      "size": 3937,
     },
     {
       "format": "json",
@@ -1620,19 +3132,19 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-1 2`] = `
       "size": 10354,
     },
   ],
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-wall-gaps-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-wall-gaps-v1:files:golden-1",
+  "id": "robot-wall-gaps-v2:files:golden-1",
   "kind": "generated",
   "seed": "golden-1",
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 1`] = `
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-2 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-wall-gaps-v1:golden-2:reference",
+    "referenceId": "robot-wall-gaps-v2:golden-2:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -1648,11 +3160,11 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -1662,16 +3174,16 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-wall-gaps-v1:files:golden-2",
+  "datasetId": "robot-wall-gaps-v2:files:golden-2",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-wall-gaps-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Поднимайся по одной клетке, пока сверху свободно, и после каждого шага проверяй стену слева.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-wall-gaps-v1:golden-2",
+  "id": "robot-wall-gaps-v2:golden-2",
   "seed": "golden-2",
   "solution": [
     {
@@ -1711,15 +3223,15 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 1`] = `
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 2`] = `
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-2 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1732,8 +3244,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1746,8 +3258,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "5aad4617f802ca965e58bf81075359c040f102301244797780c30d90a6733bfa",
-      "size": 3633,
+      "sha256": "5c4dfa25bea975a0dbc4ccfc41bbf85c6c682d4d9bde3291c77c6f644d17c5ae",
+      "size": 3937,
     },
     {
       "format": "json",
@@ -1778,19 +3290,19 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-2 2`] = `
       "size": 10352,
     },
   ],
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-wall-gaps-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-wall-gaps-v1:files:golden-2",
+  "id": "robot-wall-gaps-v2:files:golden-2",
   "kind": "generated",
   "seed": "golden-2",
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 1`] = `
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-3 1`] = `
 {
   "answer": {
     "kind": "robot",
-    "referenceId": "robot-wall-gaps-v1:golden-3:reference",
+    "referenceId": "robot-wall-gaps-v2:golden-3:reference",
     "type": "artifact",
   },
   "commonMistakes": [
@@ -1806,11 +3318,11 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 1`] = `
   "criteria": {
     "levels": [
       {
-        "description": "Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.",
+        "description": "Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.",
         "score": 0,
       },
       {
-        "description": "С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.",
+        "description": "На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.",
         "score": 1,
       },
       {
@@ -1820,16 +3332,16 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 1`] = `
     ],
     "max": 2,
   },
-  "datasetId": "robot-wall-gaps-v1:files:golden-3",
+  "datasetId": "robot-wall-gaps-v2:files:golden-3",
   "difficulty": 2,
   "examPart": 2,
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-wall-gaps-v2",
   "hints": [
     "Начни с датчиков и границ: размер на рисунке — только пример.",
     "Поднимайся по одной клетке, пока сверху свободно, и после каждого шага проверяй стену слева.",
     "Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.",
   ],
-  "id": "robot-wall-gaps-v1:golden-3",
+  "id": "robot-wall-gaps-v2:golden-3",
   "seed": "golden-3",
   "solution": [
     {
@@ -1869,15 +3381,15 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 1`] = `
 }
 `;
 
-exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 2`] = `
+exports[`robot-wall-gaps-v2 > golden task and manifest golden-3 2`] = `
 {
   "files": [
     {
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
-      "size": 2169,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
+      "size": 3066,
     },
     {
       "format": "txt",
@@ -1890,8 +3402,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "criteria.json",
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
-      "size": 838,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
+      "size": 1208,
     },
     {
       "format": "txt",
@@ -1904,8 +3416,8 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "reference/results.json",
-      "sha256": "a01abe0454cca84cadd2983c87d9a09bc07e95a09573fe2d141a1ad3a6cfdf63",
-      "size": 3760,
+      "sha256": "81677e187130fb86aee7ab3dea401926ff7c9ce2594f20bd359f5dd6786a149d",
+      "size": 4064,
     },
     {
       "format": "json",
@@ -1936,9 +3448,9 @@ exports[`robot-wall-gaps-v1 > golden task and manifest golden-3 2`] = `
       "size": 10772,
     },
   ],
-  "generatorId": "robot-wall-gaps-v1",
+  "generatorId": "robot-wall-gaps-v2",
   "generatorVersion": "educational-files-v1",
-  "id": "robot-wall-gaps-v1:files:golden-3",
+  "id": "robot-wall-gaps-v2:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }

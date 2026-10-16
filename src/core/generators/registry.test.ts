@@ -48,8 +48,16 @@ test('registry supports lookup and rejects duplicates', () => {
   expect(generatorsForTask(11)).toHaveLength(3);
   expect(generatorsForTask(12)).toHaveLength(3);
   expect(generatorsForTask(14)).toHaveLength(4);
-  expect(generators).toHaveLength(58);
-  expect(generatorsForTask(15)).toHaveLength(4);
+  expect(generators).toHaveLength(61);
+  expect(generatorsForTask(15).map((generator) => generator.id)).toEqual([
+    'robot-corridor-v2',
+    'robot-wall-gaps-v2',
+    'robot-comb-v2',
+    'robot-room-v2',
+    'robot-corner-right-v2',
+    'robot-corner-left-v2',
+    'robot-stairs-v2',
+  ]);
   expect(generatorsForTask(16)).toHaveLength(4);
   expect(generatorsForTask(13)).toEqual([]);
   expect(() => getGenerator('missing')).toThrow('не найден');

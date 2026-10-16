@@ -1,15 +1,15 @@
 {
   "kind": "generated",
-  "generatorId": "robot-comb-v1",
-  "id": "robot-comb-v1:files:robot-review:2",
+  "generatorId": "robot-comb-v2",
+  "id": "robot-comb-v2:files:robot-review:2",
   "seed": "robot-review:2",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2169,
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "size": 3066,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
       "license": "CC0-1.0"
     },
     {
@@ -22,8 +22,8 @@
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 838,
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "size": 1208,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
       "license": "CC0-1.0"
     },
     {
@@ -36,8 +36,8 @@
     {
       "path": "reference/results.json",
       "format": "json",
-      "size": 8360,
-      "sha256": "d05d745926d81a2973fb0f3237dd6b2744b321be1659ce1a54c073ef656b0ce4",
+      "size": 8664,
+      "sha256": "2a60c8fd187fbfa487ad4ac8bcc867ae6c62c8967f80503dc4ac433a210b944b",
       "license": "CC0-1.0"
     },
     {

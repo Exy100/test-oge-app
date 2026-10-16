@@ -1,24 +1,92 @@
 {
   "kind": "robot-field",
   "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
-  "rows": 2,
-  "columns": 6,
+  "rows": 7,
+  "columns": 5,
   "start": {
-    "row": 1,
-    "column": 3
+    "row": 6,
+    "column": 0
   },
   "painted": [],
   "targets": [
     {
       "row": 0,
-      "column": 3
+      "column": 1
     },
     {
       "row": 1,
+      "column": 1
+    },
+    {
+      "row": 2,
+      "column": 1
+    },
+    {
+      "row": 2,
+      "column": 2
+    },
+    {
+      "row": 3,
+      "column": 0
+    },
+    {
+      "row": 3,
+      "column": 1
+    },
+    {
+      "row": 3,
+      "column": 2
+    },
+    {
+      "row": 4,
+      "column": 0
+    },
+    {
+      "row": 4,
+      "column": 1
+    },
+    {
+      "row": 4,
+      "column": 2
+    },
+    {
+      "row": 5,
+      "column": 0
+    },
+    {
+      "row": 5,
+      "column": 1
+    },
+    {
+      "row": 5,
+      "column": 2
+    },
+    {
+      "row": 5,
       "column": 3
     }
   ],
   "walls": [
+    {
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "to": {
+        "row": 0,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 0,
+        "column": 1
+      },
+      "to": {
+        "row": 0,
+        "column": 2
+      }
+    },
     {
       "from": {
         "row": 0,
@@ -31,12 +99,252 @@
     },
     {
       "from": {
+        "row": 0,
+        "column": 3
+      },
+      "to": {
+        "row": 0,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 1
+      },
+      "to": {
+        "row": 1,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 1
+      },
+      "to": {
+        "row": 1,
+        "column": 2
+      }
+    },
+    {
+      "from": {
         "row": 1,
         "column": 2
       },
       "to": {
         "row": 1,
         "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 1,
+        "column": 3
+      },
+      "to": {
+        "row": 1,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 1
+      },
+      "to": {
+        "row": 2,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 1
+      },
+      "to": {
+        "row": 2,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 2
+      },
+      "to": {
+        "row": 2,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 3
+      },
+      "to": {
+        "row": 2,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 0
+      },
+      "to": {
+        "row": 3,
+        "column": 1
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 1
+      },
+      "to": {
+        "row": 3,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 2
+      },
+      "to": {
+        "row": 3,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 3
+      },
+      "to": {
+        "row": 3,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 0
+      },
+      "to": {
+        "row": 4,
+        "column": 1
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 1
+      },
+      "to": {
+        "row": 4,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 2
+      },
+      "to": {
+        "row": 4,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 4,
+        "column": 3
+      },
+      "to": {
+        "row": 4,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 0
+      },
+      "to": {
+        "row": 5,
+        "column": 1
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 1
+      },
+      "to": {
+        "row": 5,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 2
+      },
+      "to": {
+        "row": 5,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 3
+      },
+      "to": {
+        "row": 5,
+        "column": 4
+      }
+    },
+    {
+      "from": {
+        "row": 3,
+        "column": 0
+      },
+      "to": {
+        "row": 2,
+        "column": 0
+      }
+    },
+    {
+      "from": {
+        "row": 2,
+        "column": 2
+      },
+      "to": {
+        "row": 1,
+        "column": 2
+      }
+    },
+    {
+      "from": {
+        "row": 5,
+        "column": 3
+      },
+      "to": {
+        "row": 4,
+        "column": 3
+      }
+    },
+    {
+      "from": {
+        "row": 6,
+        "column": 4
+      },
+      "to": {
+        "row": 5,
+        "column": 4
       }
     }
   ]

@@ -78,6 +78,7 @@ export class RobotExecution {
   #position: Cell;
   #pc = 0;
   #steps = 0;
+  #lastLine = 1;
   #status: RobotStatus = 'ready';
   #truncated = false;
   constructor(source: string, field: RobotField, options: RobotOptions = {}) {
@@ -116,6 +117,11 @@ export class RobotExecution {
     return next;
   }
   #sense(condition: Condition): boolean {
+    if (condition.kind === 'not') return !this.#sense(condition.operand);
+    if (condition.kind === 'and')
+      return condition.operands.every((item) => this.#sense(item));
+    if (condition.kind === 'or')
+      return condition.operands.some((item) => this.#sense(item));
     const actual =
       condition.sensor === 'клетка'
         ? this.#painted.has(key(this.#position))
@@ -136,6 +142,7 @@ export class RobotExecution {
     }
     this.#status = 'running';
     this.#steps += 1;
+    this.#lastLine = instruction.line;
     switch (instruction.kind) {
       case 'move': {
         const next = this.#destination(instruction.direction);
@@ -218,8 +225,8 @@ export class RobotExecution {
       completed: success
         ? 'Все нужные клетки закрашены.'
         : 'Программа завершилась, закраска не совпадает с целью.',
-      crashed: 'Робот столкнулся со стеной.',
-      step_limit: 'Превышен лимит шагов.',
+      crashed: `Строка ${String(this.#lastLine)}: Робот столкнулся со стеной. Проверь датчик перед движением.`,
+      step_limit: `Строка ${String(this.#lastLine)}: Превышен лимит шагов. Проверь, меняется ли условие цикла, и сократи лишние повторения.`,
       cancelled: 'Выполнение отменено.',
     };
     return {

@@ -10,10 +10,11 @@ export const robotLimits = Object.freeze({
 });
 export type Direction = 'вверх' | 'вниз' | 'влево' | 'вправо';
 export type Sensor = 'сверху' | 'снизу' | 'слева' | 'справа' | 'клетка';
-export interface Condition {
-  sensor: Sensor;
-  expected: boolean;
-}
+export type Condition =
+  | { kind: 'sensor'; sensor: Sensor; expected: boolean }
+  | { kind: 'not'; operand: Condition }
+  | { kind: 'and'; operands: readonly Condition[] }
+  | { kind: 'or'; operands: readonly Condition[] };
 export type Instruction =
   | { kind: 'move'; direction: Direction; line: number }
   | { kind: 'paint'; line: number }
@@ -24,26 +25,71 @@ export type Instruction =
 export class RobotSyntaxError extends Error {
   readonly line: number;
   constructor(line: number, message: string) {
-    super(`Строка ${String(line)}: ${message}`);
+    super(`Строка ${String(line)}: ${message} Проверь запись в этой строке.`);
     this.line = line;
     this.name = 'RobotSyntaxError';
   }
 }
 function condition(text: string, line: number): Condition {
-  const negate = text.startsWith('не ');
-  const source = negate ? text.slice(3) : text;
-  const match = /^(сверху|снизу|слева|справа) (свободно|стена)$/u.exec(source);
-  if (match)
-    return {
-      sensor: match[1] as Sensor,
-      expected: (match[2] === 'свободно') !== negate,
-    };
-  if (source === 'клетка закрашена' || source === 'клетка не закрашена')
-    return {
-      sensor: 'клетка',
-      expected: (source === 'клетка закрашена') !== negate,
-    };
-  throw new RobotSyntaxError(line, 'Неизвестное условие.');
+  const tokens = text.match(/[()]|[^()\s]+/gu) ?? [];
+  let cursor = 0;
+  // Flat conjunctions/disjunctions are lists, not a recursively growing binary tree.
+  function expression(operator: 'или' | 'и', depth: number): Condition {
+    const next = () =>
+      operator === 'или' ? expression('и', depth) : unary(depth);
+    const first = next();
+    const operands = [first];
+    while (tokens[cursor] === operator) {
+      cursor++;
+      operands.push(next());
+    }
+    return operands.length === 1
+      ? first
+      : { kind: operator === 'и' ? 'and' : 'or', operands };
+  }
+  function unary(depth: number): Condition {
+    if (depth > robotLimits.nesting)
+      throw new RobotSyntaxError(
+        line,
+        'Слишком глубокая вложенность условия. Убери лишние скобки или отрицания.',
+      );
+    const token = tokens[cursor++];
+    if (token === 'не') return { kind: 'not', operand: unary(depth + 1) };
+    if (token === '(') {
+      const result = expression('или', depth + 1);
+      if (tokens[cursor++] !== ')')
+        throw new RobotSyntaxError(
+          line,
+          'Не закрыта скобка условия: добавь ).',
+        );
+      return result;
+    }
+    if (token && ['сверху', 'снизу', 'слева', 'справа'].includes(token)) {
+      const state = tokens[cursor++];
+      if (state === 'свободно' || state === 'стена')
+        return {
+          kind: 'sensor',
+          sensor: token as Sensor,
+          expected: state === 'свободно',
+        };
+    } else if (token === 'клетка') {
+      const negate = tokens[cursor] === 'не';
+      if (negate) cursor++;
+      if (tokens[cursor++] === 'закрашена')
+        return { kind: 'sensor', sensor: 'клетка', expected: !negate };
+    }
+    throw new RobotSyntaxError(
+      line,
+      'Неизвестное условие. Напиши, например, «справа свободно»; соединяй проверки через и, или, не.',
+    );
+  }
+  const result = expression('или', 0);
+  if (cursor !== tokens.length)
+    throw new RobotSyntaxError(
+      line,
+      'Лишняя часть условия. Проверь скобки и добавь и или или между проверками.',
+    );
+  return result;
 }
 export function compileRobot(source: string): readonly Instruction[] {
   if (source.length > robotLimits.source)

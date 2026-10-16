@@ -1,0 +1,638 @@
+[
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 9,
+    "columns": 4,
+    "start": {
+      "row": 8,
+      "column": 1
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 3,
+        "column": 1
+      },
+      {
+        "row": 5,
+        "column": 1
+      },
+      {
+        "row": 6,
+        "column": 1
+      },
+      {
+        "row": 7,
+        "column": 1
+      },
+      {
+        "row": 8,
+        "column": 1
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 3,
+          "column": 0
+        },
+        "to": {
+          "row": 3,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 5,
+          "column": 0
+        },
+        "to": {
+          "row": 5,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 6,
+          "column": 0
+        },
+        "to": {
+          "row": 6,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 7,
+          "column": 0
+        },
+        "to": {
+          "row": 7,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 8,
+          "column": 0
+        },
+        "to": {
+          "row": 8,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 1,
+    "columns": 2,
+    "start": {
+      "row": 0,
+      "column": 1
+    },
+    "painted": [],
+    "targets": [],
+    "walls": []
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 12,
+    "columns": 6,
+    "start": {
+      "row": 11,
+      "column": 3
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 0,
+        "column": 3
+      },
+      {
+        "row": 1,
+        "column": 3
+      },
+      {
+        "row": 2,
+        "column": 3
+      },
+      {
+        "row": 3,
+        "column": 3
+      },
+      {
+        "row": 4,
+        "column": 3
+      },
+      {
+        "row": 5,
+        "column": 3
+      },
+      {
+        "row": 6,
+        "column": 3
+      },
+      {
+        "row": 7,
+        "column": 3
+      },
+      {
+        "row": 8,
+        "column": 3
+      },
+      {
+        "row": 9,
+        "column": 3
+      },
+      {
+        "row": 10,
+        "column": 3
+      },
+      {
+        "row": 11,
+        "column": 3
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 0,
+          "column": 2
+        },
+        "to": {
+          "row": 0,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 1,
+          "column": 2
+        },
+        "to": {
+          "row": 1,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 2,
+          "column": 2
+        },
+        "to": {
+          "row": 2,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 3,
+          "column": 2
+        },
+        "to": {
+          "row": 3,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 4,
+          "column": 2
+        },
+        "to": {
+          "row": 4,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 5,
+          "column": 2
+        },
+        "to": {
+          "row": 5,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 6,
+          "column": 2
+        },
+        "to": {
+          "row": 6,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 7,
+          "column": 2
+        },
+        "to": {
+          "row": 7,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 8,
+          "column": 2
+        },
+        "to": {
+          "row": 8,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 9,
+          "column": 2
+        },
+        "to": {
+          "row": 9,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 10,
+          "column": 2
+        },
+        "to": {
+          "row": 10,
+          "column": 3
+        }
+      },
+      {
+        "from": {
+          "row": 11,
+          "column": 2
+        },
+        "to": {
+          "row": 11,
+          "column": 3
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 12,
+    "columns": 3,
+    "start": {
+      "row": 11,
+      "column": 1
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 0,
+        "column": 1
+      },
+      {
+        "row": 2,
+        "column": 1
+      },
+      {
+        "row": 4,
+        "column": 1
+      },
+      {
+        "row": 6,
+        "column": 1
+      },
+      {
+        "row": 8,
+        "column": 1
+      },
+      {
+        "row": 10,
+        "column": 1
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 0,
+          "column": 0
+        },
+        "to": {
+          "row": 0,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 2,
+          "column": 0
+        },
+        "to": {
+          "row": 2,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 4,
+          "column": 0
+        },
+        "to": {
+          "row": 4,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 6,
+          "column": 0
+        },
+        "to": {
+          "row": 6,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 8,
+          "column": 0
+        },
+        "to": {
+          "row": 8,
+          "column": 1
+        }
+      },
+      {
+        "from": {
+          "row": 10,
+          "column": 0
+        },
+        "to": {
+          "row": 10,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 4,
+    "columns": 2,
+    "start": {
+      "row": 3,
+      "column": 1
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 3,
+        "column": 1
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 3,
+          "column": 0
+        },
+        "to": {
+          "row": 3,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 11,
+    "columns": 5,
+    "start": {
+      "row": 10,
+      "column": 2
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 0,
+        "column": 2
+      },
+      {
+        "row": 2,
+        "column": 2
+      },
+      {
+        "row": 9,
+        "column": 2
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 0,
+          "column": 1
+        },
+        "to": {
+          "row": 0,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 2,
+          "column": 1
+        },
+        "to": {
+          "row": 2,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 9,
+          "column": 1
+        },
+        "to": {
+          "row": 9,
+          "column": 2
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 7,
+    "columns": 5,
+    "start": {
+      "row": 6,
+      "column": 2
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 0,
+        "column": 2
+      },
+      {
+        "row": 1,
+        "column": 2
+      },
+      {
+        "row": 3,
+        "column": 2
+      },
+      {
+        "row": 6,
+        "column": 2
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 0,
+          "column": 1
+        },
+        "to": {
+          "row": 0,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 1,
+          "column": 1
+        },
+        "to": {
+          "row": 1,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 3,
+          "column": 1
+        },
+        "to": {
+          "row": 3,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 6,
+          "column": 1
+        },
+        "to": {
+          "row": 6,
+          "column": 2
+        }
+      }
+    ]
+  },
+  {
+    "kind": "robot-field",
+    "description": "Учебное поле Робота: круги — цели закраски, знак Робота — старт; остальные клетки закрашивать нельзя.",
+    "rows": 12,
+    "columns": 5,
+    "start": {
+      "row": 11,
+      "column": 2
+    },
+    "painted": [],
+    "targets": [
+      {
+        "row": 2,
+        "column": 2
+      },
+      {
+        "row": 5,
+        "column": 2
+      },
+      {
+        "row": 6,
+        "column": 2
+      },
+      {
+        "row": 9,
+        "column": 2
+      },
+      {
+        "row": 10,
+        "column": 2
+      },
+      {
+        "row": 11,
+        "column": 2
+      }
+    ],
+    "walls": [
+      {
+        "from": {
+          "row": 2,
+          "column": 1
+        },
+        "to": {
+          "row": 2,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 5,
+          "column": 1
+        },
+        "to": {
+          "row": 5,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 6,
+          "column": 1
+        },
+        "to": {
+          "row": 6,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 9,
+          "column": 1
+        },
+        "to": {
+          "row": 9,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 10,
+          "column": 1
+        },
+        "to": {
+          "row": 10,
+          "column": 2
+        }
+      },
+      {
+        "from": {
+          "row": 11,
+          "column": 1
+        },
+        "to": {
+          "row": 11,
+          "column": 2
+        }
+      }
+    ]
+  }
+]

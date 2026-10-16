@@ -1,4 +1,9 @@
-import { runRobot, RobotSyntaxError } from '../../robot/index.ts';
+import {
+  runRobot,
+  RobotSyntaxError,
+  type RobotField,
+  type RobotStatus,
+} from '../../robot/index.ts';
 import type { Generator } from '../../types.ts';
 import { taskFrom } from '../task.ts';
 import {
@@ -9,7 +14,7 @@ import {
   type RobotKind,
 } from './fields.ts';
 export const robotDatasetId = (kind: RobotKind, seed: string): string =>
-  `${kind}-v1:files:${seed}`;
+  `${kind}-v2:files:${seed}`;
 const paintByWall = 'если слева стена то\n  закрасить\nвсе';
 const tooth =
   'нц пока сверху свободно\n  вверх\n  закрасить\nкц\nнц пока снизу свободно\n  вниз\nкц';
@@ -20,27 +25,59 @@ export const robotPrograms: Readonly<Record<RobotKind, string>> = {
   'robot-comb': `нц пока справа свободно\n${tooth}\n  вправо\nкц\n${tooth}`,
   'robot-room':
     'закрасить\nнц пока справа свободно\n  вправо\n  закрасить\nкц\nнц пока снизу свободно\n  вниз\n  закрасить\n  нц пока слева свободно\n    влево\n    закрасить\n  кц\n  если снизу свободно то\n    вниз\n    закрасить\n    нц пока справа свободно\n      вправо\n      закрасить\n    кц\n  все\nкц',
+  'robot-corner-right':
+    'нц пока не сверху свободно\nзакрасить\nвлево\nкц\nнц пока сверху свободно\nвлево\nкц\nнц пока слева свободно\nзакрасить\nвлево\nкц\nнц пока не слева свободно\nзакрасить\nвниз\nкц\nнц пока слева свободно\nвниз\nкц\nнц пока не слева свободно\nзакрасить\nвниз\nкц',
+  'robot-corner-left':
+    'нц пока не справа свободно\nзакрасить\nвверх\nкц\nнц пока справа свободно\nвверх\nкц\nнц пока сверху свободно\nзакрасить\nвверх\nкц\nнц пока не сверху свободно\nзакрасить\nвлево\nкц\nнц пока сверху свободно\nвлево\nкц\nнц пока не сверху свободно\nзакрасить\nвлево\nкц',
+  'robot-stairs':
+    'нц пока не справа свободно\nзакрасить\nвверх\nвправо\nкц\nзакрасить\nвправо\nвниз\nнц пока не слева свободно\nзакрасить\nвправо\nвниз\nкц',
 };
 export function referenceProgram(kind: RobotKind): string {
   return `использовать Робот\nалг\nнач\n${robotPrograms[kind]}\nкон\n`;
 }
+export function robotPracticeScore(
+  results: readonly {
+    status: RobotStatus;
+    success: boolean;
+    extra: number;
+    missing: number;
+  }[],
+): 0 | 1 | 2 {
+  if (results.length === 0) return 0;
+  if (results.every((result) => result.success)) return 2;
+  return results.every(
+    (result) =>
+      result.status === 'completed' &&
+      result.extra <= 10 &&
+      result.missing <= 10,
+  )
+    ? 1
+    : 0;
+}
 export function assessRobot(kind: RobotKind, seed: string, source: string) {
   try {
     const results = robotCases(kind, seed).map((parameters) => {
-      const result = runRobot(source, fieldFor(parameters), {
+      const field = fieldFor(parameters);
+      const result = runRobot(source, field, {
         maxSteps: 5000,
         traceLimit: 0,
       });
+      const key = (cell: RobotField['start']) =>
+        `${String(cell.row)},${String(cell.column)}`;
+      const targets = new Set(field.targets.map(key)),
+        painted = new Set(result.painted.map(key));
       return {
         status: result.status,
         success: result.success,
         steps: result.steps,
         position: result.position,
         painted: result.painted,
+        extra: [...painted].filter((cell) => !targets.has(cell)).length,
+        missing: [...targets].filter((cell) => !painted.has(cell)).length,
       };
     });
     const passed = results.filter((result) => result.success).length;
-    const score: 0 | 1 | 2 = passed === results.length ? 2 : passed > 0 ? 1 : 0;
+    const score = robotPracticeScore(results);
     return { score, passed, total: results.length, results, error: '' };
   } catch (error) {
     if (!(error instanceof RobotSyntaxError)) throw error;
@@ -62,12 +99,21 @@ const rules: Record<RobotKind, string> = {
     'Робот находится в левой клетке нижнего горизонтального основания «гребёнки». Основание содержит от 1 до 10 клеток и ограничено снизу и на концах стенами. Из каждой клетки основания вверх ведёт зубец длиной от 0 до 6 клеток до стены; между соседними зубцами стоят вертикальные стены. Закрась все клетки зубцов, не закрашивая основание. Все зубцы могут иметь длину 0.',
   'robot-room':
     'Робот находится в верхнем левом углу прямоугольной комнаты без внутренних стен. Высота и ширина комнаты — от 1 до 12 клеток независимо друг от друга. По периметру стоят стены; за ними могут быть другие клетки поля. Закрась всю комнату. Алгоритм должен работать и при чётной, и при нечётной высоте, при одной строке или одном столбце.',
+  'robot-corner-right':
+    'Две стены соединены в верхнем левом углу: горизонтальная идёт вправо, вертикальная — вниз. В каждой ровно один проход произвольной положительной ширины; проходы не касаются концов стен. Робот стоит под правым концом горизонтальной стены. Закрась клетки непосредственно под горизонтальной и справа от вертикальной стены, не закрашивая клетки у проходов. Длины стен неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2025.',
+  'robot-corner-left':
+    'Горизонтальная стена соединена правым концом с верхним концом вертикальной стены, идущей вниз. В каждой стене ровно один проход произвольной положительной ширины, не касающийся концов. Робот стоит слева от нижнего конца вертикальной стены. Закрась клетки непосредственно слева от вертикальной и под горизонтальной стеной, исключая проходы. Длины неизвестны (в проверочных полях 3–18 клеток), вокруг стен свободно. Это авторское семейство по формату демоверсии ФИПИ 2026.',
+  'robot-stairs':
+    'Стена образует лестницу: сначала подъём, затем спуск; ширина и высота каждой ступени — одна клетка. Число ступеней подъёма и спуска неизвестно и может различаться (в проверочных полях 1–10 каждого вида). Робот стоит на первой нижней ступени подъёма, справа от него стена. Закрась все клетки ступеней, включая верхнюю площадку; за последней ступенью закрашивать нельзя. Других стен рядом нет. Это авторское семейство по формату проекта демоверсии ФИПИ 2027.',
 };
 const titles: Record<RobotKind, string> = {
   'robot-corridor': 'Закраска коридора',
   'robot-wall-gaps': 'Стена с проходами',
   'robot-comb': 'Зубцы гребёнки',
   'robot-room': 'Комната змейкой',
+  'robot-corner-right': 'Две стены: закраска справа',
+  'robot-corner-left': 'Две стены: закраска слева',
+  'robot-stairs': 'Лестница: подъём и спуск',
 };
 const reasoning: Record<RobotKind, readonly [string, string, string]> = {
   'robot-corridor': [
@@ -90,6 +136,21 @@ const reasoning: Record<RobotKind, readonly [string, string, string]> = {
     'Если снизу свободно, спустись на строку и пройди её влево. Следующий спуск и проход вправо выполняй только при свободной клетке снизу.',
     'Каждый проход покрывает целую строку. Число строк снизу уменьшается, а проверка второго спуска защищает последнюю строку при любой чётности.',
   ],
+  'robot-corner-right': [
+    'Иди влево под горизонтальной стеной с закраской, затем пройди её проход без закраски.',
+    'Продолжай влево до вертикальной стены. Спускайся вдоль неё с закраской; её проход также пройди без закраски.',
+    'На каждом участке расстояние до прохода или конца стены убывает. Оба прохода внутренние, поэтому после них снова находится стена. Закраска выполняется только рядом со стеной.',
+  ],
+  'robot-corner-left': [
+    'Поднимайся вдоль вертикальной стены справа, закрашивая клетки у стены и пропуская её проход.',
+    'В углу поверни влево: закрась участки под горизонтальной стеной, но не её проход.',
+    'Движение по каждой оси однонаправленно, расстояние до угла или конца убывает. Датчики различают стены и проходы независимо от их длины.',
+  ],
+  'robot-stairs': [
+    'Пока справа стена, закрась клетку, поднимись и шагни вправо. На вершине справа свободно.',
+    'Закрась вершину один раз, шагни вправо и вниз. Пока слева стена, закрашивай клетку и переходи вправо и вниз.',
+    'Каждый проход цикла обрабатывает одну ступень. Число оставшихся ступеней убывает; свободный датчик после последней останавливает цикл без лишней закраски.',
+  ],
 };
 function generator(kind: RobotKind): Generator {
   const build = (seed: string) => {
@@ -100,7 +161,7 @@ function generator(kind: RobotKind): Generator {
         answer: {
           type: 'artifact',
           kind: 'robot',
-          referenceId: `${kind}-v1:${seed}:reference`,
+          referenceId: `${kind}-v2:${seed}:reference`,
         },
         solution: reasoning[kind].map((text, index) => ({
           text,
@@ -124,6 +185,8 @@ function generator(kind: RobotKind): Generator {
           },
         ],
       }),
+      id: `${kind}-v2:${seed}`,
+      generatorId: `${kind}-v2`,
       datasetId: robotDatasetId(kind, seed),
       criteria: {
         max: 2 as const,
@@ -131,12 +194,12 @@ function generator(kind: RobotKind): Generator {
           {
             score: 0 as const,
             description:
-              'Синтаксис не поддерживается или ни одно из восьми проверочных полей не пройдено с нормальным завершением и точной закраской.',
+              'Не выполнены условия для 1 или 2: есть ошибка разбора, столкновение, незавершение либо хотя бы на одном проверочном поле более 10 лишних или более 10 незакрашенных целевых клеток.',
           },
           {
             score: 1 as const,
             description:
-              'С нормальным завершением и точной закраской пройдена часть из восьми проверочных полей, но не все.',
+              'На каждом из восьми проверочных полей программа завершилась без столкновения, закрасив не более 10 лишних и пропустив не более 10 целевых клеток; точность для 2 не достигнута. Это применение критерия ФИПИ к конечной учебной выборке, не официальный балл.',
           },
           {
             score: 2 as const,
@@ -148,7 +211,7 @@ function generator(kind: RobotKind): Generator {
     };
   };
   return {
-    id: `${kind}-v1`,
+    id: `${kind}-v2`,
     taskNumber: 15,
     subtype: kind,
     title: titles[kind],

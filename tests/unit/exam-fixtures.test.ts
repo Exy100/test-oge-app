@@ -26,6 +26,11 @@ import {
   publishedRobotCondition,
 } from '../fixtures/exam/practice';
 import { examRobotField } from '../fixtures/exam/robot-fields';
+import {
+  fieldFor,
+  robotCases,
+  type RobotKind,
+} from '../../src/core/generators/15/fields';
 
 const years: Year[] = [2025, 2026, 2027];
 const hash = (bytes: string | Buffer) =>
@@ -309,8 +314,135 @@ describe('official exam fixtures, with explicit separation from generated tasks'
           ),
         );
       }
+      const kind: RobotKind =
+        fixture.year === 2025
+          ? 'robot-corner-right'
+          : fixture.year === 2026
+            ? 'robot-corner-left'
+            : 'robot-stairs';
+      for (const parameters of robotCases(kind, 'official-fixture'))
+        expect(runRobot(fixture.reference, fieldFor(parameters)).success).toBe(
+          true,
+        );
     });
   }
+  it('accepts the published compound condition and five equivalent student spellings in BOTH independent executors', () => {
+    const cases: {
+      source: string;
+      field: ReturnType<typeof examRobotField>;
+    }[] = [];
+    const simple = examRobotField(2027, 1);
+    simple.rows = 3;
+    simple.columns = 3;
+    simple.start = { row: 1, column: 1 };
+    simple.targets = [];
+    simple.walls = [{ from: { row: 1, column: 1 }, to: { row: 2, column: 1 } }];
+    expect(runRobot(publishedRobotCondition.program, simple).position).toEqual({
+      row: 1,
+      column: 2,
+    });
+    cases.push({ source: publishedRobotCondition.program, field: simple });
+    for (const fixture of robotFixtures) {
+      // Six correct whole algorithms, not merely six strings that parse.
+      const forms = [
+        fixture.reference,
+        fixture.reference.replaceAll(
+          /не (сверху|снизу|слева|справа) свободно/gu,
+          '$1 стена',
+        ),
+        fixture.reference.replaceAll(
+          /не (сверху|снизу|слева|справа) свободно/gu,
+          'не ($1 свободно)',
+        ),
+        fixture.reference.replaceAll(
+          /не (сверху|снизу|слева|справа) свободно/gu,
+          'не не $1 стена',
+        ),
+        fixture.reference.replaceAll(/нц пока (.+)/gu, 'нц пока ($1) и ($1)'),
+        fixture.reference.replaceAll(
+          /нц пока (.+)/gu,
+          'нц пока не (не ($1)) или (($1) и не ($1))',
+        ),
+      ];
+      expect(new Set(forms).size).toBe(6);
+      for (const source of forms) {
+        const wrapped = `ИСПОЛЬЗОВАТЬ Робот\r\nалг решение\r\nнач\r\n${source.replaceAll('\n', '\r\n')}\r\nкон | конец`;
+        const field = examRobotField(fixture.year, 2);
+        expect(runRobot(wrapped, field).success).toBe(true);
+        cases.push({ source: wrapped, field });
+      }
+    }
+    cases.push({
+      source:
+        'нц 2 раз\nесли клетка не закрашена то\nзакрасить\nиначе\nесли справа свободно то\nвправо\nвсе\nвсе\nкц',
+      field: simple,
+    });
+    // Exhaust all four directional booleans; the Python parser uses shunting yard,
+    // not the production AST, and must agree on precedence and grouping.
+    for (let mask = 0; mask < 16; mask++) {
+      const field = {
+        ...simple,
+        walls: [
+          { row: 0, column: 1 },
+          { row: 2, column: 1 },
+          { row: 1, column: 0 },
+          { row: 1, column: 2 },
+        ]
+          .filter((_, i) => (mask & (2 ** i)) === 0)
+          .map((to) => ({ from: simple.start, to })),
+      };
+      for (const condition of [
+        'справа свободно или слева свободно и не сверху свободно',
+        '(справа свободно или слева свободно) и не сверху свободно',
+        'не не(снизу стена) и (сверху свободно или не слева свободно)',
+      ])
+        cases.push({ source: `если ${condition} то\nзакрасить\nвсе`, field });
+    }
+    const actual: unknown = JSON.parse(
+      execFileSync('python3', ['scripts/check-robots.py', '--json'], {
+        input: JSON.stringify(cases),
+        encoding: 'utf8',
+        timeout: 10000,
+      }),
+    );
+    expect(actual).toEqual(
+      cases.map(({ source, field }) => {
+        const result = runRobot(source, field);
+        expect(result.status).toBe('completed');
+        return { painted: result.painted, position: result.position };
+      }),
+    );
+    const invalid = [
+      'справа свободно и',
+      '()',
+      'не',
+      '(сверху свободно',
+      'справа свободно) или слева стена',
+      'сверху свободно снизу свободно',
+    ];
+    const rejected: unknown = JSON.parse(
+      execFileSync('python3', ['scripts/check-robots.py', '--json'], {
+        input: JSON.stringify(
+          invalid.map((text) => ({
+            source: `| заголовок\nесли ${text} то\nвсе`,
+            field: simple,
+          })),
+        ),
+        encoding: 'utf8',
+        timeout: 10000,
+      }),
+    );
+    const errors = z
+      .array(z.strictObject({ error: z.string() }))
+      .parse(rejected);
+    expect(errors).toHaveLength(invalid.length);
+    for (const result of errors)
+      expect(result.error).toMatch(/Строка 2:.*Проверь/u);
+    for (const text of invalid)
+      expect(() => compileRobot(`| заголовок\nесли ${text} то\nвсе`)).toThrow(
+        'Строка 2:',
+      );
+  });
   it('executes all published Python references on their official example and grading data', () => {
     const input = pythonFixtures.map((fixture) => ({
       code: fixture.reference,

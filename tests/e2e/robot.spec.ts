@@ -20,6 +20,7 @@ const sources = [
   'вверх',
   'нц пока справа свободно\nкц',
   'нц 2 раз\nесли клетка не закрашена то\nзакрасить\nиначе\nвправо\nвсе\nкц',
+  'если (справа свободно) и (не сверху свободно) то\nзакрасить\nвсе\nнц пока справа свободно и не (снизу стена или справа стена)\nвправо\nзакрасить\nкц',
 ];
 
 test('Robot produces identical Node and browser traces; batches can be cancelled', async ({
@@ -55,7 +56,7 @@ test('Robot produces identical Node and browser traces; batches can be cancelled
   });
 });
 
-test('all four generated Robot references produce identical family results in Node and browsers', async ({
+test('all seven generated Robot references produce identical family results in Node and browsers', async ({
   page,
 }) => {
   await page.goto('http://127.0.0.1:4324/test-oge-app/');

@@ -1,71 +1,71 @@
 {
   "kind": "generated",
-  "generatorId": "robot-corridor-v1",
-  "id": "robot-corridor-v1:files:robot-review:8",
+  "generatorId": "robot-wall-gaps-v2",
+  "id": "robot-wall-gaps-v2:files:robot-review:8",
   "seed": "robot-review:8",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2169,
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "size": 3066,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1557,
-      "sha256": "e4cc3152e61b30a84d3e5fef7d252c135542481d2324569001bb6799ce86eedc",
+      "size": 2117,
+      "sha256": "0d882b734723db6749a7ceacd7f257fdff322611abdbe2ba7b2023b16ca06983",
       "license": "CC0-1.0"
     },
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 838,
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "size": 1208,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answer.txt",
       "format": "txt",
-      "size": 161,
-      "sha256": "e520e3c316fef37bd0b6866df02db3bb1918492378b1a1d9d96b5fba7f5d39ff",
+      "size": 247,
+      "sha256": "91a36b432b4767aebe3ac88560cc467b798304ed8bc532506baa4f4c084d0e9b",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/results.json",
       "format": "json",
-      "size": 4082,
-      "sha256": "c64c7e413fb1b081ca012c691547958a4a5c14d6ffab845ff1121a5a541c44b2",
+      "size": 3749,
+      "sha256": "1d3951fe2f10408c65ad83fa0c3f23401fe3b41a6cc630f47bcd29982134cbe4",
       "license": "CC0-1.0"
     },
     {
       "path": "source/example.json",
       "format": "json",
-      "size": 1960,
-      "sha256": "4c7c263a0aae6093fe753f704b9ab3c784fb70f57351c95bd10876eb275d0e73",
+      "size": 548,
+      "sha256": "cd7e665f3e9765bcb8db9e07bee3e07411185b087a2bd2773536baed1b856191",
       "license": "CC0-1.0"
     },
     {
       "path": "source/example.png",
       "format": "png",
-      "size": 4422,
-      "sha256": "24c48c132ded1457f0d13069f84a7214093deb05c656a3bc8f0f6fb6b189e0a1",
+      "size": 4828,
+      "sha256": "489998fa657bb4b29d092df4741af0b3797c20016f9b33e01d3dc25007dcba9e",
       "license": "CC0-1.0"
     },
     {
       "path": "source/family.json",
       "format": "json",
-      "size": 1194,
-      "sha256": "7b920af0a9a0e66f260bad9c8e8a655336e773f78d43de0434491508760d347e",
+      "size": 1061,
+      "sha256": "2fbab462e6b990e2d4c8bcca9ecd9b032eee91843e236e2db16e93938ba386c7",
       "license": "CC0-1.0"
     },
     {
       "path": "validation/fields.json",
       "format": "json",
-      "size": 16521,
-      "sha256": "ab7cf4db6697c5352ad490fe18853df070bcef7828c03fd13692b6ff4e823132",
+      "size": 9717,
+      "sha256": "6f03203e0e85c14b17d9e15ce3f183219c910b4cefd5059f5d28a4b5a356a0df",
       "license": "CC0-1.0"
     }
   ]

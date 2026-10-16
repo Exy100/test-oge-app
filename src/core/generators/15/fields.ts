@@ -1,15 +1,24 @@
 import { Rng } from '../../rng.ts';
 import type { RobotField } from '../../robot/index.ts';
+import {
+  examRobotKinds,
+  examField,
+  examEdges,
+  randomExamCase,
+  type ExamRobotCase,
+} from './exam-fields.ts';
 export const robotKinds = [
   'robot-corridor',
   'robot-wall-gaps',
   'robot-comb',
   'robot-room',
+  ...examRobotKinds,
 ] as const;
 export type RobotKind = (typeof robotKinds)[number];
 export const isRobotKind = (value: string): value is RobotKind =>
   robotKinds.some((kind) => kind === value);
 export type RobotCase =
+  | ExamRobotCase
   | {
       kind: 'robot-corridor';
       length: number;
@@ -42,6 +51,12 @@ function integer(value: number, min: number, max: number): void {
     throw new Error('Недопустимые параметры семейства Робота.');
 }
 export function fieldFor(p: RobotCase): RobotField {
+  if (
+    p.kind === 'robot-corner-right' ||
+    p.kind === 'robot-corner-left' ||
+    p.kind === 'robot-stairs'
+  )
+    return examField(p);
   let rows: number,
     columns: number,
     start: Cell,
@@ -141,6 +156,12 @@ export function fieldFor(p: RobotCase): RobotField {
   };
 }
 function randomCase(kind: RobotKind, rng: Rng): RobotCase {
+  if (
+    kind === 'robot-corner-right' ||
+    kind === 'robot-corner-left' ||
+    kind === 'robot-stairs'
+  )
+    return randomExamCase(kind, rng);
   const pad = () => rng.int(0, 2);
   if (kind === 'robot-corridor')
     return {
@@ -199,7 +220,7 @@ export function robotCases(
       { kind, heights: [6] },
       { kind, heights: [0, 6, 0, 1, 6, 0, 4, 2, 0, 6] },
     ];
-  else
+  else if (kind === 'robot-room')
     edges = [
       { kind, height: 1, width: 1, top: 0, left: 0, bottomPad: 0, rightPad: 0 },
       {
@@ -221,6 +242,7 @@ export function robotCases(
         rightPad: 1,
       },
     ];
+  else edges = examEdges(kind);
   const cases = [randomCase(kind, rng), ...edges];
   while (cases.length < 8) cases.push(randomCase(kind, rng));
   return cases;

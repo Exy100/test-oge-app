@@ -1,90 +1,78 @@
 {
-  "kind": "robot-comb",
+  "kind": "robot-room",
   "seed": "robot-review:10",
   "parameters": [
     {
-      "kind": "robot-comb",
-      "heights": [
-        6,
-        4,
-        2,
-        3,
-        2,
-        0,
-        1
-      ]
+      "kind": "robot-room",
+      "height": 6,
+      "width": 4,
+      "top": 0,
+      "left": 1,
+      "bottomPad": 1,
+      "rightPad": 1
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        0
-      ]
+      "kind": "robot-room",
+      "height": 1,
+      "width": 1,
+      "top": 0,
+      "left": 0,
+      "bottomPad": 0,
+      "rightPad": 0
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        6
-      ]
+      "kind": "robot-room",
+      "height": 12,
+      "width": 12,
+      "top": 2,
+      "left": 2,
+      "bottomPad": 2,
+      "rightPad": 2
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        0,
-        6,
-        0,
-        1,
-        6,
-        0,
-        4,
-        2,
-        0,
-        6
-      ]
+      "kind": "robot-room",
+      "height": 11,
+      "width": 1,
+      "top": 1,
+      "left": 1,
+      "bottomPad": 1,
+      "rightPad": 1
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        3,
-        4,
-        0,
-        2,
-        3,
-        4,
-        0,
-        5,
-        1,
-        2
-      ]
+      "kind": "robot-room",
+      "height": 8,
+      "width": 10,
+      "top": 2,
+      "left": 2,
+      "bottomPad": 2,
+      "rightPad": 1
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        2,
-        4
-      ]
+      "kind": "robot-room",
+      "height": 11,
+      "width": 4,
+      "top": 1,
+      "left": 0,
+      "bottomPad": 0,
+      "rightPad": 0
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        5,
-        2,
-        5,
-        0,
-        5
-      ]
+      "kind": "robot-room",
+      "height": 8,
+      "width": 4,
+      "top": 2,
+      "left": 0,
+      "bottomPad": 0,
+      "rightPad": 2
     },
     {
-      "kind": "robot-comb",
-      "heights": [
-        2,
-        1,
-        5,
-        4,
-        2,
-        3,
-        0,
-        0
-      ]
+      "kind": "robot-room",
+      "height": 5,
+      "width": 10,
+      "top": 1,
+      "left": 0,
+      "bottomPad": 1,
+      "rightPad": 0
     }
   ]
 }

@@ -1,71 +1,71 @@
 {
   "kind": "generated",
-  "generatorId": "robot-comb-v1",
-  "id": "robot-comb-v1:files:robot-review:6",
+  "generatorId": "robot-stairs-v2",
+  "id": "robot-stairs-v2:files:robot-review:6",
   "seed": "robot-review:6",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2169,
-      "sha256": "8dcb8cdde6b71c0c51ced1ccd57d4358444f7f5eb0ffe3d09fff5db53fa81dd4",
+      "size": 3066,
+      "sha256": "dab08630c6aba07f092c30c2cf076de4f979ee0443f827a953ec7284118d6d90",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1817,
-      "sha256": "5ff3b04e1bd914937f7b37ccd7a8f39ec111ab304402ffd6ee9e98d1aae57133",
+      "size": 1984,
+      "sha256": "83c2f201df033a37b6bcd199c31dd0751e7c38e273edcf912fe4bb84a45eb117",
       "license": "CC0-1.0"
     },
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 838,
-      "sha256": "8bc87bfe582ee059bc9816b7796d5e30a40095486723e81c0f51412851584d26",
+      "size": 1208,
+      "sha256": "e884c4a1b809c9f65f737b3d51fe378540fa4a66d3499e80b0314cea62084f6f",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answer.txt",
       "format": "txt",
-      "size": 403,
-      "sha256": "9f861036f530650504dc40568e5a6da3edc72ec94dedc42cb02d2c7d6382f9c5",
+      "size": 288,
+      "sha256": "5658e6b14421c9092bdf77fb7a17e49a6dd9660d16595c6cfe78bdc2e45585dd",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/results.json",
       "format": "json",
-      "size": 7541,
-      "sha256": "76f9bcf98a1b089f47dec82e4102c353bff4c2945d1b867a7f5fbabc9b53f995",
+      "size": 7145,
+      "sha256": "dbe1ed665f1f0e975ff869f38b206626aaf033655bc79b317bc2e17972c6c677",
       "license": "CC0-1.0"
     },
     {
       "path": "source/example.json",
       "format": "json",
-      "size": 4005,
-      "sha256": "85d6fcc20ad801d53278a873f84887eed8a8b14a3c7aa4be17b4f350a3275bcd",
+      "size": 1243,
+      "sha256": "1d4e73ec2bea499dc4b86adffe0e5fb17bec0e69e75bf0b3187c68e3159377b8",
       "license": "CC0-1.0"
     },
     {
       "path": "source/example.png",
       "format": "png",
-      "size": 5676,
-      "sha256": "25867700ca17a75165cbb1156557de695528fb93a8887666a2a2d7e4a50967e7",
+      "size": 5897,
+      "sha256": "9c39bb8ccfe1ee086b78fd4508dcf130f40a52c40ca884fdc774b6beb246da86",
       "license": "CC0-1.0"
     },
     {
       "path": "source/family.json",
       "format": "json",
-      "size": 1086,
-      "sha256": "1d76aea6fa0c1b2df7389c4cf0b4b0c6d50546c7d14ddb026dac922f8c7e8bab",
+      "size": 956,
+      "sha256": "4b02cbc2fb72f21d3f70c0180ea1e092a6b51d1f9c48ca6c07f41eceee3caa80",
       "license": "CC0-1.0"
     },
     {
       "path": "validation/fields.json",
       "format": "json",
-      "size": 41048,
-      "sha256": "c2c171651331d7f981e36b9a5fbf908bda9b21d88d05ff8b2c04cf80a1d7b886",
+      "size": 30551,
+      "sha256": "69be8dbb022e46791ca697ab8a00ea81867b5e0a587120f011146fc1f262bc81",
       "license": "CC0-1.0"
     }
   ]

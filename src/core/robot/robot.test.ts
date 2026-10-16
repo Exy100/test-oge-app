@@ -168,6 +168,17 @@ test('bounded batches permit cancellation between steps', () => {
   expect(cancelled.step()).toBeNull();
   expect(cancelled.snapshot().painted).toEqual([]);
 });
+test('runtime diagnostics preserve the source line even when tracing is disabled', () => {
+  expect(
+    runRobot('| заголовок\n\nвверх\nвверх', field(), { traceLimit: 0 }).message,
+  ).toMatch(/^Строка 4:.*Проверь датчик/u);
+  expect(
+    runRobot('| заголовок\nнц пока справа свободно\nкц', field(), {
+      maxSteps: 5,
+      traceLimit: 0,
+    }).message,
+  ).toMatch(/^Строка 2:.*Проверь/u);
+});
 test.each([
   'прыгать',
   'eval(1)',
@@ -214,4 +225,106 @@ test('parse and field limits reject excessive input', () => {
 test('deterministic traces on repeated runs', () => {
   const source = 'нц 2 раз\nесли клетка не закрашена то\nзакрасить\nвсе\nкц';
   expect(runRobot(source, field())).toEqual(runRobot(source, field()));
+});
+
+test('compound conditions obey not > and > or, parentheses, and both truth values of each sensor', () => {
+  const directions = ['сверху', 'снизу', 'слева', 'справа'];
+  const neighbors = [
+    { row: 0, column: 1 },
+    { row: 2, column: 1 },
+    { row: 1, column: 0 },
+    { row: 1, column: 2 },
+  ];
+  for (let mask = 0; mask < 16; mask++) {
+    const values = directions.map((_, i) => (mask & (2 ** i)) !== 0);
+    const [up, down, left, right] = values;
+    const grid = field({
+      walls: neighbors
+        .filter((_, i) => !values[i])
+        .map((to) => ({ from: { row: 1, column: 1 }, to })),
+    });
+    const cases: [string, boolean][] = [
+      [
+        'сверху свободно или снизу свободно и слева свободно',
+        Boolean(up || (down && left)),
+      ],
+      [
+        '(сверху свободно или снизу свободно) и слева свободно',
+        Boolean((up || down) && left),
+      ],
+      [
+        'не (сверху свободно или снизу свободно) и не слева свободно',
+        !up && !down && !left,
+      ],
+      ['не не справа свободно', Boolean(right)],
+      [
+        'не(справа стена) и (слева стена или сверху свободно)',
+        Boolean(right && (!left || up)),
+      ],
+      [
+        'справа свободно или слева свободно или сверху свободно или снизу свободно',
+        values.some(Boolean),
+      ],
+    ];
+    for (const [expression, expected] of cases) {
+      const result = runRobot(`если ${expression} то\nзакрасить\nвсе`, grid);
+      expect(result.painted.length, `${String(mask)}: ${expression}`).toBe(
+        Number(expected),
+      );
+    }
+  }
+});
+test.each([
+  '(справа свободно',
+  'справа свободно)',
+  '()',
+  'не',
+  'справа',
+  'справа пусто',
+  'справа свободно и',
+  'или справа свободно',
+  'справа свободно снизу свободно',
+  '(справа свободно)(слева стена)',
+  'клетка чистая',
+  'клетка не',
+])(
+  'malformed condition reports original line and an actionable hint: %s',
+  (expression) => {
+    expect(() =>
+      compileRobot(`| заголовок\n\nесли ${expression} то\nзакрасить\nвсе`),
+    ).toThrow(/Строка 3:.*Проверь/u);
+  },
+);
+test('expression nesting is bounded; long flat conditions do not grow the JS call stack', () => {
+  for (const expression of [
+    '('.repeat(33) + 'справа свободно' + ')'.repeat(33),
+    'не '.repeat(33) + 'справа свободно',
+  ])
+    expect(() => compileRobot(`если ${expression} то\nвсе`)).toThrow(
+      'вложенность',
+    );
+  const expression = '('.repeat(32) + 'справа свободно' + ')'.repeat(32);
+  expect(
+    runRobot(`если ${expression} то\nзакрасить\nвсе`, field()).painted,
+  ).toHaveLength(1);
+  expect(
+    runRobot(
+      `если ${Array.from({ length: 1000 }, () => 'справа свободно').join(' и ')} то\nзакрасить\nвсе`,
+      field(),
+    ).painted,
+  ).toHaveLength(1);
+  const source =
+    'нц пока не(справа стена) и (сверху свободно или снизу свободно)\nкц';
+  const execution = new RobotExecution(source, field(), {
+    maxSteps: 10,
+    traceLimit: 2,
+  });
+  expect(execution.run(4)).toMatchObject({
+    status: 'running',
+    steps: 4,
+    traceTruncated: true,
+  });
+  execution.cancel();
+  expect(execution.run().status).toBe('cancelled');
+  expect(runRobot(source, field(), { maxSteps: 10 }).status).toBe('step_limit');
 });

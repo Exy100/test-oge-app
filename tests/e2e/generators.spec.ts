@@ -286,7 +286,7 @@ test('№15: field diagram, accessible mobile layout and downloaded Robot family
   await page.getByLabel('Seed', { exact: true }).fill('browser-robot');
   await page
     .getByRole('combobox', { name: 'Генератор', exact: true })
-    .selectOption('robot-comb-v1');
+    .selectOption('robot-comb-v2');
   await page.getByRole('button', { name: 'Показать 20 задач' }).click();
   const example = page.locator('.generator-example').first();
   await expect(example.getByRole('img')).toBeVisible();
@@ -301,7 +301,7 @@ test('№15: field diagram, accessible mobile layout and downloaded Robot family
   const { createTaskDataset } =
     await import('../../src/core/generators/task-dataset');
   const task = generators
-    .find((item) => item.id === 'robot-comb-v1')
+    .find((item) => item.id === 'robot-comb-v2')
     ?.generate('browser-robot:0');
   if (!task) throw new Error('Missing generator');
   expect(await readFile(path)).toEqual(

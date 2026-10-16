@@ -1,70 +1,94 @@
 {
-  "kind": "robot-corridor",
+  "kind": "robot-corner-right",
   "seed": "robot-review:4",
   "parameters": [
     {
-      "kind": "robot-corridor",
-      "length": 3,
+      "kind": "robot-corner-right",
+      "top": 3,
       "left": 1,
-      "top": 2,
-      "rightPad": 2,
-      "bottomPad": 1
+      "width": 10,
+      "height": 6,
+      "holeX": 8,
+      "holeY": 3,
+      "holeWidth": 1,
+      "holeHeight": 1
     },
     {
-      "kind": "robot-corridor",
-      "length": 1,
-      "left": 0,
-      "top": 0,
-      "rightPad": 0,
-      "bottomPad": 0
-    },
-    {
-      "kind": "robot-corridor",
-      "length": 12,
-      "left": 2,
-      "top": 2,
-      "rightPad": 2,
-      "bottomPad": 2
-    },
-    {
-      "kind": "robot-corridor",
-      "length": 12,
-      "left": 2,
-      "top": 2,
-      "rightPad": 1,
-      "bottomPad": 2
-    },
-    {
-      "kind": "robot-corridor",
-      "length": 1,
-      "left": 2,
+      "kind": "robot-corner-right",
+      "width": 3,
+      "height": 3,
+      "holeX": 1,
+      "holeY": 1,
+      "holeWidth": 1,
+      "holeHeight": 1,
       "top": 1,
-      "rightPad": 2,
-      "bottomPad": 0
+      "left": 1
     },
     {
-      "kind": "robot-corridor",
-      "length": 9,
-      "left": 2,
-      "top": 2,
-      "rightPad": 0,
-      "bottomPad": 0
+      "kind": "robot-corner-right",
+      "width": 18,
+      "height": 18,
+      "holeX": 1,
+      "holeY": 1,
+      "holeWidth": 16,
+      "holeHeight": 16,
+      "top": 3,
+      "left": 3
     },
     {
-      "kind": "robot-corridor",
-      "length": 12,
-      "left": 0,
+      "kind": "robot-corner-right",
+      "width": 18,
+      "height": 18,
+      "holeX": 16,
+      "holeY": 16,
+      "holeWidth": 1,
+      "holeHeight": 1,
       "top": 2,
-      "rightPad": 1,
-      "bottomPad": 0
+      "left": 2
     },
     {
-      "kind": "robot-corridor",
-      "length": 2,
-      "left": 1,
+      "kind": "robot-corner-right",
+      "width": 18,
+      "height": 3,
+      "holeX": 1,
+      "holeY": 1,
+      "holeWidth": 1,
+      "holeHeight": 1,
+      "top": 1,
+      "left": 3
+    },
+    {
+      "kind": "robot-corner-right",
+      "top": 1,
+      "left": 3,
+      "width": 17,
+      "height": 17,
+      "holeX": 10,
+      "holeY": 15,
+      "holeWidth": 5,
+      "holeHeight": 1
+    },
+    {
+      "kind": "robot-corner-right",
+      "top": 1,
+      "left": 3,
+      "width": 3,
+      "height": 3,
+      "holeX": 1,
+      "holeY": 1,
+      "holeWidth": 1,
+      "holeHeight": 1
+    },
+    {
+      "kind": "robot-corner-right",
       "top": 2,
-      "rightPad": 1,
-      "bottomPad": 2
+      "left": 3,
+      "width": 16,
+      "height": 11,
+      "holeX": 1,
+      "holeY": 8,
+      "holeWidth": 4,
+      "holeHeight": 2
     }
   ]
 }
