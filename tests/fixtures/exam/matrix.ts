@@ -1,0 +1,260 @@
+import type { TaskNumber } from '../../../src/core/types';
+import { shortFixtures } from './short-answers';
+import { officeFixtures, robotFixtures } from './practice';
+
+export interface FormatRow {
+  id: string;
+  taskNumber: TaskNumber;
+  format: string;
+  fixtureIds: string[];
+  generatorIds: string[];
+  integration: 'covered' | 'partial' | 'deferred';
+  owner: 'T3.14' | 'T3.15' | 'T3.16' | 'T3.17' | 'T3.12';
+  gap: string;
+}
+const ids = (number: TaskNumber) =>
+  shortFixtures.filter((f) => f.taskNumber === number).map((f) => f.id);
+export const formatRows: FormatRow[] = [
+  {
+    id: 'M01',
+    taskNumber: 1,
+    format: 'Удаление слова и разделителя из списка, фиксированная кодировка',
+    fixtureIds: ids(1),
+    generatorIds: ['removed-word-v1'],
+    integration: 'covered',
+    owner: 'T3.14',
+    gap: '',
+  },
+  {
+    id: 'M02a',
+    taskNumber: 2,
+    format:
+      'Декодирование неразделённой последовательности; не обязательно код Фано',
+    fixtureIds: ids(2).filter((id) => id !== 'D2025-02'),
+    generatorIds: ['fixed-code-v1', 'prefix-code-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Произвольный однозначно декодируемый текст с непрефиксной таблицей не представлен генератором.',
+  },
+  {
+    id: 'M02b',
+    taskNumber: 2,
+    format:
+      'Определение повторяющихся букв; несколько допустимых порядков ответа',
+    fixtureIds: ['D2025-02'],
+    generatorIds: [],
+    integration: 'deferred',
+    owner: 'T3.15',
+    gap: 'Нужен формат повторяющихся букв и принятие обоих официальных ответов АБ/БА.',
+  },
+  {
+    id: 'M03',
+    taskNumber: 3,
+    format: 'Логическое выражение: число решений или граница при ложности',
+    fixtureIds: ids(3),
+    generatorIds: [
+      'logic-and-v1',
+      'logic-not-or-v1',
+      'logic-divisibility-v1',
+      'logic-exclusive-v1',
+    ],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Нужны счёт решений и явная цель ложности для вложенных выражений демоверсий.',
+  },
+  {
+    id: 'M04',
+    taskNumber: 4,
+    format: 'Кратчайший простой путь по таблице взвешенного графа',
+    fixtureIds: ids(4),
+    generatorIds: ['shortest-route-v1'],
+    integration: 'covered',
+    owner: 'T3.14',
+    gap: '',
+  },
+  {
+    id: 'M05',
+    taskNumber: 5,
+    format:
+      'Любая программа не длиннее лимита; в том числе возведение в квадрат',
+    fixtureIds: ids(5),
+    generatorIds: ['executor-fixed-v1', 'executor-shortest-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Демоверсия 2026 содержит квадрат; допустимость ответа определяется исполнением, а не единственным эталоном.',
+  },
+  {
+    id: 'M06',
+    taskNumber: 6,
+    format: 'Выбор параметра A по количеству YES/NO на девяти запусках',
+    fixtureIds: ids(6),
+    generatorIds: [
+      'program-assign-v1',
+      'program-branch-v1',
+      'program-for-v1',
+      'program-while-v1',
+    ],
+    integration: 'deferred',
+    owner: 'T3.15',
+    gap: 'Текущие подтипы вычисляют результат программы; поиск параметра по серии запусков отсутствует.',
+  },
+  {
+    id: 'M07',
+    taskNumber: 7,
+    format: 'Сборка URL, фрагменты обозначены цифрами 1–7',
+    fixtureIds: ids(7),
+    generatorIds: ['url-root-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'В генераторах латинские метки A–I, в трёх демоверсиях цифры; нет протокола ftp из 2025.',
+  },
+  {
+    id: 'M08',
+    taskNumber: 8,
+    format: 'Поисковые множества: A & (B | C), найти пересечение или A & C',
+    fixtureIds: ids(8),
+    generatorIds: ['search-three-v1', 'search-intersection-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Нужна явная проверка порождения условного объединения трёх множеств как в источнике.',
+  },
+  {
+    id: 'M09',
+    taskNumber: 9,
+    format: 'Число направленных путей по рисунку графа',
+    fixtureIds: ids(9),
+    generatorIds: ['paths-all-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Генератор показывает матрицу, демоверсии — рисунок; требуется графическая подача и 8 вершин из 2025/2026.',
+  },
+  {
+    id: 'M10',
+    taskNumber: 10,
+    format:
+      'Арифметическое выражение из двоичного, восьмеричного, шестнадцатеричного чисел',
+    fixtureIds: ids(10),
+    generatorIds: ['radix-to-decimal-v1', 'radix-compare-v1'],
+    integration: 'deferred',
+    owner: 'T3.15',
+    gap: 'Перевод одного числа и сравнение не покрывают сумму трёх чисел.',
+  },
+  {
+    id: 'M11',
+    taskNumber: 11,
+    format: 'Контекстный поиск в произведении по автору и признакам персонажа',
+    fixtureIds: ids(11),
+    generatorIds: [
+      'file-quote-v1',
+      'file-word-count-v1',
+      'file-phrase-documents-v1',
+    ],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Официальный корпус: 41 файл, 76 557 882 байта, PDF/RTF/HTM/TXT. Литературный контекст и реальный масштаб требуют доработки; проверен только формат ответа.',
+  },
+  {
+    id: 'M12',
+    taskNumber: 12,
+    format: 'Количество файлов по расширениям в нескольких подкаталогах',
+    fixtureIds: ids(12),
+    generatorIds: ['file-mask-count-v1'],
+    integration: 'partial',
+    owner: 'T3.15',
+    gap: 'Официальные наборы: 95/186 файлов, до 117 474 749 байт; текущий учебный масштаб недостаточен.',
+  },
+  {
+    id: 'M13p',
+    taskNumber: 13,
+    format: 'Презентация: три слайда, на втором 2 изображения, на третьем 3',
+    fixtureIds: officeFixtures
+      .filter((f) => f.variant13 === 'presentation')
+      .map((f) => f.id),
+    generatorIds: ['curated-presentations-v1'],
+    integration: 'partial',
+    owner: 'T3.16',
+    gap: 'В банке другие размеры шрифтов и число изображений; критерии нужно сверить с официальными уровнями.',
+  },
+  {
+    id: 'M13d',
+    taskNumber: 13,
+    format:
+      'Воспроизведение образца документа: абзацы, таблицы и форматирование',
+    fixtureIds: officeFixtures
+      .filter((f) => f.variant13 === 'document')
+      .map((f) => f.id),
+    generatorIds: ['curated-documents-v1'],
+    integration: 'partial',
+    owner: 'T3.16',
+    gap: 'Нужна сверка точных групп критериев, исключений и примеров на каждый балл.',
+  },
+  {
+    id: 'M14',
+    taskNumber: 14,
+    format:
+      'Два вычисления по таблице и круговая диаграмма с легендой/значениями',
+    fixtureIds: officeFixtures
+      .filter((f) => f.taskNumber === 14)
+      .map((f) => f.id),
+    generatorIds: [
+      'sheet-filter-v1',
+      'sheet-revenue-v1',
+      'sheet-group-v1',
+      'sheet-growth-v1',
+    ],
+    integration: 'partial',
+    owner: 'T3.16',
+    gap: 'Три числовых вопроса в текущих наборах не заменяют обязательную диаграмму; масштаб и критерии требуют сверки.',
+  },
+  {
+    id: 'M15',
+    taskNumber: 15,
+    format:
+      'Обобщённый алгоритм: стены с проходами или лестница, составные условия',
+    fixtureIds: robotFixtures.map((f) => f.id),
+    generatorIds: [
+      'robot-corridor-v1',
+      'robot-wall-gaps-v1',
+      'robot-comb-v1',
+      'robot-room-v1',
+    ],
+    integration: 'partial',
+    owner: 'T3.17',
+    gap: 'Официальные простые программы исполняются; составное условие и нужные семейства генераторов ещё отсутствуют.',
+  },
+  {
+    id: 'M16a',
+    taskNumber: 16,
+    format: 'Среднее положительных и их количество, дробный вывод',
+    fixtureIds: ['D2025-16'],
+    generatorIds: [],
+    integration: 'deferred',
+    owner: 'T3.12',
+    gap: 'Нужен дробный результат; текущий локальный checker принимает только целые. Повторная задача №16 требует планирования (Q-I8).',
+  },
+  {
+    id: 'M16b',
+    taskNumber: 16,
+    format: 'Сумма значений с заданным остатком в системе счисления',
+    fixtureIds: ['D2026-16'],
+    generatorIds: ['python-filter-v1'],
+    integration: 'partial',
+    owner: 'T3.12',
+    gap: 'Фильтр кратности и пара count/sum не покрывают остаток 1 и единственный sum. Q-I8.',
+  },
+  {
+    id: 'M16c',
+    taskNumber: 16,
+    format: 'Ввод до нуля, число значений с длиной записи и последней цифрой',
+    fixtureIds: ['D2027-16'],
+    generatorIds: ['python-digits-v1'],
+    integration: 'deferred',
+    owner: 'T3.12',
+    gap: 'Текущий подтип обрабатывает цифры одного числа, а не последовательность до нуля. Q-I8.',
+  },
+];
+
+/** These are not disabled tests: product integrations get enabled in their owner task. */
+export const pendingProductIntegrations = formatRows.filter(
+  (row) => row.integration !== 'covered',
+);

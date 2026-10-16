@@ -1,0 +1,107 @@
+[
+  {
+    "year": 2025,
+    "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2025/inf_9_2025.zip",
+    "archiveBytes": 92144142,
+    "archiveSha256": "33102039c6f1c73d87da4e261b01391c7d127033f544413a952aba1408104b61",
+    "documents": [
+      {
+        "member": "ИНФ-9 ОГЭ 2025_ДЕМО.pdf",
+        "bytes": 1360489,
+        "sha256": "914f724b1db6d23aa304ac4a6a63314c878c7ecf1148cfcbb524b2710e6a2927"
+      },
+      {
+        "member": "ИНФ-9 ОГЭ 2025_СПЕЦ.pdf",
+        "bytes": 906278,
+        "sha256": "50bab263bdb9d72363d661e5232e5829663bb977d8ea3cda2ea4c96f8faafe5f"
+      }
+    ],
+    "task11": {
+      "files": 41,
+      "bytes": 76557882,
+      "maxFileBytes": 8704207
+    },
+    "task12": {
+      "files": 95,
+      "bytes": 88204479,
+      "maxFileBytes": 8704207
+    },
+    "task14": {
+      "member": "14.ods",
+      "bytes": 24784,
+      "sha256": "22b668f9c97dc082c49b6870ad9a7f1ec2db7fc0e37dba8937f5a78bdbbc9580",
+      "rows": 1000,
+      "projectionSha256": "002c0d4107fb4d491e939799b1538f131db870d46528b1ff3cd8936c103d06ea"
+    }
+  },
+  {
+    "year": 2026,
+    "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2026/inf_9_2026.zip",
+    "archiveBytes": 119263885,
+    "archiveSha256": "4a8dbaf2c73b2e756730b393f5ea9377f5db56fe6d14fd172fd2d88029737447",
+    "documents": [
+      {
+        "member": "ИНФ-9 ОГЭ 2026_СПЕЦ.pdf",
+        "bytes": 921730,
+        "sha256": "98cf76e3df40d43dfa14e2eb70e6524d6b46baef7f57da81927d4e64099c1f5e"
+      },
+      {
+        "member": "ИНФ-9 ОГЭ 2026_ДЕМО.pdf",
+        "bytes": 1427684,
+        "sha256": "51d4b971116caaaf0194b85f7d98ace13a462afd8e7cbba104429cd6fcd5748e"
+      }
+    ],
+    "task11": {
+      "files": 41,
+      "bytes": 76557882,
+      "maxFileBytes": 8704207
+    },
+    "task12": {
+      "files": 186,
+      "bytes": 117474749,
+      "maxFileBytes": 8704207
+    },
+    "task14": {
+      "member": "task14.ods",
+      "bytes": 24145,
+      "sha256": "de120659d2ec4116b38217722d2b028d257bb92c9cd5fb5b9ed36df2a03b57b7",
+      "rows": 370,
+      "projectionSha256": "90bbbee716d8853a44df2439e8d36e7e52ce17e33d866a2adf702e82c71aeeb2"
+    }
+  },
+  {
+    "year": 2027,
+    "url": "https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip",
+    "archiveBytes": 120190139,
+    "archiveSha256": "a21e76159262999e149551451326821a6a527259c730db5ad17e6e27b0464d46",
+    "documents": [
+      {
+        "member": "ИНФ-9 ОГЭ 2027_ДЕМО.pdf",
+        "bytes": 988218,
+        "sha256": "f32bd8b5cd96028f15be3fd0edcab19a3a318a872bc52ac41602ec119a8d6950"
+      },
+      {
+        "member": "ИНФ-9 ОГЭ 2027_СПЕЦ.pdf",
+        "bytes": 368844,
+        "sha256": "64a282134ac0ea5c62b9d5075fcb7ebc14928541aa953979881a37a8b4fd035e"
+      }
+    ],
+    "task11": {
+      "files": 41,
+      "bytes": 76557882,
+      "maxFileBytes": 8704207
+    },
+    "task12": {
+      "files": 186,
+      "bytes": 117474749,
+      "maxFileBytes": 8704207
+    },
+    "task14": {
+      "member": "task14.ods",
+      "bytes": 32521,
+      "sha256": "df68a64d75750be6393f77935b9155367e07671e5f5a206758233dcd0443acef",
+      "rows": 1000,
+      "projectionSha256": "9c018484b6adfdb275ca2d64b1ee5e27ddcc6db406d82fb8f19ad69963426635"
+    }
+  }
+]
