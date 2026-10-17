@@ -17,7 +17,7 @@ env:
 
 jobs:
   quality:
-    name: Code, generated files and security
+    name: Source, types, build and security
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -56,8 +56,119 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
-      - name: Verify source, types, unit tests, coverage and build
-        run: npm run verify
+      - name: Verify source, types, inventories and build
+        run: |
+          set -euo pipefail
+          npm run lint
+          npm run typecheck
+          npm run check:forbidden
+          npm run check:coverage
+          npm run check:contrast
+          npm run build
+
+  unit:
+    name: Unit tests (${{ matrix.shard }}/3)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node and npm cache
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      # A partial shard cannot satisfy the whole-core threshold. The required
+      # coverage job merges all three blobs and enforces the unchanged 90% gate.
+      - name: Run every test assigned to this shard with coverage
+        run: npx vitest run --coverage --shard=${{ matrix.shard }}/3 --coverage.thresholds.lines=0 --reporter=default --reporter=blob --outputFile.blob=.cache/vitest-blobs/shard-${{ matrix.shard }}.json
+
+      - name: Save tests and coverage blob
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: unit-shard-${{ matrix.shard }}
+          path: .cache/vitest-blobs/shard-${{ matrix.shard }}.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  coverage:
+    name: Complete unit results and coverage
+    needs: [unit]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node and npm cache
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Download all three test and coverage blobs
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          pattern: unit-shard-*
+          path: .cache/vitest-blobs
+          merge-multiple: true
+
+      - name: Require all shards and enforce the original coverage thresholds
+        run: |
+          set -euo pipefail
+          for shard in 1 2 3; do
+            test -s ".cache/vitest-blobs/shard-${shard}.json"
+          done
+          npx vitest run --merge-reports=.cache/vitest-blobs --coverage
+
+      - name: Save complete coverage report
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: source-reports
+          path: coverage/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  files:
+    name: Independent generated file checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node and npm cache
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
 
       - name: Install LibreOffice and PDF text tools
         run: |
@@ -79,13 +190,12 @@ jobs:
       - name: Verify complete variant files, programs and Calc results
         run: npm run check:variants
 
-      - name: Save coverage and generated file reports
+      - name: Save generated file reports
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: source-reports
+          name: generated-file-reports
           path: |
-            coverage/
             .cache/dataset-sample/
             .cache/presentation-office/
             .cache/document-office/
@@ -165,7 +275,7 @@ jobs:
 
   deploy:
     name: Publish tested site
-    needs: [quality, browsers]
+    needs: [quality, unit, coverage, files, browsers]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10

@@ -13,18 +13,14 @@ const decoder = new TextDecoder('utf-8', { fatal: true });
 const namespaces =
   'xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"';
 const header = '<?xml version="1.0" encoding="UTF-8"?>';
+// Unicode mode matches lone surrogates while preserving valid astral characters.
+const invalidXmlCharacter =
+  // eslint-disable-next-line no-control-regex -- ADR-039: XML 1.0 explicitly forbids these controls.
+  /[\u0000-\u0008\u000b\u000c\u000e-\u001f\ud800-\udfff\ufffe\uffff]/u;
 export function xml(value: string): string {
   if (value.length > 100_000) throw new Error('Недопустимый текст XML.');
-  for (const character of value) {
-    const code = character.codePointAt(0) ?? 0;
-    if (
-      (code < 32 && ![9, 10, 13].includes(code)) ||
-      (code >= 0xd800 && code <= 0xdfff) ||
-      code === 0xfffe ||
-      code === 0xffff
-    )
-      throw new Error('Недопустимый текст XML.');
-  }
+  if (invalidXmlCharacter.test(value))
+    throw new Error('Недопустимый текст XML.');
   return value
     .replace(/&/gu, '&amp;')
     .replace(/</gu, '&lt;')
@@ -183,19 +179,13 @@ function parseXml(
     throw new Error('Недопустимый XML.');
   // This generated profile has no comments, CDATA, DTD or custom entities.
   // Check XML characters explicitly as the portable validator accepts some controls.
-  for (const character of text) {
-    const code = character.codePointAt(0) ?? 0;
-    if (
-      (code < 32 && ![9, 10, 13].includes(code)) ||
-      (code >= 0xd800 && code <= 0xdfff) ||
-      code === 0xfffe ||
-      code === 0xffff
-    )
-      throw new Error('Недопустимый символ XML.');
-  }
+  if (invalidXmlCharacter.test(text))
+    throw new Error('Недопустимый символ XML.');
   let inTag = false;
   let quote = '';
-  for (const character of text) {
+  // Only markup delimiters change scanner state. Native scanning skips long cell
+  // values without walking every character in coverage-instrumented JavaScript.
+  for (const [character] of text.matchAll(/[<>"']/gu)) {
     if (!inTag) {
       if (character === '<') inTag = true;
     } else if (character === '<')
@@ -211,6 +201,10 @@ function parseXml(
   const parsed: unknown = new XMLParser({
     ignoreAttributes: false,
     processEntities: false,
+    // Validation inspects element names/attributes, not converted text values or
+    // callback paths. Avoid building those for every cell in large worksheets.
+    parseTagValue: false,
+    jPath: false,
   }).parse(text);
   return record(parsed);
 }

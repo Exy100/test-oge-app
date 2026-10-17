@@ -94,14 +94,20 @@ test.each([11, 12, 14, 15, 16])(
 );
 
 test.each(['presentation', 'document'])(
-  'curated %s CLI exports the original dataset and defaults to twelve sets',
-  async (variant) => {
+  'curated %s CLI defaults to twelve sets',
+  (variant) => {
     const listing = execFileSync(
       process.execPath,
       ['scripts/sample-tasks.mjs', '--task', '13', '--variant', variant],
       { encoding: 'utf8' },
     );
     expect(listing.match(/^## /gmu)).toHaveLength(12);
+  },
+);
+
+test.each(['presentation', 'document'])(
+  'curated %s CLI exports the original dataset',
+  async (variant) => {
     const directory = await mkdtemp(join(tmpdir(), 'oge-presentation-cli-'));
     try {
       const output = execFileSync(

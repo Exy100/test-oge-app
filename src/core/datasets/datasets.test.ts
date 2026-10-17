@@ -209,6 +209,14 @@ describe('real ODF', () => {
         'office:version="1.3"',
         'data-test="<" office:version="1.3"',
       ),
+      content.replace(
+        'office:version="1.3"',
+        'data-test="> <" office:version="1.3"',
+      ),
+      content.replace(
+        'office:version="1.3"',
+        'data-test=\'> <\' office:version="1.3"',
+      ),
       content + '<!--comment-->',
     ]) {
       const files = new Map(original);
@@ -218,6 +226,52 @@ describe('real ODF', () => {
     expect(() =>
       validateOdf(makeDocument(['< & > " \' 😀']), 'odt'),
     ).not.toThrow();
+    for (const attribute of [
+      'data-test="left > right"',
+      "data-test='left > right'",
+    ]) {
+      const files = new Map(original);
+      files.set(
+        'content.xml',
+        enc.encode(
+          content.replace(
+            'office:version="1.3"',
+            `${attribute} office:version="1.3"`,
+          ),
+        ),
+      );
+      expect(() =>
+        validateOdf(packZip(files, 'mimetype'), 'odt'),
+      ).not.toThrow();
+    }
+  });
+  test.each([
+    [0x00, false],
+    [0x08, false],
+    [0x09, true],
+    [0x0a, true],
+    [0x0b, false],
+    [0x0c, false],
+    [0x0d, true],
+    [0x0e, false],
+    [0x1f, false],
+    [0x20, true],
+    [0xd7ff, true],
+    [0xd800, false],
+    [0xdbff, false],
+    [0xdc00, false],
+    [0xdfff, false],
+    [0xe000, true],
+    [0xfffd, true],
+    [0xfffe, false],
+    [0xffff, false],
+    [0x10000, true],
+    [0x1f600, true],
+    [0x10ffff, true],
+  ])('XML character boundary %i is accepted: %s', (point, allowed) => {
+    const value = String.fromCodePoint(point);
+    if (allowed) expect(xml(value)).toBe(value);
+    else expect(() => xml(value)).toThrow();
   });
   test('rejects invalid XML characters, dimensions and numeric values', () => {
     for (const value of ['\0', '\ud800', '\uffff'])
