@@ -2,6 +2,8 @@
 import RichText from '../components/RichText.astro';
 import Figure from '../components/Figure';
 import Practice from '../components/Practice';
+import StreamProgress from '../components/StreamProgress';
+import '../styles/progress.css';
 import { sitePath } from '../lib/site';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import {
@@ -114,6 +116,9 @@ const terms = places
       </p>
     </div>
   </section>
+  <div class="container">
+    <StreamProgress compact client:load />
+  </div>
   <section
     id="practice"
     class="practice-section"

@@ -1,17 +1,19 @@
 import { z } from '../zod';
 import { TaskNumberSchema, unique } from '../schemas/shared';
+import { reviewSchema } from '../stream/schemas';
 
 export const PREFIX = 'oge:informatics:v1:';
 export const MAX_BACKUP_BYTES = 2_000_000;
 const version = z.literal(1);
 const id = z.string().min(1).max(200);
 const count = z.number().int().min(0).max(1_000_000);
+const practiceTally = z
+  .strictObject({
+    attempts: count,
+    credit: z.number().min(0).max(1_000_000),
+  })
+  .refine((row) => row.credit <= row.attempts);
 const timestamp = z.iso.datetime();
-const reference = z.strictObject({
-  generatorId: id,
-  seed: z.string().max(200),
-  taskNumber: TaskNumberSchema,
-});
 const answers = z
   .array(
     z.strictObject({
@@ -64,6 +66,8 @@ export const areaSchemas = {
   settings: settingsSchema,
   streamStats: z.strictObject({
     version,
+    completed: count.default(0),
+    streak: count.default(0),
     entries: z
       .array(
         z
@@ -71,9 +75,16 @@ export const areaSchemas = {
             taskNumber: TaskNumberSchema,
             attempts: count,
             correct: count,
+            self: practiceTally.default({ attempts: 0, credit: 0 }),
+            aiAccepted: practiceTally.default({ attempts: 0, credit: 0 }),
             lastActivity: timestamp,
           })
-          .refine((row) => row.correct <= row.attempts),
+          .refine((row) => row.correct <= row.attempts)
+          .refine(
+            (row) =>
+              row.taskNumber > 12 ||
+              (row.self.attempts === 0 && row.aiAccepted.attempts === 0),
+          ),
       )
       .max(16)
       .refine((rows) => unique(rows.map((row) => row.taskNumber))),
@@ -81,13 +92,15 @@ export const areaSchemas = {
   reviewQueue: z.strictObject({
     version,
     entries: z
-      .array(
-        reference.extend({
-          step: z.union([z.literal(3), z.literal(10), z.literal(30)]),
-          dueAfter: count,
-        }),
-      )
-      .max(1000),
+      .array(reviewSchema)
+      .max(1000)
+      .refine((rows) =>
+        unique(
+          rows.map((row) =>
+            JSON.stringify([row.generatorId, row.seed, row.taskNumber]),
+          ),
+        ),
+      ),
   }),
   variantAttempts: z.strictObject({
     version,
@@ -147,7 +160,7 @@ export const areaLabels: Record<Area, string> = {
 export function defaults(): Areas {
   return {
     settings: { version: 1, theme: 'system', fontSize: 100, animations: true },
-    streamStats: { version: 1, entries: [] },
+    streamStats: { version: 1, completed: 0, streak: 0, entries: [] },
     reviewQueue: { version: 1, entries: [] },
     variantAttempts: { version: 1, entries: [] },
     variantDraft: { version: 1, current: null },

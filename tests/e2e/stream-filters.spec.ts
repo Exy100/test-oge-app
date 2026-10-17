@@ -251,7 +251,9 @@ test('filters: review-only displays an empty queue and waiting intervals without
     'после ещё 3 других заданий',
   );
   await page.reload();
-  await expect(page.locator('.stream-empty')).toContainText('нет ошибок');
+  await expect(page.locator('.stream-empty')).toContainText(
+    'после ещё 3 других заданий',
+  );
 });
 test('filters: due error is reproduced after three other tasks and matches review filter', async ({
   page,

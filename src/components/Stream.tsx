@@ -26,6 +26,14 @@ import TaskCard from './tasks/TaskCard';
 import StreamFilters from './StreamFilters';
 import { useHydrated } from './useHydrated';
 import { initialStreamSeed, initialStreamState } from '../lib/stream-start';
+import { browserStore } from '../core/storage/browser';
+import {
+  withStreamProgress,
+  recordStoredResult,
+  saveStreamProgress,
+} from '../core/stream/progress';
+import StreamProgress from './StreamProgress';
+import { useStoredAreas } from './useStoredAreas';
 
 function preset(filters: Filters): string {
   if (filters.numbers.length === 1) {
@@ -47,6 +55,7 @@ export default function Stream({
   topics: readonly string[];
 }) {
   const ready = useHydrated();
+  const stored = useStoredAreas();
   const [state, setState] = useState<StreamState>(initialStreamState);
   const [filters, setFilters] = useState(defaultStreamFilters);
   const [selectionInfo, setSelectionInfo] = useState<
@@ -58,6 +67,8 @@ export default function Stream({
   const latest = useRef<StreamState | null>(null);
   const navigation = useRef(0);
   const [outcome, setOutcome] = useState<StreamOutcome | null>(null);
+  const resultRecorded = useRef(false);
+  const writing = useRef(false);
   const [error, setError] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
   const [manualLink, setManualLink] = useState('');
@@ -66,6 +77,57 @@ export default function Stream({
   const task = state.current
     ? resolveStreamTask(state.current.reference)
     : null;
+
+  useEffect(() => {
+    const store = browserStore();
+    const signature = () =>
+      JSON.stringify([store.read('streamStats'), store.read('reviewQueue')]);
+    let previous = signature();
+    const restored = withStreamProgress(initialStreamState(), store.snapshot());
+    latest.current = restored;
+    return store.subscribe(() => {
+      const next = signature();
+      if (next === previous) return;
+      previous = next;
+      if (writing.current) return;
+      // Imports, reset and results from another tab must not be overwritten by
+      // an old answer or an asynchronous task transition in this tab.
+      navigation.current += 1;
+      advancing.current = false;
+      setBusy(false);
+      const updated = withStreamProgress(
+        latest.current ?? initialStreamState(),
+        store.snapshot(),
+      );
+      latest.current = updated;
+      setState(updated);
+      resultRecorded.current = false;
+      setOutcome(null);
+      setRevision((value) => value + 1);
+      setSelectionInfo((info) => ({ ...info, waiting: null }));
+    });
+  }, []);
+
+  function acceptResult(result: StreamOutcome) {
+    if (resultRecorded.current || !state.current) return;
+    try {
+      writing.current = true;
+      recordStoredResult(
+        browserStore(),
+        state,
+        result,
+        new Date().toISOString(),
+      );
+      resultRecorded.current = true;
+      setOutcome(result);
+    } catch {
+      setError(
+        'Не удалось сохранить результат. Экспортируй данные в настройках и освободи место.',
+      );
+    } finally {
+      writing.current = false;
+    }
+  }
 
   // A static Pages response cannot read the query. Restore it after hydration;
   // history navigation preserves this tab's statistics and never records an answer.
@@ -89,7 +151,10 @@ export default function Stream({
           window.location.search || savedSearch,
           topics,
         );
-        const base = latest.current ?? initialStreamState();
+        const base = withStreamProgress(
+          latest.current ?? initialStreamState(),
+          browserStore().snapshot(),
+        );
         const configured = configureStream(
           { ...base, current: null },
           query.filters,
@@ -132,6 +197,7 @@ export default function Stream({
         setSelectionInfo(selected);
         setStatementHtml(html);
         setOutcome(null);
+        resultRecorded.current = false;
         setCopyStatus('');
         setManualLink('');
         setRevision((value) => value + 1);
@@ -166,13 +232,17 @@ export default function Stream({
     setBusy(true);
     setError('');
     try {
-      const active = {
-        ...state,
-        seed:
-          state.seed === initialStreamSeed || !state.current
-            ? crypto.randomUUID()
-            : state.seed,
-      };
+      const active = withStreamProgress(
+        {
+          ...state,
+          current: resultRecorded.current ? null : state.current,
+          seed:
+            state.seed === initialStreamSeed || !state.current
+              ? crypto.randomUUID()
+              : state.seed,
+        },
+        browserStore().snapshot(),
+      );
       const keepCurrent =
         selection &&
         !outcome &&
@@ -213,12 +283,27 @@ export default function Stream({
           );
         window.history.pushState(null, '', url);
       } else window.history.replaceState(null, '', url);
+      if (active.current && !keepCurrent) {
+        writing.current = true;
+        try {
+          saveStreamProgress(
+            browserStore(),
+            selected.state,
+            { kind: 'skip' },
+            active.current.reference.taskNumber,
+            new Date().toISOString(),
+          );
+        } finally {
+          writing.current = false;
+        }
+      }
       latest.current = selected.state;
       setState(selected.state);
       setFilters(nextFilters);
       setSelectionInfo(selected);
       setStatementHtml(html);
       setOutcome(null);
+      resultRecorded.current = false;
       setCopyStatus('');
       setManualLink('');
       if (!keepCurrent) setRevision((value) => value + 1);
@@ -277,8 +362,8 @@ export default function Stream({
     <div className="stream">
       <p>
         Выбери номера и решай в своём темпе. При смене задания код и черновик
-        очищаются — скачай нужное заранее. Результаты этой сессии учитываются до
-        перезагрузки.
+        очищаются — скачай нужное заранее. Результаты и очередь повторений
+        сохраняются в этом браузере сразу после оценки.
       </p>
       <fieldset
         className="stream-controls"
@@ -347,7 +432,7 @@ export default function Stream({
           </p>
         )}
         <h2 className="stream-position" ref={heading} tabIndex={-1}>
-          Задание {state.completed + 1}
+          Задание {stored.streamStats.completed + (outcome ? 0 : 1)}
           {state.current?.kind === 'review' ? ' · повторение' : ''}
         </h2>
         {task ? (
@@ -365,14 +450,14 @@ export default function Stream({
               key={revision}
               task={task}
               statementHtml={statementHtml}
-              onResult={setOutcome}
+              onResult={acceptResult}
             />
           </>
         ) : (
           <p className="stream-empty" role="status">
             {filters.reviewOnly
               ? selectionInfo.waiting === null
-                ? 'В этой сессии нет ошибок, подходящих под фильтры. Выключи повторение ошибок, чтобы решать новые задания.'
+                ? 'В сохранённой очереди нет ошибок, подходящих под фильтры. Выключи повторение ошибок, чтобы решать новые задания.'
                 : `Повторение запланировано после ещё ${String(selectionInfo.waiting)} других заданий. Выключи повторение ошибок и продолжи тренировку.`
               : 'Не удалось подобрать задание. Попробуй другие фильтры или повтори подбор.'}
           </p>
@@ -407,6 +492,7 @@ export default function Stream({
           />
         </label>
       )}
+      <StreamProgress />
     </div>
   );
 }
