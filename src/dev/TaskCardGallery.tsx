@@ -10,6 +10,7 @@ import {
 } from '../../tests/fixtures/exam/short-answers';
 import { taskExample } from '../../tests/fixtures/model-examples';
 import type { TaskInstance } from '../core/types';
+import { guidanceExample } from '../../tests/fixtures/guidance-example';
 
 const sources = streamSources();
 export default function TaskCardGallery() {
@@ -20,21 +21,25 @@ export default function TaskCardGallery() {
   const [revision, setRevision] = useState(0);
   const source = sources.find((item) => item.generatorId === id);
   const fixture = shortFixtures.find((item) => `fixture:${item.id}` === id);
-  if (!source && !fixture) throw new Error('Нет источника для карточки.');
-  const task: TaskInstance = fixture
-    ? {
-        ...taskExample(fixture.taskNumber),
-        id,
-        generatorId: id,
-        seed: fixture.id,
-        statement: `Проверка записи ответа ${fixture.id} на бланке. Условие экзамена в приложение не копируется.`,
-        answer: answerFormat(fixture),
-      }
-    : resolveStreamTask({
-        generatorId: id,
-        seed: source?.kind === 'curated' ? (source.seeds[0] ?? '') : seed,
-        taskNumber: source?.taskNumber ?? 1,
-      });
+  if (!source && !fixture && id !== 'guidance-contract')
+    throw new Error('Нет источника для карточки.');
+  const task: TaskInstance =
+    id === 'guidance-contract'
+      ? guidanceExample()
+      : fixture
+        ? {
+            ...taskExample(fixture.taskNumber),
+            id,
+            generatorId: id,
+            seed: fixture.id,
+            statement: `Проверка записи ответа ${fixture.id} на бланке. Условие экзамена в приложение не копируется.`,
+            answer: answerFormat(fixture),
+          }
+        : resolveStreamTask({
+            generatorId: id,
+            seed: source?.kind === 'curated' ? (source.seeds[0] ?? '') : seed,
+            taskNumber: source?.taskNumber ?? 1,
+          });
   return (
     <div className="stream">
       <label>
@@ -53,6 +58,9 @@ export default function TaskCardGallery() {
               {item.generatorId}
             </option>
           ))}
+          <option value="guidance-contract">
+            Контракт помощи: текст, код и формулы
+          </option>
           {shortFixtures.map((item) => (
             <option key={item.id} value={`fixture:${item.id}`}>
               {item.id} — запись ответа

@@ -50,7 +50,8 @@ markdown.renderer.rules.math = (tokens, index) => {
       })
       .replace(
         '<span class="katex">',
-        '<span class="katex" tabindex="0" role="region" aria-label="Формула">',
+        // Formulas are focusable content groups, not repeated page landmarks.
+        '<span class="katex" tabindex="0" role="group" aria-label="Формула">',
       );
   } catch {
     return `<span class="math-error">Не удалось отобразить формулу: <code>${markdown.utils.escapeHtml(token.content)}</code></span>`;
@@ -59,7 +60,7 @@ markdown.renderer.rules.math = (tokens, index) => {
 
 /** Shared server/browser renderer. MathML avoids inline style exceptions in CSP. */
 export function renderRichText(source: string): string {
-  return DOMPurify.sanitize(markdown.render(source), {
+  const html = DOMPurify.sanitize(markdown.render(source), {
     USE_PROFILES: { html: true, mathMl: true },
     FORBID_TAGS: [
       'a',
@@ -79,4 +80,6 @@ export function renderRichText(source: string): string {
     FORBID_ATTR: ['href', 'src', 'style', 'id', 'name'],
     ALLOW_DATA_ATTR: false,
   });
+  // Code can scroll on narrow screens; it must be reachable without a pointer.
+  return html.replaceAll('<pre>', '<pre tabindex="0">');
 }

@@ -9,7 +9,7 @@ const html = renderRichText(Astro.props.source);
 
 <div class="rich-text-container" data-server-rich-text>
   <div class="rich-text" set:html={html} />
-  {html.includes('<pre>') && (
+  {/<pre(?:\s|>)/u.test(html) && (
     <>
       <button type="button" class="rich-text-copy" hidden>
         Скопировать код

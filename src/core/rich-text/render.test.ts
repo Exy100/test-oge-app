@@ -26,13 +26,14 @@ test('markdown tables, emphasis and code retain their structure', () => {
   expect(html).toContain('<th>Биты</th>');
   expect(html).toContain('class="language-python"');
   expect(html).toContain('print(8 * 8)');
+  expect(html).toContain('<pre tabindex="0">');
 });
 test('inline and display formulas contain accessible MathML without inline styles', () => {
   const html = renderRichText(String.raw`$x^2$ и $$\frac{8}{2}$$`);
   expect(html.match(/<math\b/gu)).toHaveLength(2);
   expect(
     html.match(
-      /class="katex" tabindex="0" role="region" aria-label="Формула"/gu,
+      /class="katex" tabindex="0" role="group" aria-label="Формула"/gu,
     ),
   ).toHaveLength(2);
   expect(html).toContain('<msup>');

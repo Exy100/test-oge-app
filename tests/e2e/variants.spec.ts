@@ -60,7 +60,7 @@ test('variant review: sixteen numbers, one selected №13, exact downloaded file
   const formula = page
     .locator('.variant-task')
     .nth(9)
-    .getByRole('region', { name: 'Формула', exact: true });
+    .getByRole('group', { name: 'Формула', exact: true });
   await formula.focus();
   await expect(formula).toBeFocused();
   await expect(

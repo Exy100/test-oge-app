@@ -9,6 +9,7 @@ import Figure from '../Figure';
 import TaskFiles from './TaskFiles';
 import RobotPractice from './RobotPractice';
 import PythonPractice from './PythonPractice';
+import TaskGuidance from './TaskGuidance';
 import '../../styles/task-card.css';
 
 export interface TaskCardProps {
@@ -123,6 +124,9 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
               check.notices.map((notice) => (
                 <p key={notice.code}>{notice.message}</p>
               ))}
+            {check?.verdict === 'incorrect' && check.explanation && (
+              <p className="task-mistake">{check.explanation}</p>
+            )}
           </div>
         </form>
       ) : (
@@ -211,6 +215,7 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
       <p id={`${id}-notes-help`}>
         До 1500 символов. Черновик доступен до смены задания или перезагрузки.
       </p>
+      <TaskGuidance task={task} />
     </article>
   );
 }

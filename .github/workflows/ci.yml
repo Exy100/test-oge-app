@@ -206,7 +206,11 @@ jobs:
           retention-days: 7
 
   browsers:
-    name: Browsers, accessibility and performance
+    name: Browsers, accessibility and performance (${{ matrix.shard }}/2)
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -242,9 +246,10 @@ jobs:
         run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Run all browser and accessibility tests
-        run: npm run e2e
+        run: npm run e2e -- --shard=${{ matrix.shard }}/2
 
       - name: Enforce Lighthouse budgets
+        if: matrix.shard == 1
         shell: bash
         run: |
           set -euo pipefail
@@ -259,7 +264,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: quality-reports
+          name: quality-reports-${{ matrix.shard }}
           path: |
             test-results/
             .lighthouseci/reports/
@@ -268,7 +273,7 @@ jobs:
           retention-days: 7
 
       - name: Upload the tested Pages build
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: matrix.shard == 1 && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: dist

@@ -30,6 +30,7 @@
 .task-card textarea,
 .task-card select,
 .stream > label select,
+.stream > label input,
 .stream-controls > label select {
   display: block;
   width: 100%;
@@ -123,6 +124,47 @@
 }
 .stream-position {
   font-size: var(--text-lg);
+}
+.task-guidance {
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-4);
+}
+.task-guidance-list {
+  list-style: none;
+  padding: 0;
+}
+.task-guidance-list > li {
+  padding: var(--space-4);
+  margin-block: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+.task-guidance h4,
+.task-guidance h5 {
+  font-size: var(--text-base);
+  margin-block: var(--space-3);
+}
+.task-guidance-mistakes summary {
+  cursor: pointer;
+  min-height: 44px;
+}
+.task-guidance-mistakes li {
+  margin-block: var(--space-3);
+}
+.task-reveal {
+  animation: task-guidance-reveal var(--duration-enter) var(--ease-standard)
+    both;
+}
+@keyframes task-guidance-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-1));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .stream-filters {
   margin-block: var(--space-4);

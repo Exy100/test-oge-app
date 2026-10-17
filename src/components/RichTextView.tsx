@@ -26,7 +26,7 @@ export default function RichTextView({ html }: { html: string }) {
         className="rich-text"
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      {html.includes('<pre>') && (
+      {/<pre(?:\s|>)/u.test(html) && (
         <button
           type="button"
           className="rich-text-copy"
