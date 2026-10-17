@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { checkTaskAnswer, type AnswerCheck } from '../../core/checker';
 import type { TaskInstance, Score } from '../../core/types';
 import type { StreamOutcome } from '../../core/stream';
@@ -29,12 +29,16 @@ export default function TaskCard(props: TaskCardProps) {
 function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
+  const feedback = useRef<HTMLDivElement>(null);
   const submitted = useRef(false);
   const [raw, setRaw] = useState('');
   const [check, setCheck] = useState<AnswerCheck | null>(null);
   const [assessment, setAssessment] = useState<Score | null>(null);
   const [accepted, setAccepted] = useState(false);
   const [notes, setNotes] = useState('');
+  useEffect(() => {
+    if (accepted) feedback.current?.focus();
+  }, [accepted]);
   const short = task.answer.type !== 'artifact';
   const format =
     task.answer.type === 'integer'
@@ -107,6 +111,8 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
             Проверить ответ
           </button>
           <div
+            ref={feedback}
+            tabIndex={-1}
             id={`${id}-feedback`}
             role="status"
             className="task-feedback"
@@ -190,13 +196,18 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
                   Оставить без оценки
                 </button>
               </div>
-              <p role="status" aria-label="Результат самооценки">
+              <div
+                ref={feedback}
+                tabIndex={-1}
+                role="status"
+                aria-label="Результат самооценки"
+              >
                 {accepted
                   ? assessment !== null
                     ? `Самооценка сохранена: ${String(assessment)} из ${String(task.criteria.max)}.`
                     : 'Работа оставлена без оценки. Точность не изменена.'
                   : ''}
-              </p>
+              </div>
             </section>
           )}
         </>

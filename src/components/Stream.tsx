@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import {
   configureStream,
   recordStreamResult,
@@ -55,6 +55,9 @@ export default function Stream({
   topics: readonly string[];
 }) {
   const ready = useHydrated();
+  const shortcutsId = useId();
+  const [shortcuts, setShortcuts] = useState(true);
+  const nextButton = useRef<HTMLButtonElement>(null);
   const stored = useStoredAreas();
   const [state, setState] = useState<StreamState>(initialStreamState);
   const [filters, setFilters] = useState(defaultStreamFilters);
@@ -70,6 +73,7 @@ export default function Stream({
   const resultRecorded = useRef(false);
   const writing = useRef(false);
   const [error, setError] = useState('');
+  const [reloadNeeded, setReloadNeeded] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
   const [manualLink, setManualLink] = useState('');
   const [revision, setRevision] = useState(0);
@@ -138,6 +142,7 @@ export default function Stream({
       advancing.current = true;
       setBusy(true);
       setError('');
+      setReloadNeeded(false);
       try {
         const saved: unknown = window.history.state;
         const savedSearch =
@@ -231,6 +236,7 @@ export default function Stream({
     const token = ++navigation.current;
     setBusy(true);
     setError('');
+    setReloadNeeded(false);
     try {
       const active = withStreamProgress(
         {
@@ -309,8 +315,10 @@ export default function Stream({
       if (!keepCurrent) setRevision((value) => value + 1);
       heading.current?.focus();
     } catch {
-      if (token === navigation.current)
+      if (token === navigation.current) {
         setError('Не удалось подготовить задание. Попробуй ещё раз.');
+        setReloadNeeded(true);
+      }
     } finally {
       if (token === navigation.current) {
         advancing.current = false;
@@ -358,12 +366,64 @@ export default function Stream({
         : filters.variant13,
     });
   }
+  const onShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (
+      !ready ||
+      busy ||
+      advancing.current ||
+      !shortcuts ||
+      !state.current ||
+      event.defaultPrevented ||
+      event.repeat ||
+      event.isComposing ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      !['n', 'т', 'arrowright'].includes(event.key.toLowerCase())
+    )
+      return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    if (
+      target !== nextButton.current &&
+      target.closest(
+        'input, textarea, select, button, a[href], summary, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="combobox"], [role="listbox"], [role="slider"], [role="spinbutton"], [role="dialog"], [role="tablist"], pre, .katex',
+      )
+    )
+      return;
+    event.preventDefault();
+    void advance();
+  });
+  useEffect(() => {
+    window.addEventListener('keydown', onShortcut);
+    return () => {
+      window.removeEventListener('keydown', onShortcut);
+    };
+  }, []);
   return (
     <div className="stream">
       <p>
         Выбери номера и решай в своём темпе. При смене задания код и черновик
         очищаются — скачай нужное заранее. Результаты и очередь повторений
         сохраняются в этом браузере сразу после оценки.
+      </p>
+      <label className="stream-shortcuts">
+        <input
+          type="checkbox"
+          checked={shortcuts}
+          disabled={!ready}
+          aria-describedby={shortcutsId}
+          onChange={(event) => {
+            setShortcuts(event.target.checked);
+          }}
+        />
+        Горячие клавиши N и →
+      </label>
+      <p id={shortcutsId}>
+        Enter в поле ответа — проверить. N (Т в русской раскладке) или → —
+        следующее задание, без ответа — пропустить. Клавиши перехода работают
+        вне полей, редакторов и фильтров. Их можно отключить на этой странице.
       </p>
       <fieldset
         className="stream-controls"
@@ -462,8 +522,33 @@ export default function Stream({
               : 'Не удалось подобрать задание. Попробуй другие фильтры или повтори подбор.'}
           </p>
         )}
-        {error && <p role="alert">{error}</p>}
+        {error && (
+          <div role="alert">
+            <p>{error}</p>
+            {reloadNeeded && (
+              <>
+                <p>
+                  Проверь соединение. Если ошибка повторяется, скопируй черновик
+                  и скачай свой код перед перезагрузкой.{' '}
+                  {browserStore().memoryOnly
+                    ? 'Хранилище недоступно: при перезагрузке возможна потеря результатов этой страницы.'
+                    : 'Сохранённые результаты останутся в этом браузере.'}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                >
+                  Перезагрузить страницу
+                </button>
+              </>
+            )}
+          </div>
+        )}
         <button
+          ref={nextButton}
+          aria-keyshortcuts={shortcuts && task ? 'n т ArrowRight' : undefined}
           className="button button-dark"
           type="button"
           onClick={() => {
