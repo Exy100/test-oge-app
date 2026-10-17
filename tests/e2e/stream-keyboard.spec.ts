@@ -189,8 +189,9 @@ for (const number of [15, 16]) {
     await expect(editor).toHaveValue('n\nn');
   });
 }
-test('shortcuts: one transition while a task loads, held keys and explicit reload recovery', async ({
+test('shortcuts: one transition while a task loads, held keys and fresh tab recovery', async ({
   page,
+  context,
 }) => {
   await page.goto('stream/');
   await ready(page);
@@ -223,40 +224,57 @@ test('shortcuts: one transition while a task loads, held keys and explicit reloa
   expect((await stats(page)).completed).toBe(0);
   await page.unrouteAll({ behavior: 'wait' });
   await expect(page.getByRole('alert')).toContainText('скопируй черновик');
-  const reloadErrors: string[] = [];
-  page.on('pageerror', (error) => {
-    reloadErrors.push(error.message);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  const statementHtml = await page
+    .locator('.task-card > .rich-text-container > .rich-text')
+    .innerHTML();
+  const [recovered] = await Promise.all([
+    context.waitForEvent('page'),
+    page
+      .getByRole('link', {
+        name: 'Открыть практику в новой вкладке',
+        exact: true,
+      })
+      .click(),
+  ]);
+  const recoveryErrors: string[] = [];
+  recovered.on('pageerror', (error) => {
+    recoveryErrors.push(error.message);
   });
-  page.on('requestfailed', (request) => {
-    reloadErrors.push(
+  recovered.on('requestfailed', (request) => {
+    recoveryErrors.push(
       `${request.url()}: ${request.failure()?.errorText ?? 'request failed'}`,
     );
   });
-  page.on('console', (message) => {
-    if (message.type() === 'error') reloadErrors.push(message.text());
+  recovered.on('console', (message) => {
+    if (message.type() === 'error') recoveryErrors.push(message.text());
   });
   try {
-    await Promise.all([
-      page.waitForEvent('load'),
-      page
-        .getByRole('button', { name: 'Перезагрузить страницу', exact: true })
-        .click(),
-    ]);
-    await ready(page);
+    await recovered.waitForLoadState('load');
+    await ready(recovered);
+    await expect(
+      recovered.locator('.task-card > .rich-text-container > .rich-text'),
+    ).toHaveJSProperty('innerHTML', statementHtml);
+    await expect(page.getByLabel('Как я решал')).toHaveValue(
+      'Сохранить при отказе',
+    );
+    expect((await stats(recovered)).completed).toBe(0);
+    await recovered.locator('.stream-position').focus();
+    await recovered.keyboard.press('n');
+    await ready(recovered);
+    await expect(recovered.locator('.stream-position')).toHaveText('Задание 2');
+    expect((await stats(recovered)).completed).toBe(1);
   } catch (cause) {
     throw new Error(
-      `Практика не восстановилась после загрузки страницы: ${JSON.stringify(reloadErrors)}`,
+      `Практика не открылась в новой вкладке: ${JSON.stringify(recoveryErrors)}`,
       { cause },
     );
+  } finally {
+    await recovered.close();
   }
-  await page.locator('.stream-position').focus();
-  await page.keyboard.press('n');
-  await ready(page);
-  await expect(page.locator('.stream-position')).toHaveText('Задание 2');
-  expect((await stats(page)).completed).toBe(1);
 });
 
-test('reload recovery warns when accepted results exist only in memory', async ({
+test('fresh tab recovery warns when accepted results exist only in memory', async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -277,7 +295,7 @@ test('reload recovery warns when accepted results exist only in memory', async (
   await page.keyboard.press('n');
   const navigationError = page.locator('.stream-controls > [role="alert"]');
   await expect(navigationError).toContainText('Хранилище недоступно');
-  await expect(navigationError).toContainText('возможна потеря результатов');
+  await expect(navigationError).toContainText('могут не перенестись');
   await expect(page.getByLabel('Как я решал')).toHaveValue('Мой черновик');
   await expect(page.locator('.progress-accuracy')).toHaveText('100%');
 });

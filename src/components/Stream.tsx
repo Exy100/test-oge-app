@@ -73,7 +73,7 @@ export default function Stream({
   const resultRecorded = useRef(false);
   const writing = useRef(false);
   const [error, setError] = useState('');
-  const [reloadNeeded, setReloadNeeded] = useState(false);
+  const [recoveryAvailable, setRecoveryAvailable] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
   const [manualLink, setManualLink] = useState('');
   const [revision, setRevision] = useState(0);
@@ -142,7 +142,7 @@ export default function Stream({
       advancing.current = true;
       setBusy(true);
       setError('');
-      setReloadNeeded(false);
+      setRecoveryAvailable(false);
       try {
         const saved: unknown = window.history.state;
         const savedSearch =
@@ -236,7 +236,7 @@ export default function Stream({
     const token = ++navigation.current;
     setBusy(true);
     setError('');
-    setReloadNeeded(false);
+    setRecoveryAvailable(false);
     try {
       const active = withStreamProgress(
         {
@@ -317,7 +317,7 @@ export default function Stream({
     } catch {
       if (token === navigation.current) {
         setError('Не удалось подготовить задание. Попробуй ещё раз.');
-        setReloadNeeded(true);
+        setRecoveryAvailable(true);
       }
     } finally {
       if (token === navigation.current) {
@@ -525,23 +525,26 @@ export default function Stream({
         {error && (
           <div role="alert">
             <p>{error}</p>
-            {reloadNeeded && (
+            {recoveryAvailable && (
               <>
                 <p>
                   Проверь соединение. Если ошибка повторяется, скопируй черновик
-                  и скачай свой код перед перезагрузкой.{' '}
+                  и скачай свой код перед продолжением в новой вкладке.{' '}
                   {browserStore().memoryOnly
-                    ? 'Хранилище недоступно: при перезагрузке возможна потеря результатов этой страницы.'
-                    : 'Сохранённые результаты останутся в этом браузере.'}
+                    ? 'Хранилище недоступно: результаты этой страницы могут не перенестись в новую вкладку.'
+                    : 'Сохранённые результаты доступны в этом браузере.'}
                 </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.location.reload();
-                  }}
+                <a
+                  className="button button-light"
+                  href={streamTaskUrl(window.location.href, {
+                    filters,
+                    reference: state.current?.reference ?? null,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Перезагрузить страницу
-                </button>
+                  Открыть практику в новой вкладке
+                </a>
               </>
             )}
           </div>
