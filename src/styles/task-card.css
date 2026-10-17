@@ -124,6 +124,60 @@
 .stream-position {
   font-size: var(--text-lg);
 }
+.stream-filters {
+  margin-block: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+.stream-filters summary {
+  cursor: pointer;
+  min-height: 44px;
+}
+.stream-filters fieldset {
+  min-width: 0;
+  margin-block: var(--space-4);
+}
+.stream-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  gap: var(--space-2);
+}
+.stream-numbers label,
+.stream-review {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+}
+.stream-numbers input,
+.stream-review input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+.stream-filter-fields label {
+  display: block;
+  font-weight: var(--weight-medium);
+}
+.stream-filter-fields select,
+.stream-link {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: var(--space-3);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  margin-block: var(--space-2) var(--space-4);
+}
+.stream-filter-summary,
+.stream-empty {
+  overflow-wrap: anywhere;
+}
 @media (max-width: 40rem) {
   .task-card {
     padding: var(--space-4);

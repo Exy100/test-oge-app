@@ -3,6 +3,7 @@ import { examConfig } from '../exam/exam.config.ts';
 import type { TaskNumber } from '../types.ts';
 import {
   STREAM_VERSION,
+  referenceSchema,
   stateSchema,
   outcomeSchema,
   referenceKey,
@@ -130,13 +131,34 @@ export function configureStream(
     selection.variant13 !== state.variant13
   )
     state.current = null;
-  return restoreStreamState({ ...state, ...selection });
+  return restoreStreamState({
+    ...state,
+    numbers,
+    variant13: selection.variant13,
+  });
 }
-export function nextStreamTask(input: StreamState): ActiveStreamState {
+export interface StreamTaskSelection {
+  /** One or more verified candidates per source; number weights are renormalized. */
+  candidates?: readonly StreamReference[];
+  acceptsReview?: (reference: StreamReference) => boolean;
+  reviewOnly?: boolean;
+}
+export function nextStreamTask(input: StreamState): ActiveStreamState;
+export function nextStreamTask(
+  input: StreamState,
+  selection: StreamTaskSelection,
+): StreamState;
+export function nextStreamTask(
+  input: StreamState,
+  selection: StreamTaskSelection = {},
+): StreamState {
   const state = restoreStreamState(input);
-  if (state.current) return state as ActiveStreamState;
+  if (state.current) return state;
   const review = state.reviews.find(
-    (item) => item.dueAfter === 0 && eligible(state, sourceFor(state, item)),
+    (item) =>
+      item.dueAfter === 0 &&
+      eligible(state, sourceFor(state, item)) &&
+      (selection.acceptsReview?.(item) ?? true),
   );
   if (review) {
     const { generatorId, seed, taskNumber, step } = review;
@@ -149,13 +171,26 @@ export function nextStreamTask(input: StreamState): ActiveStreamState {
       },
     };
   }
+  if (selection.reviewOnly) return state;
+  const candidates = selection.candidates?.map((reference) => {
+    const parsed = referenceSchema.parse(reference);
+    if (!eligible(state, sourceFor(state, parsed)))
+      throw new TypeError('Кандидат не соответствует выбору номеров.');
+    return parsed;
+  });
+  const availableNumbers = candidates
+    ? state.numbers.filter((number) =>
+        candidates.some((reference) => reference.taskNumber === number),
+      )
+    : state.numbers;
+  if (availableNumbers.length === 0) return state;
   if (state.draws === Number.MAX_SAFE_INTEGER)
     throw new RangeError('Исчерпан счётчик случайных заданий.');
   const rng = new Rng(
     JSON.stringify([STREAM_VERSION, state.seed, state.draws]),
   );
   const taskNumber = rng.fork('number').weighted(
-    streamDistribution(state.numbers, state.statistics).map((row) => ({
+    streamDistribution(availableNumbers, state.statistics).map((row) => ({
       value: row.taskNumber,
       weight: row.probability,
     })),
@@ -164,11 +199,24 @@ export function nextStreamTask(input: StreamState): ActiveStreamState {
     .fork('source')
     .pick(
       state.sources.filter(
-        (item) => item.taskNumber === taskNumber && eligible(state, item),
+        (item) =>
+          item.taskNumber === taskNumber &&
+          eligible(state, item) &&
+          (!candidates ||
+            candidates.some(
+              (reference) => reference.generatorId === item.generatorId,
+            )),
       ),
     );
-  const seed =
-    source.kind === 'curated'
+  const seed = candidates
+    ? rng
+        .fork('filtered seed')
+        .pick(
+          candidates.filter(
+            (reference) => reference.generatorId === source.generatorId,
+          ),
+        ).seed
+    : source.kind === 'curated'
       ? rng.fork('curated seed').pick(source.seeds)
       : JSON.stringify([STREAM_VERSION, hashSeed(state.seed), state.draws]);
   return {

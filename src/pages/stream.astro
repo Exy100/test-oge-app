@@ -4,8 +4,18 @@ import Stream from '../components/Stream';
 import { initialStreamState } from '../lib/stream-start';
 import { resolveStreamTask } from '../core/stream/catalog';
 import { renderRichText } from '../core/rich-text/render';
+import { generators } from '../core/generators';
+import { bankTasks } from '../core/banks';
 const first = resolveStreamTask(initialStreamState().current.reference);
 const initialHtml = renderRichText(first.statement);
+const topics = [
+  ...new Set([
+    ...generators.flatMap(
+      (generator) => generator.generate('stream-topics-v1').topics,
+    ),
+    ...bankTasks.flatMap((task) => task.topics),
+  ]),
+].sort((a, b) => a.localeCompare(b, 'ru'));
 ---
 
 <InfoLayout
@@ -13,8 +23,9 @@ const initialHtml = renderRichText(first.statement);
   description="Задания по информатике: краткие ответы, работа с файлами и программы."
   route="/stream/"
 >
-  <Stream initialHtml={initialHtml} client:load />
+  <Stream initialHtml={initialHtml} topics={topics} client:load />
   <noscript>
-    Для проверки ответов и выполнения Робота включи JavaScript в браузере.
+    Без JavaScript показано стартовое задание. Для открытия задания по ссылке,
+    фильтров, проверки ответов и выполнения Робота включи JavaScript в браузере.
   </noscript>
 </InfoLayout>
