@@ -223,10 +223,32 @@ test('shortcuts: one transition while a task loads, held keys and explicit reloa
   expect((await stats(page)).completed).toBe(0);
   await page.unrouteAll({ behavior: 'wait' });
   await expect(page.getByRole('alert')).toContainText('скопируй черновик');
-  await page
-    .getByRole('button', { name: 'Перезагрузить страницу', exact: true })
-    .click();
-  await ready(page);
+  const reloadErrors: string[] = [];
+  page.on('pageerror', (error) => {
+    reloadErrors.push(error.message);
+  });
+  page.on('requestfailed', (request) => {
+    reloadErrors.push(
+      `${request.url()}: ${request.failure()?.errorText ?? 'request failed'}`,
+    );
+  });
+  page.on('console', (message) => {
+    if (message.type() === 'error') reloadErrors.push(message.text());
+  });
+  try {
+    await Promise.all([
+      page.waitForEvent('load'),
+      page
+        .getByRole('button', { name: 'Перезагрузить страницу', exact: true })
+        .click(),
+    ]);
+    await ready(page);
+  } catch (cause) {
+    throw new Error(
+      `Практика не восстановилась после загрузки страницы: ${JSON.stringify(reloadErrors)}`,
+      { cause },
+    );
+  }
   await page.locator('.stream-position').focus();
   await page.keyboard.press('n');
   await ready(page);
