@@ -5,7 +5,7 @@ import { learningGenerators } from '../core/generators/learning';
 import { validateGeneratedTask } from '../core/generators/harness';
 import type { TaskInstance } from '../core/types';
 import RichText from '../components/RichText';
-import TaskFiles from './TaskFiles';
+import TaskFiles from '../components/tasks/TaskFiles';
 import Figure from '../components/Figure';
 import { isRobotKind, robotExample } from '../core/generators/15/fields';
 

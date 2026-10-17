@@ -3,7 +3,10 @@ module.exports = {
     collect: {
       startServerCommand: 'npm run preview -- --host 127.0.0.1 --port 4323',
       startServerReadyPattern: 'Local',
-      url: ['http://127.0.0.1:4323/test-oge-app/'],
+      url: [
+        'http://127.0.0.1:4323/test-oge-app/',
+        'http://127.0.0.1:4323/test-oge-app/stream/',
+      ],
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox' },
     },

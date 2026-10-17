@@ -45,6 +45,10 @@ export default defineConfig({
         'astro:config:setup': ({ command, injectRoute }) => {
           if (command === 'dev') {
             injectRoute({
+              pattern: '/dev/tasks',
+              entrypoint: './src/dev/tasks.astro',
+            });
+            injectRoute({
               pattern: '/dev/variants',
               entrypoint: './src/dev/variants.astro',
             });

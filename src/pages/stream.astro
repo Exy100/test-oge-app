@@ -1,0 +1,20 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Stream from '../components/Stream';
+import { initialStreamState } from '../lib/stream-start';
+import { resolveStreamTask } from '../core/stream/catalog';
+import { renderRichText } from '../core/rich-text/render';
+const first = resolveStreamTask(initialStreamState().current.reference);
+const initialHtml = renderRichText(first.statement);
+---
+
+<InfoLayout
+  title="Практика"
+  description="Задания по информатике: краткие ответы, работа с файлами и программы."
+  route="/stream/"
+>
+  <Stream initialHtml={initialHtml} client:load />
+  <noscript>
+    Для проверки ответов и выполнения Робота включи JavaScript в браузере.
+  </noscript>
+</InfoLayout>

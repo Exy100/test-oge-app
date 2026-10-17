@@ -1,0 +1,13 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import TaskCardGallery from './TaskCardGallery';
+---
+
+<InfoLayout
+  title="Проверка карточки"
+  description="Реальные задания всех форматов."
+  route="/dev/tasks/"
+  noindex
+>
+  <TaskCardGallery client:load />
+</InfoLayout>

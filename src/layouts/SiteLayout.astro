@@ -59,7 +59,12 @@ const { title, description, route = '/', noindex = false } = Astro.props;
           </span>
         </a>
         <nav aria-label="Основная навигация">
-          <a href={sitePath('/#practice')}>Практика</a>
+          <a
+            href={sitePath('/stream/')}
+            aria-current={route === '/stream/' ? 'page' : undefined}
+          >
+            Практика
+          </a>
           <a href={sitePath('/#materials')}>Короткая теория</a>
           <a href={sitePath('/#exam')}>Об экзамене</a>
           <a

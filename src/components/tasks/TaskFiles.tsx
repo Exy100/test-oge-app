@@ -1,8 +1,7 @@
-import { useEffect, useId, useState } from 'react';
-import type { Dataset } from '../core/datasets';
-import type { TaskInstance } from '../core/types';
-import { createTaskDataset } from '../core/generators/task-dataset';
-import { readHtm } from '../core/datasets/htm';
+import { useEffect, useId, useRef, useState } from 'react';
+import type { Dataset } from '../../core/datasets';
+import type { TaskInstance } from '../../core/types';
+import { readHtm } from '../../core/datasets/htm';
 
 export default function TaskFiles({ task }: { task: TaskInstance }) {
   const id = useId();
@@ -13,6 +12,13 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
   const [path, setPath] = useState('README.txt');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
   // Links are created with the dataset; the effect only releases replaced ones.
   useEffect(() => {
     if (!links) return;
@@ -32,8 +38,10 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
           onClick={() => {
             setBusy(true);
             setError('');
-            void createTaskDataset(task)
+            void import('../../core/generators/task-dataset')
+              .then(({ createTaskDataset }) => createTaskDataset(task))
               .then((next) => {
+                if (!mounted.current) return;
                 setDataset(next);
                 setLinks({
                   zip: URL.createObjectURL(
@@ -49,6 +57,7 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
                 });
               })
               .catch((cause: unknown) => {
+                if (!mounted.current) return;
                 setError(
                   cause instanceof Error
                     ? cause.message
@@ -56,7 +65,7 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
                 );
               })
               .finally(() => {
-                setBusy(false);
+                if (mounted.current) setBusy(false);
               });
           }}
         >
@@ -66,7 +75,7 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
       {error && <p role="alert">{error}</p>}
       {dataset && (
         <>
-          <p>{dataset.manifest.files.length} файлов · CC0-1.0</p>
+          <p>{dataset.manifest.files.length} файлов · текст в UTF-8</p>
           {links && (
             <p>
               <a href={links.zip} download={`${task.subtype}.zip`}>
@@ -95,7 +104,12 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
               </option>
             ))}
           </select>
-          <pre className="task-file-preview">
+          <pre
+            className="task-file-preview"
+            tabIndex={0}
+            role="region"
+            aria-label="Содержимое файла"
+          >
             {bytes
               ? /\.(?:ods|odt|odp|png|tiff|jpeg|pdf)$/u.test(path)
                 ? /\.(?:png|tiff|jpeg)$/u.test(path)
