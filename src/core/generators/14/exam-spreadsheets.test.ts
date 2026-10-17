@@ -15,6 +15,10 @@ import { packZip, readZip, limits } from '../../datasets/zip';
 import { validateOdf, makeOdf } from '../../datasets/odf';
 import { pieChart, spreadsheetFile } from './dataset';
 const decoder = new TextDecoder();
+/** Exact byte equality in native code avoids an assertion walk over every index. */
+function expectBytes(actual: Uint8Array, expected: Uint8Array): void {
+  expect(Buffer.compare(Buffer.from(actual), Buffer.from(expected))).toBe(0);
+}
 /** Solve from exported CSV: group records, sort extrema, and derive each query independently. */
 function oracle(csv: string, d: SheetData) {
   const rows = csv
@@ -131,7 +135,7 @@ for (const g of spreadsheetGenerators)
         await verifyArchive(d.manifest, d.archive);
         expect(task).toMatchSnapshot();
         expect(d.manifest).toMatchSnapshot();
-        expect((await createTaskDataset(task)).archive).toEqual(d.archive);
+        expectBytes((await createTaskDataset(task)).archive, d.archive);
       },
     );
     test('rejects altered instructions, criteria, reference and identity', async () => {
@@ -163,11 +167,12 @@ test.each(Array.from({ length: 12 }, (_, i) => i))(
     const g = spreadsheetGenerators[i % 3];
     if (!g) throw new Error('Missing generator');
     const d = await createTaskDataset(g.generate(`review:${String(i)}`));
-    expect(
+    expectBytes(
       await readFile(
         `samples/14-files/${String(i + 1).padStart(2, '0')}/dataset.zip`,
       ),
-    ).toEqual(Buffer.from(d.archive));
+      d.archive,
+    );
   },
 );
 test.each(
