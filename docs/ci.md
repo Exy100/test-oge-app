@@ -10,8 +10,8 @@ Workflow `.github/workflows/ci.yml` запускается на push, pull reque
    из официального релиза и проверяется закреплённой SHA-256. Значения секретов
    не печатаются (`--redact`).
 2. `npm audit --audit-level=high`: зависимости, включая инструменты разработки.
-3. `npm run verify`: формат, ESLint, типы, unit-тесты, forbidden, покрытие текущего
-   этапа и production-сборка.
+3. Формат, ESLint, типы, forbidden, инвентарь текущего этапа и production-сборка;
+   отдельно — все unit-тесты в трёх группах с общим покрытием ядра ≥90%.
 4. `npm run check:office`, `npm run check:robots`, `npm run check:python` и `npm run check:variants`:
    реальные офисные файлы открываются в LibreOffice, программы Робота проверяются
    независимым исполнителем, Python-эталоны реально запускаются на граничных тестах.
@@ -25,22 +25,23 @@ Workflow `.github/workflows/ci.yml` запускается на push, pull reque
 
 При ошибке следующие шаги этого задания и публикация не выполняются; независимое
 параллельное задание может закончить свои проверки. Следы упавших браузерных
-тестов и доступные Lighthouse-отчёты сохраняются в артефакте `quality-reports`
+тестов, видео прохождения и доступные Lighthouse-отчёты сохраняются в артефактах `quality-reports-1` / `quality-reports-2`
 на семь дней, в том числе при неуспешном прогоне. Покрытие и проверенные офисные
-материалы сохраняются отдельно в `source-reports` на тот же срок. Значения секретов не нужно
+материалы сохраняются отдельно в `source-reports` / `generated-file-reports` на тот же срок. Значения секретов не нужно
 добавлять в отчёты или сообщения workflow.
 
 ## Разделение проверок и публикации
 
-`quality` (код, безопасность зависимостей/истории, учебные файлы) и `browsers`
-(все браузеры, axe, Lighthouse и сканирование dist) работают параллельно на одном
-коммите. У каждого прежний лимит 20 минут и только `contents: read`.
+На одном коммите работают `quality` (код и безопасность), `unit` (три группы),
+`files` (независимые проверки файлов) и `browsers` (две группы всех браузеров,
+axe, Lighthouse и сканирование dist). `coverage` объединяет три unit-результата
+и применяет общий порог ≥90%. У каждой проверки лимит 20 минут и только `contents: read`.
 Они не изменяют репозиторий и настройки Pages.
 Проверки fork PR работают через событие `pull_request`, без `pull_request_target`
 и без секретов. Действия закреплены commit SHA.
 
-Только успешный `browsers` из `main` загружает свой проверенный `dist` через `upload-pages-artifact`.
-Отдельный `deploy` с `needs: [quality, browsers]` ждёт успеха обоих заданий,
+Первая успешная группа `browsers` из `main` загружает свой проверенный `dist` через `upload-pages-artifact`.
+Отдельный `deploy` с `needs: [quality, unit, coverage, files, browsers]` ждёт успеха всех групп,
 получает только права `pages: write` и
 `id-token: write`, использует environment `github-pages` и публикует именно этот
 артефакт. Пользовательский PAT и запись обратно в Git не нужны.
@@ -72,8 +73,12 @@ GITHUB_TOKEN не имеет права менять эту настройку (
 
 ## Диагностика
 
+- Unit-группы явно подключают встроенный репортёр Vitest `github-actions`
+  вместе с `default` и `blob`: ошибка получает название теста, сообщение и
+  позицию исходника в аннотациях GitHub. Явный список default/blob иначе заменяет
+  автоматический GitHub-репортёр Vitest; без него виден лишь общий код выхода.
 - При красном CI открыть первый упавший шаг и его лог. Для Playwright скачать
-  `quality-reports` и открыть `trace.zip` через `npx playwright show-trace`.
+  `quality-reports-1` / `quality-reports-2` и открыть `trace.zip` через `npx playwright show-trace`.
 - Для локального воспроизведения: `npm ci`, `npm run verify`,
   `npx playwright install --with-deps chromium firefox webkit`, `npm run e2e`,
   `npm run lh` с `CHROME_PATH`, указывающим на установленный Chromium.

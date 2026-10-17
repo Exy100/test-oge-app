@@ -93,7 +93,7 @@ jobs:
       # A partial shard cannot satisfy the whole-core threshold. The required
       # coverage job merges all three blobs and enforces the unchanged 90% gate.
       - name: Run every test assigned to this shard with coverage
-        run: npx vitest run --coverage --shard=${{ matrix.shard }}/3 --coverage.thresholds.lines=0 --reporter=default --reporter=blob --outputFile.blob=.cache/vitest-blobs/shard-${{ matrix.shard }}.json
+        run: npx vitest run --coverage --shard=${{ matrix.shard }}/3 --coverage.thresholds.lines=0 --reporter=default --reporter=blob --reporter=github-actions --outputFile.blob=.cache/vitest-blobs/shard-${{ matrix.shard }}.json
 
       - name: Save tests and coverage blob
         if: always()
