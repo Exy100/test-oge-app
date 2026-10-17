@@ -189,93 +189,78 @@ for (const number of [15, 16]) {
     await expect(editor).toHaveValue('n\nn');
   });
 }
-test('shortcuts: one transition while a task loads, held keys and fresh tab recovery', async ({
+test('a renderer load failure is announced before editing or navigation is enabled', async ({
+  page,
+}) => {
+  await page.route('**/_astro/render.*.js', (route) => route.abort());
+  await page.goto('stream/');
+  await expect(page.getByRole('alert')).toContainText(
+    'Не удалось загрузить практику',
+  );
+  await expect(page.getByLabel('Что решать')).toBeDisabled();
+  await expect(page.getByLabel('Твой ответ', { exact: true })).toBeDisabled();
+  await expect(page.getByLabel('Как я решал')).toBeDisabled();
+  await expect(page.locator('.stream-position')).toHaveText('Задание 1');
+  await expect(page.locator('.task-card > .rich-text-container')).toBeVisible();
+  expect((await stats(page)).completed).toBe(0);
+  expect(await syntheticKey(page, { key: 'n' })).toBe(false);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test('shortcuts: one transition per frame and twenty tasks with the network disconnected', async ({
   page,
   context,
 }) => {
   await page.goto('stream/');
   await ready(page);
-  await page.getByLabel('Как я решал').fill('Сохранить при отказе');
-  const requested = Promise.withResolvers<undefined>();
-  const release = Promise.withResolvers<undefined>();
-  await page.route('**/_astro/*.js', async (route) => {
-    requested.resolve(undefined);
-    await release.promise;
-    await route.abort();
+  await page.getByLabel('Как я решал').fill('До явного перехода');
+  const requests: string[] = [];
+  await page.route('**/_astro/*.js', (route) => {
+    requests.push(route.request().url());
+    return route.abort();
   });
-  await page.locator('.stream-position').focus();
-  await page.keyboard.press('n');
-  await requested.promise;
-  await expect(page.locator('.stream-controls')).toHaveAttribute(
-    'aria-busy',
-    'true',
-  );
-  expect(await syntheticKey(page, { key: 'n' })).toBe(false);
-  expect(await syntheticKey(page, { key: 'ArrowRight', repeat: true })).toBe(
-    false,
-  );
-  release.resolve(undefined);
-  await expect(page.getByRole('alert')).toContainText(
-    'Не удалось подготовить задание',
-  );
-  await expect(page.getByLabel('Как я решал')).toHaveValue(
-    'Сохранить при отказе',
-  );
-  expect((await stats(page)).completed).toBe(0);
-  await page.unrouteAll({ behavior: 'wait' });
-  await expect(page.getByRole('alert')).toContainText('скопируй черновик');
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  const statementHtml = await page
-    .locator('.task-card > .rich-text-container > .rich-text')
-    .innerHTML();
-  const [recovered] = await Promise.all([
-    context.waitForEvent('page'),
-    page
-      .getByRole('link', {
-        name: 'Открыть практику в новой вкладке',
-        exact: true,
-      })
-      .click(),
-  ]);
-  const recoveryErrors: string[] = [];
-  recovered.on('pageerror', (error) => {
-    recoveryErrors.push(error.message);
-  });
-  recovered.on('requestfailed', (request) => {
-    recoveryErrors.push(
-      `${request.url()}: ${request.failure()?.errorText ?? 'request failed'}`,
+  await context.setOffline(true);
+  expect(await page.evaluate(() => navigator.onLine)).toBe(false);
+  const prevented = await page
+    .locator('.stream-position')
+    .evaluate((heading) => {
+      heading.focus();
+      return [
+        { key: 'n' },
+        { key: 'ArrowRight' },
+        { key: 'n', repeat: true },
+      ].map((init) => {
+        const event = new KeyboardEvent('keydown', {
+          bubbles: true,
+          cancelable: true,
+          ...init,
+        });
+        heading.dispatchEvent(event);
+        return event.defaultPrevented;
+      });
+    });
+  expect(prevented).toEqual([true, false, false]);
+  await ready(page);
+  await expect(page.locator('.stream-position')).toHaveText('Задание 2');
+  expect((await stats(page)).completed).toBe(1);
+  await expect(page.getByLabel('Как я решал')).toHaveValue('');
+  for (let position = 3; position <= 20; position += 1) {
+    await page.keyboard.press(position % 2 ? 'n' : 'ArrowRight');
+    await ready(page);
+    await expect(page.locator('.stream-position')).toHaveText(
+      `Задание ${String(position)}`,
     );
-  });
-  recovered.on('console', (message) => {
-    if (message.type() === 'error') recoveryErrors.push(message.text());
-  });
-  try {
-    await recovered.waitForLoadState('load');
-    await ready(recovered);
-    await expect(
-      recovered.locator('.task-card > .rich-text-container > .rich-text'),
-    ).toHaveJSProperty('innerHTML', statementHtml);
-    await expect(page.getByLabel('Как я решал')).toHaveValue(
-      'Сохранить при отказе',
-    );
-    expect((await stats(recovered)).completed).toBe(0);
-    await recovered.locator('.stream-position').focus();
-    await recovered.keyboard.press('n');
-    await ready(recovered);
-    await expect(recovered.locator('.stream-position')).toHaveText('Задание 2');
-    expect((await stats(recovered)).completed).toBe(1);
-  } catch (cause) {
-    throw new Error(
-      `Практика не открылась в новой вкладке: ${JSON.stringify(recoveryErrors)}`,
-      { cause },
-    );
-  } finally {
-    await recovered.close();
+    await expect(page.locator('.stream-position')).toBeFocused();
+    expect((await stats(page)).completed).toBe(position - 1);
   }
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  expect(requests).toEqual([]);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
-test('fresh tab recovery warns when accepted results exist only in memory', async ({
+test('offline transitions preserve accepted results when storage is available only in memory', async ({
   page,
+  context,
 }) => {
   await page.addInitScript(() => {
     Storage.prototype.setItem = () => {
@@ -292,10 +277,14 @@ test('fresh tab recovery warns when accepted results exist only in memory', asyn
   await expect(page.locator('.progress-accuracy')).toHaveText('100%');
   await expect(page.locator('#storage-notice')).toBeVisible();
   await page.route('**/_astro/*.js', (route) => route.abort());
-  await page.keyboard.press('n');
-  const navigationError = page.locator('.stream-controls > [role="alert"]');
-  await expect(navigationError).toContainText('Хранилище недоступно');
-  await expect(navigationError).toContainText('могут не перенестись');
+  await context.setOffline(true);
   await expect(page.getByLabel('Как я решал')).toHaveValue('Мой черновик');
+  await page.keyboard.press('n');
+  await ready(page);
+  await expect(page.locator('.stream-position')).toHaveText('Задание 2');
+  await expect(page.locator('.stream-controls > [role="alert"]')).toHaveCount(
+    0,
+  );
   await expect(page.locator('.progress-accuracy')).toHaveText('100%');
+  await expect(page.locator('#storage-notice')).toBeVisible();
 });

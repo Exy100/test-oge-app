@@ -5,6 +5,7 @@ import { generators } from '../../src/core/generators';
 import { bankTasks } from '../../src/core/banks';
 import { createTaskDataset } from '../../src/core/generators/task-dataset';
 import type { TaskInstance } from '../../src/core/types';
+import { stats } from '../fixtures/stream-browser';
 
 const first = generators
   .find((generator) => generator.taskNumber === 1)
@@ -305,18 +306,23 @@ test('filters: invalid link is explained, no execution or injected markup, filte
   await expect(page.getByRole('alert')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
-test('filters: failure during apply preserves URL, draft, task, answer and statistics', async ({
+test('filters: history failure during apply preserves URL, draft, task, answer and statistics', async ({
   page,
 }) => {
   await page.goto('stream/');
   await expect(page.getByLabel('Что решать')).toBeEnabled();
   const before = page.url();
+  const beforeStats = await stats(page);
   await page.getByLabel('Твой ответ', { exact: true }).fill('32');
   await page.getByLabel('Как я решал').fill('Сохранённый черновик');
   const statement = await page.locator('.task-card .rich-text').innerText();
   await filters(page);
   await page.getByLabel('Сложность задания', { exact: true }).selectOption('3');
-  await page.route('**/_astro/*.js', (route) => route.abort());
+  await page.evaluate(() => {
+    window.history.pushState = () => {
+      throw new DOMException('History unavailable', 'SecurityError');
+    };
+  });
   await apply(page);
   await expect(page.getByRole('alert')).toContainText(
     'Не удалось подготовить задание',
@@ -333,6 +339,7 @@ test('filters: failure during apply preserves URL, draft, task, answer and stati
   ).toHaveValue('3');
   expect(page.url()).toBe(before);
   await expect(page.locator('.stream-position')).toHaveText('Задание 1');
+  expect(await stats(page)).toEqual(beforeStats);
 });
 
 test('filters: Back to the bare practice URL restores the original task', async ({

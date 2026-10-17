@@ -35,6 +35,9 @@ import {
 import StreamProgress from './StreamProgress';
 import { useStoredAreas } from './useStoredAreas';
 
+type StatementRenderer =
+  typeof import('../core/rich-text/render').renderRichText;
+
 function preset(filters: Filters): string {
   if (filters.numbers.length === 1) {
     const number = filters.numbers[0];
@@ -54,7 +57,10 @@ export default function Stream({
   initialHtml: string;
   topics: readonly string[];
 }) {
-  const ready = useHydrated();
+  const hydrated = useHydrated();
+  const renderer = useRef<StatementRenderer | null>(null);
+  const [rendererReady, setRendererReady] = useState(false);
+  const ready = hydrated && rendererReady;
   const shortcutsId = useId();
   const [shortcuts, setShortcuts] = useState(true);
   const nextButton = useRef<HTMLButtonElement>(null);
@@ -73,7 +79,6 @@ export default function Stream({
   const resultRecorded = useRef(false);
   const writing = useRef(false);
   const [error, setError] = useState('');
-  const [recoveryAvailable, setRecoveryAvailable] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
   const [manualLink, setManualLink] = useState('');
   const [revision, setRevision] = useState(0);
@@ -81,6 +86,25 @@ export default function Stream({
   const task = state.current
     ? resolveStreamTask(state.current.reference)
     : null;
+
+  useEffect(() => {
+    let mounted = true;
+    void import('../core/rich-text/render')
+      .then(({ renderRichText }) => {
+        if (!mounted) return;
+        renderer.current = renderRichText;
+        setRendererReady(true);
+      })
+      .catch(() => {
+        if (mounted)
+          setError(
+            'Не удалось загрузить практику. Проверь соединение и открой страницу заново.',
+          );
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const store = browserStore();
@@ -136,13 +160,15 @@ export default function Stream({
   // A static Pages response cannot read the query. Restore it after hydration;
   // history navigation preserves this tab's statistics and never records an answer.
   useEffect(() => {
+    if (!rendererReady) return;
     let mounted = true;
-    async function restore() {
+    function restore() {
+      const renderRichText = renderer.current;
+      if (!renderRichText) return;
       const token = ++navigation.current;
       advancing.current = true;
       setBusy(true);
       setError('');
-      setRecoveryAvailable(false);
       try {
         const saved: unknown = window.history.state;
         const savedSearch =
@@ -189,7 +215,6 @@ export default function Stream({
               waiting: null,
             }
           : nextFilteredStreamTask(configured, query.filters);
-        const { renderRichText } = await import('../core/rich-text/render');
         const html = selected.state.current
           ? renderRichText(
               resolveStreamTask(selected.state.current.reference).statement,
@@ -218,9 +243,9 @@ export default function Stream({
         }
       }
     }
-    if (window.location.search) void restore();
+    if (window.location.search) restore();
     const onPopState = () => {
-      void restore();
+      restore();
     };
     window.addEventListener('popstate', onPopState);
     return () => {
@@ -228,16 +253,24 @@ export default function Stream({
       navigation.current += 1;
       window.removeEventListener('popstate', onPopState);
     };
-  }, [topics]);
+  }, [topics, rendererReady]);
 
   async function advance(selection?: Filters) {
-    if (advancing.current) return;
+    const renderRichText = renderer.current;
+    if (!renderRichText || advancing.current) return;
     advancing.current = true;
     const token = ++navigation.current;
     setBusy(true);
     setError('');
-    setRecoveryAvailable(false);
     try {
+      // Show the busy state before rendering; hold the guard through this frame.
+      // All code needed for a transition is loaded before controls are enabled.
+      await new Promise<void>((resolve) => {
+        window.requestAnimationFrame(() => {
+          resolve();
+        });
+      });
+      if (token !== navigation.current) return;
       const active = withStreamProgress(
         {
           ...state,
@@ -263,7 +296,6 @@ export default function Stream({
       const configured = configureStream(completed, nextFilters);
       if (keepCurrent) configured.current = active.current;
       const selected = nextFilteredStreamTask(configured, nextFilters);
-      const { renderRichText } = await import('../core/rich-text/render');
       const html = selected.state.current
         ? renderRichText(
             resolveStreamTask(selected.state.current.reference).statement,
@@ -317,7 +349,6 @@ export default function Stream({
     } catch {
       if (token === navigation.current) {
         setError('Не удалось подготовить задание. Попробуй ещё раз.');
-        setRecoveryAvailable(true);
       }
     } finally {
       if (token === navigation.current) {
@@ -525,28 +556,6 @@ export default function Stream({
         {error && (
           <div role="alert">
             <p>{error}</p>
-            {recoveryAvailable && (
-              <>
-                <p>
-                  Проверь соединение. Если ошибка повторяется, скопируй черновик
-                  и скачай свой код перед продолжением в новой вкладке.{' '}
-                  {browserStore().memoryOnly
-                    ? 'Хранилище недоступно: результаты этой страницы могут не перенестись в новую вкладку.'
-                    : 'Сохранённые результаты доступны в этом браузере.'}
-                </p>
-                <a
-                  className="button button-light"
-                  href={streamTaskUrl(window.location.href, {
-                    filters,
-                    reference: state.current?.reference ?? null,
-                  })}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Открыть практику в новой вкладке
-                </a>
-              </>
-            )}
           </div>
         )}
         <button
