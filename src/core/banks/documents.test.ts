@@ -9,11 +9,7 @@ import {
   getDocumentSet,
 } from './index';
 import { createDocumentDataset } from './document-dataset';
-import {
-  documentMaterial,
-  makeTextDocument,
-  sampleDocumentSet,
-} from './text-document';
+import { documentMaterial, makeTextDocument } from './text-document';
 import { createTaskDataset } from '../generators/task-dataset';
 import { TaskInstanceSchema } from '../schemas';
 import { validateOdf } from '../datasets/odf';
@@ -49,8 +45,8 @@ for (const [index, task] of documentTasks.entries()) {
     const dataset = await createTaskDataset(task);
     await verifyArchive(dataset.manifest, dataset.archive);
     expect(dataset.manifest.kind).toBe('curated');
-    expect(dataset.manifest.generatorVersion).toBe('curated-documents-v1');
-    expect(dataset.files.size).toBe(9);
+    expect(dataset.manifest.generatorVersion).toBe('curated-documents-v2');
+    expect(dataset.files.size).toBe(12);
     for (const entry of dataset.manifest.files) {
       const bytes = dataset.files.get(entry.path);
       if (!bytes) throw new Error('Missing file');
@@ -64,51 +60,51 @@ for (const [index, task] of documentTasks.entries()) {
     expect(decoder.decode(dataset.files.get('source/material.txt'))).toBe(
       documentMaterial(set).join('\n') + '\n',
     );
-    for (const [path, expected] of [
-      ['reference/answer.odt', set],
-      ['layout/sample.odt', sampleDocumentSet(set)],
-    ] as const) {
-      const bytes = dataset.files.get(path);
-      if (!bytes) throw new Error('Missing ODT');
-      const files = validateOdf(bytes, 'odt');
-      const content = decoder.decode(files.get('content.xml'));
-      const styles = decoder.decode(files.get('styles.xml'));
-      // Independent XML syntax parse and full expected content/style assignments.
-      const parsed: unknown = new XMLParser({ ignoreAttributes: false }).parse(
-        content,
-      );
-      expect(parsed).toBeTypeOf('object');
-      expect(content.match(/<table:table /gu)).toHaveLength(1);
-      expect(content.match(/<table:table-row>/gu)).toHaveLength(
-        expected.rows.length + 1,
-      );
-      expect(content.match(/<table:table-cell /gu)).toHaveLength(
-        (expected.rows.length + 1) * expected.headers.length,
-      );
-      expect(content).toContain('table:style-name="HeaderCell"');
-      expect(content).toContain('fo:border="0.5pt solid #263238"');
-      expect(content).toContain(
-        `fo:background-color="${set.format.headerColor}"`,
-      );
-      for (const width of set.format.widths)
-        expect(content).toContain(`style:column-width="${String(width)}cm"`);
-      expect(styles).toContain('fo:page-width="21cm" fo:page-height="29.7cm"');
-      expect(styles).toContain('fo:margin="2cm"');
-      expect(styles).toContain(
-        `fo:font-size="${String(set.format.bodySize)}pt"`,
-      );
-      expect(styles).toContain(
-        `fo:line-height="${String(set.format.lineHeight)}%"`,
-      );
-      expect(styles).toContain(
-        `fo:text-indent="${String(set.format.indent)}cm"`,
-      );
-      expect(styles).toContain('fo:font-weight="bold"');
-      expect(styles).toContain('fo:font-style="italic"');
-    }
-    expect(dataset.files.get('layout/sample.odt')).not.toEqual(
-      dataset.files.get('reference/answer.odt'),
+    const reference = dataset.files.get('reference/answer.odt');
+    if (!reference) throw new Error('Missing reference');
+    const files = validateOdf(reference, 'odt');
+    const content = decoder.decode(files.get('content.xml')),
+      styles = decoder.decode(files.get('styles.xml'));
+    const parsed: unknown = new XMLParser({ ignoreAttributes: false }).parse(
+      content,
     );
+    expect(parsed).toBeTypeOf('object');
+    expect(content.match(/<table:table /gu)).toHaveLength(1);
+    expect(content.match(/<table:table-row>/gu)).toHaveLength(
+      set.rows.length + 1 + (set.family === 'sections' ? 1 : 0),
+    );
+    expect(content.match(/<table:covered-table-cell\/>/gu)?.length ?? 0).toBe(
+      set.family === 'instructions' ? 0 : set.family === 'sections' ? 2 : 1,
+    );
+    if (set.family === 'instructions')
+      expect(content).toContain(
+        `<text:span text:style-name="Bold"><text:span text:style-name="Underline">${set.title}</text:span></text:span>`,
+      );
+    expect(content).toContain('style:vertical-align="middle"');
+    expect(content).toContain('table:align="center"');
+    expect(content).toContain('style:width="15cm"');
+    expect(styles).toContain('fo:font-size="14pt"');
+    expect(styles).not.toContain('fo:font-size="18pt"');
+    expect(styles).toContain('fo:text-indent="1cm"');
+    expect(styles).toContain('fo:margin-bottom="14pt"');
+    expect(styles).toContain('fo:text-align="justify"');
+    expect(styles).toContain('fo:font-weight="bold"');
+    expect(styles).toContain('fo:font-style="italic"');
+    expect(styles).toContain('style:text-underline-style="solid"');
+    for (const [score, paragraphCount] of [
+      [0, 1],
+      [1, 3],
+    ] as const) {
+      const bytes = dataset.files.get(`examples/score-${String(score)}.odt`);
+      if (!bytes) throw new Error('Missing score example');
+      const xml = decoder.decode(validateOdf(bytes, 'odt').get('content.xml'));
+      expect(xml).not.toContain('<table:table ');
+      expect(xml.match(/<text:p text:style-name=/gu)).toHaveLength(
+        paragraphCount,
+      );
+    }
+    const pdf = dataset.files.get('layout/sample.pdf');
+    expect(decoder.decode(pdf?.slice(0, 5))).toBe('%PDF-');
     const criteria: unknown = JSON.parse(
       decoder.decode(dataset.files.get('criteria.json')),
     );
@@ -168,7 +164,7 @@ test('rejects mismatched document identities and invalid table/style geometry', 
     await expect(createDocumentDataset(changed)).rejects.toThrow();
   for (const changed of [
     { ...set, rows: [['wrong']] },
-    { ...set, headers: ['one'] },
+    { ...set, headers: [] },
     { ...set, format: { ...set.format, widths: [5, 5, 5] } },
     { ...set, format: { ...set.format, widths: [NaN, 5, 7] } },
     { ...set, format: { ...set.format, headerColor: 'url(external)' } },

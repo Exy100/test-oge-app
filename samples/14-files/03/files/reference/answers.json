@@ -1,22 +1,37 @@
 {
-  "kind": "sheet-group",
-  "group": "Бета",
-  "threshold": 8,
+  "kind": "sheet-count-mean",
+  "group": "5",
+  "sex": "жен",
+  "startDay": 5,
+  "grade": 9,
+  "threshold": 235,
   "answers": [
-    80,
-    107.06,
-    163
+    136,
+    195.65
+  ],
+  "chart": [
+    323,
+    335,
+    342
+  ],
+  "labels": [
+    "7 класс",
+    "8 класс",
+    "9 класс"
   ],
   "cells": [
     "H2",
-    "H3",
-    "H4"
+    "H3"
   ],
-  "rowCount": 240,
-  "referenceId": "sheet-group-v1:review:2:reference",
+  "chartCell": "G6",
+  "rowCount": 1000,
+  "columns": 4,
   "formulas": [
-    "of:=COUNTIF([.B2:.B241];\"Бета\")",
-    "of:=ROUND(SUM([.E2:.E241])/[.H2];2)",
-    "of:=MAX([.E2:.E241])"
-  ]
+    "of:=COUNTIFS([.C2:.C1001];9;[.D2:.D1001];\">235\")",
+    "of:=ROUND(AVERAGEIF([.B2:.B1001];5;[.D2:.D1001]);2)",
+    "of:=COUNTIF([.C2:.C1001];7)",
+    "of:=COUNTIF([.C2:.C1001];8)",
+    "of:=COUNTIF([.C2:.C1001];9)"
+  ],
+  "referenceId": "sheet-count-mean-v2:review:2:reference"
 }

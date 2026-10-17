@@ -26,6 +26,18 @@ export async function createTaskDataset(task: TaskInstance): Promise<Dataset> {
     const { createRobotDataset } = await import('./15/dataset');
     return createRobotDataset(task);
   }
+  if (
+    task.taskNumber === 14 &&
+    [
+      'sheet-filter-v1',
+      'sheet-revenue-v1',
+      'sheet-group-v1',
+      'sheet-growth-v1',
+    ].includes(task.generatorId)
+  ) {
+    const { createSpreadsheetDataset } = await import('./14/learning-dataset');
+    return createSpreadsheetDataset(task);
+  }
   if (task.taskNumber === 14) {
     const { createSpreadsheetDataset } = await import('./14/dataset');
     return createSpreadsheetDataset(task);

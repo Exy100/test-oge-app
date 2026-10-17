@@ -1,57 +1,57 @@
 {
   "kind": "generated",
-  "generatorId": "sheet-revenue-v1",
-  "id": "sheet-revenue-v1:files:review:1",
+  "generatorId": "sheet-sum-mean-v2",
+  "id": "sheet-sum-mean-v2:files:review:1",
   "seed": "review:1",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 628,
-      "sha256": "a4355ad1440fc7dc31740ec1befb18d0a368755380eb7ce426760805b7a24909",
+      "size": 694,
+      "sha256": "e4629d5326800120256181fb5c4f9ceb8879746993c6271540a9d95382b85323",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1138,
-      "sha256": "bbe24a23b97beb710d3107e1152ca14c149499237b3beddc1c70c557a626fe0a",
+      "size": 1573,
+      "sha256": "c1d04441e977e5f4a39265764a58bdb0592e0cde3e595f1d57b3c780488a1bac",
       "license": "CC0-1.0"
     },
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 824,
-      "sha256": "4cd5e835b098e73191c71456911bba524841e9d920f1777622f32173c886ae33",
+      "size": 1312,
+      "sha256": "97510354cc2649566e00b16f42d7a68cd7a0ac10ce354f437f7a54876c167d85",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answer.ods",
       "format": "ods",
-      "size": 206815,
-      "sha256": "4e3fc0d0a4aefacd4192caa5f9663685b32e60b4dbfcad5c2196431eb12d22df",
+      "size": 165841,
+      "sha256": "b035096e38766f8d1ce0cd064afd717bb4b006b4bdb18b721501eb986a275edc",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answers.json",
       "format": "json",
-      "size": 371,
-      "sha256": "c66680bb35edb40db14f9e965c8553f5179b1b3a116d264cdd6eaaf34e493ec6",
+      "size": 873,
+      "sha256": "de7486264ab41676ccd130fb9ababaa721ee2c741c10a0bfd9dbb7f2dfb42681",
       "license": "CC0-1.0"
     },
     {
       "path": "source/data.csv",
       "format": "csv",
-      "size": 5334,
-      "sha256": "f7cddbfa9ca414418588585a08987cda3c43945faad5c21ab048ad5dfe8829fa",
+      "size": 20061,
+      "sha256": "10058e20145a18ea9f5cc425cde6d1363657ccec38ff3d31fda18555dfe5f73b",
       "license": "CC0-1.0"
     },
     {
       "path": "source/data.ods",
       "format": "ods",
-      "size": 105805,
-      "sha256": "a87d08103d0d41e09c141d0301101bf12c7bce4b1fc80486f5ddf3846af2c102",
+      "size": 161364,
+      "sha256": "25f48dfe8c411eea2ca219fd28c249a8a9df88149443ab6aec05a562ada81cfd",
       "license": "CC0-1.0"
     }
   ]

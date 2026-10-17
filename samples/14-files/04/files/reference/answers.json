@@ -1,22 +1,37 @@
 {
-  "kind": "sheet-growth",
-  "group": "Север",
-  "threshold": 9,
+  "kind": "sheet-count-range",
+  "group": "служащий",
+  "sex": "жен",
+  "startDay": 5,
+  "grade": 8,
+  "threshold": 171,
   "answers": [
-    48,
-    1413,
-    70
+    154,
+    60
+  ],
+  "chart": [
+    162,
+    149,
+    154
+  ],
+  "labels": [
+    "пенсионер",
+    "студент",
+    "служащий"
   ],
   "cells": [
     "H2",
-    "H3",
-    "H4"
+    "H3"
   ],
-  "rowCount": 240,
-  "referenceId": "sheet-growth-v1:review:3:reference",
+  "chartCell": "G6",
+  "rowCount": 1000,
+  "columns": 5,
   "formulas": [
-    "of:=COUNTIF([.E2:.E241];\">0\")",
-    "of:=SUM([.E2:.E241])",
-    "of:=MAX([.E2:.E241])"
-  ]
+    "of:=COUNTIFS([.B2:.B1001];\"жен\";[.C2:.C1001];\"служащий\")",
+    "of:=MAX([.E2:.E1001])-MIN([.E2:.E1001])",
+    "of:=COUNTIFS([.B2:.B1001];\"жен\";[.C2:.C1001];\"пенсионер\")",
+    "of:=COUNTIFS([.B2:.B1001];\"жен\";[.C2:.C1001];\"студент\")",
+    "of:=COUNTIFS([.B2:.B1001];\"жен\";[.C2:.C1001];\"служащий\")"
+  ],
+  "referenceId": "sheet-count-range-v2:review:3:reference"
 }

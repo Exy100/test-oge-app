@@ -23,7 +23,7 @@ export function sampleTasks(
         `# Задание №13.${document ? '2' : '1'} — ${String(n)} авторских наборов`,
         ...tasks.slice(0, n).map((task, index) => {
           const prefix = `${filesPrefix ?? (document ? '13-2-files' : '13-1-files')}/${String(index + 1).padStart(2, '0')}`;
-          return `## ${String(index + 1)}. ${task.seed}\n\n${task.statement}\n\n[Набор файлов](${prefix}/dataset.zip) · [Манифест](${prefix}/manifest.json)${document ? ` · [Образец ODT](${prefix}/files/layout/sample.odt)` : ''} · [Эталон ${document ? 'ODT' : 'ODP'}](${prefix}/files/reference/answer.${document ? 'odt' : 'odp'})\n\n### Решение\n\n${task.solution.map((step, i) => `${String(i + 1)}. ${step.text}`).join('\n')}\n\n### Учебные критерии\n\n${task.criteria?.levels.map((level) => `- ${String(level.score)}: ${level.description}`).join('\n') ?? ''}`;
+          return `## ${String(index + 1)}. ${task.seed}\n\n${task.statement}\n\n[Набор файлов](${prefix}/dataset.zip) · [Манифест](${prefix}/manifest.json)${document ? ` · [Образец PDF](${prefix}/files/layout/sample.pdf)` : ''} · [Эталон ${document ? 'ODT' : 'ODP'}](${prefix}/files/reference/answer.${document ? 'odt' : 'odp'})\n\n### Решение\n\n${task.solution.map((step, i) => `${String(i + 1)}. ${step.text}`).join('\n')}\n\n### Учебные критерии\n\n${task.criteria?.levels.map((level) => `- ${String(level.score)}: ${level.description}`).join('\n') ?? ''}`;
         }),
       ].join('\n\n') + '\n'
     );

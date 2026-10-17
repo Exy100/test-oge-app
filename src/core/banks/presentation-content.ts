@@ -5,7 +5,7 @@ export interface PresentationSet {
   secondTitle: string;
   points: readonly [string, string];
   thirdTitle: string;
-  captions: readonly [string, string];
+  captions: readonly [string, string, string];
   scene:
     | 'tree'
     | 'water'
@@ -36,6 +36,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Молодой росток: небольшой стебель и первые листья.',
       'Взрослое дерево: развитая крона и прочный ствол.',
+      'В дневнике сохраняют дату наблюдения и сведения о состоянии растения.',
     ],
     scene: 'tree',
     mirror: false,
@@ -53,6 +54,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Над водоёмом вода переходит в атмосферу.',
       'После дождя вода пополняет реки и озёра.',
+      'Собранные наблюдения помогают связать испарение, облака и осадки.',
     ],
     scene: 'water',
     mirror: true,
@@ -70,6 +72,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Освещённая панель получает больше солнечного света.',
       'Тень закрывает часть панели и меняет условия её работы.',
+      'Результат опыта записывают вместе с условиями освещения.',
     ],
     scene: 'sun',
     mirror: false,
@@ -87,6 +90,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Каталог хранит сведения об изданиях и помогает выбрать книгу.',
       'На полке книгу находят по принятому в библиотеке порядку.',
+      'Шифр связывает запись в каталоге с местом хранения книги.',
     ],
     scene: 'book',
     mirror: true,
@@ -104,6 +108,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Прямая модель позволяет увидеть изгиб под нагрузкой.',
       'Модель с дополнительными элементами распределяет нагрузку иначе.',
+      'Прочность модели сравнивают при одинаковой длине пролёта.',
     ],
     scene: 'bridge',
     mirror: false,
@@ -121,6 +126,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'План показывает точки маршрута и порядок переходов.',
       'Исполнение позволяет сравнить действия робота с планом.',
+      'Проверка по шагам помогает заметить ошибочную команду.',
     ],
     scene: 'robot',
     mirror: true,
@@ -138,6 +144,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Цветок привлекает насекомых и предоставляет им пищу.',
       'Пчела перемещается между цветками и переносит пыльцу.',
+      'Перенос пыльцы связывает посещение цветка с опылением.',
     ],
     scene: 'bee',
     mirror: false,
@@ -155,6 +162,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Первое положение паруса служит исходным для сравнения.',
       'После поворота паруса наблюдают изменение движения модели.',
+      'Схема опыта показывает направление ветра и положение паруса.',
     ],
     scene: 'sail',
     mirror: true,
@@ -172,6 +180,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'На схеме различают направление выброса и направление движения.',
       'Воздушный шарик позволяет наблюдать тот же общий принцип.',
+      'Направления движения и выброса отмечают разными стрелками.',
     ],
     scene: 'rocket',
     mirror: false,
@@ -188,7 +197,8 @@ export const presentationSets: readonly PresentationSet[] = [
     thirdTitle: 'Связи и маршрут',
     captions: [
       'Схема связей показывает возможные переходы между устройствами.',
-      'Маршрут выделяет последовательность переходов для сообщения.',
+      'Маршрут показывает путь сообщения между узлами.',
+      'Данные проходят от отправителя к получателю через узлы сети.',
     ],
     scene: 'network',
     mirror: true,
@@ -206,6 +216,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Рабочий архив используют для текущих изменений.',
       'Отдельная резервная копия помогает восстановить материалы.',
+      'После сохранения копии проверяют наличие нужных материалов.',
     ],
     scene: 'archive',
     mirror: false,
@@ -223,6 +234,7 @@ export const presentationSets: readonly PresentationSet[] = [
     captions: [
       'Маяк расположен на берегу и служит заметным ориентиром.',
       'Судно использует наблюдение ориентира для определения положения.',
+      'На карте можно связать маяк, побережье и положение наблюдателя.',
     ],
     scene: 'lighthouse',
     mirror: true,

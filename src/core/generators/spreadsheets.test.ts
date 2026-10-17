@@ -3,12 +3,12 @@ import { createHash } from 'node:crypto';
 import { expect, test, describe } from 'vitest';
 import fc from 'fast-check';
 import { SyntaxValidator } from 'fast-xml-validator';
-import { generatorsForTask } from './index';
+import { learningGeneratorsForTask as generatorsForTask } from './learning';
 import { createTaskDataset } from './task-dataset';
 import { checkGeneratorSeed } from './quality';
 import { readZip } from '../datasets/zip';
 import { verifyArchive } from '../datasets';
-import { formulaSpreadsheet } from './14/dataset';
+import { formulaSpreadsheet } from './14/learning-dataset';
 import { sheetAnswers, type SheetData } from './14/spreadsheets';
 const decoder = new TextDecoder();
 function sourceRows(bytes: Uint8Array): string[][] {
@@ -172,7 +172,7 @@ test.each(Array.from({ length: 12 }, (_, index) => index))(
     );
     expect(
       await readFile(
-        `samples/14-files/${String(i + 1).padStart(2, '0')}/dataset.zip`,
+        `samples/learning-14-files/${String(i + 1).padStart(2, '0')}/dataset.zip`,
       ),
     ).toEqual(Buffer.from(dataset.archive));
   },

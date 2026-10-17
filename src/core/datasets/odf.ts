@@ -55,8 +55,13 @@ export function makeOdf(
     styles?: string;
     automaticStyles?: string;
     images?: ReadonlyMap<string, Uint8Array>;
+    chart?: string;
   } = {},
 ): Uint8Array {
+  const chart = options.chart;
+  if (chart !== undefined && kind !== 'ods')
+    throw new Error('Диаграмма разрешена только в ODS.');
+  if (chart !== undefined) validateChart(encoder.encode(chart));
   const images = options.images ?? new Map<string, Uint8Array>();
   if (images.size && kind !== 'odp')
     throw new Error('Иллюстрации разрешены только в презентациях.');
@@ -65,11 +70,11 @@ export function makeOdf(
       throw new Error('Недопустимый путь иллюстрации.');
     readPng(bytes);
   }
-  const content = `${header}<office:document-content ${namespaces}${images.size ? ' xmlns:xlink="http://www.w3.org/1999/xlink"' : ''} office:version="1.3">${options.automaticStyles ?? ''}<office:body>${body}</office:body></office:document-content>`;
+  const content = `${header}<office:document-content ${namespaces}${images.size || chart !== undefined ? ' xmlns:xlink="http://www.w3.org/1999/xlink"' : ''} office:version="1.3">${options.automaticStyles ?? ''}<office:body>${body}</office:body></office:document-content>`;
   const styles =
     options.styles ??
     `${header}<office:document-styles ${namespaces} office:version="1.3"><office:styles/><office:automatic-styles><style:page-layout style:name="pm1"><style:page-layout-properties fo:page-width="28cm" fo:page-height="21cm" style:print-orientation="landscape"/></style:page-layout></office:automatic-styles><office:master-styles><style:master-page style:name="Default" style:page-layout-name="pm1"/></office:master-styles></office:document-styles>`;
-  const manifest = `${header}<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3"><manifest:file-entry manifest:full-path="/" manifest:media-type="${mimeTypes[kind]}"/><manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/><manifest:file-entry manifest:full-path="styles.xml" manifest:media-type="text/xml"/>${[...images.keys()].map((path) => `<manifest:file-entry manifest:full-path="${xml(path)}" manifest:media-type="image/png"/>`).join('')}</manifest:manifest>`;
+  const manifest = `${header}<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3"><manifest:file-entry manifest:full-path="/" manifest:media-type="${mimeTypes[kind]}"/><manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/><manifest:file-entry manifest:full-path="styles.xml" manifest:media-type="text/xml"/>${[...images.keys()].map((path) => `<manifest:file-entry manifest:full-path="${xml(path)}" manifest:media-type="image/png"/>`).join('')}${chart === undefined ? '' : '<manifest:file-entry manifest:full-path="Object1/" manifest:media-type="application/vnd.oasis.opendocument.chart"/><manifest:file-entry manifest:full-path="Object1/content.xml" manifest:media-type="text/xml"/>'}</manifest:manifest>`;
   return packZip(
     new Map([
       ['mimetype', encoder.encode(mimeTypes[kind])],
@@ -77,6 +82,14 @@ export function makeOdf(
       ['styles.xml', encoder.encode(styles)],
       ['META-INF/manifest.xml', encoder.encode(manifest)],
       ...images,
+      ...(chart === undefined
+        ? []
+        : [
+            ['Object1/content.xml', encoder.encode(chart)] as [
+              string,
+              Uint8Array,
+            ],
+          ]),
     ]),
     'mimetype',
   );
@@ -221,6 +234,11 @@ export function validateOdf(
     decoder.decode(mime) !== mimeTypes[kind]
   )
     throw new Error('Тип или файлы ODF не совпадают.');
+  const chart = files.get('Object1/content.xml');
+  if (chart) {
+    if (kind !== 'ods') throw new Error('Диаграмма не соответствует типу ODF.');
+    validateChart(chart);
+  }
   const imagePaths = [...files.keys()].filter(
     (path) =>
       ![
@@ -228,6 +246,7 @@ export function validateOdf(
         'content.xml',
         'styles.xml',
         'META-INF/manifest.xml',
+        ...(chart ? ['Object1/content.xml'] : []),
       ].includes(path),
   );
   if (
@@ -241,7 +260,10 @@ export function validateOdf(
     if (!image) throw new Error('Иллюстрация отсутствует.');
     readPng(image);
   }
-  const parsedContent = parseXml(content, imagePaths.length > 0);
+  const parsedContent = parseXml(
+    content,
+    imagePaths.length > 0 || chart !== undefined,
+  );
   function checkLinks(value: unknown, tag = ''): void {
     if (Array.isArray(value)) {
       for (const item of value) checkLinks(item, tag);
@@ -252,9 +274,13 @@ export function validateOdf(
     for (const [key, item] of Object.entries(node)) {
       if (key.startsWith('@_xlink:')) {
         const allowed =
-          tag === 'draw:image' &&
+          (tag === 'draw:image' ||
+            (tag === 'draw:object' && chart !== undefined)) &&
           (key === '@_xlink:href'
-            ? typeof item === 'string' && imagePaths.includes(item)
+            ? typeof item === 'string' &&
+              (tag === 'draw:object'
+                ? item === './Object1'
+                : imagePaths.includes(item))
             : key === '@_xlink:type'
               ? item === 'simple'
               : key === '@_xlink:show'
@@ -264,7 +290,7 @@ export function validateOdf(
       } else checkLinks(item, key);
     }
     if (
-      tag === 'draw:image' &&
+      (tag === 'draw:image' || tag === 'draw:object') &&
       (typeof node['@_xlink:href'] !== 'string' ||
         node['@_xlink:type'] !== 'simple')
     )
@@ -293,7 +319,10 @@ export function validateOdf(
   )
     throw new Error('Неверное пространство имён манифеста.');
   const entries = root['manifest:file-entry'];
-  if (!Array.isArray(entries) || entries.length !== 3 + imagePaths.length)
+  if (
+    !Array.isArray(entries) ||
+    entries.length !== 3 + imagePaths.length + (chart ? 2 : 0)
+  )
     throw new Error('Неверный манифест ODF.');
   const paths = new Map<string, string>();
   for (const entry of entries as unknown[]) {
@@ -308,9 +337,27 @@ export function validateOdf(
     paths.get('/') !== mimeTypes[kind] ||
     paths.get('content.xml') !== 'text/xml' ||
     paths.get('styles.xml') !== 'text/xml' ||
+    (chart !== undefined &&
+      (paths.get('Object1/') !== 'application/vnd.oasis.opendocument.chart' ||
+        paths.get('Object1/content.xml') !== 'text/xml')) ||
     imagePaths.some((path) => paths.get(path) !== 'image/png')
   )
     throw new Error('Манифест ODF не совпадает с файлами.');
   record(parseXml(styles)['office:document-styles']);
   return files;
+}
+
+/** The sole additional ODS resource is a passive local pie chart, no external links. */
+function validateChart(bytes: Uint8Array): void {
+  const root = record(parseXml(bytes)['office:document-content']);
+  if (root['@_office:version'] !== '1.3')
+    throw new Error('Неверная версия диаграммы.');
+  const body = record(
+    record(record(root['office:body'])['office:chart'])['chart:chart'],
+  );
+  if (body['@_chart:class'] !== 'chart:circle')
+    throw new Error('Нужна круговая диаграмма.');
+  const table = record(body['table:table']);
+  if (table['@_table:name'] !== 'local-table')
+    throw new Error('Неверные данные диаграммы.');
 }

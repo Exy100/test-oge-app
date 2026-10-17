@@ -142,12 +142,17 @@ describe('coverage configuration and phase checks', () => {
     expect(Object.values(config.generators).reduce((a, b) => a + b, 0)).toBe(
       58,
     );
-    expect(Object.keys(config.examFormats)).toHaveLength(12);
-    expect(Object.values(config.examFormats).flat()).toHaveLength(19);
+    expect(Object.keys(config.examFormats)).toHaveLength(13);
+    expect(Object.values(config.examFormats).flat()).toHaveLength(22);
     expect(config.examFormats[2]).toEqual([
       'decode-prefix-v2',
       'decode-nonprefix-v2',
       'decode-repeated-v2',
+    ]);
+    expect(config.examFormats[14]).toEqual([
+      'sheet-count-range-v2',
+      'sheet-sum-mean-v2',
+      'sheet-count-mean-v2',
     ]);
     expect(config.banks).toEqual({ presentation: 12, document: 12 });
     expect(Object.values(config.lessons.sections)).toEqual([
@@ -203,7 +208,7 @@ describe('coverage configuration and phase checks', () => {
     ).toBe(true);
     expect(
       final.metrics.filter((item) => item.requiredPhase === null),
-    ).toHaveLength(12);
+    ).toHaveLength(13);
   });
 
   it('reads imported generator implementations from the real registry and rejects repeated subtypes', async () => {

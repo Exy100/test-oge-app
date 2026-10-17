@@ -1,22 +1,37 @@
 {
-  "kind": "sheet-filter",
-  "group": "Альфа",
-  "threshold": 8,
+  "kind": "sheet-count-mean",
+  "group": "36",
+  "sex": "муж",
+  "startDay": 5,
+  "grade": 8,
+  "threshold": 186,
   "answers": [
-    58,
-    3548,
-    99
+    168,
+    211.25
+  ],
+  "chart": [
+    342,
+    320,
+    338
+  ],
+  "labels": [
+    "7 класс",
+    "8 класс",
+    "9 класс"
   ],
   "cells": [
     "H2",
-    "H3",
-    "H4"
+    "H3"
   ],
-  "rowCount": 240,
-  "referenceId": "sheet-filter-v1:review:8:reference",
+  "chartCell": "G6",
+  "rowCount": 1000,
+  "columns": 4,
   "formulas": [
-    "of:=COUNTIFS([.B2:.B241];\"Альфа\";[.C2:.C241];\">=8\")",
-    "of:=SUM([.E2:.E241])",
-    "of:=MAX([.E2:.E241])"
-  ]
+    "of:=COUNTIFS([.C2:.C1001];8;[.D2:.D1001];\">186\")",
+    "of:=ROUND(AVERAGEIF([.B2:.B1001];36;[.D2:.D1001]);2)",
+    "of:=COUNTIF([.C2:.C1001];7)",
+    "of:=COUNTIF([.C2:.C1001];8)",
+    "of:=COUNTIF([.C2:.C1001];9)"
+  ],
+  "referenceId": "sheet-count-mean-v2:review:8:reference"
 }

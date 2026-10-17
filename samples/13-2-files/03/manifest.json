@@ -1,71 +1,92 @@
 {
   "kind": "curated",
   "author": "Проект «ОГЭ по информатике»: авторские учебные материалы",
-  "id": "curated-documents-v1:files:D03",
+  "id": "curated-documents-v2:files:D03",
   "seed": "D03",
-  "generatorVersion": "curated-documents-v1",
+  "generatorVersion": "curated-documents-v2",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 1080,
-      "sha256": "d6134b14230762236388b3142718d7d98af6a2945bf089a68b34759ebb665c57",
+      "size": 1088,
+      "sha256": "067949aaecc621a60692e3af8e5e17028d7614a613e588a80526e1ff0321d11d",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1674,
-      "sha256": "e1da223bd97ee26b4df403116af9b1e25eefdf9fff5576d1fe60d84944cdfaaa",
+      "size": 1963,
+      "sha256": "217b72c587d1061b757953cebc0f1af90854f5beaafc5c3f84b145a1eefa5ccf",
       "license": "CC0-1.0"
     },
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 1646,
-      "sha256": "6cada4cb1d9e8b9264d9c314a704c99902449d259ff0cb15ae5d25b35318d22a",
+      "size": 2281,
+      "sha256": "286a238cb5ad3c634a3f2b3234f10482e1e074cb0bf40f8a93976ff80c16270f",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/score-0.odt",
+      "format": "odt",
+      "size": 4862,
+      "sha256": "04b01c0e87e24bbbd0b4dd266c1bacf33b4c0335f08120eae44e8e3dacd917ea",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/score-1.odt",
+      "format": "odt",
+      "size": 5853,
+      "sha256": "04d43bbd056793877aab6310db533203bb5779c31bc77516f6ce5b7424017334",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/scores.json",
+      "format": "json",
+      "size": 495,
+      "sha256": "7329e11845d9485f846374af08aa43956544b3dd5a9d201d4c8ad156daafa28d",
       "license": "CC0-1.0"
     },
     {
       "path": "layout/format.json",
       "format": "json",
-      "size": 294,
-      "sha256": "48c011b3451391aa0fae658413e7d9330369f8e777fdffc3806ad9ad65478bef",
+      "size": 284,
+      "sha256": "eb67158b68be3c97d406aef9aa4c59ffdd63ab561607225cef1bf10db6165f8e",
       "license": "CC0-1.0"
     },
     {
-      "path": "layout/sample.odt",
-      "format": "odt",
-      "size": 8037,
-      "sha256": "86946c694510ac1c7de86e94f8a7640eae1ddd269b049a4346c2c841bc7eb0f9",
+      "path": "layout/sample.pdf",
+      "format": "pdf",
+      "size": 37355,
+      "sha256": "e328922e9d2546696821e2368cdcf239bbef2df2bcda435c764ec25b5e4dccf2",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answer.odt",
       "format": "odt",
-      "size": 7906,
-      "sha256": "35c0856707640e9a079baad4e0d3b2d1f859cfb28060cf9fff3baa9ec79b72a5",
+      "size": 9495,
+      "sha256": "4ea36a331aaea8e506535086699c79f98b81c9ca7b1cd22ef55c459c9ad8e67e",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/checks.json",
       "format": "json",
-      "size": 3421,
-      "sha256": "6524f103f2927c3b5a60a15e71422757895fdf5e96c8707d086cd6dc6be17af2",
+      "size": 3547,
+      "sha256": "7d8322d957b864d7073cf27a105e12bf1d4548bdbc3705057a36faf7c619c120",
       "license": "CC0-1.0"
     },
     {
       "path": "source/material.odt",
       "format": "odt",
-      "size": 3722,
-      "sha256": "c9ab693b10311b1a12724d76e48a3a91513621168c177986e50bcc26e042b486",
+      "size": 4642,
+      "sha256": "304b219b7178197824601b131b0c82b9806e4ce3d278f71ce3683f1991bdcb28",
       "license": "CC0-1.0"
     },
     {
       "path": "source/material.txt",
       "format": "txt",
-      "size": 769,
-      "sha256": "1e6ba8660de21adb4c2bb033c922e1d6ddc1e2a36146b5b56dff509145d8edbe",
+      "size": 1369,
+      "sha256": "ba172c5604360f263146697f1e89c5e56083688827d1be3fc45a0f1ab1a54515",
       "license": "CC0-1.0"
     }
   ]

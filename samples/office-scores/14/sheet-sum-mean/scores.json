@@ -1,0 +1,39 @@
+{
+  "kind": "sheet-sum-mean",
+  "seed": "scoring-examples",
+  "answers": {
+    "values": [36965, 583.8],
+    "labels": ["1 октября", "2 октября", "3 октября"],
+    "chart": [42, 41, 41]
+  },
+  "examples": [
+    {
+      "file": "score-0.ods",
+      "score": 0,
+      "firstValue": false,
+      "secondValue": false,
+      "chart": false
+    },
+    {
+      "file": "score-1.ods",
+      "score": 1,
+      "firstValue": true,
+      "secondValue": false,
+      "chart": false
+    },
+    {
+      "file": "score-2.ods",
+      "score": 2,
+      "firstValue": true,
+      "secondValue": true,
+      "chart": false
+    },
+    {
+      "file": "score-3.ods",
+      "score": 3,
+      "firstValue": true,
+      "secondValue": true,
+      "chart": true
+    }
+  ]
+}

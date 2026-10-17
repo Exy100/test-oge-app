@@ -54,7 +54,7 @@ def uncached(data):
             cell.attrib.pop("{" + NS["office"] + "}value-type", None)
             for child in list(cell):
                 cell.remove(child)
-        assert count == 243
+        assert count == 5
         output = io.BytesIO()
         with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_STORED) as changed:
             for item in archive.infolist():
@@ -113,8 +113,9 @@ def main():
             elif entry["taskNumber"] == 14:
                 source = list(csv.reader(io.StringIO(child["source/data.csv"].decode()), delimiter=";"))
                 meta = json.loads(child["reference/answers.json"])
-                expected = spreadsheets.solve(source[1:], meta)
-                assert len(source) == 241 and expected == meta["answers"]
+                expected, chart = spreadsheets.solve(source[1:], meta)
+                spreadsheets.check_chart(child["reference/answer.ods"],meta["labels"],chart)
+                assert len(source) == meta["rowCount"] + 1 and expected == meta["answers"] and chart == meta["chart"]
                 for kind, path in [("source", "source/data.ods"), ("reference", "reference/answer.ods")]:
                     target = OUTPUT / (directory.name + "-" + kind + ".ods")
                     target.write_bytes(child[path] if kind == "source" else uncached(child[path]))
@@ -155,13 +156,13 @@ def main():
             print(result.stdout.strip(), flush=True)
     for target, kind, source, expected in fixtures:
         rows = list(csv.reader(io.StringIO(target.with_suffix(".csv").read_text(encoding="utf-8-sig"))))
-        assert [row[:4] for row in rows] == source
+        assert [row[:len(source[0])] for row in rows] == source
         if kind == "reference":
-            assert [float(rows[i][7]) for i in [1, 2, 3]] == expected
+            assert [float(rows[i][7]) for i in [1, 2]] == expected
     print(f"Variants: 10 complete packages, 70 nested datasets and {file_count} component files verified with CRC/SHA-256.")
     print("Python: 100 independent runs passed; Robot: 80 fields passed; both curated alternatives match the verified originals.")
     print("File tasks №11–12: 20 answers independently recovered from the actual variant archives.")
-    print("LibreOffice: 20 ODS opened, all source cells preserved, 2430 uncached formulas recalculated, all 30 answers matched.")
+    print("LibreOffice: 20 ODS opened, all source cells preserved, 50 uncached formulas recalculated, all 20 numerical answers and chart data matched.")
 
 
 if __name__ == "__main__":

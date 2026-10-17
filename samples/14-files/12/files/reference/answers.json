@@ -1,22 +1,37 @@
 {
-  "kind": "sheet-growth",
-  "group": "Юг",
-  "threshold": 9,
+  "kind": "sheet-count-mean",
+  "group": "50",
+  "sex": "муж",
+  "startDay": 5,
+  "grade": 9,
+  "threshold": 189,
   "answers": [
-    49,
-    1257,
-    80
+    185,
+    220.2
+  ],
+  "chart": [
+    339,
+    323,
+    338
+  ],
+  "labels": [
+    "7 класс",
+    "8 класс",
+    "9 класс"
   ],
   "cells": [
     "H2",
-    "H3",
-    "H4"
+    "H3"
   ],
-  "rowCount": 240,
-  "referenceId": "sheet-growth-v1:review:11:reference",
+  "chartCell": "G6",
+  "rowCount": 1000,
+  "columns": 4,
   "formulas": [
-    "of:=COUNTIF([.E2:.E241];\">0\")",
-    "of:=SUM([.E2:.E241])",
-    "of:=MAX([.E2:.E241])"
-  ]
+    "of:=COUNTIFS([.C2:.C1001];9;[.D2:.D1001];\">189\")",
+    "of:=ROUND(AVERAGEIF([.B2:.B1001];50;[.D2:.D1001]);2)",
+    "of:=COUNTIF([.C2:.C1001];7)",
+    "of:=COUNTIF([.C2:.C1001];8)",
+    "of:=COUNTIF([.C2:.C1001];9)"
+  ],
+  "referenceId": "sheet-count-mean-v2:review:11:reference"
 }

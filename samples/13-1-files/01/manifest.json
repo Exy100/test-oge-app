@@ -1,9 +1,9 @@
 {
   "kind": "curated",
   "author": "Проект «ОГЭ по информатике»",
-  "id": "curated-presentations-v1:files:P01",
+  "id": "curated-presentations-v2:files:P01",
   "seed": "P01",
-  "generatorVersion": "curated-presentations-v1",
+  "generatorVersion": "curated-presentations-v2",
   "files": [
     {
       "path": "README.txt",
@@ -15,15 +15,36 @@
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1265,
-      "sha256": "2ac3b6a47554adc3ac530e57b1e0c2dff75593bf7ef6479c9a75ab24c0f1af15",
+      "size": 1543,
+      "sha256": "cdad7469e6fed9b282904c6f7c38c2223cad4e37c498912a96440bfeeb7f0ae8",
       "license": "CC0-1.0"
     },
     {
       "path": "criteria.json",
       "format": "json",
-      "size": 1886,
-      "sha256": "4d3eaef6f65e07acf6c3ba64456e674cad58f5ec7ae31f7ca57203832799fb28",
+      "size": 2254,
+      "sha256": "04a2c67dae89a13b05dcefc134775c7b3a53764d0c08ef4dad850f34a02ab2b5",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/score-0.odp",
+      "format": "odp",
+      "size": 13110,
+      "sha256": "bed25d281fb94ff36e2aa51f5b92388673b89ba59c4f4328a8e12152aa1bc90b",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/score-1.odp",
+      "format": "odp",
+      "size": 15073,
+      "sha256": "01190874666dfa2b4ab1349f47264aace7554ef5322cf7df55a11255ee718c5a",
+      "license": "CC0-1.0"
+    },
+    {
+      "path": "examples/scores.json",
+      "format": "json",
+      "size": 515,
+      "sha256": "4cbedb3d51290e9532d4864349241bb6d2db18575578c2f12c44537e4b50171e",
       "license": "CC0-1.0"
     },
     {
@@ -50,57 +71,57 @@
     {
       "path": "layout/guide.txt",
       "format": "txt",
-      "size": 992,
-      "sha256": "04d92f7130b21bae101e6f586c8f38f256f27c880dc14874e57a2a3f99965847",
+      "size": 1162,
+      "sha256": "88ebe348978323358f0d30202664a2af1ff95ede504d8e572796bd5ca1ce2fb7",
       "license": "CC0-1.0"
     },
     {
       "path": "layout/slide-1.png",
       "format": "png",
-      "size": 1686,
-      "sha256": "756273a1404af4216f6bc33408cd4216d035b0eb785f6c33f99334554757d1ee",
+      "size": 1227,
+      "sha256": "47c05df3c37b14035be59c0131c67f8306aa75e0d7354191e0a0f6d0f9e78acd",
       "license": "CC0-1.0"
     },
     {
       "path": "layout/slide-2.png",
       "format": "png",
-      "size": 2045,
-      "sha256": "c969e2f9086c2ef913b2c90606b0aec0515b42150e6c547c3e4faec9b24b0e7c",
+      "size": 1554,
+      "sha256": "641f18332bbe7643839f245e00b15bf44fc61ea15b8eacd760d9005579b01af9",
       "license": "CC0-1.0"
     },
     {
       "path": "layout/slide-3.png",
       "format": "png",
-      "size": 2393,
-      "sha256": "bcf8352b3b7e59488d4e4d9312ffa19dd630926f621113b14b00b5044ff82c2e",
+      "size": 2224,
+      "sha256": "ecc415eb41e273eb416de9ed382888b72a97cf38779fa315c8947afab9588868",
       "license": "CC0-1.0"
     },
     {
       "path": "layout/slides.json",
       "format": "json",
-      "size": 4197,
-      "sha256": "61ae08498b282a2aa393af3f40c81067e6a0fa00ea619fde3e01f0145e9ad44f",
+      "size": 4578,
+      "sha256": "6d68584272184690dfafea986e2deeb05560e2fc06a29d5804ef7fd53179499a",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/answer.odp",
       "format": "odp",
-      "size": 16947,
-      "sha256": "41ba69f725a34057c8a8bad9fcf7dd5456ddeefe8c2ba26fb66683dc5a793f60",
+      "size": 17703,
+      "sha256": "cc1dce34f1db11db06e80abc1591b8dc88f6e3144437e13799db71b5d7b3a8dc",
       "license": "CC0-1.0"
     },
     {
       "path": "reference/checks.json",
       "format": "json",
-      "size": 2007,
-      "sha256": "3737f3fbdd7a844c355705e6cab87530fafe48a98d8274c4443deb188eb528d9",
+      "size": 2171,
+      "sha256": "c28ab22f19a14605c414b504863aab8e7d9ed5fbd34155e6ac31de1c878a8e02",
       "license": "CC0-1.0"
     },
     {
       "path": "source/material.odt",
       "format": "odt",
-      "size": 3584,
-      "sha256": "5f95f1e90c0b04c0962c18419f8d172ecde732e6097b427a280fa012b921632c",
+      "size": 3801,
+      "sha256": "247269c61f758e816293f99344f1cbefe746afd76e48dea51f18af5707a1045e",
       "license": "CC0-1.0"
     }
   ]

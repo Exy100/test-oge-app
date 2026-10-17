@@ -1,0 +1,255 @@
+{
+  "base": "f3bdaf0",
+  "variants": [
+    {
+      "variant": "V01",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V02",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V03",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V04",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V05",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V06",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V07",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V08",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V09",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    },
+    {
+      "variant": "V10",
+      "unchangedTasks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "unchangedNestedDatasets": [
+        11,
+        12,
+        15,
+        16
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { robotGenerators } from './15/robots.ts';
 import { pythonGenerators } from './16/programs.ts';
-import { spreadsheetGenerators } from './14/spreadsheets.ts';
+import { spreadsheetGenerators } from './14/exam-spreadsheets.ts';
 import { confirmedShortGenerators } from './exam/short-generators.ts';
 import { confirmedFileGenerators } from './exam/file-generators.ts';
 import { createRegistry } from './registry.ts';

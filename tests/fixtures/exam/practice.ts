@@ -20,7 +20,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'presentation',
     page: 10,
-    criteriaPages: [18, 19, 20, 21],
+    criteriaPages: [20, 21],
     topic: 'Хомяк',
     maxScore: 2,
     requirements: {
@@ -39,7 +39,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'presentation',
     page: 10,
-    criteriaPages: [18, 19, 20, 21],
+    criteriaPages: [20, 21],
     topic: 'Басéнджи',
     maxScore: 2,
     requirements: {
@@ -58,7 +58,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'presentation',
     page: 10,
-    criteriaPages: [19, 20, 21, 22],
+    criteriaPages: [21, 22],
     topic: 'Леопард',
     maxScore: 2,
     requirements: {
@@ -77,7 +77,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'document',
     page: 12,
-    criteriaPages: [22, 23, 24],
+    criteriaPages: [22, 23],
     topic: 'Атлантический океан',
     maxScore: 2,
     requirements: {
@@ -95,7 +95,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'document',
     page: 12,
-    criteriaPages: [22, 23, 24],
+    criteriaPages: [23, 24],
     topic: 'Варенье из ежевики',
     maxScore: 2,
     requirements: {
@@ -113,7 +113,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     taskNumber: 13,
     variant13: 'document',
     page: 12,
-    criteriaPages: [23, 24, 25, 26],
+    criteriaPages: [25, 26],
     topic: 'Московско-Петроградская линия',
     maxScore: 2,
     requirements: {
@@ -122,7 +122,8 @@ export const officeFixtures: readonly OfficeFixture[] = [
       minLineSpacing: 1,
       maxLineSpacing: 1.5,
       alignment: 'justify',
-      tables: 2,
+      tables: 1,
+      mergedSectionRows: 2,
       tableColumns: 2,
     },
   },
@@ -135,6 +136,7 @@ export const officeFixtures: readonly OfficeFixture[] = [
     topic: 'Анонимное тестирование',
     maxScore: 3,
     requirements: {
+      columns: 5,
       rows: 1000,
       count: 143,
       range: 49,
@@ -148,10 +150,11 @@ export const officeFixtures: readonly OfficeFixture[] = [
     year: 2026,
     taskNumber: 14,
     page: 13,
-    criteriaPages: [27, 28],
+    criteriaPages: [26, 27],
     topic: 'Грузоперевозки',
     maxScore: 3,
     requirements: {
+      columns: 6,
       rows: 370,
       distanceSum: 30584,
       meanMass: 732.3,
@@ -165,10 +168,11 @@ export const officeFixtures: readonly OfficeFixture[] = [
     year: 2027,
     taskNumber: 14,
     page: 14,
-    criteriaPages: [27, 28],
+    criteriaPages: [28, 29],
     topic: 'Олимпиада',
     maxScore: 3,
     requirements: {
+      columns: 4,
       rows: 1000,
       count: 107,
       meanScore: 230.63,
@@ -281,3 +285,28 @@ export const pythonFixtures: readonly PythonFixture[] = [
     ],
   },
 ];
+
+/** Transcribed scoring structure, independent of the implementation. Sources are
+ * the printed criteriaPages of the nine office fixtures above. */
+export const officeRubricFixture = {
+  presentation: {
+    max: 2,
+    onePointSlides: [2, 3],
+    onePointMaxKinds: 1,
+    systematicErrorsCountOnce: true,
+  },
+  document: {
+    max: 2,
+    groups: ['main', 'table'],
+    textErrorAllowances: [5, 3],
+    onePointMaxViolationsPerGroup: 3,
+    completeGroupWithMissingOther: 1,
+  },
+  spreadsheet: {
+    max: 3,
+    elements: ['firstValue', 'secondValue', 'chart'],
+    chartRequires: ['data', 'geometry', 'legend', 'values'],
+    differentCellsAllowed: true,
+    equivalentDecimalDisplayAllowed: true,
+  },
+} as const;

@@ -13,17 +13,25 @@ export const DATASET_VERSION = 'educational-files-v1';
 // Fixed reading collections share bytes across questions. Every call still hashes
 // actual bytes; only a previously successful format parse for that digest is reused.
 const validatedReadingFormats = new Map<string, true>();
-function validateReadingFormat(
+async function validateReadingFormat(
   format: string,
   bytes: Uint8Array,
   digest: string,
-): void {
+): Promise<void> {
   const key = format + ':' + digest;
   if (validatedReadingFormats.has(key)) return;
   if (format === 'htm') readHtm(bytes);
   else if (format === 'tiff') readTiff(bytes);
-  else if (format === 'pdf') readPdf(bytes);
-  else if (format === 'jpeg') validateOriginalJpeg(bytes);
+  else if (format === 'pdf') {
+    try {
+      readPdf(bytes);
+    } catch {
+      // Only the twelve exact, authored Writer exports are accepted in addition
+      // to the passive ASCII profile. Arbitrary PDF imports remain unsupported.
+      const { validateDocumentPdf } = await import('../banks/document-pdf');
+      validateDocumentPdf(bytes);
+    }
+  } else if (format === 'jpeg') validateOriginalJpeg(bytes);
   else throw new Error('Неизвестный формат корпуса.');
   if (validatedReadingFormats.size >= 128) {
     const oldest = validatedReadingFormats.keys().next().value;
@@ -154,7 +162,7 @@ export async function verifyDataset(
       validateOdf(bytes, entry.format);
     } else if (entry.format === 'png') readPng(bytes);
     else if (['htm', 'tiff', 'pdf', 'jpeg'].includes(entry.format))
-      validateReadingFormat(entry.format, bytes, entry.sha256);
+      await validateReadingFormat(entry.format, bytes, entry.sha256);
     else if (entry.format === 'zip') readZip(bytes);
     else if (['txt', 'csv', 'json', 'py', 'kum'].includes(entry.format)) {
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);

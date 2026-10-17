@@ -1,4 +1,4 @@
-/** Product minima; №1–12 use the owner-approved sourced formats (Q-I9 / ADR-038). */
+/** Product minima; №1–12/14 use the owner-approved sourced formats (Q-I9, Q-I10 / ADR-038–039). */
 export default {
   currentPhase: 3,
   phases: { generators: 3, banks: 3, variants: 3, lessons: 7, interactives: 8 },
@@ -27,7 +27,7 @@ export default {
     15: 4,
     16: 4,
   },
-  // The old 4/3 values above remain visible as learning inventory for №1–12.
+  // The old 4/3 values above remain visible as learning inventory for №1–12 and №14.
   // Every ID below is mandatory in exam selection; an overall total cannot replace it.
   examFormats: {
     1: ['removed-word-v2'],
@@ -42,6 +42,7 @@ export default {
     10: ['numeral-sum-v2'],
     11: ['context-reading-v2'],
     12: ['file-extensions-v2'],
+    14: ['sheet-count-range-v2', 'sheet-sum-mean-v2', 'sheet-count-mean-v2'],
   },
   banks: { presentation: 12, document: 12 },
   variants: {

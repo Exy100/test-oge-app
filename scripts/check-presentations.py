@@ -28,7 +28,7 @@ def main():
     directories = sorted(path for path in root.iterdir() if path.is_dir())
     if len(directories) != 12:
         raise RuntimeError('Expected exactly twelve curated presentation sets.')
-    sources, references, checks_by_id = [], [], {}
+    sources, references, examples, checks_by_id = [], [], [], {}
     for directory in directories:
         manifest = json.loads((directory / 'manifest.json').read_text())
         if manifest['kind'] != 'curated':
@@ -49,8 +49,12 @@ def main():
         shutil.copyfile(directory / 'files/reference/answer.odp', reference)
         sources.append(source)
         references.append(reference)
+        for score in [0, 1]:
+            example = output / (identifier + '-score-' + str(score) + '.odp')
+            shutil.copyfile(directory / ('files/examples/score-' + str(score) + '.odp'), example)
+            examples.append((example, score + 1, checks['slides'][:score + 1]))
     profile = (output / 'profile').as_uri()
-    for files, conversion in [(sources, 'txt:Text (encoded):UTF8'), (references, 'pdf:impress_pdf_Export')]:
+    for files, conversion in [(sources, 'txt:Text (encoded):UTF8'), (references + [path for path, _, _ in examples], 'pdf:impress_pdf_Export')]:
         result = run([soffice, '-env:UserInstallation=' + profile, '--headless', '--convert-to', conversion, '--outdir', str(output), *map(str, files)])
         print(result.stdout.strip(), flush=True)
     for identifier, (checks, layout) in checks_by_id.items():
@@ -89,7 +93,14 @@ def main():
                 if ymax - ymin < 18 or not any(xmin >= box['x'] * factor - 2 and ymin >= box['y'] * factor - 2 and xmax <= (box['x'] + box['width']) * factor + 2 and ymax <= (box['y'] + box['height']) * factor + 2 for box in boxes):
                     raise RuntimeError('Text outside its frame or unexpectedly small: ' + identifier + ': ' + (word.text or '') + ' bbox=' + repr((xmin, ymin, xmax, ymax)) + ' frames=' + repr(boxes))
         run(['pdftoppm', '-scale-to', '960', '-png', str(pdf), str(output / identifier)])
-    print('LibreOffice: all 12 ODT sources and 12 ODP references opened; 36 slides verified for text, images, size and text bounds.', flush=True)
+    for path, count, slides in examples:
+        pages = run(['pdftotext', str(path.with_suffix('.pdf')), '-']).stdout.split('\f')
+        if len(pages) != count + 1 or pages[-1].strip():
+            raise RuntimeError('Wrong rendered slide count in score example: ' + str(path))
+        for text, slide in zip(pages, slides):
+            if any(normalized(value) not in normalized(text) for value in slide['text']):
+                raise RuntimeError('Missing text in rendered score example: ' + str(path))
+    print('Impress: 12 sources, 12 complete references and 24 score examples opened; all 72 slides verified, complete references checked for images, geometry, fonts and text bounds.', flush=True)
 
 
 if __name__ == '__main__':

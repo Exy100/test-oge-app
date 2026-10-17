@@ -59,6 +59,7 @@ import {
   filePhraseDocuments,
 } from './11/search-files.ts';
 
+import { spreadsheetGenerators } from './14/spreadsheets.ts';
 import { createRegistry } from './registry.ts';
 
 export const learningGenerators = createRegistry([
@@ -108,6 +109,7 @@ export const learningGenerators = createRegistry([
   fileMaskCount,
   fileSizeTotal,
   fileLargest,
+  ...spreadsheetGenerators,
 ]);
 export function getLearningGenerator(id: string): Generator {
   const generator = learningGenerators.find((entry) => entry.id === id);

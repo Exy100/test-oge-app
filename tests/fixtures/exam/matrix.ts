@@ -159,10 +159,10 @@ export const formatRows: FormatRow[] = [
     fixtureIds: officeFixtures
       .filter((f) => f.variant13 === 'presentation')
       .map((f) => f.id),
-    generatorIds: ['curated-presentations-v1'],
-    integration: 'partial',
+    generatorIds: ['curated-presentations-v2'],
+    integration: 'covered',
     owner: 'T3.16',
-    gap: 'В банке другие размеры шрифтов и число изображений; критерии нужно сверить с официальными уровнями.',
+    gap: '',
   },
   {
     id: 'M13d',
@@ -172,10 +172,10 @@ export const formatRows: FormatRow[] = [
     fixtureIds: officeFixtures
       .filter((f) => f.variant13 === 'document')
       .map((f) => f.id),
-    generatorIds: ['curated-documents-v1'],
-    integration: 'partial',
+    generatorIds: ['curated-documents-v2'],
+    integration: 'covered',
     owner: 'T3.16',
-    gap: 'Нужна сверка точных групп критериев, исключений и примеров на каждый балл.',
+    gap: '',
   },
   {
     id: 'M14',
@@ -186,14 +186,13 @@ export const formatRows: FormatRow[] = [
       .filter((f) => f.taskNumber === 14)
       .map((f) => f.id),
     generatorIds: [
-      'sheet-filter-v1',
-      'sheet-revenue-v1',
-      'sheet-group-v1',
-      'sheet-growth-v1',
+      'sheet-count-range-v2',
+      'sheet-sum-mean-v2',
+      'sheet-count-mean-v2',
     ],
-    integration: 'partial',
+    integration: 'covered',
     owner: 'T3.16',
-    gap: 'Три числовых вопроса в текущих наборах не заменяют обязательную диаграмму; масштаб и критерии требуют сверки.',
+    gap: '',
   },
   {
     id: 'M15',

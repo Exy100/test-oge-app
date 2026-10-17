@@ -1,22 +1,37 @@
 {
-  "kind": "sheet-filter",
-  "group": "Альфа",
-  "threshold": 9,
+  "kind": "sheet-sum-mean",
+  "group": "Липки",
+  "sex": "жен",
+  "startDay": 6,
+  "grade": 8,
+  "threshold": 206,
   "answers": [
-    29,
-    1504,
-    95
+    40382,
+    524.2
+  ],
+  "chart": [
+    42,
+    41,
+    41
+  ],
+  "labels": [
+    "1 октября",
+    "2 октября",
+    "3 октября"
   ],
   "cells": [
     "H2",
-    "H3",
-    "H4"
+    "H3"
   ],
-  "rowCount": 240,
-  "referenceId": "sheet-filter-v1:review:4:reference",
+  "chartCell": "G6",
+  "rowCount": 370,
+  "columns": 6,
   "formulas": [
-    "of:=COUNTIFS([.B2:.B241];\"Альфа\";[.C2:.C241];\">=9\")",
-    "of:=SUM([.E2:.E241])",
-    "of:=MAX([.E2:.E241])"
-  ]
+    "of:=SUM(SUMIF([.A2:.A371];\"6 октября\";[.D2:.D371]);SUMIF([.A2:.A371];\"7 октября\";[.D2:.D371]);SUMIF([.A2:.A371];\"8 октября\";[.D2:.D371]))",
+    "of:=ROUND(AVERAGEIF([.B2:.B371];\"Липки\";[.F2:.F371]);1)",
+    "of:=COUNTIF([.A2:.A371];\"1 октября\")",
+    "of:=COUNTIF([.A2:.A371];\"2 октября\")",
+    "of:=COUNTIF([.A2:.A371];\"3 октября\")"
+  ],
+  "referenceId": "sheet-sum-mean-v2:review:4:reference"
 }

@@ -70,8 +70,8 @@ for (const [index, task] of presentationTasks.entries())
       const contents = validateOdf(reference, 'odp');
       const content = decoder.decode(contents.get('content.xml'));
       expect(content.match(/<draw:page /gu)).toHaveLength(3);
-      expect(content.match(/<draw:image /gu)).toHaveLength(4);
-      expect(content).toContain('fo:font-size="32pt"');
+      expect(content.match(/<draw:image /gu)).toHaveLength(5);
+      expect(content).toContain('fo:font-size="40pt"');
       expect(content).toContain('fo:font-size="20pt"');
       for (let i = 1; i <= 3; i++)
         expect(
@@ -86,7 +86,22 @@ for (const [index, task] of presentationTasks.entries())
       expect(criteria.checklist).toHaveLength(6);
       expect(criteria.kind).toBe('educational-self-assessment');
       expect(criteria.max).toBe(2);
+      expect(content).toContain('fo:font-size="24pt"');
       const deck = deckFor(getPresentationSet(task.seed));
+      expect(
+        deck.map(
+          (slide) =>
+            slide.frames.filter((frame) => frame.kind === 'image').length,
+        ),
+      ).toEqual([0, 2, 3]);
+      for (const score of [0, 1] as const) {
+        const example = unpacked.get(`examples/score-${String(score)}.odp`);
+        if (!example) throw new Error('Missing score example');
+        const xml = decoder.decode(
+          validateOdf(example, 'odp').get('content.xml'),
+        );
+        expect(xml.match(/<draw:page /gu)).toHaveLength(score + 1);
+      }
       for (const slide of deck)
         for (const [i, frame] of slide.frames.entries())
           for (const other of slide.frames.slice(i + 1)) {
