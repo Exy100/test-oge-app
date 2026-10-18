@@ -1,0 +1,47 @@
+---
+import InfoLayout from '../../layouts/InfoLayout.astro';
+import RandomVariantButton from '../../components/RandomVariantButton';
+import VariantHistory from '../../components/VariantHistory';
+import { fixedVariants } from '../../core/variants/catalog';
+import { fixedVariantHref } from '../../lib/variant-links';
+import '../../styles/variants.css';
+---
+
+<InfoLayout
+  title="Варианты ОГЭ"
+  description="Выбери готовый вариант или собери случайный. В каждом — 16 заданий по информатике."
+  route="/variants/"
+>
+  <section aria-labelledby="variant-choice">
+    <h2 id="variant-choice">Выбери вариант</h2>
+    <p>
+      Открой задания и решай их самостоятельно. Из каждого задания можно перейти
+      к практике: там доступны проверка ответа, файлы и разбор.
+    </p>
+    <p>
+      В №13 даны две работы — презентация и документ. Для одного варианта выбери
+      одну из них.
+    </p>
+    <RandomVariantButton client:load />
+    <noscript>
+      Для случайного варианта включи JavaScript. Готовые варианты ниже
+      открываются без него.
+    </noscript>
+    <ul class="variant-catalog">
+      {fixedVariants.map(({ id }) => (
+        <li>
+          <a class="variant-catalog-card" href={fixedVariantHref(id)}>
+            <h3>Вариант {id}</h3>
+            <p>16 заданий · обе работы №13</p>
+            <span>Открыть задания →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <section class="variant-history" aria-labelledby="variant-history-title">
+    <h2 id="variant-history-title">История попыток</h2>
+    <VariantHistory client:load />
+    <noscript>Для просмотра сохранённой истории включи JavaScript.</noscript>
+  </section>
+</InfoLayout>

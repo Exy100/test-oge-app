@@ -1,0 +1,93 @@
+.info-content .variant-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+  padding: 0;
+  margin-block: var(--space-6);
+  list-style: none;
+}
+.info-content .variant-catalog li {
+  min-width: 0;
+  margin: 0;
+}
+.info-content .variant-catalog a.variant-catalog-card {
+  display: block;
+  height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  background: var(--surface);
+  text-decoration: none;
+}
+.variant-catalog-card:hover {
+  background: var(--hover);
+}
+.info-content .variant-catalog-card h3 {
+  margin: 0;
+}
+.variant-catalog-card p {
+  color: var(--muted);
+}
+.variant-catalog-card span {
+  color: var(--green);
+  text-decoration: underline;
+}
+.variant-history {
+  margin-block: var(--space-8);
+}
+.variant-history-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.variant-history-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 30rem;
+}
+.variant-history-table th,
+.variant-history-table td {
+  text-align: left;
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.variant-history-kind {
+  display: block;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.variant-task {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  margin-block: var(--space-4);
+  min-width: 0;
+}
+.variant-task > summary {
+  cursor: pointer;
+  padding: var(--space-4);
+}
+.variant-task > summary h2 {
+  display: inline;
+  font-size: var(--text-lg);
+  margin: 0;
+}
+.variant-task-body {
+  padding: 0 var(--space-4) var(--space-4);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.variant-task-action {
+  margin-block: var(--space-5);
+}
+.variant-task-action .button {
+  white-space: normal;
+  text-align: center;
+}
+.variant-task-body h3 {
+  padding-top: var(--space-4);
+}
+.variant-loading {
+  min-height: 50rem;
+}

@@ -3,15 +3,10 @@ import { examConfig } from '../exam/exam.config.ts';
 import { generatorsForTask } from '../generators/index.ts';
 import { Rng } from '../rng.ts';
 import type { TaskInstance, TaskNumber, Variant } from '../types.ts';
+import { fixedVariants, VARIANT_VERSION } from './catalog.ts';
 
-export const VARIANT_VERSION = 'informatics-variant-v1';
+export { fixedVariants, VARIANT_VERSION } from './catalog.ts';
 export type Variant13Choice = 'presentation' | 'document';
-export const fixedVariants = Object.freeze(
-  Array.from({ length: 10 }, (_, index) => {
-    const id = `V${String(index + 1).padStart(2, '0')}`;
-    return Object.freeze({ id, seed: `${VARIANT_VERSION}:${id}` });
-  }),
-);
 function choice13(value: unknown): asserts value is Variant13Choice {
   if (value !== 'presentation' && value !== 'document')
     throw new Error('Для №13 выбери презентацию или документ.');

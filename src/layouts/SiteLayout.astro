@@ -65,6 +65,12 @@ const { title, description, route = '/', noindex = false } = Astro.props;
           >
             Практика
           </a>
+          <a
+            href={sitePath('/variants/')}
+            aria-current={route.startsWith('/variants/') ? 'page' : undefined}
+          >
+            Варианты
+          </a>
           <a href={sitePath('/#materials')}>Короткая теория</a>
           <a href={sitePath('/#exam')}>Об экзамене</a>
           <a

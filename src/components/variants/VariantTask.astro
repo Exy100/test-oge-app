@@ -1,0 +1,31 @@
+---
+import RichText from '../RichText.astro';
+import Figure from '../Figure';
+import type { TaskInstance } from '../../core/types';
+import { variantTaskHref } from '../../lib/variant-links';
+interface Props {
+  task: TaskInstance;
+}
+const { task } = Astro.props;
+const number =
+  task.variant13 === 'presentation'
+    ? '13.1'
+    : task.variant13 === 'document'
+      ? '13.2'
+      : String(task.taskNumber);
+---
+
+{task.variant13 && (
+  <h3>
+    {number} — {task.variant13 === 'presentation' ? 'Презентация' : 'Документ'}
+  </h3>
+)}
+<RichText source={task.statement} />
+{task.figure && (
+  <Figure spec={task.figure} label={`Схема к заданию №${number}`} />
+)}
+<p class="variant-task-action">
+  <a class="button button-dark" href={variantTaskHref(task)}>
+    Решить задание №{number} в практике
+  </a>
+</p>

@@ -1,0 +1,21 @@
+---
+import InfoLayout from '../../layouts/InfoLayout.astro';
+import RandomVariant from '../../components/RandomVariant';
+import { sitePath } from '../../lib/site';
+import '../../styles/variants.css';
+---
+
+<InfoLayout
+  title="Случайный вариант"
+  description="Вариант по ссылке: 16 заданий и обе работы №13. Сохрани ссылку, чтобы вернуться к этим же заданиям."
+  route="/variants/"
+>
+  <p>
+    <a href={sitePath('/variants/')}>← Все варианты</a>
+  </p>
+  <noscript>
+    Для сборки варианта по ссылке включи JavaScript или выбери готовый вариант в
+    каталоге.
+  </noscript>
+  <RandomVariant client:load />
+</InfoLayout>
