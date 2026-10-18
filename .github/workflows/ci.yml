@@ -257,6 +257,23 @@ jobs:
           export CHROME_PATH
           npm run lh
 
+      - name: Publish Lighthouse assertion failures
+        if: always() && matrix.shard == 1
+        run: |
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync } from 'node:fs';
+          const assertionsPath = '.lighthouseci/assertion-results.json';
+          if (existsSync(assertionsPath)) {
+            const escape = (text) => text.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+            for (const result of JSON.parse(readFileSync(assertionsPath, 'utf8'))) {
+              if (result.passed !== false) continue;
+              const details = JSON.stringify({ url: result.url, audit: result.auditId, property: result.auditProperty, assertion: result.name, expected: result.expected, actual: result.actual, values: result.values });
+              const level = result.level === 'warn' ? 'warning' : 'error';
+              console.log('::' + level + ' title=Lighthouse::' + escape(details));
+            }
+          }
+          NODE
+
       - name: Scan production files for secrets
         run: gitleaks dir dist --redact --no-banner
 

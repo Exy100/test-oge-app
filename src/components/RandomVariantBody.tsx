@@ -1,67 +1,52 @@
-import { buildVariant, variant13Alternatives } from '../core/variants';
-import type { TaskInstance } from '../core/types';
-import { useState } from 'react';
-import { variantTaskHref } from '../lib/variant-links';
-import RichText from './RichText';
-import Figure from './Figure';
+import { useEffect, useRef, useState } from 'react';
+import type { ComponentType } from 'react';
+import { examConfig } from '../core/exam/exam.config';
+import { VARIANT_VERSION } from '../core/variants/catalog';
+import type { TaskNumber } from '../core/types';
+import type { RandomVariantData } from './variants/RandomVariantContent';
 import RandomVariantButton from './RandomVariantButton';
 import ExamEntry from './variants/ExamEntry';
 
-function Task({ task }: { task: TaskInstance }) {
-  const number =
-    task.variant13 === 'presentation'
-      ? '13.1'
-      : task.variant13 === 'document'
-        ? '13.2'
-        : String(task.taskNumber);
-  return (
-    <>
-      {task.variant13 && (
-        <h3>
-          {number} —{' '}
-          {task.variant13 === 'presentation' ? 'Презентация' : 'Документ'}
-        </h3>
-      )}
-      <RichText source={task.statement} />
-      {task.figure && (
-        <Figure spec={task.figure} label={`Схема к заданию №${number}`} />
-      )}
-      <p className="variant-task-action">
-        <a className="button button-dark" href={variantTaskHref(task)}>
-          Решить задание №{number} в практике
-        </a>
-      </p>
-    </>
-  );
-}
+type Loaded = {
+  Content: ComponentType<{ data: RandomVariantData; number: TaskNumber }>;
+  data: RandomVariantData;
+};
+const numbers = Array.from(
+  { length: examConfig.taskCount },
+  (_, index) => (index + 1) as TaskNumber,
+);
 function Section({
-  task,
-  alternatives,
+  number,
+  loaded,
+  error,
+  load,
 }: {
-  task: TaskInstance;
-  alternatives: ReturnType<typeof variant13Alternatives>;
+  number: TaskNumber;
+  loaded: Loaded | null;
+  error: string;
+  load: () => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <details
       className="variant-task"
-      data-task-number={task.taskNumber}
+      data-task-number={number}
       onToggle={(event) => {
         setOpen(event.currentTarget.open);
+        if (event.currentTarget.open) load();
       }}
     >
       <summary>
-        <h2>Задание №{task.taskNumber}</h2>
+        <h2>Задание №{number}</h2>
       </summary>
       {open && (
         <div className="variant-task-body">
-          {task.taskNumber === 13 ? (
-            <>
-              <Task task={alternatives.presentation} />
-              <Task task={alternatives.document} />
-            </>
+          {loaded ? (
+            <loaded.Content data={loaded.data} number={number} />
+          ) : error ? (
+            <p role="alert">{error}</p>
           ) : (
-            <Task task={task} />
+            <p role="status">Собираем условия задания…</p>
           )}
         </div>
       )}
@@ -69,33 +54,51 @@ function Section({
   );
 }
 export default function RandomVariantBody({ seed }: { seed: string }) {
-  const [data] = useState(() => {
-    try {
-      return {
-        variant: buildVariant(seed),
-        alternatives: variant13Alternatives(seed),
-        error: '',
-      };
-    } catch {
-      return {
-        variant: null,
-        alternatives: null,
-        error: 'Не удалось собрать задания. Открой другой вариант из каталога.',
-      };
-    }
-  });
-  if (!data.variant) return <p role="alert">{data.error}</p>;
-  const { variant, alternatives } = data;
+  const [loaded, setLoaded] = useState<Loaded | null>(null);
+  const [error, setError] = useState('');
+  const pending = useRef(false);
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+  function load() {
+    if (loaded || pending.current) return;
+    pending.current = true;
+    setError('');
+    void import('./variants/RandomVariantContent')
+      .then((module) => {
+        const data = module.prepareRandomVariant(seed);
+        if (alive.current) setLoaded({ Content: module.default, data });
+      })
+      .catch(() => {
+        if (alive.current)
+          setError(
+            'Не удалось открыть условия. Обнови страницу или выбери другой вариант в каталоге.',
+          );
+      })
+      .finally(() => {
+        pending.current = false;
+      });
+  }
   return (
-    <ExamEntry variantId={variant.id} seed={seed}>
+    <ExamEntry variantId={`${VARIANT_VERSION}:${seed}`} seed={seed}>
       <p>
         Всего 16 заданий. В №13 выбери одну работу: презентацию или документ.
         Задания №15 и №16 выполняются оба.
       </p>
       <RandomVariantButton label="Другой случайный вариант" />
       <div className="variant-tasks">
-        {variant.tasks.map((task) => (
-          <Section key={task.id} task={task} alternatives={alternatives} />
+        {numbers.map((number) => (
+          <Section
+            key={number}
+            number={number}
+            loaded={loaded}
+            error={error}
+            load={load}
+          />
         ))}
       </div>
     </ExamEntry>

@@ -151,6 +151,40 @@ test('random variant has a reproducible share URL, all sixteen tasks and another
   expect(page.url()).not.toBe(second);
 });
 
+test('random conditions load on demand, explain loading failure and preserve both №13 alternatives after reload', async ({
+  page,
+}) => {
+  const seed = 'lazy-conditions';
+  await page.route(/\/RandomVariantContent\.[^/]+\.js/u, (route) =>
+    route.abort(),
+  );
+  await page.goto(`variants/random/?seed=${seed}`);
+  await expect(page.locator('.variant-task')).toHaveCount(16);
+  await expect(page.locator('.variant-task .rich-text')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  const thirteen = page.locator('[data-task-number="13"]');
+  await thirteen.locator(':scope > summary').click();
+  await expect(thirteen.getByRole('alert')).toContainText(
+    'Не удалось открыть условия',
+  );
+  await expect(thirteen.locator('.rich-text')).toHaveCount(0);
+  await page.unroute(/\/RandomVariantContent\.[^/]+\.js/u);
+  await page.reload();
+  await thirteen.locator(':scope > summary').click();
+  await expect(
+    thirteen.getByRole('heading', { name: '13.1 — Презентация' }),
+  ).toBeVisible();
+  await expect(
+    thirteen.getByRole('heading', { name: '13.2 — Документ' }),
+  ).toBeVisible();
+  await expect(
+    thirteen.getByRole('link', { name: 'Решить задание №13.2 в практике' }),
+  ).toHaveAttribute(
+    'href',
+    variantTaskHref(variant13Alternatives(seed).document),
+  );
+});
+
 test('malformed random links and failed module loading explain recovery without false tasks', async ({
   page,
 }) => {
