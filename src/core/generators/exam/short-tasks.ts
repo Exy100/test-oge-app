@@ -4,7 +4,7 @@ import type {
   Generator,
   TaskInstance,
 } from '../../types.ts';
-import { taskFrom, quantity } from '../task.ts';
+import { taskFrom, quantity, bytes } from '../task.ts';
 import { decodeGuidance } from './decode-guidance.ts';
 import {
   decodeSolutions,
@@ -295,17 +295,17 @@ export function buildExamShortTask(
     hints: [string, string, string],
     mistakes: [string, string];
   if (p.kind === 'deleted-word') {
-    statement = `В кодировке каждый символ занимает ${String(p.bits)} бит. Записан список слов: «${p.words.join(', ')}». Одно слово удалили вместе с лишними запятой и пробелом; двойных пробелов не осталось. Размер текста уменьшился на ${String(p.bytes)} байт. Какое слово удалили?`;
+    statement = `В кодировке каждый символ занимает ${String(p.bits)} бит. Записан список слов: «${p.words.join(', ')}». Одно слово удалили вместе с лишними запятой и пробелом; двойных пробелов не осталось. Размер текста уменьшился на ${bytes(p.bytes)}. Какое слово удалили?`;
     const letters = (p.bytes * 8) / p.bits - 2;
     steps = [
-      `Один символ занимает ${String(p.bits / 8)} байт. Удалено ${String((p.bytes * 8) / p.bits)} символов.`,
-      `Запятая и пробел — ещё два символа. В слове ${String(letters)} букв (дефис, если он есть, тоже символ).`,
-      `В списке такую длину имеет слово «${answer.value}». Проверка: (${String(answer.value.length)} + 2) · ${String(p.bits / 8)} = ${String(p.bytes)} байт.`,
+      `Один символ занимает ${String(p.bits)} ÷ 8 = ${bytes(p.bits / 8)}. Всего удалили ${String(p.bytes)} ÷ ${String(p.bits / 8)} = ${quantity((p.bytes * 8) / p.bits, ['символ', 'символа', 'символов'])}.`,
+      `Вместе со словом удалили запятую и пробел — два символа. На само слово приходится ${String((p.bytes * 8) / p.bits)} − 2 = ${quantity(letters, ['символ', 'символа', 'символов'])}. Дефис тоже считается символом.`,
+      `В списке такую длину имеет слово «${answer.value}». Проверка: (${String(answer.value.length)} + 2) · ${String(p.bits / 8)} = ${bytes(p.bytes)}.`,
     ];
     hints = [
-      'Переведи биты на символ в байты на символ.',
-      'Учти два удалённых разделителя.',
-      'Сравни число оставшихся символов с длинами слов.',
+      `В этой кодировке один символ занимает ${String(p.bits)} бит. В одном байте 8 бит. Раздели ${String(p.bits)} на 8, чтобы узнать размер символа в байтах.`,
+      `Объём текста уменьшился на ${bytes(p.bytes)}. Раздели ${String(p.bytes)} на размер одного символа в байтах: получится число всех удалённых символов.`,
+      'Вместе со словом удалили ещё два символа: запятую и пробел. Вычти 2 из найденного числа символов и найди в списке слово с такой длиной.',
     ];
     const others = p.words
       .filter((word) => word !== answer.value)

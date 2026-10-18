@@ -99,7 +99,20 @@ test('exam tables and alternative answers stay readable on mobile', async ({
       .selectOption(id);
     await page.getByRole('button', { name: 'Показать 20 задач' }).click();
     const first = page.locator('.generator-example').first();
-    await expect(first.getByRole('table')).toBeVisible();
+    const tables = first.getByRole('table');
+    await expect(tables).toHaveCount(id === 'decode-repeated-v2' ? 2 : 1);
+    for (const table of await tables.all()) await expect(table).toBeVisible();
+    if (id === 'decode-repeated-v2') {
+      await expect(tables.nth(0).getByRole('columnheader')).toHaveText([
+        'Буква',
+        'Код',
+      ]);
+      await expect(tables.nth(1).getByRole('columnheader')).toHaveText([
+        '№ буквы',
+        'Код',
+        'Буква',
+      ]);
+    }
     if (id === 'parameter-any-v2')
       await expect(first).toContainText('Принимается любое целое');
     if (id === 'decode-repeated-v2')
