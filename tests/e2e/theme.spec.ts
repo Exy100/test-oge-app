@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readyHome } from '../fixtures/home-browser';
+import { homeTask } from '../../src/lib/home-practice';
+import { answer as homeAnswer } from '../fixtures/stream-answers';
 
 test('системная тема, ручной выбор и сохранение до появления содержимого', async ({
   page,
@@ -30,14 +33,18 @@ test('системная тема, ручной выбор и сохранени
   await page.reload();
   await expect(root).toHaveAttribute('data-theme-at-body', 'dark');
   await expect(theme).toHaveValue('dark');
-  await expect(page.getByRole('button', { name: 'Проверить' })).toBeEnabled();
+  await readyHome(page);
   const answer = page.getByLabel('Твой ответ', { exact: false });
-  await answer.fill('47');
+  await answer.fill(homeAnswer(homeTask('volume', 0), false));
   await answer.press('Enter');
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  await answer.fill('48');
+  await page.getByRole('button', { name: 'Следующая задача' }).click();
+  await answer.fill(homeAnswer(homeTask('volume', 1), true));
   await answer.press('Enter');
-  await expect(page.getByRole('status')).toContainText('Верно, получилось!');
+  await expect(page.locator('.task-feedback')).toHaveAttribute(
+    'data-verdict',
+    'correct',
+  );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await theme.selectOption('light');
   await expect(root).toHaveAttribute('data-theme', 'light');

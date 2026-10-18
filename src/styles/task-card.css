@@ -171,11 +171,9 @@
 }
 @keyframes task-guidance-reveal {
   from {
-    opacity: 0;
     transform: translateY(var(--space-1));
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -240,4 +238,11 @@
   .task-card .program-example {
     grid-template-columns: 1fr;
   }
+}
+
+.home-task-controls {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }

@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { readyHome } from '../fixtures/home-browser';
+import { homeTask } from '../../src/lib/home-practice';
+import { answer } from '../fixtures/stream-answers';
 
 test('Cloudflare: HTTP-заголовки и рабочая практика под CSP', async ({
   page,
@@ -29,9 +32,13 @@ test('Cloudflare: HTTP-заголовки и рабочая практика п�
     'camera=(), microphone=(), geolocation=(), payment=()',
   );
   expect(headers?.['cross-origin-opener-policy']).toBe('same-origin');
-  await page.getByLabel('Твой ответ').fill('48');
+  await readyHome(page);
+  await page.getByLabel('Твой ответ').fill(answer(homeTask('volume', 0), true));
   await page.getByRole('button', { name: 'Проверить' }).click();
-  await expect(page.getByRole('status')).toContainText('Верно, получилось!');
+  await expect(page.locator('.task-feedback')).toHaveAttribute(
+    'data-verdict',
+    'correct',
+  );
   await page.getByLabel('Тема', { exact: true }).selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   for (const route of ['about/', 'privacy/', 'missing-lesson/']) {
@@ -87,5 +94,8 @@ test('GitHub Pages: meta-CSP блокирует посторонний inline-с
   );
   expect(violation).toMatch(/^script-src(?:-elem)?$/u);
   await expect(page.locator('html')).not.toHaveAttribute('data-injected');
-  await expect(page.getByRole('button', { name: 'Проверить' })).toBeEnabled();
+  await readyHome(page);
+  await expect(
+    page.getByRole('button', { name: 'Проверить ответ', exact: true }),
+  ).toBeEnabled();
 });

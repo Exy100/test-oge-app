@@ -327,6 +327,23 @@ test('guidance: public Python solution respects CSP and preserves code, notes an
   await expect(
     page.getByRole('button', { name: 'Пропустить задание', exact: true }),
   ).toBeEnabled();
+  // Sample the reveal animation deliberately, including after its natural end.
+  // A fade can pass at rest while making text unreadable during the reveal.
+  const opacity = await page
+    .locator('.task-guidance .task-reveal')
+    .evaluateAll((items) =>
+      items.map((item) => {
+        for (const animation of item.getAnimations()) {
+          const duration = animation.effect?.getComputedTiming().duration;
+          if (typeof duration === 'number') {
+            animation.pause();
+            animation.currentTime = duration / 2;
+          }
+        }
+        return getComputedStyle(item).opacity;
+      }),
+    );
+  expect(opacity.every((value) => value === '1')).toBe(true);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.setViewportSize({ width: 360, height: 800 });
   await page.evaluate(() => {

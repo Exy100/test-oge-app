@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readyHome } from '../fixtures/home-browser';
 
 test('dev UI: обе темы, переходы страниц и сохранение выбора', async ({
   page,
@@ -29,7 +30,10 @@ test('dev UI: обе темы, переходы страниц и сохране
   });
   await page.getByRole('link', { name: 'Начать тренировку' }).click();
   await expect(page).toHaveURL('http://127.0.0.1:4324/test-oge-app/#practice');
-  await expect(page.getByRole('button', { name: 'Проверить' })).toBeEnabled();
+  await readyHome(page);
+  await expect(
+    page.getByRole('button', { name: 'Проверить ответ', exact: true }),
+  ).toBeEnabled();
   await expect(page.locator('html')).toHaveAttribute(
     'data-theme-at-body',
     'dark',
@@ -43,5 +47,8 @@ test('dev UI: обе темы, переходы страниц и сохране
   await page.getByLabel('Тема', { exact: true }).selectOption('light');
   await page.goBack();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.getByRole('button', { name: 'Проверить' })).toBeEnabled();
+  await readyHome(page);
+  await expect(
+    page.getByRole('button', { name: 'Проверить ответ', exact: true }),
+  ).toBeEnabled();
 });

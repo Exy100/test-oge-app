@@ -1,66 +1,81 @@
-import { Button } from './ui/Button';
-import { Card } from './ui/Card';
-import { Badge } from './ui/Badge';
 import { useRef, useState } from 'react';
+import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { Badge } from './ui/Badge';
+import TaskCard from './tasks/TaskCard';
+import { useStatementRenderer } from './useStatementRenderer';
 import { useHydrated } from './useHydrated';
-import type { SubmitEvent } from 'react';
 import {
-  checkPracticeAnswer,
-  makePracticeTask,
-  practiceSize,
-  practiceTopics,
-} from '../lib/practice';
-import type { PracticeTopic } from '../lib/practice';
+  homeTask,
+  homeTopics,
+  homeReference,
+  homeStreamLink,
+  type HomeTopic,
+} from '../lib/home-practice';
+import { initialStreamState } from '../lib/stream-start';
+import { recordStoredResult } from '../core/stream/progress';
+import { browserStore } from '../core/storage/browser';
+import { referenceKey, type StreamOutcome } from '../core/stream';
 
-export default function Practice() {
-  const ready = useHydrated();
-  const [topic, setTopic] = useState<PracticeTopic>('volume');
-  const [indices, setIndices] = useState<Record<PracticeTopic, number>>({
+export default function Practice({ initialHtml }: { initialHtml: string }) {
+  const hydrated = useHydrated();
+  const { renderer, error: loadingError } = useStatementRenderer();
+  const ready = hydrated && renderer !== null;
+  const [topic, setTopic] = useState<HomeTopic>('volume');
+  const [indices, setIndices] = useState<Record<HomeTopic, number>>({
     volume: 0,
     logic: 0,
     binary: 0,
   });
-  const [answer, setAnswer] = useState('');
-  const [feedback, setFeedback] = useState<
-    'invalid' | 'correct' | 'incorrect' | null
-  >(null);
-  const [hintCount, setHintCount] = useState(0);
-  const [showSolution, setShowSolution] = useState(false);
-  const [solved, setSolved] = useState<Set<string>>(() => new Set());
-  const answerInput = useRef<HTMLInputElement>(null);
-  const task = makePracticeTask(topic, indices[topic]);
-  const currentTopic = practiceTopics.find((item) => item.id === topic);
+  const [html, setHtml] = useState(initialHtml);
+  const [solved, setSolved] = useState(0);
+  const [error, setError] = useState('');
+  const recorded = useRef(new Set<string>());
+  const heading = useRef<HTMLHeadingElement>(null);
+  const task = homeTask(topic, indices[topic]);
+  const metadata = homeTopics.find((item) => item.id === topic);
 
-  function resetAnswer() {
-    setAnswer('');
-    setFeedback(null);
-    setHintCount(0);
-    setShowSolution(false);
+  function select(nextTopic: HomeTopic, nextIndex: number) {
+    if (!renderer) return;
+    let next = homeTask(nextTopic, nextIndex);
+    while (recorded.current.has(referenceKey(homeReference(next)))) {
+      nextIndex += 1;
+      next = homeTask(nextTopic, nextIndex);
+    }
+    const nextHtml = renderer(next.statement);
+    setTopic(nextTopic);
+    setIndices((previous) => ({ ...previous, [nextTopic]: nextIndex }));
+    setHtml(nextHtml);
+    setError('');
   }
-
-  function submit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const result = checkPracticeAnswer(task, answer);
-    setFeedback(result);
-    if (result === 'correct')
-      setSolved((previous) => new Set([...previous, task.id]));
+  function accept(result: StreamOutcome) {
+    const key = referenceKey(homeReference(task));
+    if (recorded.current.has(key)) return;
+    try {
+      recordStoredResult(
+        browserStore(),
+        {
+          ...initialStreamState(),
+          current: { kind: 'random', reference: homeReference(task) },
+        },
+        result,
+        new Date().toISOString(),
+      );
+      recorded.current.add(key);
+      if (result.kind === 'automatic' && result.correct)
+        setSolved((count) => count + 1);
+    } catch {
+      setError(
+        'Не удалось сохранить результат. Экспортируй данные в настройках и освободи место.',
+      );
+    }
   }
-
-  function nextTask() {
-    setIndices((previous) => ({
-      ...previous,
-      [topic]: (previous[topic] + 1) % practiceSize(topic),
-    }));
-    resetAnswer();
-    answerInput.current?.focus();
-  }
-
   return (
     <div className="practice-layout">
       <div className="practice-sidebar">
         <fieldset className="topic-choices" disabled={!ready}>
           <legend>Выбери тему</legend>
-          {practiceTopics.map((item) => (
+          {homeTopics.map((item) => (
             <label
               className={`topic-option ${topic === item.id ? 'is-active' : ''}`}
               key={item.id}
@@ -71,8 +86,7 @@ export default function Practice() {
                 value={item.id}
                 checked={topic === item.id}
                 onChange={() => {
-                  setTopic(item.id);
-                  resetAnswer();
+                  select(item.id, indices[item.id]);
                 }}
               />
               <span className="topic-mark" aria-hidden="true">
@@ -92,130 +106,52 @@ export default function Practice() {
           <span className="session-dot" aria-hidden="true" />
           <div>
             <strong>
-              Решено за занятие:{' '}
-              <span data-testid="solved-count">{solved.size}</span>
+              Верных ответов: <span data-testid="solved-count">{solved}</span>
             </strong>
-            <p>Результат сохраняется до перезагрузки страницы.</p>
+            <p>
+              Счётчик — до перезагрузки; общий прогресс сохраняется в браузере.
+            </p>
           </div>
         </div>
       </div>
-      <Card className="exercise-card" aria-busy={!ready}>
+      <Card className="exercise-card" aria-busy={!ready && !loadingError}>
         <div className="exercise-topline">
-          <Badge>{currentTopic?.title}</Badge>
+          <Badge>{metadata?.title}</Badge>
           <span className="exercise-position">
-            {indices[topic] + 1} / {practiceSize(topic)}
+            Задание {indices[topic] + 1}
           </span>
         </div>
-        <h3 id="exercise-heading">Разберём одну задачу</h3>
-        <p className="exercise-question" data-testid="question">
-          {task.question}
-        </p>
-        <form onSubmit={submit} aria-labelledby="exercise-heading" noValidate>
-          <fieldset disabled={!ready} className="answer-fieldset">
-            <label htmlFor="practice-answer">
-              Твой ответ{topic === 'volume' ? ', в байтах' : ''}
-            </label>
-            <div className="answer-row">
-              <input
-                id="practice-answer"
-                ref={answerInput}
-                value={answer}
-                onChange={(event) => {
-                  setAnswer(event.target.value);
-                  setFeedback(null);
-                }}
-                inputMode="numeric"
-                autoComplete="off"
-                maxLength={32}
-                aria-describedby="answer-guidance answer-feedback"
-                aria-invalid={feedback === 'invalid'}
-              />
-              <Button type="submit">
-                Проверить <span aria-hidden="true">→</span>
-              </Button>
-            </div>
-            <p id="answer-guidance" className="input-guidance">
-              Введи целое число. Enter — проверить.
-            </p>
-          </fieldset>
-        </form>
-        <div
-          id="answer-feedback"
-          role="status"
-          className={`answer-feedback ${feedback ?? ''}`}
+        <h3 className="home-task-heading" ref={heading} tabIndex={-1}>
+          Разберём одну задачу
+        </h3>
+        <fieldset
+          className="home-task-controls"
+          aria-label="Задание и ответ"
+          disabled={!ready}
         >
-          {feedback === 'correct' && (
-            <p>
-              <strong>Верно, получилось!</strong> Ответ: {task.answer}
-              {topic === 'volume' ? ' байт' : ''}. Можно переходить дальше.
-            </p>
-          )}
-          {feedback === 'incorrect' && (
-            <p>
-              <strong>Пока не совпало.</strong> Попробуй ещё раз или открой
-              подсказку.
-            </p>
-          )}
-          {feedback === 'invalid' && (
-            <p>Введи целое число без букв и дробной части.</p>
-          )}
-        </div>
-        <div className="exercise-tools">
-          <Button
-            type="button"
-            variant="text"
-            disabled={!ready || hintCount === task.hints.length}
-            onClick={() => {
-              setHintCount((count) => count + 1);
-            }}
-            aria-controls="practice-hints"
-            aria-expanded={hintCount > 0}
-          >
-            {hintCount === 0
-              ? 'Подсказка'
-              : hintCount < 3
-                ? `Ещё подсказка (${String(hintCount)}/3)`
-                : 'Все подсказки открыты'}
-          </Button>
-          <Button
-            type="button"
-            variant="text"
-            disabled={!ready}
-            onClick={() => {
-              setShowSolution((shown) => !shown);
-            }}
-            aria-controls="practice-solution"
-            aria-expanded={showSolution}
-          >
-            {showSolution ? 'Скрыть решение' : 'Показать решение'}
-          </Button>
-        </div>
-        <div id="practice-hints" className="hints" hidden={hintCount === 0}>
-          <ol>
-            {task.hints.slice(0, hintCount).map((hint) => (
-              <li key={hint}>{hint}</li>
-            ))}
-          </ol>
-        </div>
-        <div id="practice-solution" className="solution" hidden={!showSolution}>
-          <h4>Решение по шагам</h4>
-          <ol>
-            {task.steps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </div>
-        <div className="exercise-bottom">
-          <span>Ошибаться — часть учёбы.</span>
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={!ready}
-            onClick={nextTask}
-          >
-            Следующая задача <span aria-hidden="true">→</span>
-          </Button>
-        </div>
+          <TaskCard
+            key={`${topic}:${String(indices[topic])}`}
+            task={task}
+            statementHtml={html}
+            onResult={accept}
+          />
+          <div className="exercise-bottom">
+            <a href={homeStreamLink(task)}>
+              Продолжить это задание в практике →
+            </a>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                select(topic, indices[topic] + 1);
+                heading.current?.focus();
+              }}
+            >
+              Следующая задача →
+            </Button>
+          </div>
+        </fieldset>
+        {(loadingError || error) && <p role="alert">{loadingError || error}</p>}
       </Card>
     </div>
   );

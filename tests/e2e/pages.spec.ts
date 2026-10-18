@@ -26,6 +26,7 @@ for (const infoPage of pages) {
     );
     for (const theme of ['light', 'dark']) {
       await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     }
     await page.setViewportSize({ width: 360, height: 800 });

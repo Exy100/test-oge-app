@@ -1,0 +1,22 @@
+---
+import type { TaskInstance } from '../core/types';
+import { renderTaskGuidance } from '../lib/task-guidance';
+import '../styles/rich-text.css';
+interface Props {
+  task: TaskInstance;
+}
+const { task } = Astro.props;
+---
+
+<ol>
+  {task.solution.map((_, index) => (
+    <li>
+      <div class="rich-text-container">
+        <div
+          class="rich-text"
+          set:html={renderTaskGuidance(task, 'solution', index)}
+        />
+      </div>
+    </li>
+  ))}
+</ol>

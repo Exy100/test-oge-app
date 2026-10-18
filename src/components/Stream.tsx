@@ -34,9 +34,7 @@ import {
 } from '../core/stream/progress';
 import StreamProgress from './StreamProgress';
 import { useStoredAreas } from './useStoredAreas';
-
-type StatementRenderer =
-  typeof import('../core/rich-text/render').renderRichText;
+import { useStatementRenderer } from './useStatementRenderer';
 
 function preset(filters: Filters): string {
   if (filters.numbers.length === 1) {
@@ -58,9 +56,8 @@ export default function Stream({
   topics: readonly string[];
 }) {
   const hydrated = useHydrated();
-  const renderer = useRef<StatementRenderer | null>(null);
-  const [rendererReady, setRendererReady] = useState(false);
-  const ready = hydrated && rendererReady;
+  const { renderer, error: loadingError } = useStatementRenderer();
+  const ready = hydrated && renderer !== null;
   const shortcutsId = useId();
   const [shortcuts, setShortcuts] = useState(true);
   const nextButton = useRef<HTMLButtonElement>(null);
@@ -86,25 +83,6 @@ export default function Stream({
   const task = state.current
     ? resolveStreamTask(state.current.reference)
     : null;
-
-  useEffect(() => {
-    let mounted = true;
-    void import('../core/rich-text/render')
-      .then(({ renderRichText }) => {
-        if (!mounted) return;
-        renderer.current = renderRichText;
-        setRendererReady(true);
-      })
-      .catch(() => {
-        if (mounted)
-          setError(
-            'Не удалось загрузить практику. Проверь соединение и открой страницу заново.',
-          );
-      });
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   useEffect(() => {
     const store = browserStore();
@@ -160,10 +138,10 @@ export default function Stream({
   // A static Pages response cannot read the query. Restore it after hydration;
   // history navigation preserves this tab's statistics and never records an answer.
   useEffect(() => {
-    if (!rendererReady) return;
+    if (!renderer) return;
     let mounted = true;
     function restore() {
-      const renderRichText = renderer.current;
+      const renderRichText = renderer;
       if (!renderRichText) return;
       const token = ++navigation.current;
       advancing.current = true;
@@ -253,10 +231,10 @@ export default function Stream({
       navigation.current += 1;
       window.removeEventListener('popstate', onPopState);
     };
-  }, [topics, rendererReady]);
+  }, [topics, renderer]);
 
   async function advance(selection?: Filters) {
-    const renderRichText = renderer.current;
+    const renderRichText = renderer;
     if (!renderRichText || advancing.current) return;
     advancing.current = true;
     const token = ++navigation.current;
@@ -553,9 +531,9 @@ export default function Stream({
               : 'Не удалось подобрать задание. Попробуй другие фильтры или повтори подбор.'}
           </p>
         )}
-        {error && (
+        {(error || loadingError) && (
           <div role="alert">
-            <p>{error}</p>
+            <p>{error || loadingError}</p>
           </div>
         )}
         <button

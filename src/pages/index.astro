@@ -1,28 +1,25 @@
 ---
 import RichText from '../components/RichText.astro';
+import TaskSolution from '../components/TaskSolution.astro';
 import Figure from '../components/Figure';
 import Practice from '../components/Practice';
 import StreamProgress from '../components/StreamProgress';
 import '../styles/progress.css';
 import { sitePath } from '../lib/site';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import {
-  binaryPlaces,
-  makePracticeTask,
-  practiceTopics,
-} from '../lib/practice';
+import { homeTask } from '../lib/home-practice';
+import { renderRichText } from '../core/rich-text/render';
 
-const binary = makePracticeTask('binary', 0);
-const volume = makePracticeTask('volume', 0);
-const logic = makePracticeTask('logic', 0);
-if (
-  binary.topic !== 'binary' ||
-  volume.topic !== 'volume' ||
-  logic.topic !== 'logic'
-) {
-  throw new Error('Неверная тема учебного примера.');
-}
-const places = binaryPlaces(binary.digits);
+const volume = homeTask('volume', 0);
+const logic = homeTask('logic', 0);
+const numerals = homeTask('binary', 0);
+const initialHtml = renderRichText(volume.statement);
+const heroDigits = '1101';
+const heroDecimal = Number.parseInt(heroDigits, 2);
+const places = Array.from(heroDigits, (digit, index) => ({
+  digit,
+  weight: 2 ** (heroDigits.length - index - 1),
+}));
 const terms = places
   .filter((place) => place.digit === '1')
   .map((place) => place.weight);
@@ -79,17 +76,17 @@ const terms = places
         <p class="number-card-label">Одно число. Две записи.</p>
         <div
           class="number-equation"
-          aria-label={`${binary.digits} в двоичной системе равно ${String(binary.answer)} в десятичной`}
+          aria-label={`${heroDigits} в двоичной системе равно ${String(heroDecimal)} в десятичной`}
         >
           <span>
-            {binary.digits}
+            {heroDigits}
             <sub>2</sub>
           </span>
           <span class="equation-arrow" aria-hidden="true">
             →
           </span>
           <span class="decimal-result">
-            {binary.answer}
+            {heroDecimal}
             <sub>10</sub>
           </span>
         </div>
@@ -104,7 +101,7 @@ const terms = places
         </div>
         <div class="number-card-bottom">
           <span>
-            {terms.join(' + ')} = <strong>{binary.answer}</strong>
+            {terms.join(' + ')} = <strong>{heroDecimal}</strong>
           </span>
           <span class="check-circle" aria-label="Верно">
             ✓
@@ -131,8 +128,7 @@ const terms = places
           <h2 id="practice-title">Знания — в дело.</h2>
         </div>
         <p>
-          Выбери тему и попробуй решить.
-          <br />
+          Выбери тему и попробуй решить. <br />
           Подсказки всегда рядом.
         </p>
       </div>
@@ -147,9 +143,9 @@ const terms = places
           Открыть практику №1–16 →
         </a>
       </p>
-      <Practice client:load />
+      <Practice initialHtml={initialHtml} client:visible />
       <p class="practice-caption">
-        Авторские базовые упражнения по темам заданий №1, №3 и №10.
+        Задания №1, №3 и №10 с проверкой, подсказками и сохранением прогресса.
       </p>
     </div>
   </section>
@@ -164,8 +160,7 @@ const terms = places
         <h2 id="materials-title">Сначала — суть.</h2>
       </div>
       <p>
-        Три правила, на которые можно
-        <br />
+        Три правила, на которые можно <br />
         опереться в тренировке.
       </p>
     </div>
@@ -190,15 +185,8 @@ const terms = places
             Разобрать пример <span aria-hidden="true">+</span>
           </summary>
           <div class="material-example">
-            <p>
-              Текст: {volume.characters} символа, кодировка: {volume.bits} бит
-              на символ.
-            </p>
-            <ol>
-              {volume.steps.map((step) => (
-                <li>{step}</li>
-              ))}
-            </ol>
+            <RichText source={volume.statement} />
+            <TaskSolution task={volume} />
           </div>
         </details>
       </article>
@@ -220,12 +208,8 @@ const terms = places
             Разобрать пример <span aria-hidden="true">+</span>
           </summary>
           <div class="material-example">
-            <p>{logic.question}</p>
-            <ol>
-              {logic.steps.map((step) => (
-                <li>{step}</li>
-              ))}
-            </ol>
+            <RichText source={logic.statement} />
+            <TaskSolution task={logic} />
           </div>
         </details>
       </article>
@@ -246,23 +230,20 @@ const terms = places
             kind: 'place-value',
             description: 'Разряды двоичного числа',
             base: 2,
-            digits: Array.from(binary.digits, Number),
+            digits: Array.from(heroDigits, Number),
           }}
         />
         <div class="formula">
-          {binary.digits}
-          <sub>2</sub> = {terms.join(' + ')} = {binary.answer}
+          {heroDigits}
+          <sub>2</sub> = {terms.join(' + ')} = {heroDecimal}
         </div>
         <details>
           <summary>
             Разобрать пример <span aria-hidden="true">+</span>
           </summary>
           <div class="material-example">
-            <ol>
-              {binary.steps.map((step) => (
-                <li>{step}</li>
-              ))}
-            </ol>
+            <RichText source={numerals.statement} />
+            <TaskSolution task={numerals} />
           </div>
         </details>
       </article>
