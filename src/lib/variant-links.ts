@@ -32,14 +32,18 @@ export function variantTaskHref(task: TaskInstance): string {
 }
 type Attempt = Areas['variantAttempts']['entries'][number];
 /** Link only records whose stored identity can be reproduced by this catalogue. */
-export function attemptVariantHref(attempt: Attempt): string | null {
+export function attemptVariantHref(
+  attempt: Pick<Attempt, 'variantId' | 'seed'>,
+): string | null {
   const fixed = fixedVariants.find((entry) => entry.id === attempt.variantId);
   if (fixed && fixed.seed === attempt.seed) return fixedVariantHref(fixed.id);
   if (attempt.variantId === `${VARIANT_VERSION}:${attempt.seed}`)
     return randomVariantHref(attempt.seed);
   return null;
 }
-export function attemptVariantLabel(attempt: Attempt): string {
+export function attemptVariantLabel(
+  attempt: Pick<Attempt, 'variantId' | 'seed'>,
+): string {
   return attempt.variantId === `${VARIANT_VERSION}:${attempt.seed}`
     ? 'Случайный вариант'
     : `Вариант ${attempt.variantId}`;

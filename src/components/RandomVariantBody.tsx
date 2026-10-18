@@ -5,6 +5,7 @@ import { variantTaskHref } from '../lib/variant-links';
 import RichText from './RichText';
 import Figure from './Figure';
 import RandomVariantButton from './RandomVariantButton';
+import ExamEntry from './variants/ExamEntry';
 
 function Task({ task }: { task: TaskInstance }) {
   const number =
@@ -86,7 +87,7 @@ export default function RandomVariantBody({ seed }: { seed: string }) {
   if (!data.variant) return <p role="alert">{data.error}</p>;
   const { variant, alternatives } = data;
   return (
-    <>
+    <ExamEntry variantId={variant.id} seed={seed}>
       <p>
         Всего 16 заданий. В №13 выбери одну работу: презентацию или документ.
         Задания №15 и №16 выполняются оба.
@@ -97,6 +98,6 @@ export default function RandomVariantBody({ seed }: { seed: string }) {
           <Section key={task.id} task={task} alternatives={alternatives} />
         ))}
       </div>
-    </>
+    </ExamEntry>
   );
 }

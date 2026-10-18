@@ -1,6 +1,7 @@
 ---
 import InfoLayout from '../../layouts/InfoLayout.astro';
 import VariantTask from '../../components/variants/VariantTask.astro';
+import ExamEntry from '../../components/variants/ExamEntry';
 import {
   buildFixedVariant,
   fixedVariants,
@@ -9,6 +10,7 @@ import {
 } from '../../core/variants';
 import { sitePath } from '../../lib/site';
 import '../../styles/variants.css';
+import '../../styles/exam.css';
 export function getStaticPaths() {
   return fixedVariants.map(({ id }) => ({ params: { id } }));
 }
@@ -19,37 +21,43 @@ const alternatives = variant13Alternatives(variantSeed(variant));
 
 <InfoLayout
   title={`Вариант ${id}`}
-  description="Задания для самостоятельной работы. Открой нужный номер и перейди к его решению в практике."
+  description="Пройди вариант с таймером или открой нужное задание для работы в практике."
   route={`/variants/${id}/`}
 >
-  <p>
-    <a href={sitePath('/variants/')}>← Все варианты</a>
-  </p>
-  <p>
-    Всего 16 заданий. В №13 выбери одну работу: презентацию или документ.
-    Задания №15 и №16 выполняются оба.
-  </p>
-  <div class="variant-tasks">
-    {variant.tasks.map((task) => (
-      <details
-        class="variant-task"
-        open={task.taskNumber === 1}
-        data-task-number={task.taskNumber}
-      >
-        <summary>
-          <h2>Задание №{task.taskNumber}</h2>
-        </summary>
-        <div class="variant-task-body">
-          {task.taskNumber === 13 ? (
-            <>
-              <VariantTask task={alternatives.presentation} />
-              <VariantTask task={alternatives.document} />
-            </>
-          ) : (
-            <VariantTask task={task} />
-          )}
-        </div>
-      </details>
-    ))}
-  </div>
+  <noscript>
+    Для прохождения с таймером включи JavaScript. Условия ниже можно читать без
+    него.
+  </noscript>
+  <ExamEntry variantId={variant.id} seed={variantSeed(variant)} client:load>
+    <p>
+      <a href={sitePath('/variants/')}>← Все варианты</a>
+    </p>
+    <p>
+      Всего 16 заданий. В №13 выбери одну работу: презентацию или документ.
+      Задания №15 и №16 выполняются оба.
+    </p>
+    <div class="variant-tasks">
+      {variant.tasks.map((task) => (
+        <details
+          class="variant-task"
+          open={task.taskNumber === 1}
+          data-task-number={task.taskNumber}
+        >
+          <summary>
+            <h2>Задание №{task.taskNumber}</h2>
+          </summary>
+          <div class="variant-task-body">
+            {task.taskNumber === 13 ? (
+              <>
+                <VariantTask task={alternatives.presentation} />
+                <VariantTask task={alternatives.document} />
+              </>
+            ) : (
+              <VariantTask task={task} />
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </ExamEntry>
 </InfoLayout>

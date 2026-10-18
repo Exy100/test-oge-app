@@ -38,7 +38,7 @@ const assessment = z
   .refine((row) => row.score <= (row.taskNumber === 14 ? 3 : 2));
 const attempt = z.strictObject({
   id,
-  variantId: id,
+  variantId: z.string().min(1).max(240),
   seed: z.string().max(200),
   variant13: z.enum(['presentation', 'document']),
   mode: z.enum(['exam', 'training']),

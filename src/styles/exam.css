@@ -1,0 +1,89 @@
+.exam-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.exam-clock {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-bold);
+}
+.exam-navigation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
+  gap: var(--space-2);
+  margin-block: var(--space-5) var(--space-2);
+}
+.exam-navigation button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+  cursor: pointer;
+}
+.exam-navigation button[data-filled='true'] {
+  background: var(--accent-surface);
+}
+.exam-navigation button[aria-current] {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+  font-weight: var(--weight-bold);
+}
+.exam-legend {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.exam-choice {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+.exam-choice label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+}
+.exam-choice input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+.exam-notice {
+  background: var(--soft);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-block: var(--space-5);
+}
+.info-content .exam-saved-answer {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  background: var(--soft);
+}
+.variant-task > summary h3 {
+  display: inline;
+  margin: 0;
+  font-size: var(--text-lg);
+}
+.exam-run,
+.exam-task,
+.exam-finished {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.exam-setup .task-actions .button,
+.exam-run .button {
+  white-space: normal;
+}

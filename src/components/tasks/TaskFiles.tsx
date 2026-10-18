@@ -3,7 +3,13 @@ import type { Dataset } from '../../core/datasets';
 import type { TaskInstance } from '../../core/types';
 import { readHtm } from '../../core/datasets/htm';
 
-export default function TaskFiles({ task }: { task: TaskInstance }) {
+export default function TaskFiles({
+  task,
+  mode = 'practice',
+}: {
+  task: TaskInstance;
+  mode?: 'practice' | 'exam';
+}) {
   const id = useId();
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [links, setLinks] = useState<{ zip: string; manifest: string } | null>(
@@ -38,11 +44,23 @@ export default function TaskFiles({ task }: { task: TaskInstance }) {
           onClick={() => {
             setBusy(true);
             setError('');
-            void import('../../core/generators/task-dataset')
-              .then(({ createTaskDataset }) => createTaskDataset(task))
+            const source =
+              mode === 'exam'
+                ? import('../../core/variants/exam-dataset').then(
+                    ({ createExamDataset }) => createExamDataset(task),
+                  )
+                : import('../../core/generators/task-dataset').then(
+                    ({ createTaskDataset }) => createTaskDataset(task),
+                  );
+            void source
               .then((next) => {
                 if (!mounted.current) return;
                 setDataset(next);
+                setPath(
+                  next.files.has('README.txt')
+                    ? 'README.txt'
+                    : (next.manifest.files[0]?.path ?? ''),
+                );
                 setLinks({
                   zip: URL.createObjectURL(
                     new Blob([Uint8Array.from(next.archive)], {
