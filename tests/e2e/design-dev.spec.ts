@@ -45,6 +45,7 @@ test('dev UI: обе темы, переходы страниц и сохране
   );
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.getByLabel('Тема', { exact: true }).selectOption('light');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.goBack();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await readyHome(page);

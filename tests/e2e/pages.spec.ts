@@ -61,6 +61,7 @@ test('навигация между страницами и удаление т�
 }) => {
   await page.goto('./');
   await page.getByLabel('Тема', { exact: true }).selectOption('dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page
     .getByRole('navigation', { name: 'Основная навигация' })
     .getByRole('link', { name: 'О проекте', exact: true })

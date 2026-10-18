@@ -11,7 +11,15 @@ test('server math is present without JavaScript', async ({ browser }) => {
   try {
     const page = await context.newPage();
     await page.goto('https://127.0.0.1:4322/test-oge-app/');
-    await expect(page.locator('#materials math')).toBeVisible();
+    await expect(
+      page.locator('#materials .material-card > .rich-text-container math'),
+    ).toBeVisible();
+    for (const summary of await page
+      .locator('#materials .material-card > details > summary')
+      .all())
+      await summary.click();
+    for (const formula of await page.locator('#materials math').all())
+      await expect(formula).toBeVisible();
     await expect(page.locator('#materials .math-error')).toHaveCount(0);
   } finally {
     await context.close();
