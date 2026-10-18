@@ -46,6 +46,33 @@ async function solution(page: Page, count = 3) {
     page.getByRole('button', { name: 'Решение открыто полностью' }),
   ).toBeDisabled();
 }
+for (const subtype of [
+  'decode-prefix',
+  'decode-nonprefix',
+  'decode-repeated',
+]) {
+  test(`guidance: ${subtype} shows concrete code groups and a complete readable explanation`, async ({
+    page,
+  }) => {
+    await open(page, `${subtype}-v2`);
+    const section = page.getByRole('region', { name: 'Помощь с заданием' });
+    await hints(page);
+    await expect(section.locator('[id$="-hints"] code').first()).toBeVisible();
+    await expect(section.locator('[id$="-solution"] table')).toHaveCount(0);
+    await solution(page);
+    const table = section.locator('[id$="-solution"] table');
+    await expect(table).toBeVisible();
+    await expect(table.locator('th')).toHaveText(['№ буквы', 'Код', 'Буква']);
+    expect(await table.locator('tbody tr').count()).toBeGreaterThanOrEqual(5);
+    await expect(section.locator('[id$="-solution"] li').last()).toContainText(
+      'Ответ:',
+    );
+    expect(
+      (await new AxeBuilder({ page }).include('.task-guidance').analyze())
+        .violations,
+    ).toEqual([]);
+  });
+}
 test('guidance: keyboard reveals hints and steps in order without submitting or clearing drafts', async ({
   page,
 }) => {

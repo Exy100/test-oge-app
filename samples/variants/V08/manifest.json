@@ -127,15 +127,15 @@
     {
       "path": "variant.json",
       "format": "json",
-      "size": 53043,
-      "sha256": "c9d18381a484e7e559189c4d1f63a3d3ce599df3c87d846069f4f0ffdd95ebc6",
+      "size": 54168,
+      "sha256": "cc5aca45bd40cfb3d34363c67a7b834bc4dc2e8de599d642bccb41e39ce6c7a5",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.txt",
       "format": "txt",
-      "size": 31279,
-      "sha256": "c465ec0094e735179017c7816266c298e0308dd0412a5ceb5f395873e789df6a",
+      "size": 31971,
+      "sha256": "b3c6ff79fe96623b4ce73f0a9ed53df2381530b1d689255fb34c1db871fa4c0c",
       "license": "CC0-1.0"
     }
   ]

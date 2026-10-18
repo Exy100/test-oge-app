@@ -5,6 +5,7 @@ import type {
   TaskInstance,
 } from '../../types.ts';
 import { taskFrom, quantity } from '../task.ts';
+import { decodeGuidance } from './decode-guidance.ts';
 import {
   decodeSolutions,
   executeCommands,
@@ -383,20 +384,7 @@ export function buildExamShortTask(
       ['Буква', 'Код'],
       Object.entries(p.codes).map(([letter, code]) => [letter, `\`${code}\``]),
     )}\n\nСигнал: \`${p.encoded}\`. ${p.repeatedOnly ? 'Какие буквы встречаются в сообщении более одного раза? Запиши каждую такую букву один раз, в любом порядке.' : 'Расшифруй сообщение и запиши последовательность букв.'}`;
-    steps = [
-      'Разбирай весь сигнал по таблице: короткий код не всегда определяет границу следующей буквы.',
-      `Разбиение: ${Array.from(message, (letter) => p.codes[letter]).join(' / ')}. Сообщение: ${message}.`,
-      p.repeatedOnly
-        ? `Число вхождений: ${[...new Set(message)].map((letter) => `${letter} — ${String(Array.from(message).filter((item) => item === letter).length)}`).join('; ')}. Повторяющиеся буквы: ${answer.value}; их порядок в ответе произвольный.`
-        : `Соедини буквы в порядке кодовых блоков: ${answer.value}.`,
-    ];
-    hints = [
-      'Сопоставь начальные знаки сигнала с кодами таблицы.',
-      'Если код — начало другого кода, проверь оба продолжения до конца сигнала.',
-      p.repeatedOnly
-        ? 'Каждую повторяющуюся букву записывай один раз.'
-        : 'Сохрани порядок всех букв.',
-    ];
+    ({ steps, hints } = decodeGuidance(p, message, answer.value));
     mistakes = [
       answer.value + (answer.value[0] ?? ''),
       answer.value.slice(0, -1) || 'Я',
