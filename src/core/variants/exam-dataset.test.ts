@@ -9,9 +9,9 @@ import { createExamDataset } from './exam-dataset';
 import { createTaskDataset } from '../generators/task-dataset';
 import { readZip } from '../datasets/zip';
 
-test('all ten fixed variants download exact source bytes without references, criteria or scored examples', async () => {
-  const families = new Set<string>();
-  for (const fixed of fixedVariants) {
+test.each(fixedVariants)(
+  '$id downloads exact source bytes without references, criteria or scored examples',
+  async (fixed) => {
     const variant = buildFixedVariant(fixed.id);
     const alternatives = variant13Alternatives(variantSeed(variant));
     const tasks = [
@@ -38,7 +38,6 @@ test('all ten fixed variants download exact source bytes without references, cri
       );
       if (task.taskNumber <= 12) expect(files).toEqual(full.files);
       if (task.taskNumber === 14) {
-        families.add(task.subtype);
         expect([...files.keys()].sort()).toEqual([
           'assignment.txt',
           'source/data.csv',
@@ -57,9 +56,19 @@ test('all ten fixed variants download exact source bytes without references, cri
         expect(files.has('layout/sample.pdf')).toBe(true);
       }
     }
-  }
+  },
+  60_000,
+);
+test('the fixed source catalogue covers all three spreadsheet families and rejects short-answer downloads', async () => {
+  const families = new Set(
+    fixedVariants.flatMap((fixed) =>
+      buildFixedVariant(fixed.id)
+        .tasks.filter((task) => task.taskNumber === 14)
+        .map((task) => task.subtype),
+    ),
+  );
   expect(families.size).toBe(3);
   const short = buildFixedVariant('V01').tasks[0];
   if (!short) throw new Error('Missing short answer');
   await expect(createExamDataset(short)).rejects.toThrow();
-}, 60_000);
+});
