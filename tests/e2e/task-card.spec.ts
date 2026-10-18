@@ -317,7 +317,7 @@ test('public stream: first task is readable before JavaScript, controls wait for
     await context.close();
   }
 });
-test('public stream: failed next-task loading preserves the current answer and draft', async ({
+test('public stream: failed history write preserves the current answer and draft', async ({
   page,
 }) => {
   await page.goto('stream/');
@@ -326,7 +326,12 @@ test('public stream: failed next-task loading preserves the current answer and d
   await input.fill('32');
   await page.getByLabel('Как я решал').fill('Мой черновик');
   const statement = await page.locator('.task-card .rich-text').textContent();
-  await page.route('**/_astro/*.js', (route) => route.abort());
+  const beforeUrl = page.url();
+  await page.evaluate(() => {
+    window.history.replaceState = () => {
+      throw new DOMException('History unavailable', 'SecurityError');
+    };
+  });
   await keyActivate(page, 'Пропустить задание');
   await expect(page.getByRole('alert')).toContainText(
     'Не удалось подготовить задание',
@@ -338,6 +343,7 @@ test('public stream: failed next-task loading preserves the current answer and d
   );
   await expect(page.locator('.stream-position')).toHaveText('Задание 1');
   await expect(page.getByLabel('Что решать')).toBeEnabled();
+  expect(page.url()).toBe(beforeUrl);
 });
 test('public stream: production CSP, all numbers, next-task focus, themes and mobile layout', async ({
   page,
