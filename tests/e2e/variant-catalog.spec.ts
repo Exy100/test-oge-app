@@ -233,6 +233,18 @@ test('history reads actual browser records, preserves zero and missing scores, a
     { ...common, id: 'older', finishedAt: '2026-10-18T02:00:00Z', score: 0 },
     {
       ...common,
+      id: 'explicit-zero',
+      finishedAt: '2026-10-18T02:30:00Z',
+      score: 0,
+      assessments: [
+        { taskNumber: 13, score: 0, source: 'self' },
+        { taskNumber: 14, score: 0, source: 'self' },
+        { taskNumber: 15, score: 0, source: 'self' },
+        { taskNumber: 16, score: 0, source: 'self' },
+      ],
+    },
+    {
+      ...common,
       id: 'newer',
       mode: 'training',
       finishedAt: '2026-10-18T03:00:00Z',
@@ -248,10 +260,11 @@ test('history reads actual browser records, preserves zero and missing scores, a
   );
   await page.goto('variants/');
   const rows = page.locator('.variant-history-table tbody tr');
-  await expect(rows).toHaveCount(2);
+  await expect(rows).toHaveCount(3);
   await expect(rows.nth(0)).toContainText('Без итогового балла');
   await expect(rows.nth(1)).toContainText('0 из 21');
-  await expect(rows.nth(1)).toContainText('Практика оценена не полностью');
+  await expect(rows.nth(2)).toContainText('Без итогового балла');
+  await expect(rows.nth(2)).toContainText('Практика оценена не полностью');
   await expect(rows.nth(0)).toContainText('Работа №13.2');
   const other = await context.newPage();
   await other.goto('variants/');

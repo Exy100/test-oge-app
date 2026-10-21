@@ -1,6 +1,6 @@
 import { useHydrated } from './useHydrated';
 import { useStoredAreas } from './useStoredAreas';
-import { attemptVariantHref, attemptVariantLabel } from '../lib/variant-links';
+import { attemptResultHref, attemptVariantLabel } from '../lib/variant-links';
 
 export default function VariantHistory() {
   const ready = useHydrated();
@@ -37,24 +37,12 @@ export default function VariantHistory() {
           </thead>
           <tbody>
             {rows.map((attempt) => {
-              const href = attemptVariantHref(attempt);
+              const href = attemptResultHref(attempt);
               const label = attemptVariantLabel(attempt);
               return (
                 <tr key={attempt.id}>
                   <td>
-                    {href ? (
-                      <a
-                        href={
-                          attempt.mode === 'training'
-                            ? `${href}${href.includes('?') ? '&' : '?'}training=${encodeURIComponent(attempt.id)}`
-                            : href
-                        }
-                      >
-                        {label}
-                      </a>
-                    ) : (
-                      label
-                    )}
+                    {href ? <a href={href}>{label}</a> : label}
                     <span className="variant-history-kind">
                       Работа №
                       {attempt.variant13 === 'presentation' ? '13.1' : '13.2'}
@@ -67,7 +55,7 @@ export default function VariantHistory() {
                     </time>
                   </td>
                   <td>
-                    {attempt.score === null
+                    {attempt.score === null || attempt.assessments.length < 4
                       ? 'Без итогового балла'
                       : `${String(attempt.score)} из 21`}
                     {attempt.score !== null &&

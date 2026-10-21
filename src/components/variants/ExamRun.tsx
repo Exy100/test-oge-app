@@ -21,7 +21,8 @@ import PythonPractice from '../tasks/PythonPractice';
 import CriteriaLevels from '../tasks/CriteriaLevels';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
-import ExamFinished, { ExamDownload, buildExamVariant } from './ExamFinished';
+import ExamFinished, { ExamDownload } from './ExamFinished';
+import { buildExamVariant } from '../../core/variants/result-variant';
 import ExamTask from './ExamTask';
 import VariantFiles from './VariantFiles';
 import TrainingTask from './TrainingTask';
@@ -99,7 +100,13 @@ export default function ExamRun({
     }
   }, [phase, releaseLock, state.attempt]);
   if (phase === 'finished' && state.attempt)
-    return <ExamFinished attempt={state.attempt} notice={state.notice} />;
+    return (
+      <ExamFinished
+        verifiedVariant={variant}
+        attempt={state.attempt}
+        notice={state.notice}
+      />
+    );
   if (phase === 'conflict')
     return (
       <section>

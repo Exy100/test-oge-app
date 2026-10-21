@@ -76,3 +76,25 @@ export function attemptVariantLabel(
     ? 'Случайный вариант'
     : `Вариант ${attempt.variantId}`;
 }
+
+export function attemptResultHref(
+  attempt: Pick<Attempt, 'id' | 'variantId' | 'seed'>,
+): string | null {
+  if (!attempt.id || attempt.id.length > 200 || !attemptVariantHref(attempt))
+    return null;
+  const segment = fixedVariants.some((row) => row.id === attempt.variantId)
+    ? attempt.variantId
+    : 'random';
+  return `${sitePath(`/variants/${segment}/result/`)}?${new URLSearchParams({ attempt: attempt.id })}`;
+}
+
+/** A result link selects one local attempt; missing or repeated IDs are never guessed. */
+export function readResultAttempt(search: string): string {
+  if (search.length > 8192)
+    throw new VariantLinkError('Ссылка слишком длинная.');
+  const params = new URLSearchParams(search);
+  const id = params.get('attempt');
+  if (!id || id.length > 200 || params.getAll('attempt').length !== 1)
+    throw new VariantLinkError('В ссылке нужен один идентификатор попытки.');
+  return id;
+}

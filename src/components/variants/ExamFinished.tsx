@@ -1,19 +1,29 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { buildFixedVariant, buildVariant } from '../../core/variants';
-import { fixedVariants } from '../../core/variants/catalog';
-import { scoreVariant } from '../../core/scoring';
 import {
   examClock,
   type ExamAttempt,
   type ExamDraft,
 } from '../../core/variants/exam';
-import type { TaskInstance } from '../../core/types';
+import { scoreAttempt, saveAttemptResult } from '../../core/variants/result';
+import { ScoreSchema } from '../../core/schemas';
+import type { TaskInstance, Score, Variant } from '../../core/types';
+import { browserStore } from '../../core/storage/browser';
 import { sitePath } from '../../lib/site';
+import {
+  attemptResultHref,
+  attemptVariantLabel,
+} from '../../lib/variant-links';
+import { useStoredAreas } from '../useStoredAreas';
 import TaskGuidance from '../tasks/TaskGuidance';
+import CriteriaLevels from '../tasks/CriteriaLevels';
 import { Button } from '../ui/Button';
 import ExamTask from './ExamTask';
 import VariantFiles from './VariantFiles';
+import ResultSummary from './ResultSummary';
+import ResultPlan from './ResultPlan';
+import '../../styles/result.css';
 
+import { useResultVariant } from './useResultVariant';
 export function ExamDownload({ draft }: { draft: ExamDraft }) {
   return (
     <Button
@@ -37,19 +47,17 @@ export function ExamDownload({ draft }: { draft: ExamDraft }) {
     </Button>
   );
 }
-export function buildExamVariant(
-  draft: Pick<ExamDraft, 'variantId' | 'variant13' | 'seed'>,
-) {
-  return fixedVariants.some((row) => row.id === draft.variantId)
-    ? buildFixedVariant(draft.variantId, draft.variant13)
-    : buildVariant(draft.seed, draft.variant13);
-}
+
 function ReviewTask({
   task,
   attempt,
+  disabled,
+  onAssess,
 }: {
   task: TaskInstance;
   attempt: ExamAttempt;
+  disabled: boolean;
+  onAssess: (number: 13 | 14 | 15 | 16, score: Score | null) => void;
 }) {
   const [open, setOpen] = useState(false);
   const answer = attempt.answers.find(
@@ -58,16 +66,18 @@ function ReviewTask({
   const assessment = attempt.assessments.find(
     (row) => row.taskNumber === task.taskNumber,
   );
+  const number = task.taskNumber;
   return (
     <details
       className="variant-task"
+      id={`result-task-${String(number)}`}
       onToggle={(event) => {
         setOpen(event.currentTarget.open);
       }}
     >
       <summary>
         <h3>
-          Задание №{task.taskNumber}
+          Задание №{number}
           {task.variant13 === 'presentation'
             ? '.1'
             : task.variant13 === 'document'
@@ -88,14 +98,51 @@ function ReviewTask({
               <p>{answer.reasoning}</p>
             </>
           )}
-          {attempt.mode === 'training' && task.criteria && (
+          {task.answer.type !== 'artifact' && (
             <p>
-              {assessment
-                ? `Сохранённая учебная оценка: ${String(assessment.score)} из ${String(task.criteria.max)}.`
-                : answer?.checked
-                  ? 'Работа оставлена без оценки.'
-                  : 'Работа не оценена.'}
+              Правильный ответ: <strong>{task.answer.value}</strong>.
             </p>
+          )}
+          {task.criteria && number >= 13 && (
+            <div className="result-assessment">
+              <p>
+                {assessment
+                  ? `Сохранённая учебная оценка: ${String(assessment.score)} из ${String(task.criteria.max)}.`
+                  : answer?.checked
+                    ? 'Работа оставлена без оценки.'
+                    : 'Работа не оценена.'}
+              </p>
+              {assessment && (
+                <p>
+                  Источник:{' '}
+                  {assessment.source === 'self'
+                    ? 'твоя самооценка'
+                    : 'принятое тобой предложение ИИ'}
+                  .
+                </p>
+              )}
+              <CriteriaLevels
+                criteria={task.criteria}
+                selection={{
+                  value: assessment
+                    ? ScoreSchema.parse(assessment.score)
+                    : null,
+                  disabled,
+                  onChange: (score) => {
+                    onAssess(number as 13 | 14 | 15 | 16, score);
+                  },
+                }}
+              />
+              <Button
+                variant="secondary"
+                disabled={disabled || !assessment}
+                onClick={() => {
+                  onAssess(number as 13 | 14 | 15 | 16, null);
+                }}
+              >
+                Снять оценку
+              </Button>
+            </div>
           )}
           <TaskGuidance task={task} />
         </div>
@@ -103,62 +150,314 @@ function ReviewTask({
     </details>
   );
 }
+
+type PrintView = (typeof import('./ResultPrint'))['default'];
 export default function ExamFinished({
   attempt,
   notice = '',
+  verifiedVariant,
 }: {
   attempt: ExamAttempt;
   notice?: string;
+  verifiedVariant?: Variant;
 }) {
+  const areas = useStoredAreas();
+  const saved = areas.variantAttempts.entries.find(
+    (row) => row.id === attempt.id,
+  );
+  const current = saved ?? attempt;
   const heading = useRef<HTMLHeadingElement>(null);
+  const alive = useRef(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [Print, setPrint] = useState<PrintView | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [printFailed, setPrintFailed] = useState(false);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+  const rebuilt = useResultVariant(current, verifiedVariant);
+  const resultReady = rebuilt.variant !== null;
   useEffect(() => {
     heading.current?.focus();
-  }, []);
-  const variant = useMemo(() => buildExamVariant(attempt), [attempt]);
-  const result = useMemo(
-    () =>
-      scoreVariant(variant, {
-        answers: variant.tasks
-          .filter((task) => task.taskNumber <= 12)
-          .map((task) => ({
-            taskId: task.id,
-            answer:
-              attempt.answers.find((row) => row.taskNumber === task.taskNumber)
-                ?.text ?? '',
-          })),
-        practice: [],
-      }),
-    [variant, attempt],
-  );
-  return (
-    <section className="exam-finished" aria-labelledby="exam-finished-title">
-      <h2 ref={heading} id="exam-finished-title" tabIndex={-1}>
-        {attempt.mode === 'training'
-          ? 'Тренировка завершена'
-          : 'Экзамен завершён'}
-      </h2>
-      <p>
-        {attempt.mode === 'exam' && (
-          <>Время работы: {examClock(attempt.elapsedMs)}. </>
+  }, [resultReady]);
+  const scored = useMemo(() => {
+    if (!rebuilt.variant) return null;
+    try {
+      return scoreAttempt(rebuilt.variant, current);
+    } catch {
+      return null;
+    }
+  }, [rebuilt, current]);
+  useEffect(() => {
+    const variant = rebuilt.variant;
+    if (!variant || !saved || !scored || saved.score === scored.primaryScore)
+      return;
+    let active = true;
+    // Persist the derived total outside render; cancel if this review changes first.
+    queueMicrotask(() => {
+      if (!active) return;
+      try {
+        saveAttemptResult(browserStore(), saved, variant);
+      } catch (cause) {
+        setError(
+          cause instanceof Error
+            ? cause.message
+            : 'Не удалось сохранить результат.',
+        );
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [saved, scored, rebuilt]);
+  if (!rebuilt.variant || !scored)
+    return (
+      <section
+        className="exam-finished result-loading"
+        aria-labelledby="exam-finished-title"
+      >
+        <h2 id="exam-finished-title" ref={heading} tabIndex={-1}>
+          {current.mode === 'training'
+            ? 'Тренировка завершена'
+            : 'Экзамен завершён'}
+        </h2>
+        <p role={rebuilt.error || rebuilt.variant ? 'alert' : 'status'}>
+          {rebuilt.error ||
+            (rebuilt.variant
+              ? 'Не удалось рассчитать результат: проверь сохранённые оценки.'
+              : 'Готовим сохранённые ответы и разбор…')}
+        </p>
+        <ExamDownload draft={current} />
+        {rebuilt.error && (
+          <Button
+            variant="secondary"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Повторить восстановление
+          </Button>
         )}
-        Ответы больше не изменяются.
-      </p>
-      <p>
-        Краткие ответы №1–12: <strong>{result.knownScore} из 12</strong>.
-        {attempt.mode === 'training'
-          ? `Сохранено самооценок практики: ${String(attempt.assessments.length)} из 4. Это учебные оценки, не вердикт эксперта.`
-          : 'Практические работы №13–16 не оценены, поэтому итоговый балл не выставлен.'}
-      </p>
-      {notice && <p role="alert">{notice}</p>}
-      <div className="task-actions">
-        <ExamDownload draft={attempt} />
         <a href={sitePath('/variants/')}>Все варианты и история</a>
+      </section>
+    );
+  const variant = rebuilt.variant;
+  const result = scored;
+  const href = attemptResultHref(current);
+  function assess(taskNumber: 13 | 14 | 15 | 16, score: Score | null) {
+    try {
+      saveAttemptResult(browserStore(), current, variant, {
+        taskNumber,
+        score,
+      });
+      setError('');
+      setMessage(
+        score === null
+          ? `Оценка №${String(taskNumber)} снята.`
+          : `Самооценка №${String(taskNumber)} сохранена: ${String(score)}.`,
+      );
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : 'Не удалось сохранить самооценку.',
+      );
+    }
+  }
+  async function preparePrint() {
+    setBusy(true);
+    setError('');
+    try {
+      const module = await import('./ResultPrint');
+      if (alive.current) setPrint(() => module.default);
+    } catch {
+      if (alive.current) {
+        setPrintFailed(true);
+        setError(
+          'Не удалось подготовить разбор к печати. Перезагрузи страницу и подготовь его ещё раз: ответы останутся в истории.',
+        );
+      }
+    } finally {
+      if (alive.current) setBusy(false);
+    }
+  }
+  return (
+    <section
+      className={`exam-finished variant-result${Print ? ' result-print-ready' : ''}`}
+      aria-labelledby="exam-finished-title"
+    >
+      <div className="result-screen">
+        <h2 ref={heading} id="exam-finished-title" tabIndex={-1}>
+          {current.mode === 'training'
+            ? 'Тренировка завершена'
+            : 'Экзамен завершён'}
+        </h2>
+        <p>
+          {attemptVariantLabel(current)} · работа №
+          {current.variant13 === 'presentation' ? '13.1' : '13.2'}.
+        </p>
+        <p>
+          {current.mode === 'exam' && (
+            <>Время работы: {examClock(current.elapsedMs)}. </>
+          )}
+          Ответы больше не изменяются. Самооценку практики можно уточнять по
+          критериям.
+        </p>
+        <div aria-live="polite" aria-atomic="true">
+          <ResultSummary result={result} />
+        </div>
+        {notice && <p role="alert">{notice}</p>}
+        {!saved && (
+          <p role="alert">
+            Этой попытки нет в истории. Скачай ответы, чтобы сохранить их;
+            самооценка здесь недоступна.
+          </p>
+        )}
+        {error && <p role="alert">{error}</p>}
+        <p role="status">{message}</p>
+        <div className="task-actions result-controls">
+          <ExamDownload draft={current} />
+          {href && <a href={href}>Открыть страницу результата</a>}
+          <a href={sitePath('/variants/')}>Все варианты и история</a>
+        </div>
+        <h3>Баллы по заданиям</h3>
+        <div
+          className="variant-history-scroll"
+          role="region"
+          aria-label="Таблица результатов 16 заданий"
+          tabIndex={0}
+        >
+          <table className="variant-history-table result-table">
+            <thead>
+              <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Твой ответ или работа</th>
+                <th scope="col">Баллы</th>
+                <th scope="col">Разбор</th>
+              </tr>
+            </thead>
+            <tbody>
+              {result.rows.map((row) => {
+                const answer = current.answers.find(
+                  (answer) => answer.taskNumber === row.taskNumber,
+                )?.text;
+                return (
+                  <tr key={row.taskId}>
+                    <th scope="row">
+                      №{row.taskNumber}
+                      {row.taskNumber === 13
+                        ? current.variant13 === 'presentation'
+                          ? '.1'
+                          : '.2'
+                        : ''}
+                    </th>
+                    <td>
+                      {answer
+                        ? answer.length > 100
+                          ? answer.slice(0, 100) + '…'
+                          : answer
+                        : 'Нет записи'}
+                      {row.kind === 'practice' && row.source && (
+                        <span className="variant-history-kind">
+                          {row.source === 'self'
+                            ? 'Самооценка'
+                            : 'Принятое предложение ИИ'}
+                        </span>
+                      )}
+                    </td>
+                    <td>
+                      {row.score === null
+                        ? 'Не оценено'
+                        : `${String(row.score)} из ${String(row.maxScore)}`}
+                    </td>
+                    <td>
+                      <a
+                        href={`#result-task-${String(row.taskNumber)}`}
+                        onClick={(event) => {
+                          const details = document.getElementById(
+                            `result-task-${String(row.taskNumber)}`,
+                          );
+                          if (details instanceof HTMLDetailsElement) {
+                            event.preventDefault();
+                            details.open = true;
+                            window.history.replaceState(
+                              null,
+                              '',
+                              `#${details.id}`,
+                            );
+                            details.scrollIntoView();
+                            details.querySelector('summary')?.focus();
+                          }
+                        }}
+                      >
+                        Разбор №{row.taskNumber}
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <ResultPlan result={result} variant13={current.variant13} />
+        <VariantFiles variantId={current.variantId} seed={current.seed} />
+        <h3>Ответы и разбор</h3>
+        <p>
+          Открой номер, сравни работу с решением и выбери балл по критериям
+          №13–16. Отсутствие оценки и выбранные 0 баллов учитываются по-разному.
+        </p>
+        {variant.tasks.map((task) => (
+          <ReviewTask
+            key={task.id}
+            task={task}
+            attempt={current}
+            disabled={!saved}
+            onAssess={assess}
+          />
+        ))}
+        <div className="result-controls">
+          <h3>Печать результата</h3>
+          <p>
+            Полная печатная версия включает итог, твои записи, условия, решения
+            и критерии всех 16 номеров. Подготовь её, затем сохрани в PDF или
+            распечатай на A4.
+          </p>
+          {Print ? (
+            <>
+              <p role="status">Все 16 разборов подготовлены к печати.</p>
+              <Button
+                onClick={() => {
+                  window.print();
+                }}
+              >
+                Печатать результат
+              </Button>
+            </>
+          ) : printFailed ? (
+            <Button
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Перезагрузить для печати
+            </Button>
+          ) : (
+            <Button
+              disabled={busy}
+              onClick={() => {
+                void preparePrint();
+              }}
+            >
+              {busy ? 'Готовим разбор…' : 'Подготовить результат к печати'}
+            </Button>
+          )}
+        </div>
       </div>
-      <VariantFiles variantId={attempt.variantId} seed={attempt.seed} />
-      <h3>Ответы и разбор</h3>
-      {variant.tasks.map((task) => (
-        <ReviewTask key={task.id} task={task} attempt={attempt} />
-      ))}
+      {Print && <Print variant={variant} attempt={current} result={result} />}
     </section>
   );
 }

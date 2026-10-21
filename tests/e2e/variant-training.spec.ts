@@ -268,7 +268,7 @@ test('seeded training resumes from the catalogue, completes once and opens its s
     new URL(
       (await link.getAttribute('href')) ?? '',
       page.url(),
-    ).searchParams.get('training'),
+    ).searchParams.get('attempt'),
   ).toBe(id);
   await link.click();
   await expect(

@@ -19,7 +19,41 @@ import {
   VariantLinkError,
   variantPrintHref,
   readPrintIdentity,
+  attemptResultHref,
+  readResultAttempt,
 } from './variant-links';
+
+test('result links keep attempt IDs local and exact, rejecting absent or ambiguous records', () => {
+  for (const identity of [
+    { variantId: 'V01', seed: `${VARIANT_VERSION}:V01` },
+    { variantId: `${VARIANT_VERSION}:Случайный + 🧩`, seed: 'Случайный + 🧩' },
+  ]) {
+    const href = attemptResultHref({ ...identity, id: 'попытка + /?&🧩' });
+    expect(href).not.toBeNull();
+    const url = new URL(href ?? '', 'https://example.test');
+    expect(url.pathname).toContain('/result/');
+    expect(readResultAttempt(url.search)).toBe('попытка + /?&🧩');
+    expect([...url.searchParams.keys()]).toEqual(['attempt']);
+  }
+  expect(
+    attemptResultHref({ variantId: 'V01', seed: 'wrong', id: 'x' }),
+  ).toBeNull();
+  expect(
+    attemptResultHref({
+      variantId: 'V01',
+      seed: `${VARIANT_VERSION}:V01`,
+      id: '',
+    }),
+  ).toBeNull();
+  for (const search of [
+    '',
+    '?attempt=',
+    '?attempt=a&attempt=b',
+    '?attempt=' + 'a'.repeat(201),
+    '?' + 'a'.repeat(8192),
+  ])
+    expect(() => readResultAttempt(search)).toThrow(VariantLinkError);
+});
 
 test('print links preserve fixed identities and exact random seeds and reject ambiguity', () => {
   for (const fixed of fixedVariants) {

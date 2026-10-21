@@ -1,0 +1,26 @@
+---
+import InfoLayout from '../../../layouts/InfoLayout.astro';
+import VariantResult from '../../../components/variants/VariantResult';
+import { fixedVariants } from '../../../core/variants/catalog';
+import '../../../styles/variants.css';
+import '../../../styles/exam.css';
+export function getStaticPaths() {
+  return [
+    ...fixedVariants.map(({ id }) => ({ params: { id } })),
+    { params: { id: 'random' } },
+  ];
+}
+const id = Astro.params.id as string;
+---
+
+<InfoLayout
+  title="Результат варианта"
+  description="Баллы по 16 номерам, самооценка практики, решения и план подготовки. Результаты хранятся в твоём браузере."
+  route="/variants/"
+>
+  <noscript>
+    Для чтения сохранённой попытки включи JavaScript. Ответы хранятся только в
+    твоём браузере.
+  </noscript>
+  <VariantResult variantId={id} client:load />
+</InfoLayout>

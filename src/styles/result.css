@@ -1,0 +1,105 @@
+.result-summary {
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--soft);
+}
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.result-table th,
+.result-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--space-3);
+  border: 1px solid var(--border-strong);
+  overflow-wrap: anywhere;
+}
+.result-table td:nth-child(2) {
+  max-width: 26rem;
+}
+.result-assessment .criterion {
+  display: flex;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  align-items: baseline;
+}
+.result-assessment input {
+  flex-shrink: 0;
+}
+.result-print {
+  display: none;
+}
+.variant-result .button {
+  white-space: normal;
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  :root:has(.variant-result),
+  :root[data-theme]:has(.variant-result) {
+    color-scheme: light;
+    font-size: 11pt;
+    --ink: #111;
+    --muted: #333;
+    --surface: #fff;
+    --soft: #fff;
+    --border-strong: #777;
+  }
+  body:has(.variant-result),
+  body:has(.variant-result) .info-page,
+  body:has(.variant-result) .info-content {
+    color: #111;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  body:has(.variant-result) .site-header,
+  body:has(.variant-result) .site-footer,
+  body:has(.variant-result) .skip-link,
+  body:has(.variant-result) .storage-notice,
+  body:has(.variant-result) .info-back,
+  body:has(.variant-result) .info-heading,
+  body:has(.variant-result) .exam-entry > .task-actions,
+  .variant-result .result-controls,
+  .variant-result .variant-files,
+  .variant-result .rich-text-copy,
+  .variant-result .rich-text-notice,
+  .result-print-ready > .result-screen {
+    display: none !important;
+  }
+  .result-print-ready > .result-print {
+    display: block;
+  }
+  .result-print-task {
+    break-before: page;
+  }
+  .result-print-task h3,
+  .result-print-task h4 {
+    break-after: avoid;
+  }
+  .variant-result pre,
+  .variant-result pre code {
+    white-space: pre-wrap;
+    overflow: visible;
+  }
+  .variant-result table {
+    display: table;
+    width: 100%;
+  }
+  .variant-result tr,
+  .variant-result svg {
+    break-inside: avoid;
+  }
+  .variant-result svg {
+    max-width: 100%;
+    height: auto;
+  }
+  .variant-result .variant-history-scroll {
+    overflow: visible;
+  }
+}

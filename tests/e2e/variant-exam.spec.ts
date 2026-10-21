@@ -147,7 +147,7 @@ test('early completion lists unanswered and marked tasks, can be cancelled and o
   ).toBeFocused();
   await expect(page.locator('.exam-finished')).toContainText('1 из 12');
   await expect(page.locator('.exam-finished')).toContainText(
-    'итоговый балл не выставлен',
+    'Результат неполный',
   );
   const history = await completed(page);
   expect(history.entries).toHaveLength(1);
