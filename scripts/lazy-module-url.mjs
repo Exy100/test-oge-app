@@ -1,3 +1,5 @@
+import { basename, extname } from 'node:path';
+
 /** Emit an ESM entry URL so a failed browser import can use a fresh request. */
 export function lazyModuleUrl() {
   const suffix = '?module-url';
@@ -23,7 +25,7 @@ export function lazyModuleUrl() {
       const reference = this.emitFile({
         type: 'chunk',
         id: source,
-        name: 'RandomVariantContent',
+        name: basename(source, extname(source)),
         preserveSignature: 'exports-only',
       });
       return `export default import.meta.ROLLUP_FILE_URL_${reference};`;

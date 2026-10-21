@@ -9,6 +9,13 @@ import {
 import { fixedVariants } from '../../core/variants/catalog';
 import { sitePath } from '../../lib/site';
 import { Button } from '../ui/Button';
+import resultUrl from './ExamFinished.tsx?module-url';
+import { importFreshModule } from '../../lib/fresh-module';
+import '../../styles/result.css';
+import '../../styles/rich-text.css';
+import '../../styles/figure.css';
+import '../../styles/task-files.css';
+import '../../styles/variant-files.css';
 
 type View = (typeof import('./ExamFinished'))['default'];
 export default function VariantResult({ variantId }: { variantId: string }) {
@@ -32,10 +39,11 @@ export default function VariantResult({ variantId }: { variantId: string }) {
   );
   const [Content, setContent] = useState<View | null>(null);
   const [error, setError] = useState('');
+  const available = Boolean(attempt);
   useEffect(() => {
-    if (!attempt) return;
+    if (!available || Content) return;
     let current = true;
-    void import('./ExamFinished')
+    void importFreshModule<typeof import('./ExamFinished')>(resultUrl)
       .then((module) => {
         if (current) setContent(() => module.default);
       })
@@ -46,7 +54,7 @@ export default function VariantResult({ variantId }: { variantId: string }) {
     return () => {
       current = false;
     };
-  }, [attempt]);
+  }, [available, Content]);
   if (!ready || !attempt)
     return (
       <div>

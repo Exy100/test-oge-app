@@ -13,6 +13,12 @@ import { useStoredAreas } from '../useStoredAreas';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import VariantFiles from './VariantFiles';
+import resultUrl from './ExamFinished.tsx?module-url';
+import { importFreshModule } from '../../lib/fresh-module';
+import '../../styles/result.css';
+import '../../styles/rich-text.css';
+import '../../styles/figure.css';
+import '../../styles/task-files.css';
 
 export interface ExamIdentity {
   variantId: string;
@@ -69,10 +75,11 @@ export default function VariantExam({
       row.seed === seed &&
       row.mode === mode,
   );
+  const hasFinished = Boolean(finished);
   useEffect(() => {
-    if (!finished) return;
+    if (!hasFinished || Review) return;
     let current = true;
-    void import('./ExamFinished')
+    void importFreshModule<typeof import('./ExamFinished')>(resultUrl)
       .then((module) => {
         if (current) setReview(() => module.default);
       })
@@ -85,7 +92,7 @@ export default function VariantExam({
     return () => {
       current = false;
     };
-  }, [finished]);
+  }, [hasFinished, Review]);
   function launch(resume: boolean) {
     if (pending.current || (!resume && !choice)) return;
     pending.current = true;

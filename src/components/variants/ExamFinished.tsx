@@ -25,6 +25,8 @@ import ResultPlan from './ResultPlan';
 import '../../styles/result.css';
 
 import { useResultVariant } from './useResultVariant';
+import printUrl from './ResultPrint.tsx?module-url';
+import { importFreshModule } from '../../lib/fresh-module';
 export function ExamDownload({ draft }: { draft: ExamDraft }) {
   return (
     <Button
@@ -277,7 +279,8 @@ export default function ExamFinished({
     setBusy(true);
     setError('');
     try {
-      const module = await import('./ResultPrint');
+      const module =
+        await importFreshModule<typeof import('./ResultPrint')>(printUrl);
       if (alive.current) setPrint(() => module.default);
     } catch {
       if (alive.current) {

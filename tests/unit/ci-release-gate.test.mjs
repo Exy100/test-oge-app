@@ -28,9 +28,13 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(budgets.if).toBeUndefined();
   expect(budgets['continue-on-error']).not.toBe(true);
   expect(jobs.browsers.strategy.matrix.shard).toEqual([1, 2]);
+  expect(jobs.browsers.steps.some((step) => step.run === 'npm run build')).toBe(
+    true,
+  );
   expect(
     jobs.browsers.steps.some(
-      (step) => step.run === 'npm run e2e -- --shard=${{ matrix.shard }}/2',
+      (step) =>
+        step.run === 'npx playwright test --shard=${{ matrix.shard }}/2',
     ),
   ).toBe(true);
   expect(

@@ -86,6 +86,12 @@ async function history(page: Page) {
 function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
+function lazyEntry(name: string) {
+  return (target: URL) =>
+    target.pathname.includes(`/${name}.`) &&
+    target.pathname.endsWith('.js') &&
+    target.searchParams.has('load');
+}
 async function review(page: Page, number: number) {
   const details = page.locator(`#result-task-${String(number)}`);
   if ((await details.getAttribute('open')) === null)
@@ -326,15 +332,25 @@ test('a failed result download preserves history and can be retried', async ({
 }) => {
   const saved = attempt();
   await seed(page, [saved]);
-  await page.route('**/ExamFinished.*.js', (route) => route.abort());
+  const entry = lazyEntry('ExamFinished');
+  const failed: string[] = [];
+  await page.route(entry, (route) => {
+    failed.push(route.request().url());
+    return route.abort();
+  });
   await page.goto(url(saved));
   await expect(page.getByRole('alert')).toContainText(
     'Ответы остаются в истории',
   );
   expect((await history(page)).entries[0]?.answers).toEqual(saved.answers);
-  await page.unroute('**/ExamFinished.*.js');
+  await page.unroute(entry);
+  const freshRequest = page.waitForRequest(
+    (request) =>
+      entry(new URL(request.url())) && !failed.includes(request.url()),
+  );
   await Promise.all([
     page.waitForURL((target) => target.searchParams.has('restore')),
+    freshRequest,
     page.getByRole('button', { name: 'Повторить загрузку' }).click(),
   ]);
   await expect(
@@ -347,7 +363,12 @@ test('a print module failure offers reload without losing the saved result', asy
 }) => {
   const saved = attempt(21);
   await seed(page, [saved]);
-  await page.route('**/ResultPrint.*.js', (route) => route.abort());
+  const entry = lazyEntry('ResultPrint');
+  const failed: string[] = [];
+  await page.route(entry, (route) => {
+    failed.push(route.request().url());
+    return route.abort();
+  });
   await page.goto(url(saved));
   await page
     .getByRole('button', { name: 'Подготовить результат к печати' })
@@ -355,14 +376,19 @@ test('a print module failure offers reload without losing the saved result', asy
   await expect(page.getByRole('alert')).toContainText(
     'ответы останутся в истории',
   );
-  await page.unroute('**/ResultPrint.*.js');
+  await page.unroute(entry);
   await Promise.all([
     page.waitForURL((target) => target.searchParams.has('restore')),
     page.getByRole('button', { name: 'Перезагрузить для печати' }).click(),
   ]);
+  const freshRequest = page.waitForRequest(
+    (request) =>
+      entry(new URL(request.url())) && !failed.includes(request.url()),
+  );
   await page
     .getByRole('button', { name: 'Подготовить результат к печати' })
     .click();
+  await freshRequest;
   await expect(
     page.getByRole('button', { name: 'Печатать результат' }),
   ).toBeVisible();
