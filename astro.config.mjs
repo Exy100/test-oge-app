@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import { SITE_ORIGIN, SITE_BASE } from './src/lib/site.ts';
 import { writeSecurityHeaders } from './scripts/security-headers.mjs';
+import { lazyModuleUrl } from './scripts/lazy-module-url.mjs';
 import { readFileSync } from 'node:fs';
 
 export default defineConfig({
@@ -74,7 +75,7 @@ export default defineConfig({
     },
   ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), lazyModuleUrl()],
     build: { assetsInlineLimit: 0 },
     preview:
       process.env.OGE_TEST_HTTPS === '1'

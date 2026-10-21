@@ -155,6 +155,11 @@ test('random conditions load on demand, explain loading failure and preserve bot
   page,
 }) => {
   const seed = 'lazy-conditions';
+  const requests: string[] = [];
+  page.on('request', (request) => {
+    if (/\/RandomVariantContent\.[^/]+\.js/u.test(request.url()))
+      requests.push(request.url());
+  });
   await page.route(/\/RandomVariantContent\.[^/]+\.js/u, (route) =>
     route.abort(),
   );
@@ -177,6 +182,11 @@ test('random conditions load on demand, explain loading failure and preserve bot
   await expect(
     thirteen.getByRole('heading', { name: '13.2 — Документ' }),
   ).toBeVisible();
+  expect(requests.length).toBeGreaterThanOrEqual(2);
+  expect(requests.at(-1)).not.toBe(requests[0]);
+  expect(new URL(requests.at(-1) ?? '').pathname).toBe(
+    new URL(requests[0] ?? '').pathname,
+  );
   await expect(
     thirteen.getByRole('link', { name: 'Решить задание №13.2 в практике' }),
   ).toHaveAttribute(

@@ -4,6 +4,7 @@ import { examConfig } from '../core/exam/exam.config';
 import { VARIANT_VERSION } from '../core/variants/catalog';
 import type { TaskNumber } from '../core/types';
 import type { RandomVariantData } from './variants/RandomVariantContent';
+import contentUrl from './variants/RandomVariantContent.tsx?module-url';
 import RandomVariantButton from './RandomVariantButton';
 import ExamEntry from './variants/ExamEntry';
 
@@ -68,7 +69,14 @@ export default function RandomVariantBody({ seed }: { seed: string }) {
     if (loaded || pending.current) return;
     pending.current = true;
     setError('');
-    void import('./variants/RandomVariantContent')
+    // WebKit can retain a cancelled module request across a page reload.
+    // A new URL makes the next attempt an actual request for the same build.
+    const url = new URL(contentUrl, window.location.href);
+    url.searchParams.set('load', crypto.randomUUID());
+    const request = import(/* @vite-ignore */ url.href) as Promise<
+      typeof import('./variants/RandomVariantContent')
+    >;
+    void request
       .then((module) => {
         const data = module.prepareRandomVariant(seed);
         if (alive.current) setLoaded({ Content: module.default, data });
