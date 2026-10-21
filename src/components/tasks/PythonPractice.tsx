@@ -12,12 +12,14 @@ export default function PythonPractice({
   mode = 'practice',
   value,
   onChange,
+  maxLength,
 }: {
   kind: ProgramKind;
   seed: string;
   mode?: 'practice' | 'exam';
   value?: string;
   onChange?: (code: string) => void;
+  maxLength?: number;
 }) {
   const [localCode, setLocalCode] = useState('');
   const code = value ?? localCode;
@@ -34,7 +36,7 @@ export default function PythonPractice({
         value={code}
         onChange={onChange ?? setLocalCode}
         language="python"
-        maxLength={mode === 'exam' ? 20000 : 32000}
+        maxLength={maxLength ?? (mode === 'exam' ? 20000 : 32000)}
       />
       {mode === 'exam' ? (
         <>

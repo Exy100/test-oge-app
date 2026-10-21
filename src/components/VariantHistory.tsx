@@ -42,7 +42,19 @@ export default function VariantHistory() {
               return (
                 <tr key={attempt.id}>
                   <td>
-                    {href ? <a href={href}>{label}</a> : label}
+                    {href ? (
+                      <a
+                        href={
+                          attempt.mode === 'training'
+                            ? `${href}${href.includes('?') ? '&' : '?'}training=${encodeURIComponent(attempt.id)}`
+                            : href
+                        }
+                      >
+                        {label}
+                      </a>
+                    ) : (
+                      label
+                    )}
                     <span className="variant-history-kind">
                       Работа №
                       {attempt.variant13 === 'presentation' ? '13.1' : '13.2'}

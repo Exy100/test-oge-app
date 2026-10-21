@@ -1,7 +1,8 @@
 import { examConfig } from '../exam/exam.config';
 import { parseArea, type Areas } from '../storage/schemas';
 import type { LocalStore } from '../storage/store';
-import type { TaskNumber } from '../types';
+import type { TaskInstance, TaskNumber } from '../types';
+import { checkTaskAnswer } from '../checker';
 
 export type ExamDraft = NonNullable<Areas['variantDraft']['current']>;
 export type ExamAttempt = Areas['variantAttempts']['entries'][number];
@@ -13,12 +14,13 @@ export const examNumbers = Array.from(
 export function createExamDraft(
   identity: Pick<ExamDraft, 'id' | 'variantId' | 'seed' | 'variant13'>,
   now: number,
+  mode: ExamDraft['mode'] = 'exam',
 ): ExamDraft {
   const current = parseArea('variantDraft', {
     version: 1,
     current: {
       ...identity,
-      mode: 'exam',
+      mode,
       startedAt: new Date(now).toISOString(),
       elapsedMs: 0,
       answers: [],
@@ -37,11 +39,12 @@ export function examElapsed(draft: ExamDraft, now: number): number {
   );
 }
 export function emptyExamNumbers(draft: ExamDraft): TaskNumber[] {
-  return examNumbers.filter(
-    (number) =>
-      !draft.answers
-        .find((answer) => answer.taskNumber === number)
-        ?.text.trim(),
+  return examNumbers.filter((number) =>
+    draft.mode === 'training'
+      ? !draft.answers.find((answer) => answer.taskNumber === number)?.checked
+      : !draft.answers
+          .find((answer) => answer.taskNumber === number)
+          ?.text.trim(),
   );
 }
 export function examClock(milliseconds: number): string {
@@ -112,6 +115,7 @@ export class ExamSession {
     if (this.state.phase !== 'running') return;
     this.checkExternal();
     if (this.snapshot().phase !== 'running') return;
+    if (this.state.draft.mode === 'training') return;
     const elapsedMs = examElapsed(this.state.draft, this.now());
     if (elapsedMs !== this.state.draft.elapsedMs)
       this.publish({ draft: { ...this.state.draft, elapsedMs } });
@@ -126,6 +130,9 @@ export class ExamSession {
     const next = {
       ...previous,
       [field]: value.slice(0, field === 'text' ? 20000 : 1500),
+      ...(this.state.draft.mode === 'training' && field === 'text'
+        ? { checked: false }
+        : {}),
     };
     this.publish({
       draft: {
@@ -136,9 +143,80 @@ export class ExamSession {
           ),
           next,
         ],
+        assessments:
+          this.state.draft.mode === 'training' && field === 'text'
+            ? this.state.draft.assessments.filter(
+                (row) => row.taskNumber !== number,
+              )
+            : this.state.draft.assessments,
       },
       dirty: true,
     });
+  }
+  navigateTraining(number: TaskNumber) {
+    this.tick();
+    if (this.state.phase !== 'running' || this.state.draft.mode !== 'training')
+      return;
+    this.publish({
+      draft: { ...this.state.draft, currentTask: number },
+      dirty: true,
+    });
+  }
+  completeTrainingTask(
+    task: TaskInstance,
+    score: number | null = null,
+  ): boolean {
+    this.tick();
+    if (this.state.phase !== 'running' || this.state.draft.mode !== 'training')
+      return false;
+    const number = task.taskNumber;
+    const answer = this.state.draft.answers.find(
+      (row) => row.taskNumber === number,
+    ) ?? { taskNumber: number, text: '', reasoning: '' };
+    if (
+      number <= 12 &&
+      checkTaskAnswer(task, answer.text).verdict === 'format_error'
+    )
+      return false;
+    if (
+      score !== null &&
+      (number <= 12 ||
+        !Number.isInteger(score) ||
+        score < 0 ||
+        score > (number === 14 ? 3 : 2))
+    )
+      throw new RangeError('Самооценка выходит за критерии задания.');
+    const assessments = this.state.draft.assessments.filter(
+      (row) => row.taskNumber !== number,
+    );
+    if (score !== null && number >= 13)
+      assessments.push({
+        taskNumber: number as 13 | 14 | 15 | 16,
+        score,
+        source: 'self',
+      });
+    this.publish({
+      draft: {
+        ...this.state.draft,
+        answers: [
+          ...this.state.draft.answers.filter(
+            (row) => row.taskNumber !== number,
+          ),
+          { ...answer, checked: true },
+        ],
+        assessments,
+      },
+      dirty: true,
+    });
+    this.save();
+    return true;
+  }
+  retryTrainingTask(number: TaskNumber) {
+    const answer = this.state.draft.answers.find(
+      (row) => row.taskNumber === number,
+    );
+    if (this.state.draft.mode === 'training')
+      this.answer(number, 'text', answer?.text ?? '');
   }
   mark(number: TaskNumber) {
     this.tick();
@@ -180,7 +258,8 @@ export class ExamSession {
     this.writing = true;
     try {
       this.store.write('variantDraft', { version: 1, current: draft });
-      this.baseline = JSON.stringify(draft);
+      // Storage validates and orders optional fields; compare its canonical copy.
+      this.baseline = JSON.stringify(this.store.read('variantDraft').current);
       this.publish({ dirty: false, savedAt: this.now(), notice: '' });
     } catch {
       this.publish({
@@ -197,13 +276,21 @@ export class ExamSession {
     if (this.snapshot().phase !== 'running') return;
     const draft = {
       ...this.state.draft,
-      elapsedMs: examElapsed(this.state.draft, this.now()),
+      elapsedMs:
+        this.state.draft.mode === 'training'
+          ? 0
+          : examElapsed(this.state.draft, this.now()),
     };
     const started = Date.parse(draft.startedAt);
     const attempt: ExamAttempt = {
       ...draft,
       finishedAt: new Date(
-        Math.max(started, Math.min(this.now(), started + EXAM_DURATION_MS)),
+        Math.max(
+          started,
+          draft.mode === 'training'
+            ? this.now()
+            : Math.min(this.now(), started + EXAM_DURATION_MS),
+        ),
       ).toISOString(),
       score: null,
     };
@@ -224,7 +311,7 @@ export class ExamSession {
       });
     } catch {
       notice =
-        'Экзамен завершён, но история заполнена. Скачай ответы, чтобы сохранить эту работу.';
+        'Работа завершена, но история заполнена. Скачай ответы, чтобы сохранить эту работу.';
     } finally {
       this.writing = false;
     }

@@ -14,12 +14,14 @@ export default function RobotPractice({
   mode = 'practice',
   value,
   onChange,
+  maxLength,
 }: {
   kind: RobotKind;
   seed: string;
   mode?: 'practice' | 'exam';
   value?: string;
   onChange?: (code: string) => void;
+  maxLength?: number;
 }) {
   const fields = useMemo(() => {
     const cases = robotCases(kind, seed);
@@ -130,7 +132,7 @@ export default function RobotPractice({
         }}
         language="robot"
         disabled={running}
-        maxLength={mode === 'exam' ? 20000 : 32000}
+        maxLength={maxLength ?? (mode === 'exam' ? 20000 : 32000)}
       />
       <details>
         <summary>Команды и синтаксис</summary>

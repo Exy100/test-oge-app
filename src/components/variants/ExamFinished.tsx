@@ -55,6 +55,9 @@ function ReviewTask({
   const answer = attempt.answers.find(
     (row) => row.taskNumber === task.taskNumber,
   );
+  const assessment = attempt.assessments.find(
+    (row) => row.taskNumber === task.taskNumber,
+  );
   return (
     <details
       className="variant-task"
@@ -84,6 +87,15 @@ function ReviewTask({
               <h4>Твой черновик</h4>
               <p>{answer.reasoning}</p>
             </>
+          )}
+          {attempt.mode === 'training' && task.criteria && (
+            <p>
+              {assessment
+                ? `Сохранённая учебная оценка: ${String(assessment.score)} из ${String(task.criteria.max)}.`
+                : answer?.checked
+                  ? 'Работа оставлена без оценки.'
+                  : 'Работа не оценена.'}
+            </p>
           )}
           <TaskGuidance task={task} />
         </div>
@@ -121,16 +133,21 @@ export default function ExamFinished({
   return (
     <section className="exam-finished" aria-labelledby="exam-finished-title">
       <h2 ref={heading} id="exam-finished-title" tabIndex={-1}>
-        Экзамен завершён
+        {attempt.mode === 'training'
+          ? 'Тренировка завершена'
+          : 'Экзамен завершён'}
       </h2>
       <p>
-        Время работы: {examClock(attempt.elapsedMs)}. Ответы больше не
-        изменяются.
+        {attempt.mode === 'exam' && (
+          <>Время работы: {examClock(attempt.elapsedMs)}. </>
+        )}
+        Ответы больше не изменяются.
       </p>
       <p>
         Краткие ответы №1–12: <strong>{result.knownScore} из 12</strong>.
-        Практические работы №13–16 не оценены, поэтому итоговый балл не
-        выставлен.
+        {attempt.mode === 'training'
+          ? `Сохранено самооценок практики: ${String(attempt.assessments.length)} из 4. Это учебные оценки, не вердикт эксперта.`
+          : 'Практические работы №13–16 не оценены, поэтому итоговый балл не выставлен.'}
       </p>
       {notice && <p role="alert">{notice}</p>}
       <div className="task-actions">

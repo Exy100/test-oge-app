@@ -20,6 +20,7 @@ const answers = z
       taskNumber: TaskNumberSchema,
       text: z.string().max(20000),
       reasoning: z.string().max(1500),
+      checked: z.boolean().optional(),
     }),
   )
   .max(16)
@@ -42,6 +43,7 @@ const attempt = z.strictObject({
   seed: z.string().max(200),
   variant13: z.enum(['presentation', 'document']),
   mode: z.enum(['exam', 'training']),
+  currentTask: TaskNumberSchema.optional(),
   startedAt: timestamp,
   elapsedMs: z.number().int().min(0).max(86_400_000),
   answers,

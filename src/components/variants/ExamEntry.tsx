@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useHydrated } from '../useHydrated';
 import VariantExam, { type ExamIdentity } from './VariantExam';
 import VariantFiles from './VariantFiles';
+import { Button } from '../ui/Button';
 
 /** The small setup screen loads with the entry; generators load on Start. */
 export default function ExamEntry({
@@ -11,26 +12,33 @@ export default function ExamEntry({
   children,
 }: ExamIdentity & { children: ReactNode }) {
   const ready = useHydrated();
-  const [requested, setRequested] = useState(false);
+  const [requested, setRequested] = useState<'exam' | 'training' | null>(null);
   const start = useRef<HTMLButtonElement>(null);
+  const trainingStart = useRef<HTMLButtonElement>(null);
+  const lastMode = useRef<'exam' | 'training'>('exam');
   const restoreFocus = useRef(false);
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).has('exam')) {
+    const query = new URLSearchParams(window.location.search);
+    if (query.has('exam') || query.has('training')) {
       queueMicrotask(() => {
-        setRequested(true);
+        setRequested(query.has('exam') ? 'exam' : 'training');
       });
     }
   }, []);
   useEffect(() => {
     if (!requested && restoreFocus.current) {
-      start.current?.focus();
+      (lastMode.current === 'training'
+        ? trainingStart
+        : start
+      ).current?.focus();
       restoreFocus.current = false;
     }
   }, [requested]);
-  function changeUrl(value: boolean) {
+  function changeUrl(value: 'exam' | 'training' | null) {
     const url = new URL(window.location.href);
-    if (value) url.searchParams.set('exam', '1');
-    else url.searchParams.delete('exam');
+    url.searchParams.delete('exam');
+    url.searchParams.delete('training');
+    if (value) url.searchParams.set(value, '1');
     window.history.replaceState(null, '', url);
   }
   if (requested)
@@ -38,10 +46,12 @@ export default function ExamEntry({
       <VariantExam
         variantId={variantId}
         seed={seed}
+        mode={requested}
         onClose={() => {
-          changeUrl(false);
+          changeUrl(null);
+          lastMode.current = requested;
           restoreFocus.current = true;
-          setRequested(false);
+          setRequested(null);
         }}
       />
     );
@@ -54,12 +64,23 @@ export default function ExamEntry({
           type="button"
           disabled={!ready}
           onClick={() => {
-            changeUrl(true);
-            setRequested(true);
+            changeUrl('exam');
+            setRequested('exam');
           }}
         >
           Пройти с таймером
-        </button>
+        </button>{' '}
+        <Button
+          ref={trainingStart}
+          variant="secondary"
+          disabled={!ready}
+          onClick={() => {
+            changeUrl('training');
+            setRequested('training');
+          }}
+        >
+          Тренироваться без таймера
+        </Button>
       </p>
       <VariantFiles variantId={variantId} seed={seed} />
       {children}

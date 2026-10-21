@@ -24,6 +24,7 @@ import { Modal } from '../ui/Modal';
 import ExamFinished, { ExamDownload, buildExamVariant } from './ExamFinished';
 import ExamTask from './ExamTask';
 import VariantFiles from './VariantFiles';
+import TrainingTask from './TrainingTask';
 import '../../styles/task-card.css';
 
 export default function ExamRun({
@@ -39,6 +40,7 @@ export default function ExamRun({
     session.snapshot,
   );
   const { draft, phase } = state;
+  const training = draft.mode === 'training';
   const variant = useMemo(
     () =>
       buildExamVariant({
@@ -48,8 +50,8 @@ export default function ExamRun({
       }),
     [draft.variantId, draft.seed, draft.variant13],
   );
-  const [current, setCurrent] = useState<TaskNumber>(
-    () => emptyExamNumbers(draft)[0] ?? 1,
+  const [current, setCurrent] = useState<TaskNumber>(() =>
+    training ? (draft.currentTask ?? 1) : (emptyExamNumbers(draft)[0] ?? 1),
   );
   const [finishOpen, setFinishOpen] = useState(false);
   const [changeOpen, setChangeOpen] = useState(false);
@@ -63,7 +65,7 @@ export default function ExamRun({
     if (phase !== 'running') return;
     const store = browserStore();
     const unsubscribe = store.subscribe(session.checkExternal);
-    const ticker = window.setInterval(session.tick, 1000);
+    const ticker = training ? null : window.setInterval(session.tick, 1000);
     const saver = window.setInterval(session.save, 10_000);
     const visible = () => {
       session.save();
@@ -81,18 +83,18 @@ export default function ExamRun({
     return () => {
       session.save();
       unsubscribe();
-      clearInterval(ticker);
+      if (ticker !== null) clearInterval(ticker);
       clearInterval(saver);
       document.removeEventListener('visibilitychange', visible);
       window.removeEventListener('pagehide', visible);
       window.removeEventListener('beforeunload', leave);
     };
-  }, [session, phase]);
+  }, [session, phase, training]);
   useEffect(() => {
     if (phase !== 'running') releaseLock();
     if (phase === 'finished' && state.attempt) {
       const url = new URL(window.location.href);
-      url.searchParams.set('exam', state.attempt.id);
+      url.searchParams.set(state.attempt.mode, state.attempt.id);
       window.history.replaceState(null, '', url);
     }
   }, [phase, releaseLock, state.attempt]);
@@ -117,25 +119,35 @@ export default function ExamRun({
   );
   function navigate(number: TaskNumber) {
     session.tick();
+    if (training) session.navigateTraining(number);
     setCurrent(number);
     title.current?.focus();
   }
   return (
-    <section className="exam-run" aria-label="Прохождение экзамена">
+    <section
+      className="exam-run"
+      aria-label={training ? 'Прохождение тренировки' : 'Прохождение экзамена'}
+    >
       <header className="exam-toolbar">
+        {training ? (
+          <h2>Тренировка — без таймера</h2>
+        ) : (
+          <p>
+            Осталось{' '}
+            <span
+              className="exam-clock"
+              role="timer"
+              aria-live="off"
+              aria-label="Оставшееся время"
+            >
+              {examClock(remaining)}
+            </span>
+          </p>
+        )}
         <p>
-          Осталось{' '}
-          <span
-            className="exam-clock"
-            role="timer"
-            aria-live="off"
-            aria-label="Оставшееся время"
-          >
-            {examClock(remaining)}
-          </span>
-        </p>
-        <p>
-          {16 - empty.length} из 16 с записью · {draft.marked.length} отмечено
+          {16 - empty.length} из 16{' '}
+          {training ? 'проверено или разобрано' : 'с записью'} ·{' '}
+          {draft.marked.length} отмечено
         </p>
         <Button
           ref={finishButton}
@@ -145,14 +157,16 @@ export default function ExamRun({
             setFinishOpen(true);
           }}
         >
-          Завершить экзамен
+          {training ? 'Завершить тренировку' : 'Завершить экзамен'}
         </Button>
       </header>
-      <p className="ui-sr-only" role="status">
-        {threshold
-          ? `Осталось не больше ${String(threshold)} минут.`
-          : 'Экзамен начался. У тебя 150 минут.'}
-      </p>
+      {!training && (
+        <p className="ui-sr-only" role="status">
+          {threshold
+            ? `Осталось не больше ${String(threshold)} минут.`
+            : 'Экзамен начался. У тебя 150 минут.'}
+        </p>
+      )}
       <p role="status">
         {state.notice ||
           (browserStore().memoryOnly
@@ -162,14 +176,17 @@ export default function ExamRun({
               : 'Ответы сохранены в этом браузере.')}
       </p>
       <VariantFiles variantId={draft.variantId} seed={draft.seed} />
-      <nav className="exam-navigation" aria-label="Задания экзамена">
+      <nav
+        className="exam-navigation"
+        aria-label={training ? 'Задания тренировки' : 'Задания экзамена'}
+      >
         {examNumbers.map((number) => (
           <button
             type="button"
             key={number}
             aria-current={current === number ? 'step' : undefined}
             data-filled={!empty.includes(number)}
-            aria-label={`Задание №${String(number)}${empty.includes(number) ? ', нет записи' : ', есть запись'}${draft.marked.includes(number) ? ', отмечено для возврата' : ''}`}
+            aria-label={`Задание №${String(number)}${training ? (empty.includes(number) ? ', ещё не проверено' : ', проверено или разобрано') : empty.includes(number) ? ', нет записи' : ', есть запись'}${draft.marked.includes(number) ? ', отмечено для возврата' : ''}`}
             onClick={() => {
               navigate(number);
             }}
@@ -182,11 +199,13 @@ export default function ExamRun({
         ))}
       </nav>
       <p className="exam-legend">
-        Зелёный фон — есть запись. ⚑ — вернуться к заданию. Для работ №13–14
-        запись имени файла не заменяет сохранение самого файла.
+        Зелёный фон —{' '}
+        {training ? 'задание проверено или разобрано' : 'есть запись'}. ⚑ —
+        вернуться к заданию. Для работ №13–14 запись имени файла не заменяет
+        сохранение самого файла.
       </p>
       <article
-        className="task-card exam-task"
+        className={training ? 'exam-task' : 'task-card exam-task'}
         aria-labelledby="exam-task-title"
       >
         <h2 id="exam-task-title" ref={title} tabIndex={-1}>
@@ -221,79 +240,93 @@ export default function ExamRun({
             </Button>
           </p>
         )}
-        <ExamTask key={task.id} task={task} />
-        {task.criteria && (
-          <section aria-label="Критерии практической работы">
-            <p>
-              Максимум — {task.criteria.max} балл(а). Это учебные критерии; на
-              экзамене работу оценивают эксперты.
-            </p>
-            <CriteriaLevels criteria={task.criteria} />
-          </section>
-        )}
-        {current <= 14 ? (
+        {training ? (
+          <TrainingTask
+            key={task.id}
+            task={task}
+            draft={draft}
+            session={session}
+          />
+        ) : (
           <>
-            <label htmlFor="exam-answer">
-              {current <= 12 ? 'Твой ответ' : 'Имя файла с твоей работой'}
-            </label>
-            {current >= 13 && (
-              <p id="exam-answer-help">
-                Сохрани готовую работу на компьютере и запиши здесь имя файла.
-                Файл остаётся у тебя; сайт его не загружает и не проверяет.
-              </p>
+            <ExamTask key={task.id} task={task} />
+            {task.criteria && (
+              <section aria-label="Критерии практической работы">
+                <p>
+                  Максимум — {task.criteria.max} балл(а). Это учебные критерии;
+                  на экзамене работу оценивают эксперты.
+                </p>
+                <CriteriaLevels criteria={task.criteria} />
+              </section>
             )}
-            <input
-              id="exam-answer"
-              type="text"
-              aria-describedby={current >= 13 ? 'exam-answer-help' : undefined}
-              value={answer?.text ?? ''}
-              maxLength={1000}
-              autoComplete="off"
-              autoCapitalize="off"
-              spellCheck={false}
+            {current <= 14 ? (
+              <>
+                <label htmlFor="exam-answer">
+                  {current <= 12 ? 'Твой ответ' : 'Имя файла с твоей работой'}
+                </label>
+                {current >= 13 && (
+                  <p id="exam-answer-help">
+                    Сохрани готовую работу на компьютере и запиши здесь имя
+                    файла. Файл остаётся у тебя; сайт его не загружает и не
+                    проверяет.
+                  </p>
+                )}
+                <input
+                  id="exam-answer"
+                  type="text"
+                  aria-describedby={
+                    current >= 13 ? 'exam-answer-help' : undefined
+                  }
+                  value={answer?.text ?? ''}
+                  maxLength={1000}
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  onChange={(event) => {
+                    session.answer(current, 'text', event.target.value);
+                  }}
+                />
+              </>
+            ) : isRobotKind(task.subtype) ? (
+              <RobotPractice
+                key={task.id}
+                kind={task.subtype}
+                seed={task.seed}
+                mode="exam"
+                value={answer?.text ?? ''}
+                onChange={(code) => {
+                  session.answer(15, 'text', code);
+                }}
+              />
+            ) : isProgramKind(task.subtype) ? (
+              <PythonPractice
+                key={task.id}
+                kind={task.subtype}
+                seed={task.seed}
+                mode="exam"
+                value={answer?.text ?? ''}
+                onChange={(code) => {
+                  session.answer(16, 'text', code);
+                }}
+              />
+            ) : null}
+            <label htmlFor="exam-reasoning">Черновик решения</label>
+            <textarea
+              id="exam-reasoning"
+              aria-describedby="exam-reasoning-help"
+              value={answer?.reasoning ?? ''}
+              rows={3}
+              maxLength={1500}
               onChange={(event) => {
-                session.answer(current, 'text', event.target.value);
+                session.answer(current, 'reasoning', event.target.value);
               }}
             />
+            <p id="exam-reasoning-help">
+              До 1500 символов. Сохраняется вместе с ответом; при проверке
+              краткого ответа не учитывается.
+            </p>
           </>
-        ) : isRobotKind(task.subtype) ? (
-          <RobotPractice
-            key={task.id}
-            kind={task.subtype}
-            seed={task.seed}
-            mode="exam"
-            value={answer?.text ?? ''}
-            onChange={(code) => {
-              session.answer(15, 'text', code);
-            }}
-          />
-        ) : isProgramKind(task.subtype) ? (
-          <PythonPractice
-            key={task.id}
-            kind={task.subtype}
-            seed={task.seed}
-            mode="exam"
-            value={answer?.text ?? ''}
-            onChange={(code) => {
-              session.answer(16, 'text', code);
-            }}
-          />
-        ) : null}
-        <label htmlFor="exam-reasoning">Черновик решения</label>
-        <textarea
-          id="exam-reasoning"
-          aria-describedby="exam-reasoning-help"
-          value={answer?.reasoning ?? ''}
-          rows={3}
-          maxLength={1500}
-          onChange={(event) => {
-            session.answer(current, 'reasoning', event.target.value);
-          }}
-        />
-        <p id="exam-reasoning-help">
-          До 1500 символов. Сохраняется вместе с ответом; при проверке краткого
-          ответа не учитывается.
-        </p>
+        )}
         <div className="task-actions">
           <Button
             variant="secondary"
@@ -318,7 +351,7 @@ export default function ExamRun({
       <ExamDownload draft={draft} />
       <Modal
         open={finishOpen}
-        title="Завершить экзамен?"
+        title={training ? 'Завершить тренировку?' : 'Завершить экзамен?'}
         onClose={() => {
           setFinishOpen(false);
         }}
@@ -326,8 +359,10 @@ export default function ExamRun({
       >
         <p>
           {empty.length
-            ? `Без записи: №${empty.join(', №')}.`
-            : 'Записи есть во всех 16 заданиях.'}
+            ? `${training ? 'Не проверены или не разобраны' : 'Без записи'}: №${empty.join(', №')}.`
+            : training
+              ? 'Все 16 номеров проверены или разобраны.'
+              : 'Записи есть во всех 16 заданиях.'}
         </p>
         {draft.marked.length > 0 && (
           <p>Отмечены для возврата: №{draft.marked.join(', №')}.</p>

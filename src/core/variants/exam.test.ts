@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import { LocalStore, type StoragePort } from '../storage/store';
 import { defaults, PREFIX } from '../storage/schemas';
 import { VARIANT_VERSION } from './catalog';
+import { buildFixedVariant } from './index';
 import {
   createExamDraft,
   ExamSession,
@@ -11,7 +12,7 @@ import {
 } from './exam';
 
 const origin = Date.parse('2026-10-18T10:00:00Z');
-function fixture() {
+function fixture(mode: 'exam' | 'training' = 'exam') {
   const data = new Map<string, string>();
   const port: StoragePort = {
     getItem: (key) => data.get(key) ?? null,
@@ -32,6 +33,7 @@ function fixture() {
       variant13: 'document',
     },
     time,
+    mode,
   );
   store.write('variantDraft', { version: 1, current: draft });
   const session = new ExamSession(store, draft, () => time);
@@ -70,6 +72,116 @@ test('an exam starts with an explicit choice, 150 real minutes and no invented a
       origin,
     ).seed,
   ).toBe(seed);
+});
+
+test('training never expires, even after days away, and finishes only on request', () => {
+  const f = fixture('training');
+  f.session.answer(16, 'text', 'print(42)');
+  f.now(origin + 7 * 86_400_000);
+  f.session.tick();
+  f.session.save();
+  expect(f.session.snapshot().phase).toBe('running');
+  expect(f.session.snapshot().draft.elapsedMs).toBe(0);
+  const saved = f.store.read('variantDraft').current;
+  if (!saved) throw new Error('Missing training draft');
+  const restored = new ExamSession(
+    f.store,
+    saved,
+    () => origin + 8 * 86_400_000,
+  );
+  restored.tick();
+  expect(restored.snapshot().phase).toBe('running');
+  restored.finish();
+  restored.finish();
+  expect(f.store.read('variantAttempts').entries).toHaveLength(1);
+  expect(restored.snapshot().attempt).toMatchObject({
+    mode: 'training',
+    elapsedMs: 0,
+    finishedAt: new Date(origin + 8 * 86_400_000).toISOString(),
+  });
+});
+
+test('training checks reject format errors, preserve checked work and position, and allow another try', () => {
+  const f = fixture('training');
+  const task = buildFixedVariant('V01').tasks[0];
+  if (!task || task.answer.type === 'artifact')
+    throw new Error('Missing short answer');
+  f.session.answer(1, 'text', '');
+  expect(f.session.completeTrainingTask(task)).toBe(false);
+  expect(emptyExamNumbers(f.session.snapshot().draft)).toContain(1);
+  f.session.answer(1, 'text', task.answer.value);
+  expect(f.session.completeTrainingTask(task)).toBe(true);
+  f.session.answer(1, 'reasoning', 'Мой ход решения');
+  f.session.navigateTraining(9);
+  f.session.save();
+  f.session.tick();
+  f.session.save();
+  expect(f.session.snapshot().phase).toBe('running');
+  const saved = f.store.read('variantDraft').current;
+  if (!saved) throw new Error('Missing training draft');
+  expect(saved.currentTask).toBe(9);
+  expect(saved.answers[0]).toMatchObject({
+    checked: true,
+    reasoning: 'Мой ход решения',
+  });
+  expect(emptyExamNumbers(saved)).not.toContain(1);
+  const resumed = new ExamSession(f.store, saved, () => origin);
+  resumed.retryTrainingTask(1);
+  expect(resumed.snapshot().draft.answers[0]).toMatchObject({
+    text: task.answer.value,
+    reasoning: 'Мой ход решения',
+    checked: false,
+  });
+  expect(emptyExamNumbers(resumed.snapshot().draft)).toContain(1);
+});
+
+test('training preserves zero and absent self-assessments and invalidates scores only when work changes', () => {
+  const f = fixture('training');
+  const variant = buildFixedVariant('V01', 'document');
+  const office = variant.tasks.find((task) => task.taskNumber === 13);
+  const sheet = variant.tasks.find((task) => task.taskNumber === 14);
+  if (!office || !sheet) throw new Error('Missing office tasks');
+  f.session.answer(13, 'text', 'my.odt');
+  expect(f.session.completeTrainingTask(office, 0)).toBe(true);
+  expect(f.session.completeTrainingTask(sheet, 3)).toBe(true);
+  f.session.answer(13, 'reasoning', 'Проверить оформление');
+  expect(f.session.snapshot().draft.assessments).toContainEqual({
+    taskNumber: 13,
+    score: 0,
+    source: 'self',
+  });
+  f.session.answer(13, 'text', 'new.odt');
+  expect(
+    f.session.snapshot().draft.assessments.map((row) => row.taskNumber),
+  ).toEqual([14]);
+  expect(emptyExamNumbers(f.session.snapshot().draft)).toContain(13);
+  expect(f.session.completeTrainingTask(office, null)).toBe(true);
+  expect(
+    f.session.snapshot().draft.assessments.map((row) => row.taskNumber),
+  ).toEqual([14]);
+  expect(emptyExamNumbers(f.session.snapshot().draft)).not.toContain(13);
+  for (const score of [-1, 3, 1.5, NaN])
+    expect(() => f.session.completeTrainingTask(office, score)).toThrow(
+      RangeError,
+    );
+  f.session.choose13('presentation');
+  expect(
+    f.session.snapshot().draft.answers.some((row) => row.taskNumber === 13),
+  ).toBe(false);
+  expect(
+    f.session.snapshot().draft.assessments.map((row) => row.taskNumber),
+  ).toEqual([14]);
+});
+
+test('training-only actions cannot expose or alter a timed exam', () => {
+  const f = fixture();
+  const task = buildFixedVariant('V01').tasks[0];
+  if (!task) throw new Error('Missing task');
+  const before = structuredClone(f.session.snapshot().draft);
+  expect(f.session.completeTrainingTask(task)).toBe(false);
+  f.session.navigateTraining(9);
+  f.session.retryTrainingTask(1);
+  expect(f.session.snapshot().draft).toEqual(before);
 });
 test('sleeping through the deadline finishes at 150 minutes without timer ticks', () => {
   const f = fixture();

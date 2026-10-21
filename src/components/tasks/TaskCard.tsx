@@ -17,6 +17,15 @@ export interface TaskCardProps {
   task: TaskInstance;
   statementHtml: string;
   onResult: (result: StreamOutcome) => void;
+  headingId?: string;
+  work?: {
+    text: string;
+    reasoning: string;
+    checked: boolean;
+    assessment: Score | null;
+    onChange: (field: 'text' | 'reasoning', value: string) => void;
+    onRetry: () => void;
+  };
 }
 /** A new task/attempt gets its own keyed state, including editors and downloads. */
 export default function TaskCard(props: TaskCardProps) {
@@ -27,16 +36,28 @@ export default function TaskCard(props: TaskCardProps) {
     />
   );
 }
-function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
+function TaskCardBody({
+  task,
+  onResult,
+  statementHtml,
+  work,
+  headingId,
+}: TaskCardProps) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const feedback = useRef<HTMLDivElement>(null);
-  const submitted = useRef(false);
-  const [raw, setRaw] = useState('');
-  const [check, setCheck] = useState<AnswerCheck | null>(null);
-  const [assessment, setAssessment] = useState<Score | null>(null);
-  const [accepted, setAccepted] = useState(false);
-  const [notes, setNotes] = useState('');
+  const submitted = useRef(work?.checked ?? false);
+  const [raw, setRaw] = useState(work?.text ?? '');
+  const [check, setCheck] = useState<AnswerCheck | null>(() =>
+    work?.checked && task.answer.type !== 'artifact'
+      ? checkTaskAnswer(task, work.text)
+      : null,
+  );
+  const [assessment, setAssessment] = useState<Score | null>(
+    work?.assessment ?? null,
+  );
+  const [accepted, setAccepted] = useState(work?.checked ?? false);
+  const [notes, setNotes] = useState(work?.reasoning ?? '');
   useEffect(() => {
     if (accepted) feedback.current?.focus();
   }, [accepted]);
@@ -55,21 +76,43 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
     setAccepted(true);
     onResult(result);
   }
+  function retry() {
+    submitted.current = false;
+    setAccepted(false);
+    setCheck(null);
+    setAssessment(null);
+    work?.onRetry();
+    input.current?.focus();
+  }
+  function changeText(value: string) {
+    setRaw(value);
+    setCheck(null);
+    if (work) {
+      if (submitted.current) {
+        submitted.current = false;
+        setAccepted(false);
+        setAssessment(null);
+      }
+      work.onChange('text', value);
+    }
+  }
   return (
-    <article className="task-card" aria-labelledby={`${id}-title`}>
-      <header>
-        <p className="eyebrow">
-          Часть {task.examPart} · Сложность {task.difficulty} из 3
-        </p>
-        <h2 id={`${id}-title`}>
-          Задание №{task.taskNumber}
-          {task.variant13
-            ? task.variant13 === 'presentation'
-              ? '.1 — презентация'
-              : '.2 — документ'
-            : ''}
-        </h2>
-      </header>
+    <article className="task-card" aria-labelledby={headingId ?? `${id}-title`}>
+      {!headingId && (
+        <header>
+          <p className="eyebrow">
+            Часть {task.examPart} · Сложность {task.difficulty} из 3
+          </p>
+          <h2 id={`${id}-title`}>
+            Задание №{task.taskNumber}
+            {task.variant13
+              ? task.variant13 === 'presentation'
+                ? '.1 — презентация'
+                : '.2 — документ'
+              : ''}
+          </h2>
+        </header>
+      )}
       <RichTextView html={statementHtml} />
       {task.figure && <Figure spec={task.figure} label="Схема задания" />}
       {task.datasetId && <TaskFiles task={task} />}
@@ -104,8 +147,7 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
             aria-invalid={check?.verdict === 'format_error'}
             aria-describedby={`${id}-format ${id}-feedback`}
             onChange={(event) => {
-              setRaw(event.target.value);
-              setCheck(null);
+              changeText(event.target.value);
             }}
           />
           <button type="submit" disabled={accepted}>
@@ -139,10 +181,42 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
       ) : (
         <>
           {isRobotKind(task.subtype) && (
-            <RobotPractice kind={task.subtype} seed={task.seed} />
+            <RobotPractice
+              kind={task.subtype}
+              seed={task.seed}
+              {...(work
+                ? { value: raw, onChange: changeText, maxLength: 20000 }
+                : {})}
+            />
           )}
           {isProgramKind(task.subtype) && (
-            <PythonPractice kind={task.subtype} seed={task.seed} />
+            <PythonPractice
+              kind={task.subtype}
+              seed={task.seed}
+              {...(work
+                ? { value: raw, onChange: changeText, maxLength: 20000 }
+                : {})}
+            />
+          )}
+          {work && task.taskNumber <= 14 && (
+            <>
+              <label htmlFor={`${id}-file`}>Имя файла с твоей работой</label>
+              <input
+                id={`${id}-file`}
+                type="text"
+                value={raw}
+                readOnly={accepted}
+                maxLength={1000}
+                aria-describedby={`${id}-file-help`}
+                onChange={(event) => {
+                  changeText(event.target.value);
+                }}
+              />
+              <p id={`${id}-file-help`}>
+                Сохрани работу на компьютере. Запись имени не загружает файл на
+                сайт.
+              </p>
+            </>
           )}
           {task.criteria && (
             <section aria-label="Самооценка по критериям">
@@ -202,6 +276,11 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
           )}
         </>
       )}
+      {work && accepted && (
+        <button type="button" onClick={retry}>
+          Изменить работу и проверить снова
+        </button>
+      )}
       <label htmlFor={`${id}-notes`}>Как я решал</label>
       <textarea
         id={`${id}-notes`}
@@ -210,11 +289,15 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
         rows={3}
         onChange={(event) => {
           setNotes(event.target.value);
+          work?.onChange('reasoning', event.target.value);
         }}
         aria-describedby={`${id}-notes-help`}
       />
       <p id={`${id}-notes-help`}>
-        До 1500 символов. Черновик доступен до смены задания или перезагрузки.
+        До 1500 символов.{' '}
+        {work
+          ? 'Черновик сохраняется вместе с вариантом.'
+          : 'Черновик доступен до смены задания или перезагрузки.'}
       </p>
       <TaskGuidance task={task} />
     </article>

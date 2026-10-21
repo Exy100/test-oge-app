@@ -24,7 +24,9 @@ export default function VariantExam({
   variantId,
   seed,
   onClose,
-}: ExamIdentity & { onClose: () => void }) {
+  mode = 'exam',
+}: ExamIdentity & { onClose: () => void; mode?: ExamDraft['mode'] }) {
+  const training = mode === 'training';
   const areas = useStoredAreas();
   const [choice, setChoice] = useState<ExamDraft['variant13'] | null>(null);
   const [session, setSession] = useState<{
@@ -55,14 +57,17 @@ export default function VariantExam({
   const same =
     draft?.variantId === variantId &&
     draft.seed === seed &&
-    draft.mode === 'exam';
+    draft.mode === mode;
   const query =
     typeof window === 'undefined'
       ? null
-      : new URLSearchParams(window.location.search).get('exam');
+      : new URLSearchParams(window.location.search).get(mode);
   const finished = areas.variantAttempts.entries.find(
     (row) =>
-      row.id === query && row.variantId === variantId && row.seed === seed,
+      row.id === query &&
+      row.variantId === variantId &&
+      row.seed === seed &&
+      row.mode === mode,
   );
   useEffect(() => {
     if (!finished) return;
@@ -100,11 +105,12 @@ export default function VariantExam({
         current = createExamDraft(
           { id: crypto.randomUUID(), variantId, seed, variant13: choice },
           Date.now(),
+          mode,
         );
         store.write('variantDraft', { version: 1, current });
       }
-      if (!current || current.mode !== 'exam')
-        throw new Error('Не удалось восстановить экзамен.');
+      if (!current || current.mode !== mode)
+        throw new Error('Не удалось восстановить работу.');
       const controller = new ExamSession(store, current);
       controller.tick();
       setSession({ controller, View });
@@ -117,6 +123,7 @@ export default function VariantExam({
       pending.current = false;
       if (alive.current) {
         setBusy(false);
+        setReplace(false);
         setError(
           cause instanceof Error
             ? cause.message
@@ -127,7 +134,9 @@ export default function VariantExam({
     void import('./ExamRun')
       .catch(() => {
         throw new Error(
-          'Не удалось загрузить задания. Обнови страницу и попробуй начать или продолжить экзамен ещё раз.',
+          training
+            ? 'Не удалось загрузить задания. Обнови страницу и попробуй начать или продолжить тренировку ещё раз.'
+            : 'Не удалось загрузить задания. Обнови страницу и попробуй начать или продолжить экзамен ещё раз.',
         );
       })
       .then(({ default: View }) => {
@@ -144,7 +153,9 @@ export default function VariantExam({
           async (lock) => {
             if (!lock)
               throw new Error(
-                'Экзамен уже открыт в другой вкладке. Закрой её и нажми «Продолжить экзамен» здесь.',
+                training
+                  ? 'Вариант уже открыт в другой вкладке. Закрой её и продолжи тренировку здесь.'
+                  : 'Экзамен уже открыт в другой вкладке. Закрой её и нажми «Продолжить экзамен» здесь.',
               );
             if (!alive.current) return;
             await new Promise<void>((resolve, reject) => {
@@ -180,14 +191,31 @@ export default function VariantExam({
   return (
     <section className="exam-setup" aria-labelledby="exam-setup-title">
       <h2 id="exam-setup-title" ref={heading} tabIndex={-1}>
-        Экзамен — 150 минут
+        {training ? 'Тренировка — без таймера' : 'Экзамен — 150 минут'}
       </h2>
       <ul>
-        <li>Таймер начнётся по кнопке «Начать экзамен».</li>
-        <li>
-          Он продолжает идти после закрытия страницы или выключения компьютера.
-        </li>
-        <li>Проверка, подсказки и разбор откроются после завершения.</li>
+        {training ? (
+          <>
+            <li>Решай в своём темпе: ограничения в 150 минут нет.</li>
+            <li>
+              Проверяй каждый ответ сразу. Подсказки и решения доступны в
+              задании.
+            </li>
+            <li>
+              Для №13–16 сохраняй самооценку по учебным критериям или оставляй
+              работу без оценки.
+            </li>
+          </>
+        ) : (
+          <>
+            <li>Таймер начнётся по кнопке «Начать экзамен».</li>
+            <li>
+              Он продолжает идти после закрытия страницы или выключения
+              компьютера.
+            </li>
+            <li>Проверка, подсказки и разбор откроются после завершения.</li>
+          </>
+        )}
         <li>Ответы сохраняются каждые 10 секунд и при уходе со страницы.</li>
         <li>
           №13–14 выполняй в офисном редакторе. Для №15 есть поле и запуск
@@ -209,13 +237,15 @@ export default function VariantExam({
                 launch(true);
               }}
             >
-              Продолжить экзамен
+              {training ? 'Продолжить тренировку' : 'Продолжить экзамен'}
             </Button>
           ) : (
             (() => {
               const href = attemptVariantHref(draft);
               return href ? (
-                <a href={`${href}${href.includes('?') ? '&' : '?'}exam=1`}>
+                <a
+                  href={`${href}${href.includes('?') ? '&' : '?'}${draft.mode}=1`}
+                >
                   Вернуться к незавершённому варианту
                 </a>
               ) : (
@@ -263,7 +293,13 @@ export default function VariantExam({
             else launch(false);
           }}
         >
-          {draft ? 'Начать новый экзамен' : 'Начать экзамен'}
+          {training
+            ? draft
+              ? 'Начать новую тренировку'
+              : 'Начать тренировку'
+            : draft
+              ? 'Начать новый экзамен'
+              : 'Начать экзамен'}
         </Button>
         <Button variant="secondary" disabled={busy} onClick={onClose}>
           Вернуться к условиям
