@@ -5,7 +5,6 @@ import {
   type ExamDraft,
 } from '../../core/variants/exam';
 import { scoreAttempt, saveAttemptResult } from '../../core/variants/result';
-import { ScoreSchema } from '../../core/schemas';
 import type { TaskInstance, Score, Variant } from '../../core/types';
 import { browserStore } from '../../core/storage/browser';
 import { sitePath } from '../../lib/site';
@@ -15,10 +14,7 @@ import {
   recoverResultPage,
 } from '../../lib/variant-links';
 import { useStoredAreas } from '../useStoredAreas';
-import TaskGuidance from '../tasks/TaskGuidance';
-import CriteriaLevels from '../tasks/CriteriaLevels';
 import { Button } from '../ui/Button';
-import ExamTask from './ExamTask';
 import VariantFiles from './VariantFiles';
 import ResultSummary from './ResultSummary';
 import ResultPlan from './ResultPlan';
@@ -26,6 +22,7 @@ import '../../styles/result.css';
 
 import { useResultVariant } from './useResultVariant';
 import printUrl from './ResultPrint.tsx?module-url';
+import taskBodyUrl from './ResultTaskBody.tsx?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
 export function ExamDownload({ draft }: { draft: ExamDraft }) {
   return (
@@ -63,12 +60,32 @@ function ReviewTask({
   onAssess: (number: 13 | 14 | 15 | 16, score: Score | null) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const answer = attempt.answers.find(
-    (row) => row.taskNumber === task.taskNumber,
-  );
-  const assessment = attempt.assessments.find(
-    (row) => row.taskNumber === task.taskNumber,
-  );
+  const [Body, setBody] = useState<
+    (typeof import('./ResultTaskBody'))['default'] | null
+  >(null);
+  const [error, setError] = useState('');
+  const [retry, setRetry] = useState(0);
+  const summary = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (Body && retry > 0) summary.current?.focus();
+  }, [Body, retry]);
+  useEffect(() => {
+    if (!open || Body) return;
+    let current = true;
+    void importFreshModule<typeof import('./ResultTaskBody')>(taskBodyUrl)
+      .then((module) => {
+        if (current) setBody(() => module.default);
+      })
+      .catch(() => {
+        if (current)
+          setError(
+            'Не удалось открыть задание. Твои ответы и самооценки сохранены.',
+          );
+      });
+    return () => {
+      current = false;
+    };
+  }, [open, Body, retry]);
   const number = task.taskNumber;
   return (
     <details
@@ -76,9 +93,10 @@ function ReviewTask({
       id={`result-task-${String(number)}`}
       onToggle={(event) => {
         setOpen(event.currentTarget.open);
+        setError('');
       }}
     >
-      <summary>
+      <summary ref={summary}>
         <h3>
           Задание №{number}
           {task.variant13 === 'presentation'
@@ -90,64 +108,28 @@ function ReviewTask({
       </summary>
       {open && (
         <div className="variant-task-body">
-          <ExamTask task={task} finished />
-          <h4>Твоя запись</h4>
-          <pre className="exam-saved-answer">
-            {answer?.text || 'Нет записи'}
-          </pre>
-          {answer?.reasoning && (
+          {Body ? (
+            <Body
+              task={task}
+              attempt={attempt}
+              disabled={disabled}
+              onAssess={onAssess}
+            />
+          ) : error ? (
             <>
-              <h4>Твой черновик</h4>
-              <p>{answer.reasoning}</p>
-            </>
-          )}
-          {task.answer.type !== 'artifact' && (
-            <p>
-              Правильный ответ: <strong>{task.answer.value}</strong>.
-            </p>
-          )}
-          {task.criteria && number >= 13 && (
-            <div className="result-assessment">
-              <p>
-                {assessment
-                  ? `Сохранённая учебная оценка: ${String(assessment.score)} из ${String(task.criteria.max)}.`
-                  : answer?.checked
-                    ? 'Работа оставлена без оценки.'
-                    : 'Работа не оценена.'}
-              </p>
-              {assessment && (
-                <p>
-                  Источник:{' '}
-                  {assessment.source === 'self'
-                    ? 'твоя самооценка'
-                    : 'принятое тобой предложение ИИ'}
-                  .
-                </p>
-              )}
-              <CriteriaLevels
-                criteria={task.criteria}
-                selection={{
-                  value: assessment
-                    ? ScoreSchema.parse(assessment.score)
-                    : null,
-                  disabled,
-                  onChange: (score) => {
-                    onAssess(number as 13 | 14 | 15 | 16, score);
-                  },
-                }}
-              />
+              <p role="alert">{error}</p>
               <Button
-                variant="secondary"
-                disabled={disabled || !assessment}
                 onClick={() => {
-                  onAssess(number as 13 | 14 | 15 | 16, null);
+                  setError('');
+                  setRetry((value) => value + 1);
                 }}
               >
-                Снять оценку
+                Повторить загрузку задания
               </Button>
-            </div>
+            </>
+          ) : (
+            <p role="status">Открываем условие и критерии…</p>
           )}
-          <TaskGuidance task={task} />
         </div>
       )}
     </details>

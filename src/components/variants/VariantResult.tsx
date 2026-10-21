@@ -12,10 +12,6 @@ import { Button } from '../ui/Button';
 import resultUrl from './ExamFinished.tsx?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
 import '../../styles/result.css';
-import '../../styles/rich-text.css';
-import '../../styles/figure.css';
-import '../../styles/task-files.css';
-import '../../styles/variant-files.css';
 
 type View = (typeof import('./ExamFinished'))['default'];
 export default function VariantResult({ variantId }: { variantId: string }) {

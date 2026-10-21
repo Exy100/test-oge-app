@@ -446,3 +446,44 @@ test('saved results retain a functional fallback when Worker is unavailable', as
     '18 из 21',
   );
 });
+
+test('a failed task detail load retries without editing saved work or assessment', async ({
+  page,
+}) => {
+  const saved = attempt(21);
+  await seed(page, [saved]);
+  await page.goto(url(saved));
+  await expect(page.locator('.result-screen .result-summary')).toContainText(
+    '21 из 21',
+  );
+  const entry = lazyEntry('ResultTaskBody');
+  const failed: string[] = [];
+  await page.route(entry, (route) => {
+    failed.push(route.request().url());
+    return route.abort();
+  });
+  await page.getByRole('link', { name: 'Разбор №14', exact: true }).click();
+  const details = page.locator('#result-task-14');
+  await expect(details.getByRole('alert')).toContainText(
+    'Твои ответы и самооценки сохранены',
+  );
+  await page.unroute(entry);
+  const fresh = page.waitForRequest(
+    (request) =>
+      entry(new URL(request.url())) && !failed.includes(request.url()),
+  );
+  await details
+    .getByRole('button', { name: 'Повторить загрузку задания' })
+    .click();
+  await fresh;
+  await expect(
+    details.getByRole('group', { name: 'Балл по критериям' }),
+  ).toBeVisible();
+  await expect(details.locator(':scope > summary')).toBeFocused();
+  await expect(details.getByRole('radio', { name: /^3 балл/u })).toBeChecked();
+  expect((await history(page)).entries[0]?.answers).toEqual(saved.answers);
+  await details.getByRole('radio', { name: /^0 балл/u }).check();
+  await expect(page.locator('.result-screen .result-summary')).toContainText(
+    '18 из 21',
+  );
+});

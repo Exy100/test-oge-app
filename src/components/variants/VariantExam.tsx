@@ -16,9 +16,6 @@ import VariantFiles from './VariantFiles';
 import resultUrl from './ExamFinished.tsx?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
 import '../../styles/result.css';
-import '../../styles/rich-text.css';
-import '../../styles/figure.css';
-import '../../styles/task-files.css';
 
 export interface ExamIdentity {
   variantId: string;
