@@ -12,6 +12,7 @@ import { sitePath } from '../../lib/site';
 import {
   attemptResultHref,
   attemptVariantLabel,
+  recoverResultPage,
 } from '../../lib/variant-links';
 import { useStoredAreas } from '../useStoredAreas';
 import TaskGuidance from '../tasks/TaskGuidance';
@@ -173,6 +174,10 @@ export default function ExamFinished({
   const [Print, setPrint] = useState<PrintView | null>(null);
   const [busy, setBusy] = useState(false);
   const [printFailed, setPrintFailed] = useState(false);
+  const printButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (Print || printFailed) printButton.current?.focus();
+  }, [Print, printFailed]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -236,7 +241,7 @@ export default function ExamFinished({
           <Button
             variant="secondary"
             onClick={() => {
-              window.location.reload();
+              recoverResultPage();
             }}
           >
             Повторить восстановление
@@ -430,6 +435,7 @@ export default function ExamFinished({
             <>
               <p role="status">Все 16 разборов подготовлены к печати.</p>
               <Button
+                ref={printButton}
                 onClick={() => {
                   window.print();
                 }}
@@ -439,8 +445,9 @@ export default function ExamFinished({
             </>
           ) : printFailed ? (
             <Button
+              ref={printButton}
               onClick={() => {
-                window.location.reload();
+                recoverResultPage();
               }}
             >
               Перезагрузить для печати

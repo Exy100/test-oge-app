@@ -302,7 +302,7 @@ test('print preparation includes every condition, answer, solution and rubric wi
     .click();
   await expect(
     page.getByRole('button', { name: 'Печатать результат' }),
-  ).toBeVisible();
+  ).toBeFocused();
   await expect(page.locator('.result-print-task')).toHaveCount(16);
   await expect(page.locator('.result-screen details[open]')).toHaveCount(0);
   await page.emulateMedia({ media: 'print' });
@@ -333,7 +333,10 @@ test('a failed result download preserves history and can be retried', async ({
   );
   expect((await history(page)).entries[0]?.answers).toEqual(saved.answers);
   await page.unroute('**/ExamFinished.*.js');
-  await page.getByRole('button', { name: 'Повторить загрузку' }).click();
+  await Promise.all([
+    page.waitForURL((target) => target.searchParams.has('restore')),
+    page.getByRole('button', { name: 'Повторить загрузку' }).click(),
+  ]);
   await expect(
     page.getByRole('heading', { name: 'Экзамен завершён' }),
   ).toBeVisible();
@@ -353,7 +356,10 @@ test('a print module failure offers reload without losing the saved result', asy
     'ответы останутся в истории',
   );
   await page.unroute('**/ResultPrint.*.js');
-  await page.getByRole('button', { name: 'Перезагрузить для печати' }).click();
+  await Promise.all([
+    page.waitForURL((target) => target.searchParams.has('restore')),
+    page.getByRole('button', { name: 'Перезагрузить для печати' }).click(),
+  ]);
   await page
     .getByRole('button', { name: 'Подготовить результат к печати' })
     .click();
@@ -385,7 +391,10 @@ test('blocked variant rebuilding keeps answers available and recovers after relo
   ).toBeVisible();
   expect((await history(page)).entries[0]?.answers).toEqual(saved.answers);
   await page.unroute('**/result.worker-*.js');
-  await page.getByRole('button', { name: 'Повторить восстановление' }).click();
+  await Promise.all([
+    page.waitForURL((target) => target.searchParams.has('restore')),
+    page.getByRole('button', { name: 'Повторить восстановление' }).click(),
+  ]);
   await expect(page.locator('.result-screen .result-summary')).toContainText(
     '21 из 21',
   );

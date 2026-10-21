@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useHydrated } from '../useHydrated';
 import { useStoredAreas } from '../useStoredAreas';
-import { attemptResultHref, readResultAttempt } from '../../lib/variant-links';
+import {
+  attemptResultHref,
+  readResultAttempt,
+  recoverResultPage,
+} from '../../lib/variant-links';
 import { fixedVariants } from '../../core/variants/catalog';
 import { sitePath } from '../../lib/site';
 import { Button } from '../ui/Button';
@@ -69,7 +73,7 @@ export default function VariantResult({ variantId }: { variantId: string }) {
       {error && (
         <Button
           onClick={() => {
-            window.location.reload();
+            recoverResultPage();
           }}
         >
           Повторить загрузку

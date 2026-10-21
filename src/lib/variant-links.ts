@@ -98,3 +98,16 @@ export function readResultAttempt(search: string): string {
     throw new VariantLinkError('В ссылке нужен один идентификатор попытки.');
   return id;
 }
+
+/** A fresh navigation resets failed module loading while preserving the exact attempt. */
+export function resultRecoveryUrl(location: string, nonce: string): string {
+  const url = new URL(location);
+  url.searchParams.set('restore', nonce);
+  url.hash = '';
+  return url.href;
+}
+export function recoverResultPage() {
+  window.location.replace(
+    resultRecoveryUrl(window.location.href, crypto.randomUUID()),
+  );
+}

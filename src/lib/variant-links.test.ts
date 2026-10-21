@@ -21,7 +21,29 @@ import {
   readPrintIdentity,
   attemptResultHref,
   readResultAttempt,
+  resultRecoveryUrl,
 } from './variant-links';
+
+test('recovery navigates to a fresh document without changing attempt, mode or seed', () => {
+  const initial = new URL(
+    'https://example.test/test-oge-app/variants/random/result/',
+  );
+  initial.search = new URLSearchParams({
+    attempt: 'точная попытка + 🧩',
+    seed: 'seed + /?&я',
+    training: 'saved-id',
+    restore: 'old',
+  }).toString();
+  initial.hash = '#result-task-14';
+  const restored = new URL(resultRecoveryUrl(initial.href, 'new'));
+  expect(restored.origin + restored.pathname).toBe(
+    initial.origin + initial.pathname,
+  );
+  for (const key of ['attempt', 'seed', 'training'])
+    expect(restored.searchParams.get(key)).toBe(initial.searchParams.get(key));
+  expect(restored.searchParams.getAll('restore')).toEqual(['new']);
+  expect(restored.hash).toBe('');
+});
 
 test('result links keep attempt IDs local and exact, rejecting absent or ambiguous records', () => {
   for (const identity of [
