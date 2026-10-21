@@ -4,6 +4,13 @@ import { readFile } from 'node:fs/promises';
 import { areaSchemas, PREFIX } from '../../src/core/storage/schemas';
 import { buildFixedVariant, VARIANT_VERSION } from '../../src/core/variants';
 import { readZip } from '../../src/core/datasets/zip';
+import { referenceProgram } from '../../src/core/generators/15/robots';
+import { isRobotKind } from '../../src/core/generators/15/fields';
+import {
+  isProgramKind,
+  programCases,
+  programParameters,
+} from '../../src/core/generators/16/problems';
 
 const fixed = buildFixedVariant('V01');
 const first = fixed.tasks[0];
@@ -314,7 +321,7 @@ test('a long random seed resumes from the catalogue after leaving with unsaved c
   );
   await number(page, 16).click();
   await page
-    .getByLabel('Твоя программа на Python')
+    .getByLabel('Код Python', { exact: true })
     .fill('n = int(input())\nprint(n + 1)');
   await page
     .getByRole('navigation', { name: 'Основная навигация' })
@@ -328,7 +335,7 @@ test('a long random seed resumes from the catalogue after leaving with unsaved c
     .getByRole('button', { name: 'Продолжить экзамен', exact: true })
     .click();
   await number(page, 16).click();
-  await expect(page.getByLabel('Твоя программа на Python')).toHaveValue(
+  await expect(page.getByLabel('Код Python', { exact: true })).toHaveValue(
     'n = int(input())\nprint(n + 1)',
   );
   expect((await savedDraft(page))?.current?.variantId).toBe(
@@ -464,4 +471,243 @@ test('failed exam module loading leaves the saved work untouched and explains re
   await expect(page.getByRole('timer')).toHaveCount(0);
   expect((await savedDraft(page))?.current ?? null).toBeNull();
   expect((await completed(page)).entries).toEqual([]);
+});
+
+test('exam: Robot runs from the keyboard, exports code and restores both programs after reload', async ({
+  page,
+}) => {
+  page.on('dialog', (dialog) => dialog.accept());
+  await start(page);
+  await number(page, 15).click();
+  const task = fixed.tasks.find((row) => row.taskNumber === 15);
+  if (!task || !isRobotKind(task.subtype))
+    throw new Error('Missing Robot task');
+  const code = referenceProgram(task.subtype);
+  const editor = page.getByLabel('Программа Робота', { exact: true });
+  const status = page.getByRole('status', { name: 'Выполнение Робота' });
+  await expect(
+    page.getByLabel('Поле Робота', { exact: true }).locator('option'),
+  ).toHaveCount(1);
+  await editor.fill('нц 10000 раз\nзакрасить\nкц');
+  await page.getByRole('button', { name: 'Запустить', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(editor).toBeDisabled();
+  await page.getByRole('button', { name: 'Пауза', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(editor).toBeEnabled();
+  await page.getByRole('button', { name: 'Сбросить выполнение' }).focus();
+  await page.keyboard.press('Enter');
+  await editor.fill(code);
+  await editor.press('Tab');
+  const exporter = page.getByRole('button', { name: 'Скачать свой код' });
+  await expect(exporter).toBeFocused();
+  const downloading = page.waitForEvent('download');
+  await exporter.press('Enter');
+  const download = await downloading;
+  expect(download.suggestedFilename()).toBe('answer.txt');
+  const path = await download.path();
+  if (!path) throw new Error('No Robot export');
+  expect(await readFile(path, 'utf8')).toBe(code);
+  await page.getByRole('button', { name: 'Шаг', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(status).toContainText('Шагов: 1.');
+  await page.getByRole('button', { name: 'Запустить', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(status).toContainText('Все нужные клетки закрашены.', {
+    timeout: 15000,
+  });
+  await expect(editor).toHaveValue(code);
+  await page
+    .getByLabel('Черновик решения')
+    .fill('Проверить все допустимые длины стен.');
+  await number(page, 16).click();
+  const python = 'n = int(input())\nprint(n)\n';
+  await page.getByLabel('Код Python', { exact: true }).fill(python);
+  await page.evaluate(() =>
+    document.dispatchEvent(new Event('visibilitychange')),
+  );
+  await page.reload();
+  await page
+    .getByRole('button', { name: 'Продолжить экзамен', exact: true })
+    .click();
+  await number(page, 15).click();
+  await expect(editor).toHaveValue(code);
+  await expect(status).toHaveText('Готов к запуску.');
+  await expect(page.getByLabel('Черновик решения')).toHaveValue(
+    'Проверить все допустимые длины стен.',
+  );
+  await number(page, 16).click();
+  await expect(page.getByLabel('Код Python', { exact: true })).toHaveValue(
+    python,
+  );
+  await page
+    .getByRole('button', { name: 'Завершить экзамен', exact: true })
+    .click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: 'Завершить и открыть разбор' })
+    .click();
+  for (const n of [15, 16]) {
+    const review = page.locator('.exam-finished details').filter({
+      has: page.getByRole('heading', {
+        name: `Задание №${String(n)}`,
+        exact: true,
+      }),
+    });
+    await review.locator(':scope > summary').click();
+    await expect(review.locator('.exam-saved-answer')).toHaveText(
+      n === 15 ? code.trim() : python.trim(),
+    );
+    await review.getByRole('button', { name: 'Подготовить файлы' }).click();
+    await expect(
+      review.getByRole('link', { name: 'Скачать ZIP', exact: true }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth <=
+          document.documentElement.clientWidth,
+      ),
+    ).toBe(true);
+    await expect(
+      review.getByLabel('Файл для просмотра').locator('option'),
+    ).toContainText([
+      n === 15 ? 'reference/answer.txt' : 'reference/answer.py',
+    ]);
+  }
+  await expect(page.getByLabel('Код Python', { exact: true })).toHaveCount(0);
+  expect((await completed(page)).entries).toHaveLength(1);
+});
+
+test('exam: Python exports every saved character and exposes only the given input/output example', async ({
+  page,
+}) => {
+  page.on('dialog', (dialog) => dialog.accept());
+  await start(page);
+  await number(page, 16).click();
+  const task = fixed.tasks.find((row) => row.taskNumber === 16);
+  if (!task || !isProgramKind(task.subtype))
+    throw new Error('Missing Python task');
+  const example = programCases(
+    programParameters(task.subtype, task.seed),
+    task.seed,
+  )[0];
+  if (!example) throw new Error('Missing example');
+  await expect(
+    page.getByLabel('Пример ввода и вывода').locator('option'),
+  ).toHaveCount(1);
+  await expect(
+    page.getByRole('region', { name: 'Входные данные', exact: true }),
+  ).toHaveText(example.input.trim());
+  await expect(
+    page.getByRole('region', { name: 'Ожидаемый результат', exact: true }),
+  ).toHaveText(example.output.trim());
+  await expect(
+    page.getByRole('region', { name: 'Команда запуска Python' }),
+  ).toHaveText('python3 answer.py');
+  await expect(
+    page.getByRole('button', { name: 'Подготовить файлы' }),
+  ).toHaveCount(0);
+  await expect(page.getByRole('radio')).toHaveCount(0);
+  const editor = page.getByLabel('Код Python', { exact: true });
+  const code = '# Программа ученика\n' + '#'.repeat(19979) + '\n';
+  expect(code.length).toBe(20000);
+  await expect(editor).toHaveAttribute('maxlength', '20000');
+  await editor.fill(code);
+  await page.clock.install();
+  await page.clock.runFor(10000);
+  await expect(editor).toHaveValue(code);
+  const downloading = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Скачать свой код' }).click();
+  const file = await downloading;
+  expect(file.suggestedFilename()).toBe('answer.py');
+  const path = await file.path();
+  if (!path) throw new Error('No Python export');
+  expect(await readFile(path, 'utf8')).toBe(code);
+  await page.evaluate(() =>
+    document.dispatchEvent(new Event('visibilitychange')),
+  );
+  expect(
+    (await savedDraft(page))?.current?.answers.find(
+      (row) => row.taskNumber === 16,
+    )?.text,
+  ).toBe(code);
+  await number(page, 1).click();
+  await number(page, 16).click();
+  await expect(editor).toHaveValue(code);
+});
+
+test('exam: office criteria and file records follow the selected work without showing reference answers', async ({
+  page,
+}) => {
+  await start(page, '13.1 — Презентация');
+  for (const n of [13, 14]) {
+    await number(page, n).click();
+    const task = fixed.tasks.find((row) => row.taskNumber === n);
+    if (!task?.criteria) throw new Error('Missing office rubric');
+    const rubric = page.getByRole('group', { name: 'Учебные критерии работы' });
+    for (const level of task.criteria.levels)
+      await expect(rubric).toContainText(level.description);
+    await page
+      .getByLabel('Имя файла с твоей работой')
+      .fill(n === 13 ? 'презентация.odp' : 'таблица.ods');
+    await page.getByRole('button', { name: 'Подготовить файлы' }).click();
+    await expect(
+      page.getByRole('link', { name: 'Скачать ZIP', exact: true }),
+    ).toBeVisible();
+    const names = await page
+      .getByLabel('Файл для просмотра')
+      .locator('option')
+      .allTextContents();
+    expect(
+      names.some((name) => /reference|criteria|answers|examples/u.test(name)),
+    ).toBe(false);
+  }
+  await number(page, 13).click();
+  await expect(page.getByLabel('Имя файла с твоей работой')).toHaveValue(
+    'презентация.odp',
+  );
+  await page.getByRole('button', { name: 'Сменить работу №13' }).click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: 'Сменить работу', exact: true })
+    .click();
+  await expect(page.getByLabel('Имя файла с твоей работой')).toHaveValue('');
+  await expect(page.locator('#exam-task-title')).toContainText(
+    '13.2 — документ',
+  );
+  await expect(
+    page.getByRole('group', { name: 'Учебные критерии работы' }),
+  ).toContainText('0 балл(а).');
+  await number(page, 14).click();
+  await expect(page.getByLabel('Имя файла с твоей работой')).toHaveValue(
+    'таблица.ods',
+  );
+});
+
+test('exam: practical editors remain accessible in both themes with 200% text and reduced motion', async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await start(page);
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '200%';
+  });
+  for (const theme of ['light', 'dark']) {
+    await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+    for (const n of [13, 14, 15, 16]) {
+      await number(page, n).click();
+      expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+  }
+  expect(errors).toEqual([]);
 });

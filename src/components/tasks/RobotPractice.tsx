@@ -11,18 +11,25 @@ import CodeEditor from './CodeEditor';
 export default function RobotPractice({
   kind,
   seed,
+  mode = 'practice',
+  value,
+  onChange,
 }: {
   kind: RobotKind;
   seed: string;
+  mode?: 'practice' | 'exam';
+  value?: string;
+  onChange?: (code: string) => void;
 }) {
-  const fields = useMemo(
-    () => robotCases(kind, seed).map(fieldFor),
-    [kind, seed],
-  );
+  const fields = useMemo(() => {
+    const cases = robotCases(kind, seed);
+    return (mode === 'exam' ? cases.slice(0, 1) : cases).map(fieldFor);
+  }, [kind, seed, mode]);
   const fieldId = useId();
   const [index, setIndex] = useState(0);
   const field = fields[index];
-  const [code, setCode] = useState('');
+  const [localCode, setLocalCode] = useState('');
+  const code = value ?? localCode;
   const [result, setResult] = useState<RobotResult | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState('');
@@ -71,11 +78,16 @@ export default function RobotPractice({
     result !== null && !['ready', 'running'].includes(result.status);
   return (
     <section className="robot-practice" aria-label="Тренажёр Робота">
-      <h3>Проверь алгоритм на полях</h3>
+      <h3>
+        {mode === 'exam'
+          ? 'Проверь алгоритм на примере'
+          : 'Проверь алгоритм на полях'}
+      </h3>
       <p>
-        Круги обозначают клетки для закраски. Проверь все поля: успех на одном
-        примере ещё не доказывает общий алгоритм. Это учебная проверка; балл
-        выбирай отдельно по критериям.
+        Круги обозначают клетки для закраски.{' '}
+        {mode === 'exam'
+          ? 'Здесь доступно поле из условия. Программа должна работать на всех допустимых полях семейства; успех на этом примере этого не доказывает. Проверочные поля откроются после завершения экзамена.'
+          : 'Проверь все поля: успех на одном примере ещё не доказывает общий алгоритм. Это учебная проверка; балл выбирай отдельно по критериям.'}
       </p>
       <label htmlFor={fieldId}>
         Поле Робота
@@ -111,12 +123,14 @@ export default function RobotPractice({
       />
       <CodeEditor
         value={code}
-        onChange={(value) => {
+        onChange={(nextCode) => {
           reset();
-          setCode(value);
+          if (onChange) onChange(nextCode);
+          else setLocalCode(nextCode);
         }}
         language="robot"
         disabled={running}
+        maxLength={mode === 'exam' ? 20000 : 32000}
       />
       <details>
         <summary>Команды и синтаксис</summary>

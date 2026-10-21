@@ -14,6 +14,11 @@ import {
   type ExamSession,
 } from '../../core/variants/exam';
 import type { TaskNumber } from '../../core/types';
+import { isRobotKind } from '../../core/generators/15/fields';
+import { isProgramKind } from '../../core/generators/16/problems';
+import RobotPractice from '../tasks/RobotPractice';
+import PythonPractice from '../tasks/PythonPractice';
+import CriteriaLevels from '../tasks/CriteriaLevels';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import ExamFinished, { ExamDownload, buildExamVariant } from './ExamFinished';
@@ -109,12 +114,6 @@ export default function ExamRun({
   const threshold = [120, 90, 60, 30, 10, 5, 1].findLast(
     (minutes) => remaining <= minutes * 60_000,
   );
-  const label =
-    current === 13 || current === 14
-      ? 'Имя файла с твоей работой'
-      : current === 15
-        ? 'Твоя программа Робота'
-        : 'Твоя программа на Python';
   function navigate(number: TaskNumber) {
     session.tick();
     setCurrent(number);
@@ -221,42 +220,63 @@ export default function ExamRun({
           </p>
         )}
         <ExamTask key={task.id} task={task} />
-        <label htmlFor="exam-answer">
-          {current <= 12 ? 'Твой ответ' : label}
-        </label>
-        {current <= 12 ? (
-          <input
-            id="exam-answer"
-            type="text"
-            value={answer?.text ?? ''}
-            maxLength={1000}
-            autoComplete="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            onChange={(event) => {
-              session.answer(current, 'text', event.target.value);
-            }}
-          />
-        ) : (
-          <>
-            <p id="exam-answer-help">
-              {current <= 14
-                ? 'Сохрани готовую работу на компьютере и запиши здесь имя файла. Файл остаётся у тебя; сайт его не загружает и не проверяет.'
-                : 'Запиши программу здесь и сохрани её в своей среде программирования. Проверку и запуск выполняй в этой среде.'}
+        {task.criteria && (
+          <section aria-label="Критерии практической работы">
+            <p>
+              Максимум — {task.criteria.max} балл(а). Это учебные критерии; на
+              экзамене работу оценивают эксперты.
             </p>
-            <textarea
+            <CriteriaLevels criteria={task.criteria} />
+          </section>
+        )}
+        {current <= 14 ? (
+          <>
+            <label htmlFor="exam-answer">
+              {current <= 12 ? 'Твой ответ' : 'Имя файла с твоей работой'}
+            </label>
+            {current >= 13 && (
+              <p id="exam-answer-help">
+                Сохрани готовую работу на компьютере и запиши здесь имя файла.
+                Файл остаётся у тебя; сайт его не загружает и не проверяет.
+              </p>
+            )}
+            <input
               id="exam-answer"
-              aria-describedby="exam-answer-help"
+              type="text"
+              aria-describedby={current >= 13 ? 'exam-answer-help' : undefined}
               value={answer?.text ?? ''}
-              rows={8}
-              maxLength={20000}
+              maxLength={1000}
+              autoComplete="off"
+              autoCapitalize="off"
               spellCheck={false}
               onChange={(event) => {
                 session.answer(current, 'text', event.target.value);
               }}
             />
           </>
-        )}
+        ) : isRobotKind(task.subtype) ? (
+          <RobotPractice
+            key={task.id}
+            kind={task.subtype}
+            seed={task.seed}
+            mode="exam"
+            value={answer?.text ?? ''}
+            onChange={(code) => {
+              session.answer(15, 'text', code);
+            }}
+          />
+        ) : isProgramKind(task.subtype) ? (
+          <PythonPractice
+            key={task.id}
+            kind={task.subtype}
+            seed={task.seed}
+            mode="exam"
+            value={answer?.text ?? ''}
+            onChange={(code) => {
+              session.answer(16, 'text', code);
+            }}
+          />
+        ) : null}
         <label htmlFor="exam-reasoning">Черновик решения</label>
         <textarea
           id="exam-reasoning"

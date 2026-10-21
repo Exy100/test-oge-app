@@ -10,6 +10,7 @@ import TaskFiles from './TaskFiles';
 import RobotPractice from './RobotPractice';
 import PythonPractice from './PythonPractice';
 import TaskGuidance from './TaskGuidance';
+import CriteriaLevels from './CriteriaLevels';
 import '../../styles/task-card.css';
 
 export interface TaskCardProps {
@@ -151,25 +152,14 @@ function TaskCardBody({ task, onResult, statementHtml }: TaskCardProps) {
                 {task.criteria.max}. На экзамене работу оценивают эксперты.
                 Эталонные файлы и инструкции для сравнения находятся в ZIP.
               </p>
-              <fieldset disabled={accepted}>
-                <legend>Балл по критериям</legend>
-                {task.criteria.levels.map((level) => (
-                  <label className="criterion" key={level.score}>
-                    <input
-                      type="radio"
-                      name={`${id}-score`}
-                      checked={assessment === level.score}
-                      onChange={() => {
-                        setAssessment(level.score);
-                      }}
-                    />
-                    <span>
-                      <strong>{level.score} балл(а).</strong>{' '}
-                      {level.description}
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
+              <CriteriaLevels
+                criteria={task.criteria}
+                selection={{
+                  value: assessment,
+                  onChange: setAssessment,
+                  disabled: accepted,
+                }}
+              />
               <div className="task-actions">
                 <button
                   type="button"

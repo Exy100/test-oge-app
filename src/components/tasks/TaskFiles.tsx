@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import type { Dataset } from '../../core/datasets';
 import type { TaskInstance } from '../../core/types';
 import { readHtm } from '../../core/datasets/htm';
+import '../../styles/task-files.css';
 
 export default function TaskFiles({
   task,

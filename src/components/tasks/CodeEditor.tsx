@@ -5,11 +5,13 @@ export default function CodeEditor({
   onChange,
   language,
   disabled = false,
+  maxLength = 32000,
 }: {
   value: string;
   onChange: (value: string) => void;
   language: 'robot' | 'python';
   disabled?: boolean;
+  maxLength?: number;
 }) {
   const id = useId();
   const url = useRef<string | null>(null);
@@ -26,7 +28,8 @@ export default function CodeEditor({
       </label>
       <p id={`${id}-help`}>
         Текстовый редактор. Tab переводит фокус к следующему элементу; для
-        отступа используй пробелы. До 32 000 символов.
+        отступа используй пробелы. До {maxLength.toLocaleString('ru-RU')}{' '}
+        символов.
       </p>
       <textarea
         id={id}
@@ -35,7 +38,7 @@ export default function CodeEditor({
           onChange(event.target.value);
         }}
         disabled={disabled}
-        maxLength={32000}
+        maxLength={maxLength}
         rows={12}
         spellCheck={false}
         autoCapitalize="off"
