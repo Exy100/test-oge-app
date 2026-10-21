@@ -17,7 +17,43 @@ import {
   variantTaskHref,
   attemptVariantHref,
   VariantLinkError,
+  variantPrintHref,
+  readPrintIdentity,
 } from './variant-links';
+
+test('print links preserve fixed identities and exact random seeds and reject ambiguity', () => {
+  for (const fixed of fixedVariants) {
+    const identity = { variantId: fixed.id, seed: fixed.seed };
+    expect(
+      readPrintIdentity(
+        new URL(variantPrintHref(identity), 'https://example.test').search,
+      ),
+    ).toEqual(identity);
+  }
+  for (const seed of [
+    '',
+    'Пример + /?&🧩',
+    '<script>alert(1)</script>',
+    'x'.repeat(200),
+  ]) {
+    const identity = { variantId: `${VARIANT_VERSION}:${seed}`, seed };
+    expect(
+      readPrintIdentity(
+        new URL(variantPrintHref(identity), 'https://example.test').search,
+      ),
+    ).toEqual(identity);
+  }
+  for (const query of [
+    '',
+    '?id=V11',
+    '?id=V01&id=V02',
+    '?id=V01&seed=x',
+    '?seed=a&seed=b',
+    '?seed=' + 'x'.repeat(201),
+    '?' + 'x'.repeat(8192),
+  ])
+    expect(() => readPrintIdentity(query)).toThrow(VariantLinkError);
+});
 
 test('catalogue contains ten working fixed paths and rejects absent or external identities', () => {
   expect(fixedVariants).toHaveLength(10);

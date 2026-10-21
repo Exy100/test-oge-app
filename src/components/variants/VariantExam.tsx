@@ -12,6 +12,7 @@ import {
 import { useStoredAreas } from '../useStoredAreas';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
+import VariantFiles from './VariantFiles';
 
 export interface ExamIdentity {
   variantId: string;
@@ -227,6 +228,7 @@ export default function VariantExam({
           )}
         </div>
       )}
+      <VariantFiles variantId={variantId} seed={seed} />
       <fieldset className="exam-choice" disabled={busy}>
         <legend>Какую работу №13 будешь выполнять?</legend>
         <label>

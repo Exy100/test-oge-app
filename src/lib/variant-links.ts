@@ -27,6 +27,34 @@ export function readVariantSeed(search: string): string {
     throw new VariantLinkError('Ссылка на вариант слишком длинная.');
   return values[0];
 }
+export function variantPrintHref(identity: {
+  variantId: string;
+  seed: string;
+}): string {
+  const query = fixedVariants.some((row) => row.id === identity.variantId)
+    ? { id: identity.variantId }
+    : { seed: identity.seed };
+  return `${sitePath('/variants/print/')}?${new URLSearchParams(query)}`;
+}
+export function readPrintIdentity(search: string): {
+  variantId: string;
+  seed: string;
+} {
+  if (search.length > 8192)
+    throw new VariantLinkError('Ссылка на вариант слишком длинная.');
+  const query = new URLSearchParams(search);
+  if (query.has('id')) {
+    const ids = query.getAll('id');
+    const fixed = fixedVariants.find((row) => row.id === ids[0]);
+    if (ids.length !== 1 || query.has('seed') || !fixed)
+      throw new VariantLinkError(
+        'Неизвестный вариант для печати. Выбери его в каталоге.',
+      );
+    return { variantId: fixed.id, seed: fixed.seed };
+  }
+  const seed = readVariantSeed(search);
+  return { variantId: `${VARIANT_VERSION}:${seed}`, seed };
+}
 export function variantTaskHref(task: TaskInstance): string {
   return `${sitePath('/stream/')}?${new URLSearchParams({ task: task.generatorId, seed: task.seed })}`;
 }

@@ -10,6 +10,7 @@ module.exports = {
         'http://127.0.0.1:4323/test-oge-app/variants/V01/',
         'http://127.0.0.1:4323/test-oge-app/variants/V01/?exam=1',
         'http://127.0.0.1:4323/test-oge-app/variants/random/?seed=lighthouse-variant',
+        'http://127.0.0.1:4323/test-oge-app/variants/print/?id=V01',
       ],
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox' },

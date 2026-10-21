@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useHydrated } from '../useHydrated';
 import VariantExam, { type ExamIdentity } from './VariantExam';
+import VariantFiles from './VariantFiles';
 
 /** The small setup screen loads with the entry; generators load on Start. */
 export default function ExamEntry({
@@ -60,6 +61,7 @@ export default function ExamEntry({
           Пройти с таймером
         </button>
       </p>
+      <VariantFiles variantId={variantId} seed={seed} />
       {children}
     </>
   );

@@ -23,6 +23,7 @@ import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import ExamFinished, { ExamDownload, buildExamVariant } from './ExamFinished';
 import ExamTask from './ExamTask';
+import VariantFiles from './VariantFiles';
 import '../../styles/task-card.css';
 
 export default function ExamRun({
@@ -160,6 +161,7 @@ export default function ExamRun({
               ? 'Есть изменения. Автосохранение — каждые 10 секунд.'
               : 'Ответы сохранены в этом браузере.')}
       </p>
+      <VariantFiles variantId={draft.variantId} seed={draft.seed} />
       <nav className="exam-navigation" aria-label="Задания экзамена">
         {examNumbers.map((number) => (
           <button

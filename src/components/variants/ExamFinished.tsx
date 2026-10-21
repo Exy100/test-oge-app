@@ -12,6 +12,7 @@ import { sitePath } from '../../lib/site';
 import TaskGuidance from '../tasks/TaskGuidance';
 import { Button } from '../ui/Button';
 import ExamTask from './ExamTask';
+import VariantFiles from './VariantFiles';
 
 export function ExamDownload({ draft }: { draft: ExamDraft }) {
   return (
@@ -136,6 +137,7 @@ export default function ExamFinished({
         <ExamDownload draft={attempt} />
         <a href={sitePath('/variants/')}>Все варианты и история</a>
       </div>
+      <VariantFiles variantId={attempt.variantId} seed={attempt.seed} />
       <h3>Ответы и разбор</h3>
       {variant.tasks.map((task) => (
         <ReviewTask key={task.id} task={task} attempt={attempt} />

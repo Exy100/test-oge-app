@@ -1,0 +1,127 @@
+.variant-files {
+  margin-block: var(--space-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  min-width: 0;
+}
+.variant-files > summary {
+  padding: var(--space-4);
+  cursor: pointer;
+}
+.variant-files > summary h2 {
+  display: inline;
+  font-size: var(--text-lg);
+  margin: 0;
+}
+.variant-files-body {
+  padding: 0 var(--space-4) var(--space-4);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.variant-files input[type='file'] {
+  width: 100%;
+  max-width: 100%;
+}
+.file-formats-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.file-memo table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.file-memo th,
+.file-memo td {
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid var(--border-strong);
+  padding: var(--space-3);
+  overflow-wrap: anywhere;
+}
+.file-memo th:first-child {
+  white-space: nowrap;
+}
+.variant-print {
+  overflow-wrap: anywhere;
+}
+.variant-print-task {
+  margin-block: var(--space-8);
+}
+.variant-print-seed {
+  min-height: 3.2em;
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  :root:has(.variant-print),
+  :root[data-theme]:has(.variant-print) {
+    color-scheme: light;
+    font-size: 11pt;
+    --ink: #111;
+    --muted: #333;
+    --surface: #fff;
+    --border-strong: #777;
+  }
+  body:has(.variant-print),
+  body:has(.variant-print) .info-page,
+  body:has(.variant-print) .info-content {
+    color: #111;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  body:has(.variant-print) .site-header,
+  body:has(.variant-print) .site-footer,
+  body:has(.variant-print) .skip-link,
+  body:has(.variant-print) .storage-notice,
+  body:has(.variant-print) .info-back,
+  body:has(.variant-print) .info-heading,
+  .variant-print .rich-text-copy,
+  .variant-print .rich-text-notice,
+  .variant-print-controls {
+    display: none !important;
+  }
+  .variant-print-seed {
+    font-size: 9pt;
+    min-height: 0;
+  }
+  .file-formats-scroll {
+    overflow: visible;
+  }
+  .file-memo table {
+    font-size: 9pt;
+  }
+  .variant-print-task {
+    break-inside: avoid-page;
+    margin-block: 8mm;
+  }
+  .file-memo + .variant-print-task {
+    break-before: page;
+  }
+  .variant-print h2,
+  .variant-print h3 {
+    break-after: avoid;
+  }
+  .variant-print pre,
+  .variant-print pre code {
+    white-space: pre-wrap;
+    overflow: visible;
+  }
+  .variant-print .rich-text table {
+    display: table;
+    width: 100%;
+    overflow: visible;
+  }
+  .variant-print svg,
+  .variant-print img {
+    max-width: 100%;
+    height: auto;
+    break-inside: avoid;
+  }
+  .variant-print tr {
+    break-inside: avoid;
+  }
+}

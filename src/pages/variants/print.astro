@@ -1,0 +1,19 @@
+---
+import InfoLayout from '../../layouts/InfoLayout.astro';
+import VariantPrint from '../../components/variants/VariantPrint';
+---
+
+<InfoLayout
+  title="Условия и памятка для печати"
+  description="Условия учебного варианта без ответов и решений. Памятка о файлах и форматах сдачи."
+  route="/variants/"
+>
+  <p class="variant-print-controls">
+    <a href="../">← Все варианты</a>
+  </p>
+  <noscript>
+    Для подготовки печатного комплекта включи JavaScript. Условия готовых
+    вариантов можно читать в каталоге.
+  </noscript>
+  <VariantPrint client:load />
+</InfoLayout>
