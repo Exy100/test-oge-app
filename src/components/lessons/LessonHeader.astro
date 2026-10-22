@@ -1,0 +1,33 @@
+---
+import type { LessonMetadata } from '../../lib/lessons/schema';
+import { prerequisiteLinks, type LessonLink } from '../../lib/lessons/links';
+import '../../styles/lessons.css';
+interface Props {
+  lesson: LessonMetadata;
+  lessons?: readonly LessonLink[];
+}
+const { lesson, lessons = [] } = Astro.props;
+const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
+---
+
+<header class="lesson-header">
+  <p class="eyebrow">
+    Номера ОГЭ: {lesson.taskNumbers.join(', ')} · Чтение:{' '}
+    {lesson.readingMinutes} мин
+  </p>
+  <h1>{lesson.title}</h1>
+  {prerequisites.length ? (
+    <div class="lesson-prerequisites">
+      <p>Перед началом повтори:</p>
+      <ul>
+        {prerequisites.map((link) => (
+          <li>
+            <a href={link.href}>{link.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p>Можно начать без предварительной подготовки.</p>
+  )}
+</header>

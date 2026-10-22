@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import type { Dataset } from '../../core/datasets';
 import type { TaskInstance } from '../../core/types';
 import { readHtm } from '../../core/datasets/htm';
+import { useHydrated } from '../useHydrated';
 import '../../styles/task-files.css';
 
 export default function TaskFiles({
@@ -12,6 +13,7 @@ export default function TaskFiles({
   mode?: 'practice' | 'exam';
 }) {
   const id = useId();
+  const ready = useHydrated();
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [links, setLinks] = useState<{ zip: string; manifest: string } | null>(
     null,
@@ -41,7 +43,7 @@ export default function TaskFiles({
       {!dataset && (
         <button
           type="button"
-          disabled={busy}
+          disabled={busy || !ready}
           onClick={() => {
             setBusy(true);
             setError('');

@@ -1,0 +1,22 @@
+---
+import type { StreamReference } from '../../core/stream/schemas';
+import { shortQuestion } from '../../lib/lessons/content';
+import { validateChoice, type ChoiceQuestion } from '../../lib/lessons/quiz';
+import QuestionForm from './QuestionForm';
+type Props = { id: string; title: string } & (
+  | { source: StreamReference; choice?: never }
+  | { choice: ChoiceQuestion; source?: never }
+);
+const { id, title } = Astro.props;
+const question = Astro.props.source
+  ? shortQuestion(Astro.props.source)
+  : validateChoice(Astro.props.choice);
+---
+
+<QuestionForm id={id} title={title} question={question} client:visible />
+<noscript>
+  <p>
+    Чтобы проверить ответ в мини-тесте, включи JavaScript. Теория и разборы
+    доступны без него.
+  </p>
+</noscript>

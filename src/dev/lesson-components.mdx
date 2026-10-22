@@ -1,0 +1,177 @@
+import LessonHeader from '../components/lessons/LessonHeader.astro';
+import Motivation from '../components/lessons/Motivation.astro';
+import Theory from '../components/lessons/Theory.astro';
+import Examples from '../components/lessons/Examples.astro';
+import Example from '../components/lessons/Example.astro';
+import Mistakes from '../components/lessons/Mistakes.astro';
+import Mistake from '../components/lessons/Mistake.astro';
+import Quiz from '../components/lessons/Quiz.astro';
+import Question from '../components/lessons/Question.astro';
+import StreamLink from '../components/lessons/StreamLink.astro';
+import CheatSheet from '../components/lessons/CheatSheet.astro';
+import LessonNav from '../components/lessons/LessonNav.astro';
+import TOC from '../components/lessons/TOC.astro';
+import RichText from '../components/RichText.astro';
+
+export const lesson = {
+  id: 'component-gallery',
+  title: 'Как читать условие и проверять решение',
+  section: 'i1',
+  taskNumbers: [1, 2, 3, 13],
+  readingMinutes: 7,
+  prerequisites: ['bits'],
+};
+export const links = [
+  { id: 'bits', title: 'Единицы информации', route: '/dev/lessons/#theory' },
+];
+export const removed = {
+  generatorId: 'removed-word-v2',
+  taskNumber: 1,
+  seed: 'lesson-components-word',
+};
+export const logic = {
+  generatorId: 'logic-count-true-v2',
+  taskNumber: 3,
+  seed: 'lesson-components-logic',
+};
+export const code = {
+  generatorId: 'decode-prefix-v2',
+  taskNumber: 2,
+  seed: 'lesson-components-code',
+};
+
+<LessonHeader lesson={lesson} lessons={links} />
+
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'examples', title: 'Примеры' },
+    { id: 'mistakes', title: 'Ошибки' },
+    { id: 'quiz', title: 'Мини-тест' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Внимательно прочитай, что известно и что требуется найти. Например, в
+    задании об удалённом слове известен объём изменения сообщения, а в ответе
+    нужно написать слово.
+  </p>
+</Motivation>
+
+<Theory>
+  <p>
+    Сначала выпиши данные и единицы измерения. Затем выбери способ решения и
+    проверь результат по условию.
+  </p>
+  <RichText
+    source={
+      'В одном байте **8 бит**. Считай не только буквы удалённого слова, но и удалённые разделители.\n\n```python\nbits_per_byte = 8\nprint(bits_per_byte)\n```'
+    }
+  />
+</Theory>
+
+<Examples>
+  <Example id="example-word" title="Пример: удалённое слово" source={removed} />
+  <Example
+    id="example-code"
+    title="Пример: расшифровка сообщения"
+    source={code}
+  />
+  <Example
+    id="example-logic"
+    title="Пример: логическое выражение"
+    source={logic}
+  />
+  <Example
+    id="example-document"
+    title="Пример: документ и эталонный файл"
+    source={{
+      generatorId: 'curated-documents-v2',
+      taskNumber: 13,
+      seed: 'D01',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Перепутать биты и байты">
+    <p>
+      Выпиши единицы каждого значения и приведи их к одной единице до
+      вычислений.
+    </p>
+  </Mistake>
+  <Mistake title="Не учесть разделители">
+    <p>Проверь, что именно удалили из сообщения вместе со словом.</p>
+  </Mistake>
+  <Mistake title="Записать данные вместо ответа">
+    <p>
+      Вернись к последнему предложению условия: требуется слово, число или
+      последовательность?
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-word"
+    title="Вопрос 1. Найди удалённое слово"
+    source={removed}
+  />
+  <Question
+    id="question-logic"
+    title="Вопрос 2. Проверь выражение"
+    source={logic}
+  />
+  <Question
+    id="question-code"
+    title="Вопрос 3. Расшифруй сообщение"
+    source={code}
+  />
+  <Question
+    id="question-more"
+    title="Вопрос 4. Новое сообщение"
+    source={{ ...removed, seed: 'lesson-components-word-next' }}
+  />
+  <Question
+    id="question-file"
+    title="Вопрос 5. Проверь сохранённую работу"
+    choice={{
+      kind: 'choice',
+      prompt: 'Как убедиться, что документ сохранился и открывается?',
+      options: [
+        { id: 'name', text: 'Посмотреть только на имя файла' },
+        { id: 'open', text: 'Открыть сохранённый файл и проверить содержимое' },
+      ],
+      correctId: 'open',
+      explanation:
+        'Имя файла не показывает содержимое. Открой сохранённый документ и проверь результат.',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[1, 3]} />
+
+<CheatSheet>
+  <ul>
+    <li>Прочитай, в какой форме нужен ответ.</li>
+    <li>Приведи величины к одним единицам: один байт — восемь бит.</li>
+    <li>Проверь своё решение по исходному условию.</li>
+  </ul>
+</CheatSheet>
+
+<LessonNav
+  previous={{
+    id: 'bits',
+    title: 'Единицы информации',
+    route: '/dev/lessons/#theory',
+  }}
+  next={{
+    id: 'practice',
+    title: 'Задания по теме',
+    route: '/stream/?numbers=1,3',
+  }}
+/>

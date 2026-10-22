@@ -1,0 +1,24 @@
+---
+import { lessonStreamHref } from '../../lib/lessons/links';
+interface Props {
+  taskNumbers: readonly number[];
+  variant13?: 'presentation' | 'document';
+  id?: string;
+}
+const { taskNumbers, variant13, id = 'practice' } = Astro.props;
+---
+
+<section
+  class="lesson-section lesson-practice"
+  id={id}
+  aria-labelledby={`${id}-title`}
+>
+  <h2 id={`${id}-title`}>Закрепи на практике</h2>
+  <p>
+    Решай новые задания по номерам {taskNumbers.join(', ')}. В потоке можно
+    открыть подсказки и разбор.
+  </p>
+  <a class="button button-dark" href={lessonStreamHref(taskNumbers, variant13)}>
+    Перейти к заданиям
+  </a>
+</section>

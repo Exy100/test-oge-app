@@ -1,0 +1,26 @@
+---
+import { sitePath } from '../../lib/site';
+import type { LessonLink } from '../../lib/lessons/links';
+interface Props {
+  previous?: LessonLink;
+  next?: LessonLink;
+}
+const { previous, next } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav class="lesson-nav" aria-label="Навигация по урокам">
+    {previous && (
+      <a href={sitePath(previous.route)} rel="prev">
+        <span>← Предыдущая тема</span>
+        <strong>{previous.title}</strong>
+      </a>
+    )}
+    {next && (
+      <a href={sitePath(next.route)} rel="next">
+        <span>Следующая тема →</span>
+        <strong>{next.title}</strong>
+      </a>
+    )}
+  </nav>
+)}

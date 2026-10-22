@@ -463,7 +463,7 @@ Worker: GitHub Pages его не исполняет (ADR-001). Если отве
   `docs/quality-checks.md` обновлён под это правило.
 - Готово, когда: урок без любого обязательного блока роняет сборку.
 
-### [ ] T7.2 Компоненты урока
+### [x] T7.2 Компоненты урока
 - Компоненты: LessonHeader, Theory, Example (пошаговое раскрытие, данные из генератора),
   Mistakes, Quiz, StreamLink, CheatSheet, LessonNav, TOC.
 

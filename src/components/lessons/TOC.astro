@@ -1,0 +1,26 @@
+---
+interface Props {
+  entries: readonly { id: string; title: string }[];
+}
+const { entries } = Astro.props;
+if (
+  new Set(entries.map((entry) => entry.id)).size !== entries.length ||
+  entries.some(
+    (entry) => !/^[a-z][a-z0-9-]*$/u.test(entry.id) || !entry.title.trim(),
+  )
+)
+  throw new TypeError(
+    'В оглавлении нужны уникальные идентификаторы и непустые названия.',
+  );
+---
+
+<nav class="lesson-toc" aria-label="Содержание урока">
+  <h2>В этом уроке</h2>
+  <ol>
+    {entries.map((entry) => (
+      <li>
+        <a href={`#${entry.id}`}>{entry.title}</a>
+      </li>
+    ))}
+  </ol>
+</nav>
