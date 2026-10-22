@@ -99,7 +99,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: unit-shard-${{ matrix.shard }}
+          name: unit-shard-${{ matrix.shard }}-attempt-${{ github.run_attempt }}
           path: .cache/vitest-blobs/shard-${{ matrix.shard }}.json
           include-hidden-files: true
           if-no-files-found: error
@@ -108,6 +108,9 @@ jobs:
   coverage:
     name: Complete unit results and coverage
     needs: [unit]
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -126,10 +129,20 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Select the newest artifact for each unit shard
+        id: unit-artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_ids="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" | node scripts/latest-unit-artifacts.mjs)"
+          echo "ids=$artifact_ids" >> "$GITHUB_OUTPUT"
+
       - name: Download all three test and coverage blobs
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
-          pattern: unit-shard-*
+          artifact-ids: ${{ steps.unit-artifacts.outputs.ids }}
           path: .cache/vitest-blobs
           merge-multiple: true
 

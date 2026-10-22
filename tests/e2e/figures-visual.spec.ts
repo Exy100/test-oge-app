@@ -6,6 +6,7 @@ for (const theme of ['light', 'dark']) {
     test(`${theme} ${spec.kind} ${String(index)}`, async ({ page }) => {
       await page.goto('http://127.0.0.1:4324/test-oge-app/dev/figures/');
       await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
       await page.evaluate(async () => {
         await document.fonts.ready;
       });
