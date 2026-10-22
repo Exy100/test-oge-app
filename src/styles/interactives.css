@@ -1,0 +1,40 @@
+.lesson-interactive {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-block: var(--space-8);
+  background: var(--surface);
+}
+.lesson-interactive h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-heading);
+}
+.lesson-interactive p,
+.interactive-alternative {
+  margin-block: var(--space-4);
+}
+.interactive-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+.interactive-alternative summary {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+@media print {
+  .interactive-screen,
+  .lesson-interactive noscript {
+    display: none;
+  }
+  .lesson-interactive {
+    color: black;
+    background: white;
+    border-color: black;
+  }
+  .interactive-alternative::details-content {
+    content-visibility: visible;
+    height: auto;
+  }
+}

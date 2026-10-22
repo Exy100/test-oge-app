@@ -1,0 +1,71 @@
+---
+import InteractiveHost from './InteractiveHost';
+import type { InteractiveValue } from '../../lib/interactives/module';
+import '../../styles/interactives.css';
+
+interface Props {
+  id: string;
+  title: string;
+  goal: string;
+  controls: string;
+  taskNumbers: readonly number[];
+  modulePath: string;
+  parameters?: Readonly<Record<string, InteractiveValue>>;
+}
+const {
+  id,
+  title,
+  goal,
+  controls,
+  taskNumbers,
+  modulePath,
+  parameters = {},
+} = Astro.props;
+if (!Astro.slots.has('default'))
+  throw new Error(`Interactive ${id}: требуется текстовая альтернатива.`);
+if (
+  !id.trim() ||
+  !title.trim() ||
+  !goal.trim() ||
+  !controls.trim() ||
+  taskNumbers.length === 0 ||
+  new Set(taskNumbers).size !== taskNumbers.length ||
+  taskNumbers.some(
+    (number) => !Number.isInteger(number) || number < 1 || number > 16,
+  )
+)
+  throw new Error(`Interactive ${id}: проверь цель, управление и номера ОГЭ.`);
+const entries = import.meta.glob('/src/interactives/**/*.tsx');
+const development = import.meta.env.DEV
+  ? import.meta.glob('/src/dev/InteractiveProbe.tsx')
+  : {};
+if (!(modulePath in entries) && !(modulePath in development))
+  throw new Error(`Interactive ${id}: не найден модуль ${modulePath}.`);
+---
+
+<section class="lesson-interactive" id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <p>{goal}</p>
+  <p>Задания ОГЭ: №{taskNumbers.join(', №')}.</p>
+  <p id={`${id}-controls`}>{controls}</p>
+  <div class="interactive-screen" aria-describedby={`${id}-controls`}>
+    <InteractiveHost
+      client:visible
+      id={id}
+      modulePath={modulePath}
+      parameters={parameters}
+    />
+  </div>
+  <noscript>
+    <p>
+      Для управления интерактивом включи JavaScript. Текстовое объяснение
+      доступно ниже.
+    </p>
+  </noscript>
+  <details class="interactive-alternative">
+    <summary>Текстовое объяснение</summary>
+    <div>
+      <slot />
+    </div>
+  </details>
+</section>

@@ -1,0 +1,47 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Interactive from '../components/lessons/Interactive.astro';
+import InteractiveHarness from './InteractiveHarness';
+const modulePath = '/src/dev/InteractiveProbe.tsx';
+---
+
+<SiteLayout
+  title="Проверка интерактивов"
+  description="Проверка загрузки и ресурсов двумерной сцены"
+  noindex
+>
+  <div class="container">
+    <h1>Проверка оболочки интерактива</h1>
+    <p>Техническая сцена для проверки паузы, доступности и очистки ресурсов.</p>
+    <a href="#bits-probe">Перейти к сцене</a>
+    <div class="probe-spacer" aria-hidden="true"></div>
+    <Interactive
+      id="bits-probe"
+      title="Биты и байты: проверочная сцена"
+      goal="Сопоставь число бит и полных байтов."
+      controls="Нажимай кнопки мышью, касанием или клавишами Tab и Enter. Пауза останавливает автоматическое добавление."
+      taskNumbers={[1]}
+      modulePath={modulePath}
+    >
+      <p>
+        В одном байте восемь бит. Раздели число бит на восемь: целая часть —
+        полные байты, остаток — отдельные биты.
+      </p>
+      <p>
+        Прибавляй по одному биту. После каждых восьми добавлений число полных
+        байтов увеличивается на один.
+      </p>
+    </Interactive>
+    <InteractiveHarness client:load modulePath={modulePath} />
+  </div>
+</SiteLayout>
+
+<style>
+  .probe-spacer {
+    height: 130vh;
+  }
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block: var(--space-8);
+  }
+</style>
