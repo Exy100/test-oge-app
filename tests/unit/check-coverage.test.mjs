@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import config from '../../coverage.config.ts';
 import { checkCoverage, parsePhase } from '../../scripts/check-coverage.mjs';
 import { readLesson } from '../../scripts/quality/lessons.mjs';
+import { lessonFixture as lesson, withoutBlock } from '../fixtures/lesson.mjs';
 
 let root;
 beforeEach(async () => {
@@ -18,39 +19,6 @@ afterEach(async () => {
 async function file(path, source) {
   await mkdir(join(root, path, '..'), { recursive: true });
   await writeFile(join(root, path), source);
-}
-
-function lesson(id = 'bits', section = 'i1', fallback = false) {
-  return [
-    '---',
-    'id: ' + id,
-    'title: Учебный пример',
-    'section: ' + section,
-    'taskNumbers: [1]',
-    'readingMinutes: 5',
-    'prerequisites: []',
-    '---',
-    '<LessonHeader />',
-    '',
-    '<Motivation>Как измерить информацию в сообщении.</Motivation>',
-    '',
-    '<Theory>Объяснение темы. <Figure id="first" /> <Figure id="second" /></Theory>',
-    '',
-    fallback
-      ? '<InteractiveFallback id="bits-and-bytes"><Figure id="static" /></InteractiveFallback>'
-      : '<Interactive id="bits-and-bytes" />',
-    '',
-    '<Examples><Example id="one" /><Example id="two" /><Example id="three" /></Examples>',
-    '',
-    '<Mistakes><Mistake>Первая ошибка.</Mistake><Mistake>Вторая ошибка.</Mistake><Mistake>Третья ошибка.</Mistake></Mistakes>',
-    '',
-    '<Quiz><Question id="a" /><Question id="b" /><Question id="c" /><Question id="d" /><Question id="e" /></Quiz>',
-    '',
-    '<StreamLink />',
-    '',
-    '<CheatSheet>Правило вычисления объёма.</CheatSheet>',
-    '',
-  ].join('\n');
 }
 
 async function stageThree() {
@@ -325,22 +293,34 @@ describe('coverage configuration and phase checks', () => {
     expect(result.metrics.find((item) => item.label === 'Уроки').actual).toBe(
       45,
     );
+    expect(
+      result.metrics.filter((item) => item.label.startsWith('Блок ')),
+    ).toEqual(
+      config.lessons.blocks.map((name) => ({
+        label: `Блок ${name}`,
+        actual: 45,
+        minimum: 45,
+        requiredPhase: 7,
+        required: true,
+      })),
+    );
     expect(result.deferred).toEqual([]);
   });
 
-  it('reports static replacements in phase 7 and rejects every replacement at phase 8', async () => {
+  it('reports static replacements before phase 7 and rejects every replacement from phase 7', async () => {
     await stageThree();
     await allLessons(true);
-    const seven = await checkCoverage(root, 7);
-    expect(seven.findings).toEqual([]);
-    expect(seven.deferred).toHaveLength(45);
-    await interactiveRegistry();
-    const eight = await checkCoverage(root, 8);
-    expect(
-      eight.findings.filter((item) =>
-        item.message.includes('временную замену'),
-      ),
-    ).toHaveLength(45);
+    const six = await checkCoverage(root, 6);
+    expect(six.findings).toEqual([]);
+    expect(six.deferred).toHaveLength(45);
+    for (const phase of [7, 8]) {
+      const result = await checkCoverage(root, phase);
+      expect(
+        result.findings.filter((item) =>
+          item.message.includes('временную замену'),
+        ),
+      ).toHaveLength(45);
+    }
   });
 
   it('rejects missing prerequisites and unknown interactive references', async () => {
@@ -405,19 +385,7 @@ describe('lesson structure, parsed as MDX without evaluating it', () => {
   it.each(config.lessons.blocks)(
     'rejects a missing required block: %s',
     (block) => {
-      const source = lesson().replace(
-        new RegExp(
-          '<' +
-            block +
-            '(?:\\s[^>]*)?\\s*/>|<' +
-            block +
-            '\\b[^>]*>[\\s\\S]*?</' +
-            block +
-            '>',
-          'u',
-        ),
-        '',
-      );
+      const source = withoutBlock(lesson(), block);
       expect(
         read(source).findings.some(
           (item) => item.message === 'Нет блока ' + block + '.',
