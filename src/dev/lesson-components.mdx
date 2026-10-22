@@ -13,17 +13,7 @@ import LessonNav from '../components/lessons/LessonNav.astro';
 import TOC from '../components/lessons/TOC.astro';
 import RichText from '../components/RichText.astro';
 
-export const lesson = {
-  id: 'component-gallery',
-  title: 'Как читать условие и проверять решение',
-  section: 'i1',
-  taskNumbers: [1, 2, 3, 13],
-  readingMinutes: 7,
-  prerequisites: ['bits'],
-};
-export const links = [
-  { id: 'bits', title: 'Единицы информации', route: '/dev/lessons/#theory' },
-];
+import { lesson, links } from './lesson-data';
 export const removed = {
   generatorId: 'removed-word-v2',
   taskNumber: 1,

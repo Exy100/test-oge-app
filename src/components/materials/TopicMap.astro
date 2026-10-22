@@ -1,0 +1,89 @@
+---
+import { materialSections, sectionHref } from '../../lib/lessons/catalog';
+import { sitePath } from '../../lib/site';
+const point = (column: number, row: number) => ({
+  x: 12 + column * 158,
+  y: 24 + row * 126,
+});
+---
+
+<div
+  class="materials-map-scroll"
+  role="region"
+  aria-label="Карта тем; можно прокручивать по горизонтали"
+  tabindex="0"
+>
+  <svg
+    class="materials-map"
+    viewBox="0 0 960 386"
+    role="group"
+    aria-labelledby="topic-map-title topic-map-description"
+  >
+    <title id="topic-map-title">Связи тем подготовки</title>
+    <desc id="topic-map-description">
+      Стрелка ведёт от основы к теме, в которой она пригодится. Тот же порядок
+      указан в списке ниже. Любую тему можно открыть сразу.
+    </desc>
+    <defs>
+      <marker
+        id="topic-map-arrow"
+        viewBox="0 0 10 10"
+        refX="9"
+        refY="5"
+        markerWidth="6"
+        markerHeight="6"
+        orient="auto-start-reverse"
+      >
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+      </marker>
+    </defs>
+    <g class="materials-edges" aria-hidden="true">
+      {materialSections.flatMap((section) =>
+        section.prerequisites.map((prerequisite) => {
+          const parent = materialSections.find(
+            (item) => item.id === prerequisite,
+          );
+          if (!parent) throw new Error('Не найден раздел карты.');
+          const start = point(parent.column, parent.row);
+          const end = point(section.column, section.row);
+          // Skipped rows use a gap between nodes, preserving the actual dependency.
+          const origin = `M ${String(start.x + 73)} ${String(start.y + 76)}`;
+          const path =
+            section.row - parent.row > 1
+              ? `${origin} V ${String(start.y + 100)} H ${String(start.x + 152)} V ${String(end.y - 24)} H ${String(end.x + 73)} V ${String(end.y - 4)}`
+              : `${origin} C ${String(start.x + 73)} ${String(start.y + 108)}, ${String(end.x + 73)} ${String(end.y - 30)}, ${String(end.x + 73)} ${String(end.y - 4)}`;
+          return (
+            <path
+              d={path}
+              fill="none"
+              stroke="currentColor"
+              marker-end="url(#topic-map-arrow)"
+            />
+          );
+        }),
+      )}
+    </g>
+    {materialSections.map((section) => {
+      const { x, y } = point(section.column, section.row);
+      return (
+        <a
+          href={sitePath(sectionHref(section.id))}
+          data-selected="true"
+          data-material-node={section.id}
+          aria-label={`${section.id.toUpperCase().replace('I', 'И')}. ${section.title}. Перейти к разделу.`}
+        >
+          <rect x={x} y={y} width="146" height="76" rx="10" />
+          <text x={x + 12} y={y + 20} class="materials-node-number">
+            {section.id.toUpperCase().replace('I', 'И')} · №
+            {section.numbers.join(', ')}
+          </text>
+          {section.lines.map((line, index) => (
+            <text x={x + 12} y={y + 42 + index * 18}>
+              {line}
+            </text>
+          ))}
+        </a>
+      );
+    })}
+  </svg>
+</div>

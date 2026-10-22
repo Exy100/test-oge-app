@@ -5,6 +5,7 @@ module.exports = {
       startServerReadyPattern: 'Local',
       url: [
         'http://127.0.0.1:4323/test-oge-app/',
+        'http://127.0.0.1:4323/test-oge-app/materials/',
         'http://127.0.0.1:4323/test-oge-app/stream/',
         'http://127.0.0.1:4323/test-oge-app/variants/',
         'http://127.0.0.1:4323/test-oge-app/variants/V01/',

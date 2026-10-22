@@ -2,11 +2,23 @@
 import type { LessonMetadata } from '../../lib/lessons/schema';
 import { prerequisiteLinks, type LessonLink } from '../../lib/lessons/links';
 import '../../styles/lessons.css';
+import LessonCompletion from './LessonCompletion';
+import { getCollection } from 'astro:content';
+import { lessonRoute } from '../../lib/lessons/catalog';
 interface Props {
   lesson: LessonMetadata;
   lessons?: readonly LessonLink[];
 }
-const { lesson, lessons = [] } = Astro.props;
+const { lesson } = Astro.props;
+const lessons =
+  Astro.props.lessons ??
+  (lesson.prerequisites.length
+    ? (await getCollection('lessons')).map((entry) => ({
+        id: entry.id,
+        title: entry.data.title,
+        route: lessonRoute(entry.data),
+      }))
+    : []);
 const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
 ---
 
@@ -31,3 +43,7 @@ const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
     <p>Можно начать без предварительной подготовки.</p>
   )}
 </header>
+<LessonCompletion client:load lessonId={lesson.id} />
+<noscript>
+  <p>Для сохранения отметки о прохождении включи JavaScript.</p>
+</noscript>

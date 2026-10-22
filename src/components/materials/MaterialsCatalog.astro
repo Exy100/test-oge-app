@@ -1,0 +1,152 @@
+---
+import {
+  materialSections,
+  sectionHref,
+  sectionPractice,
+  type CatalogLesson,
+} from '../../lib/lessons/catalog';
+import { sitePath } from '../../lib/site';
+import TopicMap from './TopicMap.astro';
+interface Props {
+  lessons: readonly CatalogLesson[];
+}
+const { lessons } = Astro.props;
+---
+
+<div class="materials-catalog">
+  <fieldset class="materials-filter" aria-describedby="materials-filter-help">
+    <legend>Номера заданий ОГЭ</legend>
+    <p id="materials-filter-help">
+      Выбери нужные номера. Без отметок видны все темы.
+    </p>
+    <div class="materials-numbers">
+      {Array.from({ length: 16 }, (_, index) => index + 1).map((number) => (
+        <label>
+          <input type="checkbox" value={number} data-material-number disabled />{' '}
+          №{number}
+        </label>
+      ))}
+    </div>
+    <button class="button" type="button" data-material-reset disabled>
+      Все номера
+    </button>
+  </fieldset>
+  <p data-material-error role="alert" hidden>
+    Не удалось прочитать номера в ссылке. Показаны все темы; выбери номера
+    заново.
+  </p>
+  <p class="materials-count" role="status">
+    Разделов в списке: {materialSections.length} из {materialSections.length}.
+  </p>
+  {lessons.length > 0 && (
+    <p class="materials-completed" role="status">
+      Пройдено уроков в этом списке: 0 из {lessons.length}. Это твои отметки о
+      прохождении.
+    </p>
+  )}
+  <section aria-labelledby="materials-map-title">
+    <h2 id="materials-map-title">Карта тем</h2>
+    <p>
+      Стрелки показывают полезный порядок повторения. Фильтр выделяет темы на
+      карте и оставляет их в списке. Можно начать с любого раздела.
+    </p>
+    <TopicMap />
+  </section>
+  {[false, true].map((computer) => (
+    <section
+      class="materials-group"
+      aria-labelledby={
+        computer ? 'materials-computer' : 'materials-foundations'
+      }
+    >
+      <h2 id={computer ? 'materials-computer' : 'materials-foundations'}>
+        {computer
+          ? 'Файлы, офисные программы и код'
+          : 'Основы и работа с информацией'}
+      </h2>
+      <ul class="materials-list">
+        {materialSections
+          .filter((section) => section.computer === computer)
+          .map((section) => {
+            const sectionLessons = lessons.filter(
+              (lesson) => lesson.section === section.id,
+            );
+            return (
+              <li
+                class="materials-topic"
+                id={section.id}
+                data-material-section={section.id}
+              >
+                <p class="eyebrow">
+                  {section.id.toUpperCase().replace('I', 'И')} · №
+                  {section.numbers.join(', №')}
+                </p>
+                <h3>{section.title}</h3>
+                {section.prerequisites.length > 0 && (
+                  <p class="materials-prerequisites">
+                    Полезно повторить:{' '}
+                    {section.prerequisites.map((prerequisite, index) => {
+                      const parent = materialSections.find(
+                        (item) => item.id === prerequisite,
+                      );
+                      if (!parent) throw new Error('Не найден раздел.');
+                      return (
+                        <span>
+                          {index > 0 && ', '}
+                          <a href={sitePath(sectionHref(parent.id))}>
+                            {parent.title}
+                          </a>
+                        </span>
+                      );
+                    })}
+                    .
+                  </p>
+                )}
+                {sectionLessons.length > 0 && (
+                  <ul class="materials-lessons">
+                    {sectionLessons.map((lesson) => (
+                      <li
+                        data-material-lesson={lesson.id}
+                        data-numbers={lesson.taskNumbers.join(',')}
+                        data-minutes={lesson.readingMinutes}
+                      >
+                        <a href={sitePath(lesson.route)}>{lesson.title}</a>
+                        <span data-material-lesson-state>
+                          {lesson.readingMinutes} мин · Не отмечен
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div class="materials-practice">
+                  {sectionPractice(section).map((link) => (
+                    <a class="button" href={link.href}>
+                      {link.title}
+                    </a>
+                  ))}
+                </div>
+                <p
+                  class="materials-practice-progress"
+                  data-material-automatic
+                  hidden
+                ></p>
+                <p
+                  class="materials-practice-progress"
+                  data-material-assessment
+                  hidden
+                ></p>
+              </li>
+            );
+          })}
+      </ul>
+    </section>
+  ))}
+  <p>
+    Прогресс хранится в этом браузере.{' '}
+    <a href={sitePath('/settings/')}>Экспорт и сброс — в настройках.</a>
+  </p>
+</div>
+
+<script>
+  import '../../scripts/materials';
+</script>

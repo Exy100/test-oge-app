@@ -27,10 +27,14 @@
   text-underline-offset: var(--space-1);
 }
 .lesson-header,
+.lesson-completion,
 .lesson-section,
 .lesson-toc,
 .lesson-nav {
   margin-bottom: var(--space-10);
+}
+.lesson-completion p {
+  margin-block: var(--space-3);
 }
 .lesson-header > *,
 .lesson-section > *,
@@ -184,6 +188,7 @@
     padding: 0;
   }
   .lesson-toc,
+  .lesson-completion,
   .lesson-nav,
   .lesson-page button,
   .lesson-question,
