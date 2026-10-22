@@ -60,13 +60,13 @@ function checkComposition(variant: Variant, selection: Variant13Choice): void {
     expect(Boolean(task.datasetId)).toBe(task.taskNumber >= 11);
   }
 }
-test.each([0, 1, 2, 3])(
+test.each([0, 1, 2, 3, 4, 5, 6, 7])(
   '1000 distinct seeds, batch %i: both №13 choices, deterministic tasks and scores',
   (batch) => {
     expect(seeds).toHaveLength(1000);
     expect(new Set(seeds).size).toBe(1000);
     const used = new Set<string>();
-    for (const seed of seeds.slice(batch * 250, (batch + 1) * 250)) {
+    for (const seed of seeds.slice(batch * 125, (batch + 1) * 125)) {
       const presentation = buildVariant(seed),
         document = buildVariant(seed, 'document');
       for (const task of presentation.tasks) used.add(task.generatorId);
