@@ -1,0 +1,276 @@
+---
+id: file-masks-size
+title: 'Отбор файлов: расширения, маски и объём'
+section: i10
+taskNumbers: [12]
+readingMinutes: 12
+prerequisites: ['directories', 'bits-bytes']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'file-masks', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Файловый менеджер может показать сотню документов, но условию подходят лишь
+    некоторые. В №12 нужно сосчитать файлы нескольких расширений в заданных
+    каталогах со вложениями. Маски и суммарный размер освоим как отдельное
+    учебное расширение.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №10 — с. 8, №11/12 — с. 9. КЭС
+      1.1 по спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры и файлы авторские; комплект 2027 имеет статус проекта. Учебные
+      расширения названы отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Сначала область, затем расширения</h3>
+  <p>
+    Имя обычно состоит из основной части и расширения после последней точки.
+    Включи показ расширений: название отчёт.pdf.txt относится к TXT, а не PDF.
+    Для подтверждённого №12 объедини файлы всех перечисленных расширений из всех
+    заданных каталогов, включая вложенные. Считай полные пути, а не одинаковые
+    имена.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Порядок отбора">
+    <title>Порядок отбора</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Каталоги и вложения → область'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Нужные расширения → объединение'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Уникальные полные пути → количество'}
+    </text>
+  </svg>
+  <h3>Что означает маска</h3>
+  <p>
+    В этой лаборатории * заменяет любое число знаков, включая ноль; ? — ровно
+    один знак. Маска применяется ко всему имени, без пути и без учёта регистра;
+    точка обычная. Поэтому note_?.txt не выбирает note_ab.txt, а note_*.txt
+    выбирает. Синтаксис реального файлового менеджера может отличаться: не
+    переноси правило без проверки.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Две подстановки">
+    <title>Две подстановки</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'* → ноль или больше знаков'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'? → ровно один знак'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Маска имени не содержит путь'}
+    </text>
+  </svg>
+  <h3>Количество и размер — разные ответы</h3>
+  <p>
+    Количество файлов — число выбранных путей. Объём — сумма размеров их
+    содержимого в байтах. Для текста UTF-8 число символов не равно числу байтов.
+    В лаборатории 1 КиБ = 1024 байта; размер ZIP и занятое место на диске не
+    участвуют. В экзамене используй единицы и условия конкретного задания. Маски
+    и вычисление объёма здесь не подменяют подтверждённый формат подсчёта
+    расширений.
+  </p>
+  <p>
+    Архивы к примерам и вопросам доступны без JavaScript:{' '}
+    <a href={`${import.meta.env.BASE_URL}materials/files/reading.zip`} download>
+      корпус рассказов для №11 (ZIP)
+    </a>
+    ,{' '}
+    <a
+      href={`${import.meta.env.BASE_URL}materials/files/selection.zip`}
+      download
+    >
+      файловый набор для №12 (ZIP)
+    </a>
+    . Это полные исходные наборы генераторов; они отличаются от малого набора
+    лаборатории. Распакуй их в отдельные папки.
+  </p>
+</Theory>
+
+<Interactive
+  id="file-masks"
+  title="Лаборатория: Отбор файлов: расширения, маски и объём"
+  goal="Сравни маски, отбор со вложениями и сумму реальных размеров выбранных файлов."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием; таблицы и тексты прокручиваются с клавиатуры."
+  taskNumbers={[12]}
+  modulePath="/src/interactives/FileMasks.tsx"
+  parameters={{ folder: 'Данные' }}
+>
+  <p>
+    Распакуй файловый набор выше. Выбери перечисленные каталоги и все их
+    вложения, выпиши полные пути файлов нужных расширений и сосчитай их без
+    повторов. Для учебных масок помни: * заменяет ноль или больше знаков, ? —
+    один. Объём получают сложением размеров содержимого, а не длины текстов в
+    символах.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №12: основной приём"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-example-1-19',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №12: несколько условий"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №12: сложный случай"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Посчитать папки вместе с файлами">
+    <p>
+      Папка задаёт область, но не входит в число файлов заданных расширений.
+    </p>
+  </Mistake>
+  <Mistake title="Считать ? любой строкой">
+    <p>? заменяет ровно один знак, а произвольную длину заменяет *.</p>
+  </Mistake>
+  <Mistake title="Сложить символы вместо байтов">
+    <p>
+      Возьми размеры содержимого файлов. UTF-8, размер архива и место на диске —
+      разные величины.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Может ли * заменить пустую строку?',
+      options: [
+        { id: 'correct', text: 'Да, звёздочка допускает ноль знаков' },
+        { id: 'wrong', text: 'Нет, нужен хотя бы один знак' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'В правилах лаборатории * обозначает любое число знаков, включая ноль.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Какое расширение у отчёт.pdf.txt?',
+      options: [
+        { id: 'wrong', text: 'PDF: первая похожая часть имени' },
+        { id: 'correct', text: 'TXT: часть после последней точки' },
+      ],
+      correctId: 'correct',
+      explanation: 'Промежуточная точка не завершает имя файла.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №12"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №12"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №12"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'file-masks-size-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[12]} />
+
+<CheatSheet>
+  <ul>
+    <li>Выбери каталоги, вложения и все нужные расширения.</li>
+    <li>* — любое число знаков, ? — один; проверяй правила программы.</li>
+    <li>Считай пути для количества, складывай байты для размера.</li>
+  </ul>
+</CheatSheet>

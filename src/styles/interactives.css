@@ -158,3 +158,21 @@
 .lab-address-parts dd {
   overflow-wrap: anywhere;
 }
+
+.lab-file-tree {
+  overflow-wrap: anywhere;
+}
+.lab-file-tree ul {
+  padding-inline-start: 1.1rem;
+}
+.lab-path {
+  overflow-wrap: anywhere;
+}
+.lab-file-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 24rem;
+  overflow: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+}

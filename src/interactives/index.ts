@@ -26,4 +26,12 @@ export const interactives = [
     load: () => import('./ResourceAddress.tsx'),
   },
   { id: 'search-sets', kind: '2d', load: () => import('./SearchSets.tsx') },
+  { id: 'numeral-lab', kind: '2d', load: () => import('./NumeralLab.tsx') },
+  { id: 'file-tree', kind: '2d', load: () => import('./FileTree.tsx') },
+  {
+    id: 'text-file-search',
+    kind: '2d',
+    load: () => import('./TextFileSearch.tsx'),
+  },
+  { id: 'file-masks', kind: '2d', load: () => import('./FileMasks.tsx') },
 ] as const;

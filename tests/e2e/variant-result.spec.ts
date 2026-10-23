@@ -99,7 +99,7 @@ test('preparation plan opens available lessons for weak №1 and №2', async ({
     await page.goto(url(saved));
     const links = page
       .locator('.result-screen')
-      .getByRole('list', { name: `Уроки к №${String(number)}` });
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
     await expect(links.getByRole('link')).toHaveCount(3);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
@@ -130,7 +130,7 @@ test('preparation plan opens new logic, shortest-route and directed-path lessons
     await page.goto(url(saved));
     const links = page
       .locator('.result-screen')
-      .getByRole('list', { name: `Уроки к №${String(number)}` });
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
@@ -159,7 +159,7 @@ test('preparation plan opens new executor and program lessons', async ({
     await page.goto(url(saved));
     const links = page
       .locator('.result-screen')
-      .getByRole('list', { name: `Уроки к №${String(number)}` });
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
@@ -188,7 +188,37 @@ test('preparation plan opens new network and search lessons', async ({
     await page.goto(url(saved));
     const links = page
       .locator('.result-screen')
-      .getByRole('list', { name: `Уроки к №${String(number)}` });
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+test('preparation plan opens new numeral and file lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [10, 'Сравниваем числа и анализируем разряды', 3],
+    [11, 'Поиск в файлах: автор, герой и контекст', 2],
+    [12, 'Отбор файлов: расширения, маски и объём', 1],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);

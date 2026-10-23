@@ -1,0 +1,255 @@
+---
+id: base-conversion
+title: 'Перевод чисел: веса разрядов и остатки'
+section: i9
+taskNumbers: [10]
+readingMinutes: 12
+prerequisites: ['positional-notation']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'numeral-lab', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Перевод между системами нужен, когда устройство хранит число в одной записи,
+    а человеку удобна другая. Освоим два противоположных приёма и проверку
+    обратным переводом; в №10 используем перевод в десятичную систему.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №10 — с. 8, №11/12 — с. 9. КЭС
+      2.6 по спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры и файлы авторские; комплект 2027 имеет статус проекта. Учебные
+      расширения названы отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Из основания b в десятичную систему</h3>
+  <p>
+    Разбей запись на цифры, подпиши их веса и сложи вклады. Буквенные цифры
+    сначала замени их числовыми значениями. Этот способ работает для любого
+    целого основания больше единицы; в лаборатории выбираем 2, 8, 10 и 16.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Куда переводим">
+    <title>Куда переводим</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Запись в основании b'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'↓ сумма цифр, умноженных на веса'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Десятичное значение'}
+    </text>
+  </svg>
+  <h3>Из десятичной системы в основание b</h3>
+  <p>
+    Для неотрицательного целого дели текущее число на b с целым частным и
+    остатком. Повторяй деление частного, пока оно не станет нулём. Первый
+    остаток — младшая цифра, поэтому запись читается снизу вверх. Остатки от 10
+    до 15 обозначай A–F. Ноль переводится в одну цифру 0.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Откуда берутся цифры">
+    <title>Откуда берутся цифры</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Делимое → частное и остаток'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Следующее делимое = частное'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Остатки читаем снизу вверх'}
+    </text>
+  </svg>
+  <h3>Проверь результат другим направлением</h3>
+  <p>
+    Разверни остатки в запись и заново вычисли сумму её разрядных вкладов.
+    Должно получиться исходное десятичное число. Не дели дробно: для построения
+    цифр нужны целые частные и остатки. В №10 обратный перевод служит проверкой,
+    а финальная сумма остаётся десятичной.
+  </p>
+</Theory>
+
+<Interactive
+  id="numeral-lab"
+  title="Лаборатория: Перевод чисел: веса разрядов и остатки"
+  goal="Разложи запись по разрядам, переведи число и проверь десятичную сумму трёх слагаемых."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием; таблицы и тексты прокручиваются с клавиатуры."
+  taskNumbers={[10]}
+  modulePath="/src/interactives/NumeralLab.tsx"
+  parameters={{ mode: 'convert' }}
+>
+  <p>
+    Подпиши веса цифр справа налево: 1, b, b². Умножь каждую цифру на вес, сложи
+    вклады. Для обратного перевода дели целое число на основание и читай остатки
+    снизу вверх. В №10 отдельно переведи каждое из трёх слагаемых и сложи
+    десятичные значения.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №10: основной приём"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-example-1-1',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №10: несколько условий"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-example-2-2',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №10: сложный случай"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Прочитать остатки сверху вниз">
+    <p>Первый остаток соответствует младшему разряду и должен стоять справа.</p>
+  </Mistake>
+  <Mistake title="Остановиться до последнего остатка">
+    <p>
+      Деление продолжается до нулевого частного; последний ненулевой остаток —
+      старшая цифра.
+    </p>
+  </Mistake>
+  <Mistake title="Потерять ноль среди остатков">
+    <p>
+      Нулевой остаток остаётся цифрой записи. Он не означает, что перевод
+      окончен.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Как читают остатки при переводе целого числа?',
+      options: [
+        { id: 'correct', text: 'От последнего деления к первому' },
+        { id: 'wrong', text: 'В порядке выполнения делений' },
+      ],
+      correctId: 'correct',
+      explanation: 'Первый остаток — младшая цифра.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что проверяет обратный перевод?',
+      options: [
+        { id: 'wrong', text: 'Только совпадение количества цифр' },
+        { id: 'correct', text: 'Совпадение значения с исходным числом' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Равенство значений подтверждает перевод, длина записи сама по себе ничего не гарантирует.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №10"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №10"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №10"
+    source={{
+      generatorId: 'numeral-sum-v2',
+      taskNumber: 10,
+      seed: 'base-conversion-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[10]} />
+
+<CheatSheet>
+  <ul>
+    <li>В десятичную: сумма разрядных вкладов.</li>
+    <li>Из десятичной: целое деление с остатком, чтение снизу вверх.</li>
+    <li>Проверь обратным переводом; не пропускай нулевые остатки.</li>
+  </ul>
+</CheatSheet>

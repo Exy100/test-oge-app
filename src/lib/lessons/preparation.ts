@@ -158,4 +158,40 @@ export const preparationLessons = [
     taskNumber: 8,
     title: 'Считаем результаты условного поискового запроса',
   },
+  {
+    id: 'positional-notation',
+    section: 'i9',
+    taskNumber: 10,
+    title: 'Позиционная запись: цифра, разряд и основание',
+  },
+  {
+    id: 'base-conversion',
+    section: 'i9',
+    taskNumber: 10,
+    title: 'Перевод чисел: веса разрядов и остатки',
+  },
+  {
+    id: 'compare-numerals',
+    section: 'i9',
+    taskNumber: 10,
+    title: 'Сравниваем числа и анализируем разряды',
+  },
+  {
+    id: 'directories',
+    section: 'i10',
+    taskNumber: 11,
+    title: 'Каталоги и полные пути: где искать файл',
+  },
+  {
+    id: 'search-file-text',
+    section: 'i10',
+    taskNumber: 11,
+    title: 'Поиск в файлах: автор, герой и контекст',
+  },
+  {
+    id: 'file-masks-size',
+    section: 'i10',
+    taskNumber: 12,
+    title: 'Отбор файлов: расширения, маски и объём',
+  },
 ].map((lesson) => ({ ...lesson, route: lessonRoute(lesson) }));
