@@ -38,4 +38,40 @@ export const preparationLessons = [
     taskNumber: 2,
     title: 'Однозначность и непрефиксные таблицы',
   },
+  {
+    id: 'logic-operations',
+    section: 'i3',
+    taskNumber: 3,
+    title: 'Высказывания и операции И, ИЛИ, НЕ',
+  },
+  {
+    id: 'logic-negation',
+    section: 'i3',
+    taskNumber: 3,
+    title: 'Скобки и отрицание составного условия',
+  },
+  {
+    id: 'natural-solutions',
+    section: 'i3',
+    taskNumber: 3,
+    title: 'Находим натуральные решения логического условия',
+  },
+  {
+    id: 'graph-models',
+    section: 'i4',
+    taskNumber: 4,
+    title: 'Читаем графы, таблицы дорог и стрелки',
+  },
+  {
+    id: 'shortest-route',
+    section: 'i4',
+    taskNumber: 4,
+    title: 'Ищем кратчайший путь по таблице дорог',
+  },
+  {
+    id: 'directed-paths',
+    section: 'i4',
+    taskNumber: 9,
+    title: 'Считаем пути в направленной схеме',
+  },
 ].map((lesson) => ({ ...lesson, route: lessonRoute(lesson) }));

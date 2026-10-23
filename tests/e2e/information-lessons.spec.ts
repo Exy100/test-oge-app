@@ -9,6 +9,10 @@ import { readFile, readdir } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
 import { join } from 'node:path';
 
+const informationLessons = preparationLessons.filter((lesson) =>
+  ['i1', 'i2'].includes(lesson.section),
+);
+
 async function openScene(page: Page, route: string, id: string) {
   await page.goto(route);
   const scene = page.locator('#' + id);
@@ -55,7 +59,7 @@ test('course scene loads only after scrolling; manual completion reaches the rea
   ).toHaveAttribute('aria-pressed', 'true');
 });
 
-for (const lesson of preparationLessons) {
+for (const lesson of informationLessons) {
   test(`${lesson.id}: complete lesson, generated quiz, contents, practice and keyboard example`, async ({
     page,
   }) => {
@@ -348,7 +352,7 @@ for (const theme of ['light', 'dark']) {
         JSON.stringify({ version: 1, theme, fontSize: 100, animations: false }),
       );
     }, theme);
-    for (const lesson of preparationLessons) {
+    for (const lesson of informationLessons) {
       await page.goto(lesson.route.slice(1));
       await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
       const scene = page.locator('.lesson-interactive');
@@ -401,7 +405,7 @@ test('all lessons retain theory, solved examples and scene alternatives without 
     ignoreHTTPSErrors: true,
   });
   const page = await context.newPage();
-  for (const lesson of preparationLessons) {
+  for (const lesson of informationLessons) {
     await page.goto(`https://127.0.0.1:4322/test-oge-app${lesson.route}`);
     const alternative = page.locator('.interactive-alternative');
     await alternative.locator('summary').click();

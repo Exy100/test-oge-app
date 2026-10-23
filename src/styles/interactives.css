@@ -40,6 +40,46 @@
   min-width: 0;
   font: inherit;
 }
+.information-lab input[type='checkbox'] {
+  width: auto;
+}
+.information-lab > label:has(input[type='checkbox']) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--target-size);
+}
+.lab-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.lab-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.lab-table-wide table {
+  min-width: 24rem;
+}
+.lab-table-scroll th,
+.lab-table-scroll td {
+  border: 1px solid var(--line);
+  padding: var(--space-3);
+  text-align: left;
+}
+.lab-table-scroll caption {
+  text-align: left;
+  margin-bottom: var(--space-3);
+}
+.lab-table-scroll [data-current='true'] {
+  background: var(--accent-surface);
+}
+.lab-table-scroll input {
+  min-width: 4rem;
+}
+.information-lab .teaching-graph {
+  max-width: 42rem;
+  font-size: 20px;
+}
 .information-lab svg {
   width: 100%;
   max-width: 36rem;

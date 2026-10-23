@@ -44,7 +44,12 @@ export default function QuestionForm({
       {question.kind === 'short' ? (
         <>
           <RichTextView html={question.statementHtml} />
-          {question.figure && <Figure spec={question.figure} />}
+          {question.figure && (
+            <Figure
+              spec={question.figure}
+              label={`Схема к вопросу: ${title}`}
+            />
+          )}
         </>
       ) : (
         <p>{question.prompt}</p>

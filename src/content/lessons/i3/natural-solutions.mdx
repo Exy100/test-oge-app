@@ -1,0 +1,246 @@
+---
+id: natural-solutions
+title: 'Находим натуральные решения логического условия'
+section: i3
+taskNumbers: [3]
+readingMinutes: 11
+prerequisites: ['logic-negation']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'logic-builder', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Подтверждённые задания №3 просят либо количество натуральных чисел, делающих
+    высказывание истинным, либо наименьшее натуральное число, при котором оно
+    ложно. Это разные вопросы: сначала выбери нужное значение истинности, затем
+    выпиши подходящие числа и форму ответа.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №3: с. 5. КЭС 2.7 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры ниже авторские; комплект 2027 имеет статус проекта.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Область значений задаёт условие</h3>
+  <p>
+    В этих заданиях натуральные числа начинаются с 1. Ноль и отрицательные числа
+    не подходят. После преобразования условия пересекай найденное множество с
+    натуральными числами. Учебные задачи на другие области явно называют их; они
+    не меняют правило конкретного экзаменационного условия.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Числовая ось натуральных чисел: ноль исключён"
+  >
+    <title>Числовая ось натуральных чисел: ноль исключён</title>
+    <path d="M10 110 H370" stroke="currentColor" />
+    <text x="12" y="26" fill="currentColor">
+      {'0 — вне области'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'1 → 2 → 3 → 4 → 5 → …'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Граничное число подставь в условие'}
+    </text>
+  </svg>
+  <h3>И, ИЛИ и исключённая граница</h3>
+  <p>
+    Для И оставь числа, удовлетворяющие обеим частям. Для ИЛИ объедини множества
+    и считай пересечение один раз. Строгая граница не входит, нестрогая входит.
+    Если условие требует ещё и нечётность, сначала выдели промежуток, затем
+    отфильтруй числа. Не округляй число решений до длины непрерывного отрезка.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Порядок решения задачи о числах"
+  >
+    <title>Порядок решения задачи о числах</title>
+    <text x="12" y="26" fill="currentColor">
+      {'Область X → нужная истинность'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'Выпиши допустимые целые значения'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Количество или минимум → проверка'}
+    </text>
+  </svg>
+  <h3>Минимум при ложности</h3>
+  <p>
+    Если требуется ложное выражение, можно преобразовать его отрицание и искать
+    истинность отрицания. Для найденного минимума проверь две вещи: исходное
+    высказывание при нём ложно, а при всех меньших натуральных X истинно. Вопрос
+    о количестве требует пересчитать все подходящие значения, а не назвать одно
+    из них.
+  </p>
+</Theory>
+
+<Interactive
+  id="logic-builder"
+  title="Лаборатория: Находим натуральные решения логического условия"
+  goal="Составь логическую часть условия «A истинно, B ложно», затем примени её к неравенствам в примерах."
+  controls="Переходи по полям и кнопкам клавишей Tab. Выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием."
+  taskNumbers={[3]}
+  modulePath="/src/interactives/LogicBuilder.tsx"
+  parameters={{ goal: 'difference' }}
+>
+  <p>
+    Лаборатория сравнивает независимые A и B на всех четырёх наборах. После
+    подстановки утверждений о X вернись к области натуральных чисел и границам
+    из условия. Для A И НЕ B должны одновременно выполняться A и отрицание B.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №3: основной приём"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-example-1-3',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №3: составное условие или другая схема"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-example-2-8',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №3: проверка сложного случая"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+<Mistake title="Включить ноль в натуральные числа"><p>В проверенных условиях область начинается с 1. Выпиши её до решения.</p></Mistake>
+<Mistake title="Посчитать истинные значения, когда нужны ложные"><p>Подчеркни нужное значение истинности в вопросе. Минимум при ложности и число истинных решений — разные ответы.</p></Mistake>
+<Mistake title="Включить строгое граничное значение"><p>Подставь границу прямо в сравнение; знак > или < исключает равенство.</p></Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'С какого числа начинаются натуральные числа в этих заданиях?',
+      options: [
+        { id: 'correct', text: 'С 1' },
+        { id: 'wrong', text: 'С 0' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Проверенные условия №3 прямо используют натуральные числа от 1.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Как проверить найденный минимум при ложности?',
+      options: [
+        {
+          id: 'wrong',
+          text: 'Достаточно проверить только одно найденное число',
+        },
+        {
+          id: 'correct',
+          text: 'Он делает условие ложным, все меньшие натуральные — истинным',
+        },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Без проверки меньших значений можно получить подходящее число, которое не является минимальным.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'natural-solutions-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[3]} />
+
+<CheatSheet>
+  <ul>
+    <li>
+      Сначала область X и требуемая истинность, затем действия с множествами.
+    </li>
+    <li>
+      Проверь включение каждой границы; для ИЛИ не считай пересечение дважды.
+    </li>
+    <li>Различай количество решений и наименьшее подходящее число.</li>
+  </ul>
+</CheatSheet>

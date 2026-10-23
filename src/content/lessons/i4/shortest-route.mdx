@@ -1,0 +1,253 @@
+---
+id: shortest-route
+title: 'Ищем кратчайший путь по таблице дорог'
+section: i4
+taskNumbers: [4]
+readingMinutes: 10
+prerequisites: ['graph-models']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'shortest-path', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №4 нужно найти минимальную сумму длин дорог между двумя пунктами. Коротко
+    нарисованный путь, один прямой переход и выбор самого близкого соседа не
+    гарантируют минимум. Проверим допустимые маршруты и сравним их суммы.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №4: с. 5; №9: с. 8. КЭС 2.11 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры ниже авторские; комплект 2027 имеет статус проекта.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Длина пути — сумма весов</h3>
+  <p>
+    Выпиши маршрут по вершинам. Для каждой соседней пары найди вес дороги в
+    таблице. Если хотя бы одной дороги нет, маршрут недопустим. Сложи все веса и
+    подпиши единицы. Количество рёбер само по себе не определяет общую длину.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Один путь состоит из нескольких дорог, длины складываются"
+  >
+    <title>Один путь состоит из нескольких дорог, длины складываются</title>
+    <path d="M10 125 H345" stroke="currentColor" />
+    <circle cx="20" cy="125" r="6" fill="currentColor" />
+    <circle cx="125" cy="125" r="6" fill="currentColor" />
+    <circle cx="230" cy="125" r="6" fill="currentColor" />
+    <circle cx="335" cy="125" r="6" fill="currentColor" />
+    <text x="12" y="26" fill="currentColor">
+      {'А → Б → Г → Е'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'Длина = вес АБ + вес БГ + вес ГЕ'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Сравнивай суммы всех допустимых путей'}
+    </text>
+  </svg>
+  <h3>Сравнение альтернатив</h3>
+  <p>
+    Для небольшой таблицы выпиши простые маршруты без повторения пунктов и
+    сравни суммы. Другой способ — хранить лучшие известные расстояния от старта
+    и уточнять их через дороги; при положительных весах окончательно выбирай
+    ближайшую из ещё не обработанных вершин. Выбор одного ближайшего соседа без
+    учёта суммарного пути — другое действие и может ошибаться.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Уточнение расстояния до соседней вершины"
+  >
+    <title>Уточнение расстояния до соседней вершины</title>
+    <text x="12" y="26" fill="currentColor">
+      {'Уже известно расстояние до U'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'Кандидат до V = расстояние до U + вес UV'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Если кандидат меньше — улучши оценку V'}
+    </text>
+  </svg>
+  <h3>Несколько кратчайших путей</h3>
+  <p>
+    Разные маршруты могут иметь одинаковую минимальную длину. В экзаменационном
+    вопросе нужен численный ответ — минимальная длина. Лаборатория принимает
+    каждый допустимый маршрут с этой длиной, а кнопка разбора показывает только
+    один из них, не объявляя его единственным.
+  </p>
+</Theory>
+
+<Interactive
+  id="shortest-path"
+  title="Лаборатория: Ищем кратчайший путь по таблице дорог"
+  goal="Сравни суммы длин нескольких маршрутов и проверь, почему выбор ближайшего соседа может дать неверный результат."
+  controls="Переходи по полям и кнопкам клавишей Tab. Выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием."
+  taskNumbers={[4]}
+  modulePath="/src/interactives/ShortestPath.tsx"
+  parameters={{ preset: 'detour' }}
+>
+  <p>
+    Начни с нулевого расстояния в старте. Сравни допустимые последовательности
+    вершин по сумме весов. Не повторяй пункты. Два маршрута с одинаковой
+    минимальной суммой одинаково правильны; короткое отдельное ребро не
+    гарантирует лучший весь путь.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №4: основной приём"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-example-1-1',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №4: составное условие или другая схема"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №4: проверка сложного случая"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-example-3-6',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Выбрать путь с наименьшим числом дорог">
+    <p>
+      Одна длинная дорога может быть длиннее нескольких коротких. Сложи веса.
+    </p>
+  </Mistake>
+  <Mistake title="Всегда переходить к ближайшему соседу">
+    <p>
+      Дальнейшие дороги могут оказаться дорогими. Сравни всю сумму или уточняй
+      расстояния от старта.
+    </p>
+  </Mistake>
+  <Mistake title="Отбросить другой путь той же длины">
+    <p>
+      Если маршрут допустим и его длина минимальна, он тоже кратчайший. В ответе
+      №4 требуется длина.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что минимизируется в №4?',
+      options: [
+        { id: 'correct', text: 'Сумма длин дорог маршрута' },
+        { id: 'wrong', text: 'Число промежуточных пунктов' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Вес каждой дороги влияет на сумму независимо от количества пунктов.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Могут ли два разных маршрута быть кратчайшими?',
+      options: [
+        { id: 'wrong', text: 'Нет, кратчайший маршрут всегда один' },
+        { id: 'correct', text: 'Да, если обе суммы равны минимуму' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Минимальное расстояние одно, но достигаться оно может несколькими маршрутами.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'shortest-road-v2',
+      taskNumber: 4,
+      seed: 'shortest-route-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[4]} />
+
+<CheatSheet>
+  <ul>
+    <li>Проверь наличие каждой дороги; длина пути — сумма весов.</li>
+    <li>Сравни весь маршрут, а не только ближайшую дорогу.</li>
+    <li>Ответ №4 — минимальная длина; несколько маршрутов могут давать её.</li>
+  </ul>
+</CheatSheet>

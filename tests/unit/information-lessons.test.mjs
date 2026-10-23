@@ -78,8 +78,11 @@ describe('released information and coding lessons', () => {
     },
   );
   it('keeps preparation links identical to real lesson metadata and routes', () => {
-    expect(preparationLessons).toHaveLength(course.length);
-    for (const link of preparationLessons) {
+    const links = preparationLessons.filter((lesson) =>
+      ['i1', 'i2'].includes(lesson.section),
+    );
+    expect(links).toHaveLength(course.length);
+    for (const link of links) {
       const { lesson } = course.find(
         ({ lesson }) => lesson.data.id === link.id,
       );

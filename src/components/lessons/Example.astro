@@ -18,7 +18,9 @@ const { task, statementHtml, steps } = lessonTask(source);
   <div class="rich-text-container">
     <div class="rich-text" set:html={statementHtml} />
   </div>
-  {task.figure && <Figure spec={task.figure} />}
+  {task.figure && (
+    <Figure spec={task.figure} label={`Схема к примеру: ${title}`} />
+  )}
   {task.datasetId && <TaskFiles task={task} client:visible />}
   <details data-lesson-example>
     <summary>Разобрать пример по шагам</summary>

@@ -1,0 +1,257 @@
+---
+id: directed-paths
+title: 'Считаем пути в направленной схеме'
+section: i4
+taskNumbers: [9]
+readingMinutes: 11
+prerequisites: ['graph-models']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'path-count', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №9 нужно сосчитать разные пути из начального пункта в конечный на
+    нарисованной ориентированной схеме. Полный перебор быстро становится
+    неудобным. В схеме без циклов можно посчитать число путей до каждой вершины,
+    не выписывая их все.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №4: с. 5; №9: с. 8. КЭС 2.11 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры ниже авторские; комплект 2027 имеет статус проекта.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Начальное значение и входящие стрелки</h3>
+  <p>
+    В начальной вершине поставь 1: это один начальный способ оказаться в старте
+    до переходов. В каждой другой вершине сложи числа у всех непосредственных
+    предшественников, от которых входит стрелка. Любой путь приходит по одной
+    последней стрелке, поэтому группы по последней стрелке не пересекаются.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Числа путей складываются у вершины с входящими стрелками"
+  >
+    <title>Числа путей складываются у вершины с входящими стрелками</title>
+    <path d="M300 26 L350 60 L300 96" fill="none" stroke="currentColor" />
+    <text x="12" y="26" fill="currentColor">
+      {'Путей до U: p; до V: q'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'U → W и V → W'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Путей до W: p + q'}
+    </text>
+  </svg>
+  <h3>Сначала предшественники</h3>
+  <p>
+    Обрабатывай вершину только после всех её предшественников. Вершина с нулём
+    доступных путей передаёт дальше ноль, даже если от неё есть стрелка. Не
+    заменяй порядок подсчёта алфавитным порядком меток: важны связи. На схеме
+    без циклов такой порядок существует.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Порядок подсчёта и недоступный финиш"
+  >
+    <title>Порядок подсчёта и недоступный финиш</title>
+    <text x="12" y="26" fill="currentColor">
+      {'Старт: 1 → обработанные вершины'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'Слияние: сумма всех входящих чисел'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'В недоступной вершине путей: 0'}
+    </text>
+  </svg>
+  <h3>Границы правила</h3>
+  <p>
+    Не складывай количества всех вершин графа: итог — число в финише. Не умножай
+    числа при обычном слиянии входящих ветвей. Если в схеме есть цикл, нельзя
+    механически применять этот порядок; нужно отдельно читать правила о
+    повторном посещении. Учебная лаборатория использует графы без циклов, как
+    проверенные схемы этого формата.
+  </p>
+</Theory>
+
+<Interactive
+  id="path-count"
+  title="Лаборатория: Считаем пути в направленной схеме"
+  goal="Посчитай пути до каждой вершины по входящим стрелкам, затем проверь схему с недоступным финишем."
+  controls="Переходи по полям и кнопкам клавишей Tab. Выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием."
+  taskNumbers={[9]}
+  modulePath="/src/interactives/PathCount.tsx"
+  parameters={{ preset: 'fork' }}
+>
+  <p>
+    Поставь в старте 1. Для каждой следующей вершины найди все входящие стрелки
+    и сложи уже посчитанные значения их начал. Если входящих доступных путей
+    нет, получится 0. Ответом служит значение в финише. Обрабатывай вершины
+    после предшественников.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №9: основной приём"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №9: составное условие или другая схема"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №9: проверка сложного случая"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-example-3-1',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Сложить числа всех вершин вместо входящих">
+    <p>
+      Для очередного пункта учитываются только непосредственные предшественники
+      по входящим стрелкам.
+    </p>
+  </Mistake>
+  <Mistake title="Посчитать вершину раньше предшественников">
+    <p>Её значение ещё не определено полностью. Выбери порядок по связям.</p>
+  </Mistake>
+  <Mistake title="Поставить единицу в недоступном пункте">
+    <p>
+      Единица — начальное значение только старта. В пункте, до которого нет
+      путей, должно быть 0.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что складывается при подсчёте путей до вершины?',
+      options: [
+        {
+          id: 'correct',
+          text: 'Числа путей до всех непосредственных предшественников',
+        },
+        { id: 'wrong', text: 'Числа путей до всех остальных вершин графа' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Каждый путь приходит по одной входящей стрелке; группы по последнему переходу не пересекаются.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Сколько путей ведёт в недоступную вершину?',
+      options: [
+        { id: 'wrong', text: '1' },
+        { id: 'correct', text: '0' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Единицу ставят только в старте как начальное значение. Недоступная вершина не имеет подходящих путей.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'paths-diagram-v2',
+      taskNumber: 9,
+      seed: 'directed-paths-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[9]} />
+
+<CheatSheet>
+  <ul>
+    <li>
+      В старте 1; в другой вершине — сумма значений у входящих предшественников.
+    </li>
+    <li>Считай после предшественников; недоступные вершины получают 0.</li>
+    <li>
+      Ответ — число в финише. Правило в таком виде применяется к схеме без
+      циклов.
+    </li>
+  </ul>
+</CheatSheet>
