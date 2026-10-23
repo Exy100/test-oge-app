@@ -1,0 +1,270 @@
+---
+id: venn-diagrams
+title: 'Диаграммы множеств и непересекающиеся области'
+section: i8
+taskNumbers: [8]
+readingMinutes: 11
+prerequisites: ['search-operations']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'search-sets', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Диаграмма помогает увидеть повторный учёт страниц. Для трёх слов есть восемь
+    наборов принадлежности, включая страницы без всех трёх слов. Научимся
+    считать по непересекающимся областям и понимать, какие две совокупности
+    скрываются внутри запроса №8.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №8: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Деление на отдельные области</h3>
+  <p>
+    Для двух множеств выдели только левое, пересечение и только правое. Для трёх
+    множеств различай также попарные области без третьего слова и общую для всех
+    трёх область. Каждая страница попадает ровно в одну такую область.
+    Количество в круге складывается из нескольких областей.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 250"
+    aria-label="Три непересекающиеся области: пересекающиеся множества X и Y"
+  >
+    <title>Три непересекающиеся области</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="238"
+      fill="none"
+      stroke="currentColor"
+    />
+    <circle cx="145" cy="110" r="82" fill="none" stroke="currentColor" />
+    <circle cx="255" cy="110" r="82" fill="none" stroke="currentColor" />
+    <text x="94" y="114" fill="currentColor">
+      {'X'}
+    </text>
+    <text x="285" y="114" fill="currentColor">
+      {'Y'}
+    </text>
+    <text x="200" y="114" text-anchor="middle" fill="currentColor">
+      {'X ∩ Y'}
+    </text>
+    <text x="200" y="232" text-anchor="middle" fill="currentColor">
+      {'Общую часть учитывай один раз'}
+    </text>
+  </svg>
+  <h3>Объединение не равно сумме кругов</h3>
+  <p>
+    При сложении размеров двух кругов их пересечение посчитано два раза. Вычти
+    одну копию: размер объединения равен сумме размеров кругов минус размер
+    пересечения. Нулевое пересечение означает отсутствие общих страниц, а не
+    отсутствие самих множеств.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Два множества внутри A">
+    <title>Два множества внутри A</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'X = A & B; Y = A & C'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'X | Y = A & (B | C)'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'X & Y = A & B & C'}
+    </text>
+  </svg>
+  <h3>Внутри A остаются два множества</h3>
+  <p>
+    Для A &amp; (B | C) возьми X = A &amp; B и Y = A &amp; C. Их объединение —
+    исходный запрос, пересечение X и Y — A &amp; B &amp; C. Области вне A на
+    результат этого запроса не влияют. Такой переход позволяет применить правило
+    двух множеств к таблице №8.
+  </p>
+</Theory>
+
+<Interactive
+  id="search-sets"
+  title="Лаборатория: Диаграммы множеств и непересекающиеся области"
+  goal="Составь запрос, проверь его на всех наборах слов и посчитай страницы без повторного учёта."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[8]}
+  modulePath="/src/interactives/SearchSets.tsx"
+  parameters={{ goal: 'conditional' }}
+>
+  <p>
+    Раздели базу на восемь непересекающихся областей по наличию A, B и C,
+    включая область без этих слов. Проверь запрос для каждого набора и сложи
+    количества выбранных областей по одному разу. Для A &amp; (B | C) обозначь X
+    = A &amp; B, Y = A &amp; C. Тогда исходный запрос есть X | Y, а их общая
+    часть — A &amp; B &amp; C. Размер объединения равен сумме размеров двух
+    множеств минус общая часть. Сохраняй единицы таблицы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №8: основной приём"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №8: другая конфигурация"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-example-2-10',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №8: сложный случай"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-example-3-1',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Считать попарную область полным пересечением">
+    <p>
+      Область A и B без C не включает тройное пересечение, а запрос A &amp; B
+      включает его.
+    </p>
+  </Mistake>
+  <Mistake title="Прибавить пересечение второй раз">
+    <p>
+      Отметь кратность учёта каждой области. В объединение каждая должна войти
+      один раз.
+    </p>
+  </Mistake>
+  <Mistake title="Добавить страницы вне A в условный запрос">
+    <p>
+      В A &amp; (B | C) необходим A. Изменение области только B не меняет ответ.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Сколько раз общая часть учтена в сумме размеров двух множеств?',
+      options: [
+        { id: 'correct', text: 'Два раза' },
+        { id: 'wrong', text: 'Один раз' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Она принадлежит каждому из двух множеств и попадает в оба слагаемых.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Чему равно пересечение A & B и A & C?',
+      options: [
+        { id: 'wrong', text: 'Только B & C, без требования A' },
+        { id: 'correct', text: 'A & B & C' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Общая страница обязана одновременно удовлетворять обоим запросам, включая A.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'venn-diagrams-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[8]} />
+
+<CheatSheet>
+  <ul>
+    <li>Различай размер круга и отдельную область.</li>
+    <li>В объединении учитывай каждую область один раз.</li>
+    <li>Внутри A используй X = A &amp; B, Y = A &amp; C.</li>
+  </ul>
+</CheatSheet>

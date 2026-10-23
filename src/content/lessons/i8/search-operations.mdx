@@ -1,0 +1,269 @@
+---
+id: search-operations
+title: 'Поисковые запросы: И, ИЛИ и НЕ'
+section: i8
+taskNumbers: [8]
+readingMinutes: 10
+prerequisites: ['logic-operations']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'search-sets', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №8 операции языка запросов задают множества найденных страниц. В
+    проверенных заданиях &amp; означает И, а | — ИЛИ. Базовый навык —
+    определить, какие страницы выберет запрос, затем перейти к условному
+    объединению A &amp; (B | C).
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №8: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Одна страница учитывается один раз</h3>
+  <p>
+    A обозначает множество страниц со словом A, B — со словом B. A &amp; B
+    требует оба слова, A | B — хотя бы одно, включая оба. Если страница содержит
+    оба слова, объединение всё равно учитывает её один раз. Речь о страницах, а
+    не о числе повторений слова в тексте.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 250"
+    aria-label="И — общая часть, ИЛИ — оба круга: пересекающиеся множества X и Y"
+  >
+    <title>И — общая часть, ИЛИ — оба круга</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="238"
+      fill="none"
+      stroke="currentColor"
+    />
+    <circle cx="145" cy="110" r="82" fill="none" stroke="currentColor" />
+    <circle cx="255" cy="110" r="82" fill="none" stroke="currentColor" />
+    <text x="94" y="114" fill="currentColor">
+      {'X'}
+    </text>
+    <text x="285" y="114" fill="currentColor">
+      {'Y'}
+    </text>
+    <text x="200" y="114" text-anchor="middle" fill="currentColor">
+      {'X ∩ Y'}
+    </text>
+    <text x="200" y="232" text-anchor="middle" fill="currentColor">
+      {'Общую часть учитывай один раз'}
+    </text>
+  </svg>
+  <h3>Скобки определяют условие</h3>
+  <p>
+    A &amp; (B | C) выбирает страницы с A и хотя бы одним из B, C. Страница
+    только с B без A не подходит. Раскрытие скобок даёт (A &amp; B) | (A &amp;
+    C). Если убрать скобки и записать A &amp; B | C, в запрос попадут и страницы
+    с одним C; это другое множество.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Скобки в условном запросе">
+    <title>Скобки в условном запросе</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'A & (B | C)'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'(A & B) | (A & C)'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Во всех выбранных страницах есть A'}
+    </text>
+  </svg>
+  <h3>Отрицание требует общей базы</h3>
+  <p>
+    НЕ A — страницы заданной базы, на которых нет слова A. Это учебное
+    расширение лаборатории; в проверенных примерах №8 используются &amp; и |.
+    Без указания общего множества страниц нельзя произвольно посчитать
+    дополнение. Во всех вычислениях этого урока база неизменна.
+  </p>
+</Theory>
+
+<Interactive
+  id="search-sets"
+  title="Лаборатория: Поисковые запросы: И, ИЛИ и НЕ"
+  goal="Составь запрос, проверь его на всех наборах слов и посчитай страницы без повторного учёта."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[8]}
+  modulePath="/src/interactives/SearchSets.tsx"
+  parameters={{ goal: 'union' }}
+>
+  <p>
+    Раздели базу на восемь непересекающихся областей по наличию A, B и C,
+    включая область без этих слов. Проверь запрос для каждого набора и сложи
+    количества выбранных областей по одному разу. Для A &amp; (B | C) обозначь X
+    = A &amp; B, Y = A &amp; C. Тогда исходный запрос есть X | Y, а их общая
+    часть — A &amp; B &amp; C. Размер объединения равен сумме размеров двух
+    множеств минус общая часть. Сохраняй единицы таблицы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №8: основной приём"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'search-operations-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №8: другая конфигурация"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'search-operations-example-2-11',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №8: сложный случай"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'search-operations-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Понять ИЛИ как ровно одно слово">
+    <p>
+      Обычное ИЛИ включает страницы с обоими словами. Пересечение тоже входит в
+      объединение.
+    </p>
+  </Mistake>
+  <Mistake title="Потерять скобки">
+    <p>
+      Сравни наборы слов: страница с одним C не подходит A &amp; (B | C), но
+      подходит (A &amp; B) | C.
+    </p>
+  </Mistake>
+  <Mistake title="Считать НЕ вне общей базы">
+    <p>
+      Сначала определи множество всех рассматриваемых страниц. Относительно него
+      берётся дополнение.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Входит ли страница с обоими словами в A | B?',
+      options: [
+        { id: 'correct', text: 'Да, но только один раз' },
+        { id: 'wrong', text: 'Нет, ИЛИ исключает оба слова' },
+      ],
+      correctId: 'correct',
+      explanation: 'Включающее ИЛИ означает хотя бы одно слово.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Обязательно ли слово A для A & (B | C)?',
+      options: [
+        { id: 'wrong', text: 'Нет, одного C достаточно' },
+        { id: 'correct', text: 'Да, оно требуется вместе со скобкой' },
+      ],
+      correctId: 'correct',
+      explanation: 'Внешнее И связывает A со всем условием в скобках.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'search-operations-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'search-operations-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'search-operations-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[8]} />
+
+<CheatSheet>
+  <ul>
+    <li>&amp; — пересечение, | — объединение, включая общую часть.</li>
+    <li>В A &amp; (B | C) слово A обязательно.</li>
+    <li>НЕ берётся относительно заданной базы страниц.</li>
+  </ul>
+</CheatSheet>

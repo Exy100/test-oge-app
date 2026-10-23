@@ -1,0 +1,271 @@
+---
+id: count-search-results
+title: 'Считаем результаты условного поискового запроса'
+section: i8
+taskNumbers: [8]
+readingMinutes: 12
+prerequisites: ['venn-diagrams']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'search-sets', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В подтверждённом формате №8 таблица содержит A &amp; (B | C) и ещё два
+    запроса. Нужно найти тройное пересечение A &amp; B &amp; C либо парное A
+    &amp; C. Важно распознать, какое число неизвестно, и сохранить единицы
+    таблицы.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №8: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Обозначь известные количества</h3>
+  <p>
+    Пусть U — число страниц по A &amp; (B | C), L — по A &amp; B, R — по A &amp;
+    C, I — по A &amp; B &amp; C. Тогда U — размер объединения двух множеств L и
+    R, а I — их общая часть. Не подменяй L и R количествами по отдельным словам
+    B и C.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 250"
+    aria-label="Какое число ищем?: пересекающиеся множества X и Y"
+  >
+    <title>Какое число ищем?</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="238"
+      fill="none"
+      stroke="currentColor"
+    />
+    <circle cx="145" cy="110" r="82" fill="none" stroke="currentColor" />
+    <circle cx="255" cy="110" r="82" fill="none" stroke="currentColor" />
+    <text x="94" y="114" fill="currentColor">
+      {'X'}
+    </text>
+    <text x="285" y="114" fill="currentColor">
+      {'Y'}
+    </text>
+    <text x="200" y="114" text-anchor="middle" fill="currentColor">
+      {'X ∩ Y'}
+    </text>
+    <text x="200" y="232" text-anchor="middle" fill="currentColor">
+      {'Общую часть учитывай один раз'}
+    </text>
+  </svg>
+  <h3>Вырази нужное число</h3>
+  <p>
+    Общее правило: U = L + R − I. Если ищут тройное пересечение, получаем I = L
+    + R − U. Если ищут парное пересечение A &amp; C, получаем R = U − L + I.
+    Здесь I уже входит и в L, и в R; не вычитай его из каждого слагаемого
+    повторно.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Смысловая проверка">
+    <title>Смысловая проверка</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'0 ≤ I ≤ каждое из L, R'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'U не меньше каждого множества'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Сохраняй единицы измерения'}
+    </text>
+  </svg>
+  <h3>Проверь единицы и смысл</h3>
+  <p>
+    Если таблица дана в тысячах страниц и спрашивают тысячи, ответ остаётся в
+    тысячах. Пересечение не может быть отрицательным или больше каждого из
+    составляющих множеств. Объединение не меньше каждого множества и не больше
+    их суммы. Все запросы должны относиться к одной неизменной базе.
+  </p>
+</Theory>
+
+<Interactive
+  id="search-sets"
+  title="Лаборатория: Считаем результаты условного поискового запроса"
+  goal="Составь запрос, проверь его на всех наборах слов и посчитай страницы без повторного учёта."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[8]}
+  modulePath="/src/interactives/SearchSets.tsx"
+  parameters={{ goal: 'pair' }}
+>
+  <p>
+    Раздели базу на восемь непересекающихся областей по наличию A, B и C,
+    включая область без этих слов. Проверь запрос для каждого набора и сложи
+    количества выбранных областей по одному разу. Для A &amp; (B | C) обозначь X
+    = A &amp; B, Y = A &amp; C. Тогда исходный запрос есть X | Y, а их общая
+    часть — A &amp; B &amp; C. Размер объединения равен сумме размеров двух
+    множеств минус общая часть. Сохраняй единицы таблицы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №8: основной приём"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №8: другая конфигурация"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-example-2-2',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №8: сложный случай"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Решить другой вопрос">
+    <p>
+      Перечитай целевой запрос: A &amp; C и A &amp; B &amp; C — разные
+      множества.
+    </p>
+  </Mistake>
+  <Mistake title="Умножить ответ на тысячу без необходимости">
+    <p>
+      Согласуй единицы вопроса и таблицы. Если нужны тысячи страниц, оставь
+      число в тысячах.
+    </p>
+  </Mistake>
+  <Mistake title="Принять невозможное пересечение">
+    <p>
+      Отрицательное пересечение или значение больше каждого множества указывает
+      на ошибку формулы или данных.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что означает I в правиле U = L + R − I для этого формата?',
+      options: [
+        { id: 'correct', text: 'Количество по A & B & C' },
+        { id: 'wrong', text: 'Количество по одному слову C' },
+      ],
+      correctId: 'correct',
+      explanation: 'Это общая часть запросов A & B и A & C.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt:
+        'Нужно ли умножать на тысячу, если таблица и вопрос заданы в тысячах?',
+      options: [
+        { id: 'wrong', text: 'Да, независимо от вопроса' },
+        { id: 'correct', text: 'Нет, единицы уже совпадают' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Умножение требуется лишь при переходе от тысяч страниц к страницам.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-triple-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №8"
+    source={{
+      generatorId: 'search-conditional-pair-v2',
+      taskNumber: 8,
+      seed: 'count-search-results-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[8]} />
+
+<CheatSheet>
+  <ul>
+    <li>X = A &amp; B, Y = A &amp; C; их общая часть — A &amp; B &amp; C.</li>
+    <li>I = L + R − U; R = U − L + I.</li>
+    <li>Проверь вопрос, единицы и границы размера пересечения.</li>
+  </ul>
+</CheatSheet>

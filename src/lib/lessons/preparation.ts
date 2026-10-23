@@ -122,4 +122,40 @@ export const preparationLessons = [
     taskNumber: 6,
     title: 'Таблица трассировки и проверка параметра',
   },
+  {
+    id: 'network-resources',
+    section: 'i7',
+    taskNumber: 7,
+    title: 'Ресурс в сети: протокол, сервер и файл',
+  },
+  {
+    id: 'url-parts',
+    section: 'i7',
+    taskNumber: 7,
+    title: 'Части URL: точки, двоеточие и слеши',
+  },
+  {
+    id: 'restore-address',
+    section: 'i7',
+    taskNumber: 7,
+    title: 'Восстанавливаем URL из семи фрагментов',
+  },
+  {
+    id: 'search-operations',
+    section: 'i8',
+    taskNumber: 8,
+    title: 'Поисковые запросы: И, ИЛИ и НЕ',
+  },
+  {
+    id: 'venn-diagrams',
+    section: 'i8',
+    taskNumber: 8,
+    title: 'Диаграммы множеств и непересекающиеся области',
+  },
+  {
+    id: 'count-search-results',
+    section: 'i8',
+    taskNumber: 8,
+    title: 'Считаем результаты условного поискового запроса',
+  },
 ].map((lesson) => ({ ...lesson, route: lessonRoute(lesson) }));

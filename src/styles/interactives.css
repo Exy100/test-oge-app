@@ -146,3 +146,15 @@
   outline-offset: 2px;
   font-weight: 700;
 }
+
+.lab-address {
+  overflow-wrap: anywhere;
+}
+.lab-address-parts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+}
+.lab-address-parts dd {
+  overflow-wrap: anywhere;
+}

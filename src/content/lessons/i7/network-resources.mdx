@@ -1,0 +1,261 @@
+---
+id: network-resources
+title: 'Ресурс в сети: протокол, сервер и файл'
+section: i7
+taskNumbers: [7]
+readingMinutes: 9
+prerequisites: []
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'resource-address', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №7 по описанию ресурса и таблице фрагментов восстанавливают его адрес.
+    Ресурсом может быть файл на сервере: текст, изображение, страница. Сначала
+    разберём, что в адресе отвечает за способ доступа, что указывает сервер и
+    что выбирает файл.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №7: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Интернет и ресурс</h3>
+  <p>
+    Интернет связывает компьютерные сети. Сервер предоставляет ресурсы, а клиент
+    обращается к ним по адресу. Адрес сервера и полный адрес конкретного файла —
+    разные вещи: один сервер может хранить много ресурсов.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 410 155"
+    aria-label="Клиент обращается к ресурсу"
+  >
+    <title>Клиент обращается к ресурсу</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'Клиент → запрос → сервер'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'Сервер → ответ → клиент'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'На сервере может быть много файлов'}
+    </text>
+  </svg>
+  <h3>Протокол задаёт способ доступа</h3>
+  <p>
+    Схема в начале URL указывает протокол. В проверенных заданиях №7 встречаются
+    HTTP, HTTPS и FTP. HTTP используют для доступа к веб-ресурсам, HTTPS — его
+    вариант с защищённым соединением, FTP — протокол передачи файлов. В ответе
+    сохраняй именно протокол из условия.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Три части адреса">
+    <title>Три части адреса</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'Схема :// сервер / путь'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'https :// atlas.ru / map.txt'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Протокол → где → какой ресурс'}
+    </text>
+  </svg>
+  <h3>От сервера к файлу</h3>
+  <p>
+    После схемы и разделителя :// стоит имя сервера. Путь начинается с / и ведёт
+    к файлу. В учебных адресах имя файла заканчивается расширением. Точка в
+    имени сервера и точка перед расширением находятся в разных частях URL;
+    похожие фрагменты нельзя считать взаимозаменяемыми.
+  </p>
+</Theory>
+
+<Interactive
+  id="resource-address"
+  title="Лаборатория: Ресурс в сети: протокол, сервер и файл"
+  goal="Собери адрес всеми семью фрагментами и проверь порядок частей."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[7]}
+  modulePath="/src/interactives/ResourceAddress.tsx"
+  parameters={{ preset: 'https' }}
+>
+  <p>
+    Выпиши протокол, сервер и файл из условия. Собери схему
+    протокол://сервер/путь, затем найди разбиение ровно на семь данных
+    фрагментов. Используй каждую метку один раз, соединяй фрагменты буквально
+    без новых знаков и проверь весь адрес. После проверки запиши только цифры
+    меток в порядке соединения.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №7: основной приём"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №7: другая конфигурация"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №7: сложный случай"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Считать сервер отдельным файлом">
+    <p>Имя сервера выбирает узел, а путь — конкретный ресурс на нём.</p>
+  </Mistake>
+  <Mistake title="Выбирать HTTP по привычке">
+    <p>
+      Прочитай протокол в условии. FTP, HTTP и HTTPS дают разные записи адреса.
+    </p>
+  </Mistake>
+  <Mistake title="Добавить расширение к имени сервера">
+    <p>
+      Расширение относится к имени файла после слеша, а не заменяет доменную
+      часть.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что отличает полный адрес файла от имени сервера?',
+      options: [
+        { id: 'correct', text: 'Он содержит схему и путь к ресурсу' },
+        { id: 'wrong', text: 'Это всегда одно и то же' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Один сервер может предоставлять разные файлы по разным путям.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Откуда брать протокол для №7?',
+      options: [
+        { id: 'wrong', text: 'Всегда выбирать HTTPS' },
+        { id: 'correct', text: 'Из условия задачи' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Сохраняй протокол, указанный автором задачи, независимо от привычного способа доступа.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'network-resources-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[7]} />
+
+<CheatSheet>
+  <ul>
+    <li>Выдели протокол, имя сервера и файл из условия.</li>
+    <li>Полный URL связывает схему, сервер и путь.</li>
+    <li>Восстанови адрес целиком, затем запиши метки фрагментов.</li>
+  </ul>
+</CheatSheet>

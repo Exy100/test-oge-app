@@ -1,0 +1,269 @@
+---
+id: restore-address
+title: 'Восстанавливаем URL из семи фрагментов'
+section: i7
+taskNumbers: [7]
+readingMinutes: 11
+prerequisites: ['url-parts']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'resource-address', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Подтверждённый формат №7 использует семь фрагментов, отмеченных цифрами 1–7.
+    Ответом служит последовательность их меток. Разберём надёжный порядок
+    действий и проверку, которая принимает любой порядок, действительно
+    собирающий заданный адрес.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №7: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Сначала адрес, потом метки</h3>
+  <p>
+    Выпиши схему, сервер и файл из условия. Между ними восстанови :// и /.
+    Получится целевая строка; её проще проверять, чем угадывать порядок цифр без
+    понимания адреса. В лаборатории строка цели дана явно, а в примерах её нужно
+    построить из описания.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Алгоритм восстановления">
+    <title>Алгоритм восстановления</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'Описание → полный URL'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'Полный URL → разбиение'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Разбиение → цифровые метки'}
+    </text>
+  </svg>
+  <h3>Собирай точное разбиение</h3>
+  <p>
+    Сопоставь начало строки с каждым возможным фрагментом. После выбранного
+    фрагмента продолжи с оставшегося места, используя только ещё не взятые
+    метки. Если продолжение не получается, вернись к предыдущему выбору. Похожий
+    текст может дать развилку, поэтому один неудачный вариант не закрывает
+    поиск.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Контроль ответа">
+    <title>Контроль ответа</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'Семь меток, без повторов'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'Все фрагменты соединены буквально'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Полученный адрес совпал с целью'}
+    </text>
+  </svg>
+  <h3>Проверь всю запись</h3>
+  <p>
+    Нужны все семь фрагментов по одному разу, без новых знаков между ними.
+    Проверь протокол, имя сервера, путь, точки и расширение. Затем запиши только
+    цифры без разделителей. Если разные порядки фрагментов дают одну и ту же
+    целевую строку, проверка должна принять каждый из них.
+  </p>
+</Theory>
+
+<Interactive
+  id="resource-address"
+  title="Лаборатория: Восстанавливаем URL из семи фрагментов"
+  goal="Собери адрес всеми семью фрагментами и проверь порядок частей."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[7]}
+  modulePath="/src/interactives/ResourceAddress.tsx"
+  parameters={{ preset: 'overlap' }}
+>
+  <p>
+    Выпиши протокол, сервер и файл из условия. Собери схему
+    протокол://сервер/путь, затем найди разбиение ровно на семь данных
+    фрагментов. Используй каждую метку один раз, соединяй фрагменты буквально
+    без новых знаков и проверь весь адрес. После проверки запиши только цифры
+    меток в порядке соединения.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №7: основной приём"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №7: другая конфигурация"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №7: сложный случай"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-example-3-5',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Записать сам адрес в поле ответа">
+    <p>
+      В №7 требуется последовательность цифровых меток. Адрес нужен как
+      промежуточная проверка.
+    </p>
+  </Mistake>
+  <Mistake title="Повторить метку для похожего участка">
+    <p>
+      Каждый фрагмент используется один раз. Проверяй остаток списка после
+      каждого выбора.
+    </p>
+  </Mistake>
+  <Mistake title="Принять правильное начало за весь ответ">
+    <p>Проверь и конец адреса, все семь меток и точное совпадение символов.</p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что записывают в ответ №7?',
+      options: [
+        {
+          id: 'correct',
+          text: 'Метки фрагментов по порядку, без разделителей',
+        },
+        { id: 'wrong', text: 'Полный URL вместо меток' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Сначала собери строку, затем замени фрагменты цифрами из таблицы.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Как проверить другую последовательность меток?',
+      options: [
+        {
+          id: 'wrong',
+          text: 'Отклонить, если она не совпала с одним разбором',
+        },
+        {
+          id: 'correct',
+          text: 'Соединить все её фрагменты и сравнить с целью',
+        },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Критерий — итоговый адрес и использование всех семи фрагментов.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'restore-address-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[7]} />
+
+<CheatSheet>
+  <ul>
+    <li>Восстанови полный URL из описания.</li>
+    <li>Разбей его фрагментами таблицы, каждый используй один раз.</li>
+    <li>Соедини заново и только затем запиши семь меток.</li>
+  </ul>
+</CheatSheet>

@@ -20,4 +20,10 @@ export const interactives = [
     kind: '2d',
     load: () => import('./ProgramTracer.tsx'),
   },
+  {
+    id: 'resource-address',
+    kind: '2d',
+    load: () => import('./ResourceAddress.tsx'),
+  },
+  { id: 'search-sets', kind: '2d', load: () => import('./SearchSets.tsx') },
 ] as const;
