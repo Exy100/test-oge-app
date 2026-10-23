@@ -32,7 +32,15 @@ const modulePath = '/src/dev/InteractiveProbe.tsx';
         байтов увеличивается на один.
       </p>
     </Interactive>
-    <InteractiveHarness client:load modulePath={modulePath} />
+    <InteractiveHarness
+      client:load
+      modulePath={modulePath}
+      options={[
+        { title: 'Объём текста', path: '/src/interactives/TextVolume.tsx' },
+        { title: 'Биты и байты', path: '/src/interactives/BitsAndBytes.tsx' },
+        { title: 'Декодер', path: '/src/interactives/CodeDecoder.tsx' },
+      ]}
+    />
   </div>
 </SiteLayout>
 

@@ -1,0 +1,250 @@
+---
+id: bits-bytes
+title: 'Биты и байты: измеряем информацию'
+section: i1
+taskNumbers: [1]
+readingMinutes: 8
+prerequisites: []
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'bits-and-bytes', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Чтобы решить №1, нужно сравнивать объёмы в одних единицах. Если известно
+    уменьшение в байтах, а размер знака дан в битах, сначала свяжи эти величины.
+    В экзаменационном примере ниже нужно найти удалённое слово, а не просто
+    посчитать биты.
+  </p>
+  <p>
+    Подтверждённые форматы: M01, №1. Демоверсии ФИПИ 2025–2026 и проект 2027,
+    печатная с. 4. КЭС 2.2 по спецификации проекта 2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <h3>Бит различает два состояния</h3>
+  <p>
+    Бит может принимать значение 0 или 1. Это единица количества информации.
+    Байт состоит из восьми бит. Чтобы перевести биты в байты, раздели число бит
+    на 8; чтобы перевести байты в биты, умножь на 8. Единица относится к числу:
+    запись «16» без единицы ещё не говорит об объёме.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 82"
+    aria-label="Восемь отдельных битовых ячеек образуют один байт"
+  >
+    <title>Один байт</title>
+    <rect
+      x="2"
+      y="4"
+      width="334"
+      height="42"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="16" y="31" fill="currentColor">
+      {'0 | 1 | 0 | 0 | 1 | 1 | 0 | 1'}
+    </text>
+    <text x="30" y="73" fill="currentColor">
+      {'8 бит = 1 байт'}
+    </text>
+  </svg>
+  <h3>Полные байты и остаток</h3>
+  <p>
+    Если битов не кратное восьми число, можно назвать точный объём дробью или
+    отдельно указать полные байты и оставшиеся биты. Не округляй объём без
+    указания в условии. В лаборатории ниже заполняются только восемь ячеек
+    остатка; полные байты подписаны отдельно.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 110"
+    aria-label="Перевод единиц: из битов в байты делим на восемь, обратно умножаем на восемь"
+  >
+    <title>Перевод единиц</title>
+    <text x="8" y="28" fill="currentColor">
+      {'Биты → разделить на 8 → байты'}
+    </text>
+    <text x="8" y="72" fill="currentColor">
+      {'Байты → умножить на 8 → биты'}
+    </text>
+  </svg>
+  <h3>Сколько знаков можно различить</h3>
+  <p>
+    Если код каждого знака состоит из i бит, разных кодов ровно 2 в степени i:
+    на каждом месте два независимых выбора. Для алфавита из N знаков нужна
+    наименьшая целая длина i, при которой 2 в степени i не меньше N. Не все
+    кодовые слова обязаны использоваться. Это учебная модель равномерного
+    кодирования; в №2 встречаются и коды разной длины.
+  </p>
+</Theory>
+
+<Interactive
+  id="bits-and-bytes"
+  title="Лаборатория: Биты и байты: измеряем информацию"
+  goal="Подбери минимальную длину кода для алфавита и раздели биты на полные байты и остаток."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[1, 2]}
+  modulePath="/src/interactives/BitsAndBytes.tsx"
+  parameters={{ alphabet: 17 }}
+>
+  <p>
+    В одном байте восемь бит. Разложи общее число бит на группы по восемь и
+    остаток. Для равномерного двоичного кода перечисли все слова выбранной
+    длины; каждому знаку нужен собственный код. Если кодов меньше знаков,
+    увеличь длину на один бит.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Учебный шаг: перевод объёма текста"
+    source={{
+      generatorId: 'text-volume-v1',
+      taskNumber: 1,
+      seed: 'bits-bytes-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Учебный шаг: изменение размера одного знака"
+    source={{
+      generatorId: 'recoding-v1',
+      taskNumber: 1,
+      seed: 'bits-bytes-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №1: найти удалённое слово"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'bits-bytes-example-3-5',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Умножить биты на восемь">
+    <p>
+      Байт крупнее бита: численное значение при переводе в байты уменьшается.
+      Выпиши единицы возле каждого действия.
+    </p>
+  </Mistake>
+  <Mistake title="Округлить остаток до байта">
+    <p>
+      Не подменяй точный объём числом занятых целых ячеек хранения. Сначала
+      прочитай, что спрашивается.
+    </p>
+  </Mistake>
+  <Mistake title="Считать, что один бит различает восемь знаков">
+    <p>
+      Один бит имеет два значения; восемь бит образуют байт. Число разных кодов
+      растёт как степень двойки.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'В каком направлении переводишь байты в биты?',
+      options: [
+        { id: 'correct', text: 'Умножаю на 8' },
+        { id: 'wrong', text: 'Делю на 8' },
+      ],
+      correctId: 'correct',
+      explanation: 'В каждом байте восемь бит, поэтому количество бит больше.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Для чего нужен отдельный код каждому знаку?',
+      options: [
+        { id: 'wrong', text: 'Чтобы все коды начинались с нуля' },
+        { id: 'correct', text: 'Чтобы разные знаки можно было различить' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Одинаковые кодовые слова для разных знаков не позволяют восстановить знак по одному коду.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'text-volume-v1',
+      taskNumber: 1,
+      seed: 'bits-bytes-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'recoding-v1',
+      taskNumber: 1,
+      seed: 'bits-bytes-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'bits-bytes-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[1]} />
+
+<CheatSheet>
+  <ul>
+    <li>1 байт = 8 бит. Биты → байты: раздели на 8.</li>
+    <li>При равномерном коде длины i есть 2 в степени i разных кодов.</li>
+    <li>Проверь единицы и форму ответа: в №1 может требоваться слово.</li>
+  </ul>
+</CheatSheet>

@@ -86,6 +86,36 @@ async function history(page: Page) {
 function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
+
+test('preparation plan opens available lessons for weak №1 and №2', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title] of [
+    [1, 'Удаляем и добавляем символы'],
+    [2, 'Однозначность и непрефиксные таблицы'],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}` });
+    await expect(links.getByRole('link')).toHaveCount(3);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
 function lazyEntry(name: string) {
   return (target: URL) =>
     target.pathname.includes(`/${name}.`) &&

@@ -4,15 +4,39 @@ import { useHydrated } from '../components/useHydrated';
 
 export default function InteractiveHarness({
   modulePath,
+  options = [],
 }: {
   modulePath: string;
+  options?: readonly { title: string; path: string }[];
 }) {
+  const [path, setPath] = useState(modulePath);
   const [mounted, setMounted] = useState(false);
   const ready = useHydrated();
   const [failed, setFailed] = useState(false);
   return (
     <section aria-labelledby="harness-title">
       <h2 id="harness-title">Повторное подключение и ошибки</h2>
+      {options.length > 0 && (
+        <label>
+          Модуль для проверки
+          <select
+            value={path}
+            disabled={!ready}
+            onChange={(event) => {
+              setPath(event.target.value);
+              setMounted(false);
+              setFailed(false);
+            }}
+          >
+            <option value={modulePath}>Проверочная сцена</option>
+            {options.map((option) => (
+              <option key={option.path} value={option.path}>
+                {option.title}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <button
         type="button"
         className="button"
@@ -38,7 +62,7 @@ export default function InteractiveHarness({
         {mounted && (
           <InteractiveHost
             id="harness"
-            modulePath={modulePath}
+            modulePath={path}
             parameters={{ fail: failed }}
           />
         )}

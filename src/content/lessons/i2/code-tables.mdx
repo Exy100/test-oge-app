@@ -1,0 +1,250 @@
+---
+id: code-tables
+title: 'Таблица кодов и равномерное кодирование'
+section: i2
+taskNumbers: [2]
+readingMinutes: 8
+prerequisites: ['bits-bytes']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'bits-and-bytes', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Таблица связывает буквы с кодовыми словами. В №2 нужно восстановить
+    сообщение по таблице и непрерывной записи сигнала. Сначала научимся читать
+    таблицу и сохранять ведущие нули, затем перейдём от равномерного к
+    префиксному коду разной длины.
+  </p>
+  <p>
+    Подтверждённые форматы: M02a, M02b, №2. Демоверсии ФИПИ 2025–2026 и проект
+    2027, печатная с. 4 и ответы 2025, с. 17. КЭС 2.1 по спецификации проекта
+    2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <p>
+    Знаки кодового алфавита не обязательно двоичные: в №2 встречаются точки,
+    тире и другие условные знаки. Правила поиска границ те же. Лаборатория
+    равномерных двоичных кодов ниже объясняет число сочетаний, а экзаменационные
+    примеры используют заданные в них таблицы.
+  </p>
+  <h3>Буква и кодовое слово</h3>
+  <p>
+    Кодирование заменяет каждую букву её кодом, а затем соединяет коды в том же
+    порядке. При декодировании нужно восстановить границы букв. Ведущий ноль —
+    часть кода, его нельзя отбросить как в записи целого числа. Таблица
+    действует только в пределах данного задания.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 110"
+    aria-label="Учебная таблица: А кодируется 00, Б кодируется 01, В кодируется 10, Г кодируется 11"
+  >
+    <title>Равномерная таблица</title>
+    <text x="8" y="28" fill="currentColor">
+      {'А → 00 Б → 01'}
+    </text>
+    <text x="8" y="70" fill="currentColor">
+      {'В → 10 Г → 11'}
+    </text>
+  </svg>
+  <h3>Одинаковая длина задаёт границы</h3>
+  <p>
+    Если все кодовые слова имеют длину i, отсчитывай по i знаков от начала
+    сообщения. Каждую группу замени буквой по таблице. Остаток неполной длины
+    или группа, которой нет в таблице, означает, что по этим правилам запись не
+    расшифровывается.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 112"
+    aria-label="Сигнал 000110 делится на группы 00, 01, 10 и даёт сообщение АБВ по приведённой таблице"
+  >
+    <title>Границы равномерного кода</title>
+    <text x="8" y="28" fill="currentColor">
+      {'000110 → 00 | 01 | 10'}
+    </text>
+    <path d="M20 40 v25 h260" stroke="currentColor" fill="none" />
+    <text x="8" y="100" fill="currentColor">
+      {'А Б В'}
+    </text>
+  </svg>
+  <h3>Длина кода и объём — разные вопросы</h3>
+  <p>
+    При равномерном двоичном коде длины i существует 2 в степени i кодовых слов.
+    Для N букв выбирай наименьшее i с достаточным числом кодов. Но для
+    расшифровки по уже заданной таблице используй именно её коды; их нельзя
+    заменить своими более короткими.
+  </p>
+</Theory>
+
+<Interactive
+  id="bits-and-bytes"
+  title="Лаборатория: Таблица кодов и равномерное кодирование"
+  goal="Найди наименьшую длину одинаковых двоичных кодов и проверь число доступных кодовых слов."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[1, 2]}
+  modulePath="/src/interactives/BitsAndBytes.tsx"
+  parameters={{ alphabet: 5 }}
+>
+  <p>
+    Перечисли все двоичные слова выбранной длины: сначала нули, затем остальные
+    сочетания с сохранением ведущих нулей. Кодовых слов должно хватать всем
+    знакам алфавита. При чтении равномерного кода дели сигнал на группы заданной
+    длины от самого начала.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Учебный шаг: одинаковая длина кодов"
+    source={{
+      generatorId: 'fixed-code-v1',
+      taskNumber: 2,
+      seed: 'code-tables-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №2: длины могут различаться"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'code-tables-example-2-3',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №2: что требуется в ответе"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'code-tables-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Убрать ведущие нули">
+    <p>
+      Код — последовательность знаков, а не числовое значение. Удаление нуля
+      меняет границы.
+    </p>
+  </Mistake>
+  <Mistake title="Поменять местами буквы при записи">
+    <p>
+      Коды соединяются слева направо в порядке букв. Проверь ответ обратным
+      кодированием.
+    </p>
+  </Mistake>
+  <Mistake title="Делить любой сигнал на равные группы">
+    <p>
+      Так можно делать только если длина всех кодовых слов одинакова. Сначала
+      изучи таблицу.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Можно ли убрать ноль в начале кодового слова?',
+      options: [
+        { id: 'correct', text: 'Нельзя: он входит в код' },
+        { id: 'wrong', text: 'Можно: значение числа не изменится' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Кодовое слово — строка, а не запись числа. Все её знаки нужны для декодирования.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Когда допустимо делить сигнал на равные группы?',
+      options: [
+        { id: 'wrong', text: 'Когда в сигнале только нули и единицы' },
+        { id: 'correct', text: 'Когда все коды в таблице одинаковой длины' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Двоичный алфавит сам по себе не задаёт длину буквенных кодов.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'fixed-code-v1',
+      taskNumber: 2,
+      seed: 'code-tables-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'code-tables-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'code-tables-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[2]} />
+
+<CheatSheet>
+  <ul>
+    <li>Кодирование: буква → код → соединение без перестановки.</li>
+    <li>Равномерный код: отсчитывай группы одинаковой длины от начала.</li>
+    <li>Сохраняй ведущие нули и используй данную таблицу.</li>
+  </ul>
+</CheatSheet>

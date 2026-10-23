@@ -21,6 +21,14 @@
 .lesson-page p {
   line-height: var(--leading-relaxed);
 }
+.lesson-section svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: var(--space-5);
+  /* Labels use the viewBox coordinate system and scale together with the image. */
+  font-size: 16px;
+}
 .lesson-page a:not(.button) {
   color: var(--green);
   text-decoration: underline;

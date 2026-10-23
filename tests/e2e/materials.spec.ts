@@ -37,7 +37,7 @@ test('catalog JavaScript stays within the 60 KB gzip budget including inline cod
   expect(bytes).toBeLessThanOrEqual(60_000);
 });
 
-test('home and navigation lead to a real catalog with fourteen topics and no invented lessons', async ({
+test('home and navigation lead to fourteen topics and six available information lessons', async ({
   page,
 }) => {
   await page.goto('./');
@@ -53,8 +53,8 @@ test('home and navigation lead to a real catalog with fourteen topics and no inv
   await expect(page.locator('.materials-topic:visible')).toHaveCount(14);
   await expect(page.locator('.materials-map a')).toHaveCount(14);
   await expect(page.getByRole('checkbox')).toHaveCount(16);
-  await expect(page.locator('.materials-lessons li')).toHaveCount(0);
-  await expect(page.locator('.materials-completed')).toHaveCount(0);
+  await expect(page.locator('.materials-lessons li')).toHaveCount(6);
+  await expect(page.locator('.materials-completed')).toContainText('0 из 6');
   expect((await page.goto('materials/i1/absent-lesson/'))?.status()).toBe(404);
 });
 
@@ -291,7 +291,7 @@ test('a real correct answer updates topic practice without inventing a completed
   await expect(page.locator('#i9 [data-material-automatic]')).toHaveText(
     'Краткие ответы: верно 1 из 1.',
   );
-  await expect(page.locator('.materials-completed')).toHaveCount(0);
+  await expect(page.locator('.materials-completed')).toBeHidden();
 });
 
 test('all topics and the SVG map remain readable without JavaScript', async ({

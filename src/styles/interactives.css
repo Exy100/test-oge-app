@@ -23,6 +23,52 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+.information-lab {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.information-lab input,
+.information-lab textarea,
+.information-lab select {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  padding: var(--space-3);
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+}
+.information-lab svg {
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  font-size: 16px;
+}
+.information-lab form {
+  display: grid;
+  gap: var(--space-4);
+}
+.binary-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.binary-codes li {
+  border: 1px solid var(--line);
+  padding: var(--space-2);
+}
+.decoder-table {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.decoder-signal {
+  display: grid;
+  gap: var(--space-3);
+  overflow-wrap: anywhere;
+}
 @media print {
   .interactive-screen,
   .lesson-interactive noscript {

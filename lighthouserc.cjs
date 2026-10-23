@@ -6,6 +6,12 @@ module.exports = {
       url: [
         'http://127.0.0.1:4323/test-oge-app/',
         'http://127.0.0.1:4323/test-oge-app/materials/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i1/bits-bytes/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i1/text-encoding/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i1/changing-text/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i2/code-tables/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i2/decoding/',
+        'http://127.0.0.1:4323/test-oge-app/materials/i2/unique-decoding/',
         'http://127.0.0.1:4323/test-oge-app/stream/',
         'http://127.0.0.1:4323/test-oge-app/variants/',
         'http://127.0.0.1:4323/test-oge-app/variants/V01/',

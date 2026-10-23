@@ -39,7 +39,17 @@ beforeEach(async () => {
   );
   await file(
     'src/content.config.ts',
-    `export { collections } from ${JSON.stringify(join(project, 'src/content.config.ts'))};`,
+    // Define the real collection in the isolated root; a re-export anchors glob
+    // to the project's content directory once authored lessons exist there.
+    (await readFile(join(project, 'src/content.config.ts'), 'utf8'))
+      .replace(
+        "'../scripts/quality/lesson-loader.mjs'",
+        JSON.stringify(join(project, 'scripts/quality/lesson-loader.mjs')),
+      )
+      .replace(
+        "'./lib/lessons/schema.ts'",
+        JSON.stringify(join(project, 'src/lib/lessons/schema.ts')),
+      ),
   );
   await file(
     'src/pages/index.astro',

@@ -39,6 +39,7 @@ it(
       ])
         await cp(join(project, path), join(root, path), { recursive: true });
       await rm(join(root, 'src/pages'), { recursive: true });
+      await rm(join(root, 'src/content/lessons'), { recursive: true });
       await cp(
         join(project, 'src/pages/materials'),
         join(root, 'src/pages/materials'),
