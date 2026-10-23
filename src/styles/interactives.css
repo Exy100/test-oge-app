@@ -124,3 +124,25 @@
     height: auto;
   }
 }
+
+.program-code-frame {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.program-code,
+.lesson-page .program-code {
+  list-style: decimal;
+  padding: 1rem 1rem 1rem 3rem;
+  margin: 0;
+  width: max-content;
+  min-width: 100%;
+}
+.program-code code {
+  white-space: pre;
+  font-size: 0.95rem;
+}
+.program-code li[data-current='true'] {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  font-weight: 700;
+}

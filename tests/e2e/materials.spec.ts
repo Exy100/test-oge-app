@@ -37,7 +37,7 @@ test('catalog JavaScript stays within the 60 KB gzip budget including inline cod
   expect(bytes).toBeLessThanOrEqual(60_000);
 });
 
-test('home and navigation lead to fourteen topics and twelve available lessons', async ({
+test('home and navigation lead to fourteen topics and twenty available lessons', async ({
   page,
 }) => {
   await page.goto('./');
@@ -53,8 +53,8 @@ test('home and navigation lead to fourteen topics and twelve available lessons',
   await expect(page.locator('.materials-topic:visible')).toHaveCount(14);
   await expect(page.locator('.materials-map a')).toHaveCount(14);
   await expect(page.getByRole('checkbox')).toHaveCount(16);
-  await expect(page.locator('.materials-lessons li')).toHaveCount(12);
-  await expect(page.locator('.materials-completed')).toContainText('0 из 12');
+  await expect(page.locator('.materials-lessons li')).toHaveCount(20);
+  await expect(page.locator('.materials-completed')).toContainText('0 из 20');
   expect((await page.goto('materials/i1/absent-lesson/'))?.status()).toBe(404);
 });
 
@@ -282,6 +282,9 @@ test('a real correct answer updates topic practice without inventing a completed
   await page.goto(
     'stream/?task=numeral-sum-v2&seed=materials-progress&numbers=10',
   );
+  await expect(
+    page.getByRole('heading', { name: /Задание №10/u }),
+  ).toBeVisible();
   await page.getByLabel('Твой ответ', { exact: true }).fill(answer);
   await page
     .getByRole('button', { name: 'Проверить ответ', exact: true })

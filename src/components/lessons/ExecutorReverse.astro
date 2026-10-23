@@ -1,0 +1,76 @@
+---
+import {
+  checkExecutor,
+  executorLabs,
+  executorTrace,
+} from '../../lib/interactives/executors';
+interface Props {
+  preset: keyof typeof executorLabs;
+  program: string;
+}
+const { preset, program } = Astro.props;
+const { problem } = executorLabs[preset];
+if (!checkExecutor(problem, program))
+  throw new Error('Пример обратного хода должен достигать цели.');
+const states = executorTrace(problem, program);
+const rows = Array.from(program, (command, index) => {
+  const before = String(states[index]);
+  const after = String(states[index + 1]);
+  return {
+    command,
+    inverse:
+      command === '2'
+        ? `${after} − ${String(problem.add)} = ${before}`
+        : 'square' in problem
+          ? `√${after} = ${before}`
+          : `${after} ÷ ${String(problem.multiplier)} = ${before}`,
+  };
+}).toReversed();
+---
+
+<h3>Обратная трасса лабораторного исполнителя</h3>
+<p>
+  Начало — {problem.start}, цель — {problem.end}. Команда 1 —{' '}
+  {'square' in problem
+    ? 'возвести в квадрат'
+    : `умножить на ${String(problem.multiplier)}`}
+  , команда 2 — прибавить {problem.add}. Для этого решения шаги от цели к началу
+  показаны ниже. Все состояния вычислены выполнением команд.
+</p>
+<table>
+  <caption>Возвращаемся от цели к началу</caption>
+  <thead>
+    <tr>
+      <th scope="col">Команда</th>
+      <th scope="col">Назад</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((row) => (
+      <tr>
+        <th scope="row">{row.command}</th>
+        <td>{row.inverse}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+<p>
+  Порядок отмены: {rows.map((row) => row.command).join(' → ')}. Для ответа
+  разверни его: <strong>{program}</strong>. Прямая проверка:{' '}
+  {states.map(String).join(' → ')}. Это один допустимый вариант; другие
+  правильные программы тоже подходят.
+</p>
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: var(--space-4);
+  }
+  th,
+  td {
+    border: 1px solid var(--line);
+    padding: var(--space-3);
+    text-align: left;
+  }
+</style>

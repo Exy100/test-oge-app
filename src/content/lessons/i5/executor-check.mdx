@@ -1,0 +1,260 @@
+---
+id: executor-check
+title: 'Проверяем программу и формат ответа'
+section: i5
+taskNumbers: [5]
+readingMinutes: 9
+prerequisites: ['executor-reverse']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'fixed-executor', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Ошибка в одной цифре меняет всю программу №5. Перед записью ответа полезно
+    провести короткий контроль: допустимые команды, длина, начальное число,
+    промежуточные состояния и цель. Проверять будем собственное решение, в том
+    числе отличающееся от разбора.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №5: с. 5. КЭС 3.4 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские. Комплект 2027 имеет статус проекта; подготовительные
+      упражнения помечены отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Отдели три проверки</h3>
+  <p>
+    Сначала проверь запись: только номера разрешённых команд без пробелов и
+    разделителей. Затем проверь длину: не более указанного числа. Наконец,
+    выполни программу от исходного числа. Правильная цель не отменяет требования
+    к записи и длине.
+  </p>
+  <svg role="img" viewBox="0 0 400 150" aria-label="Контроль перед ответом">
+    <title>Контроль перед ответом</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Допустимые цифры → длина'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Начало → все шаги → цель'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Три проверки обязательны вместе'}
+    </text>
+  </svg>
+  <h3>Трасса помогает найти первый неверный шаг</h3>
+  <p>
+    Таблица содержит номер шага, команду и число после выполнения. Исходное
+    состояние — строка 0, она не считается командой. Если результат не тот,
+    найди первый переход, где действие расходится с определением команды, а
+    затем проверь порядок.
+  </p>
+  <svg role="img" viewBox="0 0 400 150" aria-label="Строка 0 — не команда">
+    <title>Строка 0 — не команда</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Шаг 0: исходное число'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Шаг 1: результат первой команды'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Шаг n: сравни с целью'}
+    </text>
+  </svg>
+  <h3>Разбор — пример решения</h3>
+  <p>
+    Одинаковая цель может достигаться разными программами. В лаборатории
+    проверка вычисляет результат именно твоей программы. При смене набора команд
+    старую запись надо проверить заново: цифры остались теми же, но действия
+    могли измениться.
+  </p>
+</Theory>
+
+<Interactive
+  id="fixed-executor"
+  title="Лаборатория: Проверяем программу и формат ответа"
+  goal="Составь допустимую программу, проверь цель и объясни каждый переход."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Кнопки и поля доступны мышью и касанием. Шаги выполняются вручную."
+  taskNumbers={[5]}
+  modulePath="/src/interactives/FixedExecutor.tsx"
+  parameters={{ preset: 'square' }}
+>
+  <p>
+    Выпиши начальное число и определения команд. Составь последовательность до
+    пяти цифр 1 и 2, применяй действия слева направо и записывай каждое
+    состояние. Сравни последнее число с целью; любая подходящая программа
+    допустима. При обратном поиске используй точные обратные действия и разверни
+    порядок команд.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №5: основной приём"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-check-example-1-5',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №5: проверка шагов"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-check-example-2-1',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №5: сложный случай"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-check-example-3-1',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Посчитать начальное число командой">
+    <p>
+      В длину входят выполненные действия; строка 0 описывает состояние до
+      программы.
+    </p>
+  </Mistake>
+  <Mistake title="Оставить разделители в ответе">
+    <p>
+      Запиши одну последовательность номеров без стрелок, запятых и пробелов.
+    </p>
+  </Mistake>
+  <Mistake title="Отвергнуть своё решение из-за разбора">
+    <p>
+      Проверь прямым выполнением. Другая последовательность может быть столь же
+      правильной.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Достаточно ли получить цель, если превышена длина?',
+      options: [
+        { id: 'correct', text: 'Нет, ограничение длины тоже обязательно' },
+        { id: 'wrong', text: 'Да, цель отменяет ограничение' },
+      ],
+      correctId: 'correct',
+      explanation: 'Нужно одновременно выполнить все условия задания.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что содержит строка 0 трассы?',
+      options: [
+        { id: 'wrong', text: 'Результат дополнительной нулевой команды' },
+        { id: 'correct', text: 'Начальное состояние до первой команды' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Строка 0 нужна для проверки первого перехода и в длину не входит.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-check-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-check-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-check-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[5]} />
+
+<CheatSheet>
+  <ul>
+    <li>Проверь алфавит команд и длину.</li>
+    <li>Повтори все действия от исходного числа.</li>
+    <li>Сравни с целью и запиши цифры без разделителей.</li>
+  </ul>
+</CheatSheet>

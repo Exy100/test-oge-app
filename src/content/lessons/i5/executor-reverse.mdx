@@ -1,0 +1,263 @@
+---
+id: executor-reverse
+title: 'Обратный ход: от цели к началу'
+section: i5
+taskNumbers: [5]
+readingMinutes: 10
+prerequisites: ['executor-algorithm']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import ExecutorReverse from '../../../components/lessons/ExecutorReverse.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'fixed-executor', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Прямой перебор в №5 можно дополнить обратным ходом: спросить, каким было
+    число перед последней командой. Это особенно полезно для умножения и
+    квадрата. Обратные действия ищут кандидатов; окончательная проверка всегда
+    прямая.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №5: с. 5. КЭС 3.4 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские. Комплект 2027 имеет статус проекта; подготовительные
+      упражнения помечены отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Отменяй последнюю команду</h3>
+  <p>
+    Если последняя команда прибавляла c, предыдущее число равно цели минус c.
+    Если умножала на k, раздели цель на k, но сохрани ветвь только при
+    целочисленном результате. Число обратных шагов не должно превышать
+    разрешённую длину программы.
+  </p>
+  <svg role="img" viewBox="0 0 400 150" aria-label="Обратные действия">
+    <title>Обратные действия</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Прямо + c ← обратно − c'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Прямо × k ← обратно ÷ k'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Деление должно быть целым'}
+    </text>
+  </svg>
+  <h3>Квадрат требует проверки корня</h3>
+  <p>
+    Для команды «возвести в квадрат» предыдущее неотрицательное число ищут как
+    точный целый корень. Округление недопустимо. В наших задачах начало не
+    меньше 2 и обе команды увеличивают положительное число, поэтому
+    отрицательные корни не возникают. Для произвольной области значений знак
+    пришлось бы учитывать отдельно.
+  </p>
+  <svg role="img" viewBox="0 0 400 150" aria-label="Обратный квадрат">
+    <title>Обратный квадрат</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Цель y ← число x, где x · x = y'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Нет целого корня — ветвь закрыта'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'На положительных x берём x > 0'}
+    </text>
+  </svg>
+  <h3>Запиши команды в прямом порядке</h3>
+  <p>
+    Обратный поиск сначала узнаёт последнюю команду, затем предпоследнюю. При
+    восстановлении ответа разверни найденный список. Достигнув начального числа,
+    исполни запись слева направо и проверь цель; неделимая цель не закрывает
+    ветвь отмены прибавления.
+  </p>
+  <ExecutorReverse preset="square" program="21" />
+</Theory>
+
+<Interactive
+  id="fixed-executor"
+  title="Лаборатория: Обратный ход: от цели к началу"
+  goal="Составь допустимую программу, проверь цель и объясни каждый переход."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Кнопки и поля доступны мышью и касанием. Шаги выполняются вручную."
+  taskNumbers={[5]}
+  modulePath="/src/interactives/FixedExecutor.tsx"
+  parameters={{ preset: 'square' }}
+>
+  <p>
+    Выпиши начальное число и определения команд. Составь последовательность до
+    пяти цифр 1 и 2, применяй действия слева направо и записывай каждое
+    состояние. Сравни последнее число с целью; любая подходящая программа
+    допустима. При обратном поиске используй точные обратные действия и разверни
+    порядок команд.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №5: основной приём"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-example-1-4',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №5: проверка шагов"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-example-2-1',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №5: сложный случай"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Округлять корень или частное">
+    <p>
+      Исполнитель работает с заданными действиями. Неокончательное деление или
+      корень не создают целого предшественника.
+    </p>
+  </Mistake>
+  <Mistake title="Записать обратный порядок команд">
+    <p>
+      Первой при обратном поиске найдена последняя команда. Разверни список
+      перед ответом.
+    </p>
+  </Mistake>
+  <Mistake title="Отбросить все пути после одной неудачи">
+    <p>
+      Если нельзя отменить умножение, проверь отмену прибавления. У цели может
+      быть другой предшественник.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что нужно проверить при отмене умножения на k?',
+      options: [
+        { id: 'correct', text: 'Делимость без остатка' },
+        { id: 'wrong', text: 'Только то, что частное положительно' },
+      ],
+      correctId: 'correct',
+      explanation: 'Нецелое частное не было целым состоянием исполнителя.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Какой порядок номеров дают шаги от цели к началу?',
+      options: [
+        { id: 'wrong', text: 'Сразу порядок для записи ответа' },
+        { id: 'correct', text: 'Обратный: от последней команды к первой' },
+      ],
+      correctId: 'correct',
+      explanation: 'Перед прямой проверкой разверни список найденных команд.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-reverse-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[5]} />
+
+<CheatSheet>
+  <ul>
+    <li>Отменяй прибавление вычитанием, умножение точным делением.</li>
+    <li>Для квадрата проверяй точный целый корень и область значений.</li>
+    <li>Разверни команды, затем выполни их прямо.</li>
+  </ul>
+</CheatSheet>

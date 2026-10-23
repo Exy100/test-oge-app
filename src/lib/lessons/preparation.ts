@@ -74,4 +74,52 @@ export const preparationLessons = [
     taskNumber: 9,
     title: 'Считаем пути в направленной схеме',
   },
+  {
+    id: 'executor-commands',
+    section: 'i5',
+    taskNumber: 5,
+    title: 'Команды исполнителя и промежуточные значения',
+  },
+  {
+    id: 'executor-algorithm',
+    section: 'i5',
+    taskNumber: 5,
+    title: 'Составляем программу до пяти команд',
+  },
+  {
+    id: 'executor-reverse',
+    section: 'i5',
+    taskNumber: 5,
+    title: 'Обратный ход: от цели к началу',
+  },
+  {
+    id: 'executor-check',
+    section: 'i5',
+    taskNumber: 5,
+    title: 'Проверяем программу и формат ответа',
+  },
+  {
+    id: 'program-variables',
+    section: 'i6',
+    taskNumber: 6,
+    title: 'Переменные и последовательные присваивания',
+  },
+  {
+    id: 'program-conditions',
+    section: 'i6',
+    taskNumber: 6,
+    title: 'Условия и параметр по девяти запускам',
+  },
+  {
+    id: 'program-loops',
+    section: 'i6',
+    taskNumber: 6,
+    title: 'Циклы for и while: читаем шаг за шагом',
+  },
+  {
+    id: 'program-tracing',
+    section: 'i6',
+    taskNumber: 6,
+    title: 'Таблица трассировки и проверка параметра',
+  },
 ].map((lesson) => ({ ...lesson, route: lessonRoute(lesson) }));

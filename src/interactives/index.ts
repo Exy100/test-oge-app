@@ -10,4 +10,14 @@ export const interactives = [
   { id: 'logic-builder', kind: '2d', load: () => import('./LogicBuilder.tsx') },
   { id: 'shortest-path', kind: '2d', load: () => import('./ShortestPath.tsx') },
   { id: 'path-count', kind: '2d', load: () => import('./PathCount.tsx') },
+  {
+    id: 'fixed-executor',
+    kind: '2d',
+    load: () => import('./FixedExecutor.tsx'),
+  },
+  {
+    id: 'program-tracer',
+    kind: '2d',
+    load: () => import('./ProgramTracer.tsx'),
+  },
 ] as const;

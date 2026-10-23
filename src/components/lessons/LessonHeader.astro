@@ -43,7 +43,7 @@ const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
     <p>Можно начать без предварительной подготовки.</p>
   )}
 </header>
-<LessonCompletion client:load lessonId={lesson.id} />
+<LessonCompletion client:idle lessonId={lesson.id} />
 <noscript>
   <p>Для сохранения отметки о прохождении включи JavaScript.</p>
 </noscript>

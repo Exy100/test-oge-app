@@ -147,6 +147,35 @@ test('preparation plan opens new logic, shortest-route and directed-path lessons
     ).toBeVisible();
   }
 });
+test('preparation plan opens new executor and program lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [5, 'Проверяем программу и формат ответа', 4],
+    [6, 'Таблица трассировки и проверка параметра', 4],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}` });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
 function lazyEntry(name: string) {
   return (target: URL) =>
     target.pathname.includes(`/${name}.`) &&
