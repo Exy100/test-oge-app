@@ -37,7 +37,7 @@ test('catalog JavaScript stays within the 60 KB gzip budget including inline cod
   expect(bytes).toBeLessThanOrEqual(60_000);
 });
 
-test('home and navigation lead to fourteen topics and thirty-two available lessons', async ({
+test('home and navigation lead to fourteen topics and thirty-eight available lessons', async ({
   page,
 }) => {
   await page.goto('./');
@@ -53,8 +53,8 @@ test('home and navigation lead to fourteen topics and thirty-two available lesso
   await expect(page.locator('.materials-topic:visible')).toHaveCount(14);
   await expect(page.locator('.materials-map a')).toHaveCount(14);
   await expect(page.getByRole('checkbox')).toHaveCount(16);
-  await expect(page.locator('.materials-lessons li')).toHaveCount(32);
-  await expect(page.locator('.materials-completed')).toContainText('0 из 32');
+  await expect(page.locator('.materials-lessons li')).toHaveCount(38);
+  await expect(page.locator('.materials-completed')).toContainText('0 из 38');
   expect((await page.goto('materials/i1/absent-lesson/'))?.status()).toBe(404);
 });
 

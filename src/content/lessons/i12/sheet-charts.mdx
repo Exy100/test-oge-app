@@ -1,0 +1,283 @@
+---
+id: sheet-charts
+title: 'Круговая диаграмма: данные, легенда и значения'
+section: i12
+taskNumbers: [14]
+readingMinutes: 14
+prerequisites: ['sheet-selection']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import {
+  officeExample,
+  officeQuestion,
+  officeGuidance,
+  officeArchiveHref,
+} from '../../../lib/lessons/office';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'spreadsheet-lab', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Два правильно найденных числа ещё не завершают №14: диаграмма — третий
+    самостоятельный элемент. Нужно выбрать категории, вычислить их численности и
+    сохранить редактируемую диаграмму с понятными подписями.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №13.1 — с. 10–11, №13.2 — с.
+      12–13; №14 — с. 13 в 2025–2026 и с. 14–15 проекта 2027. КЭС 4.5 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+      . Примеры и файлы авторские, CC0-1.0. Комплект 2027 имеет статус проекта.
+      Самопроверка не заменяет экспертную оценку.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Построй таблицу для диаграммы</h3>
+  <p>
+    Из третьего пункта условия выпиши категории и область данных. Посчитай
+    численность каждой категории в собственной строке вспомогательной таблицы.
+    Сумма этих численностей должна соответствовать нужной выборке. Например,
+    диаграмма может относиться ко всем классам, только участникам заданного пола
+    или перевозкам конкретных дней. Ответы на первые два вопроса не являются
+    категориями диаграммы.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 470 160"
+    aria-label="Источник диаграммы — отдельная задача"
+  >
+    <title>Источник диаграммы — отдельная задача</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Категории → вычислить численности'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Численности → пропорции секторов'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Легенда и числа → понятный рисунок'}
+    </text>
+  </svg>
+  <h3>Секторы отражают доли</h3>
+  <p>
+    Круговая диаграмма показывает доли неотрицательных величин в общем целом.
+    Угол сектора пропорционален численности категории. Не заменяй численности
+    метками классов и не строй диаграмму по случайным ячейкам. Нулевая категория
+    имеет нулевой сектор; если все значения нулевые, делить круг не на что.
+    Легенда связывает категории с секторами, числовые подписи показывают
+    исходные значения. Цвет дополняет подписи и не должен быть единственным
+    носителем смысла.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 470 160"
+    aria-label="Контроль сохранённой работы"
+  >
+    <title>Контроль сохранённой работы</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Исходные данные + два расчёта'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Редактируемая круговая диаграмма'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Сохранить ODS → открыть и проверить'}
+    </text>
+  </svg>
+  <h3>Сохрани диаграмму внутри ODS</h3>
+  <p>
+    Выдели названия категорий и их количества, вставь круговую диаграмму и
+    проверь диапазон источника. В заданиях этого набора требуются легенда и
+    числовые значения в поле диаграммы; проценты сами по себе не заменяют
+    требуемые исходные числа. Размести диаграмму в указанной области, сохрани
+    ODS и открой повторно. Изображение диаграммы не заменяет редактируемый
+    объект. В №14 возможны три балла по трём элементам; лаборатория и мини-тест
+    не проводят экспертизу всего файла.
+  </p>
+</Theory>
+
+<Interactive
+  id="spreadsheet-lab"
+  title="Лаборатория: Круговая диаграмма: данные, легенда и значения"
+  goal="Проверь формулы, отбор и данные круговой диаграммы, затем сохрани текущий ODS."
+  controls="Переходи клавишей Tab, выбирай стрелками, нажимай Enter или пробел. Все действия доступны мышью и касанием; широкие таблицы прокручиваются с клавиатуры."
+  taskNumbers={[14]}
+  modulePath="/src/interactives/SpreadsheetLab.tsx"
+  parameters={{ mode: 'chart' }}
+>
+  <p>
+    Скачай полный набор из примера ниже и открой source/data.ods. Проверь число
+    записей и адрес последней строки, выдели условия отдельно для двух расчётов
+    и для диаграммы. Запиши формулы в свободные ячейки, подготовь таблицу
+    численностей категорий и круговую диаграмму с легендой и значениями. Сохрани
+    ODS, повторно открой и проверь вычисления и редактируемость диаграммы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №14: 1-й разбор"
+    source={officeExample('sheets', 0)}
+    guidance={officeGuidance('chart', 0)}
+  >
+    <p>Сосчитай три статуса только среди участников заданного пола.</p>
+  </Example>
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №14: 2-й разбор"
+    source={officeExample('sheets', 1)}
+    guidance={officeGuidance('chart', 1)}
+  >
+    <p>
+      Для другого сюжета создай категории по трём датам, сохранив отдельные
+      расчёты.
+    </p>
+  </Example>
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №14: 3-й разбор"
+    source={officeExample('sheets', 2)}
+    guidance={officeGuidance('chart', 2)}
+  >
+    <p>
+      Построй диаграмму по всем классам, не ограничивая её выборкой для среднего
+      балла школы.
+    </p>
+  </Example>
+</Examples>
+
+<Mistakes>
+  <Mistake title="Построить круг по двум ответам">
+    <p>
+      Сначала прочитай третий пункт и создай таблицу численностей нужных
+      категорий.
+    </p>
+  </Mistake>
+  <Mistake title="Показать только проценты">
+    <p>
+      Условие набора требует исходные числовые значения. Добавь их и легенду.
+    </p>
+  </Mistake>
+  <Mistake title="Сохранить только картинку">
+    <p>
+      Диаграмма должна остаться редактируемым объектом внутри файла таблицы ODS.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <p>
+    Пять вопросов проверяют отдельные знания и расчёты. Их прохождение не
+    означает проверку офисного файла и получение официального балла. Для
+    вопросов по полному набору скачай соответствующий архив.
+  </p>
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 1 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Проверь понимание"
+    choice={officeQuestion('chart', 0)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 2 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-2"
+    title="Вопрос 2. Проверь понимание"
+    choice={officeQuestion('chart', 1)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 2))} download>
+      {'Исходники к вопросу 3 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-3"
+    title="Вопрос 3. Проверь понимание"
+    choice={officeQuestion('chart', 2)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 4 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-4"
+    title="Вопрос 4. Проверь понимание"
+    choice={officeQuestion('chart', 3)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 5 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-5"
+    title="Вопрос 5. Проверь понимание"
+    choice={officeQuestion('chart', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[14]} />
+
+<CheatSheet>
+  <ul>
+    <li>Прочитай отдельно третий пункт и его область данных.</li>
+    <li>Создай таблицу категорий и численностей; проверь сумму.</li>
+    <li>Добавь легенду и исходные числа, сохрани редактируемый ODS.</li>
+  </ul>
+</CheatSheet>

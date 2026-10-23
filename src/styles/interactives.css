@@ -176,3 +176,33 @@
   padding: var(--space-3);
   border: 1px solid var(--line);
 }
+
+.office-document {
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.office-document table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.office-document th,
+.office-document td {
+  border: 1px solid var(--border-strong);
+  padding: 0.35em;
+  overflow-wrap: anywhere;
+}
+.information-lab .office-slide {
+  max-width: 45rem;
+}
+.information-lab > table {
+  border-collapse: collapse;
+}
+.information-lab > table th,
+.information-lab > table td {
+  text-align: left;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+}

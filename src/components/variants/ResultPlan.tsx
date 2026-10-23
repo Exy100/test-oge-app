@@ -1,7 +1,7 @@
 import { examConfig } from '../../core/exam/exam.config';
 import type { VariantScore } from '../../core/scoring';
 import { sitePath } from '../../lib/site';
-import { preparationLessons } from '../../lib/lessons/preparation';
+import { preparationFor } from '../../lib/lessons/preparation';
 
 export default function ResultPlan({
   result,
@@ -28,17 +28,13 @@ export default function ResultPlan({
               {row.score === null
                 ? ' — сначала сравни свою работу с критериями в разборе, затем потренируйся.'
                 : ` — результат ${String(row.score)}/${String(row.maxScore)}; прочитай решение и реши несколько новых задач.`}
-              {preparationLessons.some(
-                (lesson) => lesson.taskNumber === row.taskNumber,
-              ) && (
+              {preparationFor(row.taskNumber, variant13).length > 0 && (
                 <ul aria-label={`Уроки к №${String(row.taskNumber)}`}>
-                  {preparationLessons
-                    .filter((lesson) => lesson.taskNumber === row.taskNumber)
-                    .map((lesson) => (
-                      <li key={lesson.id}>
-                        <a href={sitePath(lesson.route)}>{lesson.title}</a>
-                      </li>
-                    ))}
+                  {preparationFor(row.taskNumber, variant13).map((lesson) => (
+                    <li key={lesson.id}>
+                      <a href={sitePath(lesson.route)}>{lesson.title}</a>
+                    </li>
+                  ))}
                 </ul>
               )}
             </li>

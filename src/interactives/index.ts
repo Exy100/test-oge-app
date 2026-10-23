@@ -34,4 +34,15 @@ export const interactives = [
     load: () => import('./TextFileSearch.tsx'),
   },
   { id: 'file-masks', kind: '2d', load: () => import('./FileMasks.tsx') },
+  {
+    id: 'document-format',
+    kind: '2d',
+    load: () => import('./DocumentFormat.tsx'),
+  },
+  { id: 'slide-layout', kind: '2d', load: () => import('./SlideLayout.tsx') },
+  {
+    id: 'spreadsheet-lab',
+    kind: '2d',
+    load: () => import('./SpreadsheetLab.tsx'),
+  },
 ] as const;

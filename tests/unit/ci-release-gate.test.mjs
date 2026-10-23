@@ -100,3 +100,17 @@ function lighthouseConfig(shard) {
     ),
   );
 }
+
+test('office export checks remain required by the file release job', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  expect(pkg.scripts['check:office']).toContain('npm run check:office-lessons');
+  expect(pkg.scripts['check:office-lessons']).toContain(
+    'python3 scripts/check-office-lessons.py',
+  );
+  const workflow = parse(readFileSync('.github/workflows/ci.yml', 'utf8'));
+  expect(
+    workflow.jobs.files.steps.some(
+      (step) => step.run === 'npm run check:office',
+    ),
+  ).toBe(true);
+});

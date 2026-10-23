@@ -38,7 +38,8 @@
     "sample": "node scripts/sample-tasks.mjs",
     "sample:variant": "node scripts/sample-variant.mjs",
     "sample:dataset": "node scripts/sample-dataset.mjs",
-    "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py && python3 scripts/check-documents.py && python3 scripts/check-spreadsheets.py",
+    "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py && python3 scripts/check-documents.py && python3 scripts/check-spreadsheets.py && npm run check:office-lessons",
+    "check:office-lessons": "node scripts/sample-office-lessons.mjs && python3 scripts/check-office-lessons.py",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {

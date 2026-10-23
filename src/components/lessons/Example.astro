@@ -1,5 +1,7 @@
 ---
 import type { StreamReference } from '../../core/stream/schemas';
+import { renderRichText } from '../../core/rich-text/render';
+import { officeArchiveHref } from '../../lib/lessons/office';
 import { lessonTask } from '../../lib/lessons/content';
 import '../../styles/rich-text.css';
 import Figure from '../Figure';
@@ -8,13 +10,32 @@ interface Props {
   id: string;
   title: string;
   source: StreamReference;
+  guidance?: readonly string[];
 }
 const { id, title, source } = Astro.props;
-const { task, statementHtml, steps } = lessonTask(source);
+const { task, statementHtml, steps: generatedSteps } = lessonTask(source);
+if (
+  Astro.props.guidance &&
+  (Astro.props.guidance.length < 3 ||
+    Astro.props.guidance.some((step) => !step.trim()))
+)
+  throw new TypeError('Разбор должен содержать не менее трёх непустых шагов.');
+const steps = Astro.props.guidance
+  ? Astro.props.guidance.map((step) => renderRichText(step))
+  : generatedSteps;
+const archive = officeArchiveHref(source);
 ---
 
 <article class="lesson-example" id={id} aria-labelledby={`${id}-title`}>
   <h3 id={`${id}-title`}>{title}</h3>
+  <slot />
+  {archive && (
+    <p>
+      <a href={archive} download>
+        Скачать исходники и эталон к примеру: {title} (ZIP)
+      </a>
+    </p>
+  )}
   <div class="rich-text-container">
     <div class="rich-text" set:html={statementHtml} />
   </div>

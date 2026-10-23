@@ -1,0 +1,275 @@
+---
+id: sheet-references
+title: 'Ячейки, диапазоны и копирование формул'
+section: i12
+taskNumbers: [14]
+readingMinutes: 14
+prerequisites: ['program-variables']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import {
+  officeExample,
+  officeQuestion,
+  officeGuidance,
+  officeArchiveHref,
+} from '../../../lib/lessons/office';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'spreadsheet-lab', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Одна неверная граница диапазона меняет ответ во всей таблице. В №14 нужно
+    обработать большой массив, записать два расчёта и построить диаграмму.
+    Начнём с адресов, типов данных и правил копирования формул.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №13.1 — с. 10–11, №13.2 — с.
+      12–13; №14 — с. 13 в 2025–2026 и с. 14–15 проекта 2027. КЭС 4.5 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+      . Примеры и файлы авторские, CC0-1.0. Комплект 2027 имеет статус проекта.
+      Самопроверка не заменяет экспертную оценку.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Адрес связывает столбец и строку</h3>
+  <p>
+    В адресе A1 буква указывает столбец, число — строку. Диапазон A2:D13
+    включает прямоугольник от первой ячейки до последней, обе границы включены.
+    В наших наборах заголовки находятся в строке 1, поэтому данные начинаются со
+    строки 2. Для N записей последняя строка имеет номер N + 1. Проверь этот
+    номер по полному файлу; размер маленькой лаборатории не переносится на
+    экзаменационный набор.
+  </p>
+  <svg role="img" viewBox="0 0 470 160" aria-label="Прямоугольный диапазон">
+    <title>Прямоугольный диапазон</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'A2:D13 → крайние ячейки включены'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Строка 1 → заголовки'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Строки данных → без пропуска последней'}
+    </text>
+  </svg>
+  <h3>Формула и значение различаются</h3>
+  <p>
+    Формула начинается со знака =, а её результат отображается в ячейке. SUM
+    складывает значения, COUNT считает числовые ячейки, AVERAGE находит среднее,
+    MIN и MAX — крайние значения. Счёт строк и сумма чисел — разные операции.
+    Числовой ноль входит в среднее, текст и пустые ячейки не становятся нулями
+    автоматически. В реальном редакторе имена функций и разделители зависят от
+    локали; лаборатория принимает указанные русские и английские имена и
+    разделитель ;.
+  </p>
+  <svg role="img" viewBox="0 0 470 160" aria-label="Что закрепляет знак $">
+    <title>Что закрепляет знак $</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'$D2 → неизменен столбец'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'D$2 → неизменна строка'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'$D$2 → неизменны обе части'}
+    </text>
+  </svg>
+  <h3>Копирование сдвигает относительные части</h3>
+  <p>
+    При копировании на столбец вправо или строку вниз меняются относительные
+    части адресов. В $D2 закреплён столбец D, в D$2 — строка 2, в $D$2
+    закреплены обе части. Знак $ относится к следующей части адреса, а не ко
+    всей формуле. Копирование и перенос ячейки — разные действия. Сначала
+    предскажи новые ссылки, затем сравни с результатом копирования и проверь
+    расчёт на нескольких строках.
+  </p>
+</Theory>
+
+<Interactive
+  id="spreadsheet-lab"
+  title="Лаборатория: Ячейки, диапазоны и копирование формул"
+  goal="Проверь формулы, отбор и данные круговой диаграммы, затем сохрани текущий ODS."
+  controls="Переходи клавишей Tab, выбирай стрелками, нажимай Enter или пробел. Все действия доступны мышью и касанием; широкие таблицы прокручиваются с клавиатуры."
+  taskNumbers={[14]}
+  modulePath="/src/interactives/SpreadsheetLab.tsx"
+  parameters={{ mode: 'references' }}
+>
+  <p>
+    Скачай полный набор из примера ниже и открой source/data.ods. Проверь число
+    записей и адрес последней строки, выдели условия отдельно для двух расчётов
+    и для диаграммы. Запиши формулы в свободные ячейки, подготовь таблицу
+    численностей категорий и круговую диаграмму с легендой и значениями. Сохрани
+    ODS, повторно открой и проверь вычисления и редактируемость диаграммы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №14: 1-й разбор"
+    source={officeExample('sheets', 0)}
+    guidance={officeGuidance('references', 0)}
+  >
+    <p>Проверь адреса, полный диапазон и разность максимума и минимума.</p>
+  </Example>
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №14: 2-й разбор"
+    source={officeExample('sheets', 1)}
+    guidance={officeGuidance('references', 1)}
+  >
+    <p>
+      Сравни диапазоны разных вычислений и точность среднего на наборе
+      перевозок.
+    </p>
+  </Example>
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №14: 3-й разбор"
+    source={officeExample('sheets', 2)}
+    guidance={officeGuidance('references', 2)}
+  >
+    <p>
+      Обработай одновременно условия по классу и баллам, среднее по школе и
+      данные диаграммы.
+    </p>
+  </Example>
+</Examples>
+
+<Mistakes>
+  <Mistake title="Пропустить последнюю запись">
+    <p>
+      Заголовок занимает первую строку: к числу записей добавляется одна строка.
+    </p>
+  </Mistake>
+  <Mistake title="Закрепить обе части любой ссылки">
+    <p>
+      Выбирай закрепление по задаче: иногда должна меняться строка, иногда
+      столбец, иногда обе части.
+    </p>
+  </Mistake>
+  <Mistake title="Принять текст за число">
+    <p>
+      Проверь тип данных и формат. Внешне похожая запись может не участвовать в
+      числовых функциях.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <p>
+    Пять вопросов проверяют отдельные знания и расчёты. Их прохождение не
+    означает проверку офисного файла и получение официального балла. Для
+    вопросов по полному набору скачай соответствующий архив.
+  </p>
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 1 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Проверь понимание"
+    choice={officeQuestion('references', 0)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 2 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-2"
+    title="Вопрос 2. Проверь понимание"
+    choice={officeQuestion('references', 1)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 2))} download>
+      {'Исходники к вопросу 3 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-3"
+    title="Вопрос 3. Проверь понимание"
+    choice={officeQuestion('references', 2)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 4 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-4"
+    title="Вопрос 4. Проверь понимание"
+    choice={officeQuestion('references', 3)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 5 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-5"
+    title="Вопрос 5. Проверь понимание"
+    choice={officeQuestion('references', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[14]} />
+
+<CheatSheet>
+  <ul>
+    <li>Адрес — столбец и строка; диапазон включает границы.</li>
+    <li>Формула начинается с =; результат и формула не одно и то же.</li>
+    <li>$ закрепляет столбец или строку отдельно.</li>
+  </ul>
+</CheatSheet>

@@ -1,0 +1,284 @@
+---
+id: document-paragraphs
+title: 'Документ: шрифт, абзацы и сохранение'
+section: i11
+taskNumbers: [13]
+readingMinutes: 14
+prerequisites: ['directories']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import {
+  officeExample,
+  officeQuestion,
+  officeGuidance,
+  officeArchiveHref,
+} from '../../../lib/lessons/office';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'document-format', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Документ должен сохранять оформление при переносе текста на новую строку. В
+    №13.2 ты повторяешь визуальный образец в редактируемом файле. Начнём со
+    страницы, шрифта и свойств абзацев; таблицу отдельно разберём в следующем
+    уроке.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №13.1 — с. 10–11, №13.2 — с.
+      12–13; №14 — с. 13 в 2025–2026 и с. 14–15 проекта 2027. КЭС 4.1 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+      . Примеры и файлы авторские, CC0-1.0. Комплект 2027 имеет статус проекта.
+      Самопроверка не заменяет экспертную оценку.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Начни со структуры и страницы</h3>
+  <p>
+    Распакуй набор, открой source/material.odt и layout/sample.pdf. Исходник
+    содержит материал для набора, PDF показывает оформление. В наших наборах
+    используются A4, книжная ориентация и поля 2 см. Условия конкретного задания
+    важнее привычных настроек. Перенеси заголовок и два абзаца без замены слов,
+    включи отображение непечатаемых знаков, чтобы видеть лишние абзацы и
+    пробелы.
+  </p>
+  <svg role="img" viewBox="0 0 470 160" aria-label="Два уровня форматирования">
+    <title>Два уровня форматирования</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Символ → шрифт, размер, выделение'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Абзац → выравнивание и отступы'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Страница → формат, поля, ориентация'}
+    </text>
+  </svg>
+  <h3>Свойства символа и абзаца</h3>
+  <p>
+    Шрифт, размер, полужирное, курсив и подчёркивание относятся к символам;
+    выравнивание, первая строка и интервалы — к абзацу. В этом наборе весь текст
+    имеет размер 14 пт: не увеличивай заголовок по привычке. Заголовок
+    прописными буквами выровнен по центру, основной текст — по ширине. Отступ
+    первой строки задаётся в свойствах абзаца, а не пробелами или табуляцией. В
+    Writer используй диалог «Абзац» для отступов, межстрочного интервала и
+    интервалов между абзацами.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 470 160"
+    aria-label="Проверка сохранённого результата"
+  >
+    <title>Проверка сохранённого результата</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Исходник + образец → документ ODT'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Сохранить → открыть повторно'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Сверить текст и оформление'}
+    </text>
+  </svg>
+  <h3>Сохрани редактируемый результат</h3>
+  <p>
+    Различай межстрочный интервал внутри абзаца и расстояние после него. Пустой
+    абзац не заменяет свойство интервала. Сохрани файл как ODT в указанную
+    папку; имя в учебном задании дано в условии, на экзамене папку и имя
+    уточняют организаторы. Закрой и повторно открой сохранённый файл, сравни
+    страницу с образцом и проверь текст. PDF или снимок экрана не заменяет
+    редактируемый документ. Лаборатория проверяет отдельные свойства короткого
+    фрагмента; её результат не означает балл за всю работу.
+  </p>
+</Theory>
+
+<Interactive
+  id="document-format"
+  title="Лаборатория: Документ: шрифт, абзацы и сохранение"
+  goal="Сравни свойства текста и таблицы с учебным образцом и сохрани текущий ODT."
+  controls="Переходи клавишей Tab, выбирай стрелками, нажимай Enter или пробел. Все действия доступны мышью и касанием; широкие таблицы прокручиваются с клавиатуры."
+  taskNumbers={[13]}
+  modulePath="/src/interactives/DocumentFormat.tsx"
+  parameters={{ dataset: 'D01', focus: 'text' }}
+>
+  <p>
+    Скачай исходники и эталон из примеров ниже. Открой материал и PDF-образец.
+    Настрой страницу, размер шрифта, выравнивание и свойства абзацев; построй
+    настоящую таблицу и объедини нужные ячейки. Сверь все данные и выделения,
+    сохрани ODT и открой повторно. Учебный фрагмент лаборатории не является
+    полной автоматической проверкой задания.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №13.2: 1-й разбор"
+    source={officeExample('documents', 0)}
+    guidance={officeGuidance('text', 0)}
+  >
+    <p>
+      Сначала разберись с форматированием текста и положением простой таблицы.
+    </p>
+  </Example>
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №13.2: 2-й разбор"
+    source={officeExample('documents', 1)}
+    guidance={officeGuidance('text', 1)}
+  >
+    <p>
+      Добавь контроль автоматического переноса строк и самостоятельных
+      заголовков столбцов.
+    </p>
+  </Example>
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №13.2: 3-й разбор"
+    source={officeExample('documents', 2)}
+    guidance={officeGuidance('text', 2)}
+  >
+    <p>
+      Проверь тот же текстовый процесс в документе с двумя разделами таблицы и
+      дополнительными выделениями.
+    </p>
+  </Example>
+</Examples>
+
+<Mistakes>
+  <Mistake title="Сделать отступ пробелами">
+    <p>
+      При изменении строки пробелы останутся текстом. Задай отступ первой строки
+      свойством абзаца.
+    </p>
+  </Mistake>
+  <Mistake title="Увеличить заголовок вопреки условию">
+    <p>
+      В этих наборах весь текст имеет размер 14 пт. Выделения повторяй по
+      образцу, а не по привычному стилю.
+    </p>
+  </Mistake>
+  <Mistake title="Сдать только PDF">
+    <p>
+      Нужен редактируемый ODT. Проверь, что сохранён именно этот файл и он
+      повторно открывается.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <p>
+    Пять вопросов проверяют отдельные знания и расчёты. Их прохождение не
+    означает проверку офисного файла и получение официального балла. Для
+    вопросов по полному набору скачай соответствующий архив.
+  </p>
+  <p>
+    <a href={officeArchiveHref(officeExample('documents', 0))} download>
+      {'Исходники к вопросу 1 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Проверь понимание"
+    choice={officeQuestion('text', 0)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('documents', 1))} download>
+      {'Исходники к вопросу 2 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-2"
+    title="Вопрос 2. Проверь понимание"
+    choice={officeQuestion('text', 1)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('documents', 2))} download>
+      {'Исходники к вопросу 3 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-3"
+    title="Вопрос 3. Проверь понимание"
+    choice={officeQuestion('text', 2)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('documents', 0))} download>
+      {'Исходники к вопросу 4 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-4"
+    title="Вопрос 4. Проверь понимание"
+    choice={officeQuestion('text', 3)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('documents', 1))} download>
+      {'Исходники к вопросу 5 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-5"
+    title="Вопрос 5. Проверь понимание"
+    choice={officeQuestion('text', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[13]} variant13="document" />
+
+<CheatSheet>
+  <ul>
+    <li>Источник содержит текст, PDF показывает образец.</li>
+    <li>Символы и абзацы имеют разные свойства; пробелы не заменяют отступ.</li>
+    <li>Сохрани ODT, открой повторно и сравни весь документ.</li>
+  </ul>
+</CheatSheet>

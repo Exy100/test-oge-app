@@ -1,0 +1,277 @@
+---
+id: sheet-selection
+title: 'Отбор, количество, сумма и среднее'
+section: i12
+taskNumbers: [14]
+readingMinutes: 14
+prerequisites: ['sheet-references', 'logic-operations']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import {
+  officeExample,
+  officeQuestion,
+  officeGuidance,
+  officeArchiveHref,
+} from '../../../lib/lessons/office';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'spreadsheet-lab', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Сколько участников подходят условию и каков их средний результат — разные
+    вопросы. В №14 для каждого расчёта нужно определить свою выборку. Научимся
+    переводить текст условия в отбор и проверять, какие строки действительно
+    участвуют.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №13.1 — с. 10–11, №13.2 — с.
+      12–13; №14 — с. 13 в 2025–2026 и с. 14–15 проекта 2027. КЭС 4.5 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+      . Примеры и файлы авторские, CC0-1.0. Комплект 2027 имеет статус проекта.
+      Самопроверка не заменяет экспертную оценку.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Разбей условие на признаки</h3>
+  <p>
+    Запиши столбец, сравнение и порог для каждого признака. Слова «более» и «не
+    менее» задают разные границы; «с ... по ... включительно» включает оба
+    конца. Если требуются одновременно класс и результат, условия соединяются И:
+    оба должны выполняться в одной строке. Для объединения альтернатив используй
+    ИЛИ и не считай пересечение дважды. В лаборатории фильтры школы, класса и
+    балла соединены И.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 470 160"
+    aria-label="Каждому вопросу — своя выборка"
+  >
+    <title>Каждому вопросу — своя выборка</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Условие 1 → строки для расчёта 1'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Условие 2 → строки для расчёта 2'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Сумма и количество среднего → одна группа'}
+    </text>
+  </svg>
+  <h3>Выбери нужный агрегат</h3>
+  <p>
+    COUNTIF/COUNTIFS считают подходящие строки, SUMIF суммирует числовой столбец
+    по условию, AVERAGEIF вычисляет среднее подходящей группы. Для среднего
+    сумма и количество относятся к одной и той же выборке; нулевые результаты в
+    неё входят. Размах — максимум минус минимум требуемого столбца и требуемой
+    области. Не переноси фильтр первого вопроса на второй без проверки текста
+    условия.
+  </p>
+  <svg role="img" viewBox="0 0 470 160" aria-label="Не путай агрегаты">
+    <title>Не путай агрегаты</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Количество → число подходящих строк'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Сумма → сложение выбранных значений'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Среднее → сумма / численность группы'}
+    </text>
+  </svg>
+  <h3>Сверь полную таблицу и точность</h3>
+  <p>
+    Фильтр для просмотра и диапазон обычной формулы — разные вещи: SUM по
+    исходному диапазону не превращается автоматически в сумму только видимых
+    строк. В нашем наборе перевозок даты хранятся текстом, поэтому сначала
+    определи нужные значения дней и сложи соответствующие выборки; не сравнивай
+    текст как числовую дату. Сохраняй точность расчётов до конца, округляй по
+    условию и отличай формат отображения от изменения самого числа. Контрольный
+    подсчёт небольшой группы помогает обнаружить ошибку диапазона.
+  </p>
+</Theory>
+
+<Interactive
+  id="spreadsheet-lab"
+  title="Лаборатория: Отбор, количество, сумма и среднее"
+  goal="Проверь формулы, отбор и данные круговой диаграммы, затем сохрани текущий ODS."
+  controls="Переходи клавишей Tab, выбирай стрелками, нажимай Enter или пробел. Все действия доступны мышью и касанием; широкие таблицы прокручиваются с клавиатуры."
+  taskNumbers={[14]}
+  modulePath="/src/interactives/SpreadsheetLab.tsx"
+  parameters={{ mode: 'selection' }}
+>
+  <p>
+    Скачай полный набор из примера ниже и открой source/data.ods. Проверь число
+    записей и адрес последней строки, выдели условия отдельно для двух расчётов
+    и для диаграммы. Запиши формулы в свободные ячейки, подготовь таблицу
+    численностей категорий и круговую диаграмму с легендой и значениями. Сохрани
+    ODS, повторно открой и проверь вычисления и редактируемость диаграммы.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №14: 1-й разбор"
+    source={officeExample('sheets', 0)}
+    guidance={officeGuidance('selection', 0)}
+  >
+    <p>Соедини два текстовых признака через И и независимо найди размах.</p>
+  </Example>
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №14: 2-й разбор"
+    source={officeExample('sheets', 1)}
+    guidance={officeGuidance('selection', 1)}
+  >
+    <p>
+      Обработай несколько дней включительно и среднее для отдельного пункта
+      отправления.
+    </p>
+  </Example>
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №14: 3-й разбор"
+    source={officeExample('sheets', 2)}
+    guidance={officeGuidance('selection', 2)}
+  >
+    <p>
+      Проверь строгий порог, среднее с нулевыми значениями и независимый
+      источник диаграммы.
+    </p>
+  </Example>
+</Examples>
+
+<Mistakes>
+  <Mistake title="Заменить «более» на «не менее»">
+    <p>
+      Строка со значением ровно на пороге при строгом сравнении не подходит.
+    </p>
+  </Mistake>
+  <Mistake title="Разделить сумму группы на число всех строк">
+    <p>Для среднего нужны значения и число участников одной и той же группы.</p>
+  </Mistake>
+  <Mistake title="Считать, что фильтр изменил любую формулу">
+    <p>
+      Проверь функцию и диапазон: обычная SUM по исходным ячейкам включает
+      скрытые строки.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <p>
+    Пять вопросов проверяют отдельные знания и расчёты. Их прохождение не
+    означает проверку офисного файла и получение официального балла. Для
+    вопросов по полному набору скачай соответствующий архив.
+  </p>
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 1 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Проверь понимание"
+    choice={officeQuestion('selection', 0)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 2 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-2"
+    title="Вопрос 2. Проверь понимание"
+    choice={officeQuestion('selection', 1)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 2))} download>
+      {'Исходники к вопросу 3 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-3"
+    title="Вопрос 3. Проверь понимание"
+    choice={officeQuestion('selection', 2)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 0))} download>
+      {'Исходники к вопросу 4 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-4"
+    title="Вопрос 4. Проверь понимание"
+    choice={officeQuestion('selection', 3)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('sheets', 1))} download>
+      {'Исходники к вопросу 5 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-5"
+    title="Вопрос 5. Проверь понимание"
+    choice={officeQuestion('selection', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[14]} />
+
+<CheatSheet>
+  <ul>
+    <li>Выпиши все признаки и границы сравнения.</li>
+    <li>Количество, сумма, среднее и размах требуют разных операций.</li>
+    <li>Не смешивай выборки и не округляй промежуточные значения.</li>
+  </ul>
+</CheatSheet>

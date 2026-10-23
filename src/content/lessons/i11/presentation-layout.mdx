@@ -1,0 +1,278 @@
+---
+id: presentation-layout
+title: 'Презентация: макет, изображения и читаемость'
+section: i11
+taskNumbers: [13]
+readingMinutes: 14
+prerequisites: ['directories']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import {
+  officeExample,
+  officeQuestion,
+  officeGuidance,
+  officeArchiveHref,
+} from '../../../lib/lessons/office';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'slide-layout', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №13.1 нужно собрать три содержательных слайда по заданному макету. Важны
+    структура, читаемый текст и неискажённые изображения. Рассмотрим, как
+    перейти от исходных материалов к редактируемой презентации и проверить
+    каждый слайд.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №13.1 — с. 10–11, №13.2 — с.
+      12–13; №14 — с. 13 в 2025–2026 и с. 14–15 проекта 2027. КЭС 4.3 по
+      спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+      . Примеры и файлы авторские, CC0-1.0. Комплект 2027 имеет статус проекта.
+      Самопроверка не заменяет экспертную оценку.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Сначала структура презентации</h3>
+  <p>
+    Открой исходный ODT, изображения и макеты из набора. Создай три слайда 16:9
+    с альбомной ориентацией, без анимации. На титуле — название и указанный
+    учебный идентификатор; личные данные для авторского упражнения вводить не
+    нужно. На втором слайде два изображения и два текстовых блока, на третьем —
+    три изображения и три блока. Взаимное расположение берётся из макета. Эти
+    наборы соответствуют проверенным формам демоверсий, но конкретное условие
+    всегда читай целиком.
+  </p>
+  <svg role="img" viewBox="0 0 470 160" aria-label="Структура трёх слайдов">
+    <title>Структура трёх слайдов</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Слайд 1 → название и идентификатор'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Слайд 2 → два изображения и текст'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Слайд 3 → три изображения и текст'}
+    </text>
+  </svg>
+  <h3>Размеры и пропорции</h3>
+  <p>
+    Сохраняй единый тип шрифта: в этих наборах название на титуле 40 пт, его
+    подзаголовок и заголовки остальных слайдов 24 пт, основной текст 20 пт.
+    Рамка объекта и текст внутри неё — разные сущности. Если текст не
+    помещается, сначала проверь расположение и размер рамки: произвольное
+    уменьшение шрифта нарушает требование. Изображение масштабируй с сохранением
+    отношения ширины к высоте. Лаборатория проверяет взаимное расположение,
+    границы и пропорции, а не единственную допустимую пару координат.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 470 160"
+    aria-label="Масштабирование изображения"
+  >
+    <title>Масштабирование изображения</title>
+    <rect
+      x="4"
+      y="4"
+      width="462"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Ширина и высота связаны отношением'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Одинаковый масштаб по двум осям'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Рамка и читаемый текст — разные вещи'}
+    </text>
+  </svg>
+  <h3>Проверка после сохранения</h3>
+  <p>
+    Просмотри каждый слайд целиком: заголовки не обрезаны, подписи связаны с
+    нужными изображениями, рамки не перекрываются и не выходят за границы. Цвета
+    должны оставаться читаемыми и едиными по стилю; цвет не заменяет подпись.
+    Сохрани ODP, открой повторно и проверь все три слайда. Экспорт в PDF полезен
+    для просмотра, но не заменяет требуемую редактируемую презентацию. Качество
+    смыслового отбора и весь файл оцениваются по критериям человеком.
+  </p>
+</Theory>
+
+<Interactive
+  id="slide-layout"
+  title="Лаборатория: Презентация: макет, изображения и читаемость"
+  goal="Исправь положение и пропорции объекта, проверь шрифт и сохрани текущий ODP."
+  controls="Переходи клавишей Tab, выбирай стрелками, нажимай Enter или пробел. Все действия доступны мышью и касанием; широкие таблицы прокручиваются с клавиатуры."
+  taskNumbers={[13]}
+  modulePath="/src/interactives/SlideLayout.tsx"
+  parameters={{ dataset: 'P01' }}
+>
+  <p>
+    Скачай набор из примера ниже. Открой исходный текст, изображения и макеты.
+    Создай три слайда 16:9, перенеси заголовки и смысловые блоки, размести
+    иллюстрации без искажения пропорций. Проверь шрифты 40/24/20 пт и
+    читаемость, сохрани ODP и просмотри все слайды после повторного открытия.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №13.1: 1-й разбор"
+    source={officeExample('presentations', 0)}
+    guidance={officeGuidance('slides', 0)}
+  >
+    <p>Собери базовую структуру по трём макетам и проверь число объектов.</p>
+  </Example>
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №13.1: 2-й разбор"
+    source={officeExample('presentations', 1)}
+    guidance={officeGuidance('slides', 1)}
+  >
+    <p>
+      На другой теме сверь соответствие подписей изображениям и единое
+      оформление.
+    </p>
+  </Example>
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №13.1: 3-й разбор"
+    source={officeExample('presentations', 2)}
+    guidance={officeGuidance('slides', 2)}
+  >
+    <p>
+      На насыщенной информационной теме проконтролируй длинные подписи, границы
+      рамок и читаемость всего текста.
+    </p>
+  </Example>
+</Examples>
+
+<Mistakes>
+  <Mistake title="Растянуть изображение по одной оси">
+    <p>Включи сохранение пропорций или задай согласованные ширину и высоту.</p>
+  </Mistake>
+  <Mistake title="Сделать весь текст мелким ради рамки">
+    <p>
+      Сохрани требуемый размер шрифта и проверь рамку и расположение; смысловые
+      части должны помещаться.
+    </p>
+  </Mistake>
+  <Mistake title="Проверить только первый слайд">
+    <p>
+      Открой сохранённый ODP и просмотри структуру, текст и изображения на всех
+      трёх слайдах.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <p>
+    Пять вопросов проверяют отдельные знания и расчёты. Их прохождение не
+    означает проверку офисного файла и получение официального балла. Для
+    вопросов по полному набору скачай соответствующий архив.
+  </p>
+  <p>
+    <a href={officeArchiveHref(officeExample('presentations', 0))} download>
+      {'Исходники к вопросу 1 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Проверь понимание"
+    choice={officeQuestion('slides', 0)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('presentations', 1))} download>
+      {'Исходники к вопросу 2 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-2"
+    title="Вопрос 2. Проверь понимание"
+    choice={officeQuestion('slides', 1)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('presentations', 2))} download>
+      {'Исходники к вопросу 3 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-3"
+    title="Вопрос 3. Проверь понимание"
+    choice={officeQuestion('slides', 2)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('presentations', 0))} download>
+      {'Исходники к вопросу 4 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-4"
+    title="Вопрос 4. Проверь понимание"
+    choice={officeQuestion('slides', 3)}
+  />
+  <p>
+    <a href={officeArchiveHref(officeExample('presentations', 1))} download>
+      {'Исходники к вопросу 5 (ZIP)'}
+    </a>
+  </p>
+  <Question
+    id="question-5"
+    title="Вопрос 5. Проверь понимание"
+    choice={officeQuestion('slides', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[13]} variant13="presentation" />
+
+<CheatSheet>
+  <ul>
+    <li>Создай структуру, затем перенеси смысловые блоки.</li>
+    <li>Соблюдай макет, размеры шрифта и пропорции изображений.</li>
+    <li>Сохрани ODP и проверь каждый слайд после открытия.</li>
+  </ul>
+</CheatSheet>

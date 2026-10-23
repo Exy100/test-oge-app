@@ -1,7 +1,15 @@
 import { lessonRoute } from './catalog';
 
+interface PreparationDefinition {
+  id: string;
+  section: string;
+  taskNumber: number;
+  title: string;
+  variant13?: 'presentation' | 'document';
+}
+
 /** Course links released together with the corresponding lessons (ADR-043). */
-export const preparationLessons = [
+const definitions: PreparationDefinition[] = [
   {
     id: 'bits-bytes',
     section: 'i1',
@@ -194,4 +202,57 @@ export const preparationLessons = [
     taskNumber: 12,
     title: 'Отбор файлов: расширения, маски и объём',
   },
-].map((lesson) => ({ ...lesson, route: lessonRoute(lesson) }));
+  {
+    id: 'document-paragraphs',
+    section: 'i11',
+    taskNumber: 13,
+    title: 'Документ: шрифт, абзацы и сохранение',
+    variant13: 'document',
+  },
+  {
+    id: 'document-tables',
+    section: 'i11',
+    taskNumber: 13,
+    title: 'Таблица в документе: ячейки и объединения',
+    variant13: 'document',
+  },
+  {
+    id: 'presentation-layout',
+    section: 'i11',
+    taskNumber: 13,
+    title: 'Презентация: макет, изображения и читаемость',
+    variant13: 'presentation',
+  },
+  {
+    id: 'sheet-references',
+    section: 'i12',
+    taskNumber: 14,
+    title: 'Ячейки, диапазоны и копирование формул',
+  },
+  {
+    id: 'sheet-selection',
+    section: 'i12',
+    taskNumber: 14,
+    title: 'Отбор, количество, сумма и среднее',
+  },
+  {
+    id: 'sheet-charts',
+    section: 'i12',
+    taskNumber: 14,
+    title: 'Круговая диаграмма: данные, легенда и значения',
+  },
+];
+export const preparationLessons = definitions.map((lesson) => ({
+  ...lesson,
+  route: lessonRoute(lesson),
+}));
+export function preparationFor(
+  taskNumber: number,
+  variant13: 'presentation' | 'document',
+) {
+  return preparationLessons.filter(
+    (lesson) =>
+      lesson.taskNumber === taskNumber &&
+      (!lesson.variant13 || lesson.variant13 === variant13),
+  );
+}

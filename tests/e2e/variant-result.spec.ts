@@ -235,6 +235,40 @@ test('preparation plan opens new numeral and file lessons', async ({
     ).toBeVisible();
   }
 });
+for (const choice of ['document', 'presentation'] as const) {
+  test(`preparation plan preserves office alternative ${choice} and opens spreadsheets`, async ({
+    page,
+  }) => {
+    const saved = attempt(0, buildFixedVariant('V01', choice));
+    await seed(page, [saved]);
+    await page.goto(url(saved));
+    const lessons = page
+      .locator('.result-screen')
+      .getByRole('list', { name: 'Уроки к №13', exact: true });
+    await expect(lessons.getByRole('link')).toHaveCount(
+      choice === 'document' ? 2 : 1,
+    );
+    await lessons.getByRole('link').first().click();
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp('/stream/\\?numbers=13&variant13=' + choice + '$', 'u'),
+    );
+    await page.goto(url(saved));
+    const sheets = page
+      .locator('.result-screen')
+      .getByRole('list', { name: 'Уроки к №14', exact: true });
+    await expect(sheets.getByRole('link')).toHaveCount(3);
+    await sheets
+      .getByRole('link', {
+        name: 'Круговая диаграмма: данные, легенда и значения',
+        exact: true,
+      })
+      .click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'Круговая диаграмма: данные, легенда и значения',
+    );
+  });
+}
 function lazyEntry(name: string) {
   return (target: URL) =>
     target.pathname.includes(`/${name}.`) &&
