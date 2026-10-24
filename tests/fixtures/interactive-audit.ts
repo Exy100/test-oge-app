@@ -15,7 +15,7 @@ declare global {
 /** Runs in the page. Count real native resources allocated by the host and its scene. */
 export function installInteractiveAudit() {
   const owned = () =>
-    /\/src\/(?:lib\/interactives\/|interactives\/|dev\/InteractiveProbe\.tsx)/u.test(
+    /\/src\/(?:lib\/interactives\/|interactives\/|components\/tasks\/RobotPractice\.tsx|dev\/InteractiveProbe\.tsx)/u.test(
       new Error().stack ?? '',
     );
   const listeners = new Map<

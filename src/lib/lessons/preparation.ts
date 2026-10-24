@@ -241,6 +241,48 @@ const definitions: PreparationDefinition[] = [
     taskNumber: 14,
     title: 'Круговая диаграмма: данные, легенда и значения',
   },
+  {
+    id: 'robot-commands',
+    section: 'i13',
+    taskNumber: 15,
+    title: 'Робот: команды, датчики и безопасный шаг',
+  },
+  {
+    id: 'robot-loops',
+    section: 'i13',
+    taskNumber: 15,
+    title: 'Робот: циклы, крайние клетки и завершение',
+  },
+  {
+    id: 'robot-general',
+    section: 'i13',
+    taskNumber: 15,
+    title: 'Робот: обобщённый алгоритм для стен и лестницы',
+  },
+  {
+    id: 'python-input-output',
+    section: 'i14',
+    taskNumber: 16,
+    title: 'Python: ввод, вывод и структура программы',
+  },
+  {
+    id: 'python-conditions',
+    section: 'i14',
+    taskNumber: 16,
+    title: 'Python: условия отбора и остаток от деления',
+  },
+  {
+    id: 'python-aggregates',
+    section: 'i14',
+    taskNumber: 16,
+    title: 'Python: счётчики, суммы, среднее и максимум',
+  },
+  {
+    id: 'python-testing',
+    section: 'i14',
+    taskNumber: 16,
+    title: 'Python: граничные тесты и проверка программы',
+  },
 ];
 export const preparationLessons = definitions.map((lesson) => ({
   ...lesson,

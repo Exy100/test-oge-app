@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { RobotExecution, type RobotResult } from '../../core/robot';
+import { RobotExecution, runRobot, type RobotResult } from '../../core/robot';
 import {
   fieldFor,
   robotCases,
@@ -15,6 +15,10 @@ export default function RobotPractice({
   value,
   onChange,
   maxLength,
+  active = true,
+  reducedMotion = false,
+  initialCode = '',
+  lesson = false,
 }: {
   kind: RobotKind;
   seed: string;
@@ -22,6 +26,10 @@ export default function RobotPractice({
   value?: string;
   onChange?: (code: string) => void;
   maxLength?: number;
+  active?: boolean;
+  reducedMotion?: boolean;
+  initialCode?: string;
+  lesson?: boolean;
 }) {
   const fields = useMemo(() => {
     const cases = robotCases(kind, seed);
@@ -30,12 +38,14 @@ export default function RobotPractice({
   const fieldId = useId();
   const [index, setIndex] = useState(0);
   const field = fields[index];
-  const [localCode, setLocalCode] = useState('');
+  const [localCode, setLocalCode] = useState(initialCode);
+  const [familyResult, setFamilyResult] = useState('');
   const code = value ?? localCode;
   const [result, setResult] = useState<RobotResult | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState('');
   const execution = useRef<RobotExecution | null>(null);
+  const animating = running && active && !reducedMotion;
   useEffect(
     () => () => {
       execution.current?.cancel();
@@ -43,7 +53,7 @@ export default function RobotPractice({
     [],
   );
   useEffect(() => {
-    if (!running) return;
+    if (!running || !active || reducedMotion) return;
     const timer = window.setInterval(() => {
       const next = execution.current?.run(16);
       if (next) {
@@ -55,7 +65,7 @@ export default function RobotPractice({
     return () => {
       window.clearInterval(timer);
     };
-  }, [running]);
+  }, [running, active, reducedMotion]);
   if (!field) throw new Error('Поле Робота не найдено.');
   function reset() {
     execution.current?.cancel();
@@ -63,6 +73,7 @@ export default function RobotPractice({
     setRunning(false);
     setResult(null);
     setError('');
+    setFamilyResult('');
   }
   function prepare() {
     if (!field) return null;
@@ -131,7 +142,7 @@ export default function RobotPractice({
           else setLocalCode(nextCode);
         }}
         language="robot"
-        disabled={running}
+        disabled={animating}
         maxLength={maxLength ?? (mode === 'exam' ? 20000 : 32000)}
       />
       <details>
@@ -154,8 +165,9 @@ export default function RobotPractice({
       </details>
       <div className="task-actions">
         <button
+          className="button button-light"
           type="button"
-          disabled={running || finished}
+          disabled={running || finished || reducedMotion}
           onClick={() => {
             if (prepare()) setRunning(true);
           }}
@@ -163,6 +175,7 @@ export default function RobotPractice({
           Запустить
         </button>
         <button
+          className="button button-light"
           type="button"
           disabled={!running}
           onClick={() => {
@@ -172,9 +185,11 @@ export default function RobotPractice({
           Пауза
         </button>
         <button
+          className="button button-light"
           type="button"
-          disabled={running || finished}
+          disabled={animating || finished}
           onClick={() => {
+            setRunning(false);
             const next = prepare();
             if (next) {
               next.step();
@@ -184,14 +199,86 @@ export default function RobotPractice({
         >
           Шаг
         </button>
-        <button type="button" onClick={reset}>
+        <button type="button" className="button button-light" onClick={reset}>
           Сбросить выполнение
         </button>
       </div>
+      {lesson && (
+        <>
+          {reducedMotion && (
+            <p>Анимации отключены: выполняй программу кнопкой «Шаг».</p>
+          )}
+          <button
+            className="button button-light"
+            type="button"
+            disabled={animating}
+            onClick={() => {
+              try {
+                const passed = fields.filter(
+                  (item) => runRobot(code, item, { traceLimit: 0 }).success,
+                ).length;
+                setFamilyResult(
+                  `Пройдено полей: ${String(passed)} из ${String(fields.length)}. Конечный набор проверок не доказывает правильность для всех размеров; объясни обобщённый алгоритм.`,
+                );
+              } catch (cause) {
+                setFamilyResult(
+                  cause instanceof Error ? cause.message : 'Проверь программу.',
+                );
+              }
+            }}
+          >
+            Проверить семейство
+          </button>
+          <p role="status">{familyResult}</p>
+          <details>
+            <summary>Трасса последних команд</summary>
+            <div
+              className="lab-table-scroll"
+              role="region"
+              aria-label="Трасса Робота"
+              tabIndex={0}
+            >
+              <table>
+                <caption>
+                  Выполненные инструкции, включая проверки и переходы
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Шаг</th>
+                    <th scope="col">Строка кода</th>
+                    <th scope="col">Строка поля</th>
+                    <th scope="col">Столбец поля</th>
+                    <th scope="col">Закрашена</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result?.trace.slice(-10).map((item) => (
+                    <tr key={item.step}>
+                      <td>{item.step}</td>
+                      <td>{item.line}</td>
+                      <td>{item.position.row + 1}</td>
+                      <td>{item.position.column + 1}</td>
+                      <td>{item.painted ? 'да' : 'нет'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {result?.traceTruncated && (
+              <p>
+                В памяти сохранены первые 1000 инструкций; показаны последние
+                десять из сохранённых.
+              </p>
+            )}
+          </details>
+        </>
+      )}
       {error && <p role="alert">{error}</p>}
       <p role="status" aria-label="Выполнение Робота">
         {running
-          ? 'Программа выполняется.'
+          ? active && !reducedMotion
+            ? 'Программа выполняется.'
+            : 'Выполнение приостановлено; состояние сохранено.'
           : result
             ? `${result.message} Шагов: ${String(result.steps)}. Строка: ${String(result.position.row + 1)}, столбец: ${String(result.position.column + 1)}.`
             : 'Готов к запуску.'}

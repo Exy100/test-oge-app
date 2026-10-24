@@ -235,6 +235,35 @@ test('preparation plan opens new numeral and file lessons', async ({
     ).toBeVisible();
   }
 });
+test('preparation plan opens all seven Robot and Python lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const number of [15, 16]) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true })
+      .getByRole('link');
+    await expect(links).toHaveCount(number === 15 ? 3 : 4);
+    const hrefs = await links.evaluateAll((items) =>
+      items.map((item) => item.getAttribute('href')),
+    );
+    for (const href of hrefs) {
+      if (!href) throw new Error('Нет адреса урока.');
+      await page.goto(href);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await page
+        .getByRole('link', { name: 'Перейти к заданиям', exact: true })
+        .click();
+      await expect(page).toHaveURL(
+        new RegExp('/stream/\\?numbers=' + String(number) + '$', 'u'),
+      );
+    }
+  }
+});
+
 for (const choice of ['document', 'presentation'] as const) {
   test(`preparation plan preserves office alternative ${choice} and opens spreadsheets`, async ({
     page,

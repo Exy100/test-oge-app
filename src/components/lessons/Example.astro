@@ -1,6 +1,7 @@
 ---
 import type { StreamReference } from '../../core/stream/schemas';
 import { renderRichText } from '../../core/rich-text/render';
+import { codingArchiveHref } from '../../lib/lessons/coding';
 import { officeArchiveHref } from '../../lib/lessons/office';
 import { lessonTask } from '../../lib/lessons/content';
 import '../../styles/rich-text.css';
@@ -23,7 +24,7 @@ if (
 const steps = Astro.props.guidance
   ? Astro.props.guidance.map((step) => renderRichText(step))
   : generatedSteps;
-const archive = officeArchiveHref(source);
+const archive = officeArchiveHref(source) ?? codingArchiveHref(source);
 ---
 
 <article class="lesson-example" id={id} aria-labelledby={`${id}-title`}>

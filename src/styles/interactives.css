@@ -206,3 +206,10 @@
   padding: var(--space-2);
   border: 1px solid var(--line);
 }
+
+.lesson-interactive .robot-practice .task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block: var(--space-4);
+}

@@ -4,24 +4,22 @@ import { parameterInterval } from '../core/generators/exam/short-problems';
 import {
   parameterLab,
   programTitles,
+  sequenceKinds,
   traceProgram,
   type ProgramKind,
 } from '../lib/interactives/programs';
 
 export default function ProgramTracer({ id, parameters }: InteractiveProps) {
   const initial = parameters.program ?? 'assign';
-  if (
-    initial !== 'assign' &&
-    initial !== 'branch' &&
-    initial !== 'for' &&
-    initial !== 'while'
-  )
+  if (typeof initial !== 'string' || !Object.hasOwn(programTitles, initial))
     throw new RangeError('Неизвестная программа.');
-  const [kind, setKind] = useState<ProgramKind>(initial);
+  const [kind, setKind] = useState<ProgramKind>(initial as ProgramKind);
   const [input, setInput] = useState('6 2'),
     [n, setN] = useState('6'),
     [a, setA] = useState('2'),
     [pair, setPair] = useState(0);
+  const [sequence, setSequence] = useState('5\n-3\n0\n7\n14\n22'),
+    [sentinel, setSentinel] = useState('517\n513\n1021\n0');
   const [cursor, setCursor] = useState(-1),
     [prediction, setPrediction] = useState(''),
     [checked, setChecked] = useState(false);
@@ -31,16 +29,26 @@ export default function ProgramTracer({ id, parameters }: InteractiveProps) {
     error = '';
   const validA = /^-?\d{1,4}$/u.test(a) && Math.abs(Number(a)) <= 1000;
   try {
-    const raw = kind === 'assign' ? input.trim() : n.trim();
-    if (kind !== 'branch' && !/^-?\d+(?:\s+-?\d+)*$/u.test(raw))
-      throw new RangeError('Введи целые числа через пробел.');
+    const raw = sequenceKinds.has(kind)
+      ? (kind === 'sentinel' ? sentinel : sequence).trimEnd()
+      : kind === 'assign'
+        ? input.trim()
+        : n.trim();
+    const tokens = raw
+      .split(sequenceKinds.has(kind) ? /\r\n|\r|\n/u : /\s+/u)
+      .map((value) => value.trim());
+    const integer = sequenceKinds.has(kind) ? /^[+-]?\d+$/u : /^-?\d+$/u;
+    if (kind !== 'branch' && tokens.some((value) => !integer.test(value)))
+      throw new RangeError(
+        sequenceKinds.has(kind)
+          ? 'Введи по одному целому числу на строке.'
+          : 'Введи целые числа через пробел.',
+      );
     if (kind === 'branch' && !validA)
       throw new RangeError('Параметр A — целое от −1000 до 1000.');
     trace = traceProgram(
       kind,
-      kind === 'branch'
-        ? (parameterLab.pairs[pair] ?? [])
-        : raw.split(/\s+/u).map(Number),
+      kind === 'branch' ? (parameterLab.pairs[pair] ?? []) : tokens.map(Number),
       kind === 'branch' ? Number(a) : 2,
     );
   } catch (cause) {
@@ -84,9 +92,49 @@ export default function ProgramTracer({ id, parameters }: InteractiveProps) {
       <p>
         {kind === 'branch'
           ? 'Формат №6: в исходном условии вместо выбранного числа стоит параметр A. Девять запусков независимы. or означает ИЛИ.'
-          : 'Подготовительное упражнение к чтению программ. В проверенных демоверсиях №6 требуется поиск параметра по девяти запускам.'}
+          : sequenceKinds.has(kind)
+            ? 'Трассировка приёмов №16. Подготовительные задачи потока не покрывают все форматы демоверсий; готовую программу запускай в локальном Python 3.'
+            : 'Подготовительное упражнение к чтению программ. В проверенных демоверсиях №6 требуется поиск параметра по девяти запускам.'}
       </p>
-      {kind === 'assign' ? (
+      {sequenceKinds.has(kind) ? (
+        <>
+          <p>
+            Учебная трасса №16:{' '}
+            {kind === 'filter'
+              ? 'отбираем неотрицательные числа, кратные 3'
+              : kind === 'pairs'
+                ? 'считаем соседние пары с суммой, кратной 3, и её максимум'
+                : kind === 'run'
+                  ? 'ищем самую длинную цепочку неотрицательных чисел'
+                  : kind === 'average'
+                    ? 'считаем положительные и их среднее; при пустом отборе в этом упражнении выводим 0 0'
+                    : kind === 'residue'
+                      ? 'суммируем числа с остатком 1 при делении на 7'
+                      : 'считаем четырёхзначные восьмеричные числа с остатком 5 при делении на 8; ноль завершает ввод'}
+            . Произвольный код Python здесь не исполняется.
+          </p>
+          <label htmlFor={`${id}-sequence`}>
+            {kind === 'sentinel'
+              ? 'Ввод до нуля'
+              : 'Ввод: N и последовательность'}
+          </label>
+          <textarea
+            id={`${id}-sequence`}
+            rows={7}
+            maxLength={200}
+            value={kind === 'sentinel' ? sentinel : sequence}
+            onChange={(event) => {
+              if (kind === 'sentinel') setSentinel(event.target.value);
+              else setSequence(event.target.value);
+              reset();
+            }}
+          />
+          <p>
+            По одному числу на строке; до 20 чисел, каждое по модулю не больше
+            99999. Это граница наглядной трассы, не правило экзамена.
+          </p>
+        </>
+      ) : kind === 'assign' ? (
         <>
           <label htmlFor={`${id}-input`}>Ввод: x и y через пробел</label>
           <input
@@ -167,7 +215,8 @@ export default function ProgramTracer({ id, parameters }: InteractiveProps) {
             </ol>
           </div>
           <label htmlFor={`${id}-prediction`}>Какой будет вывод?</label>
-          <input
+          <textarea
+            rows={2}
             id={`${id}-prediction`}
             value={prediction}
             maxLength={24}
@@ -187,7 +236,7 @@ export default function ProgramTracer({ id, parameters }: InteractiveProps) {
           </button>
           <p role="status">
             {checked
-              ? prediction.trim() === trace.output
+              ? prediction.trim().replace(/\s+/gu, ' ') === trace.output
                 ? 'Верно: прогноз совпадает с выводом.'
                 : 'Пока неверно. Пройди строки и проверь новые значения переменных.'
               : ''}

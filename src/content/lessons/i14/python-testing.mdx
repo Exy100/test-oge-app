@@ -1,0 +1,214 @@
+---
+id: python-testing
+title: 'Python: граничные тесты и проверка программы'
+section: i14
+taskNumbers: [16]
+readingMinutes: 14
+prerequisites: ['python-aggregates']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import { codingExample, codingQuestion } from '../../../lib/lessons/coding';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'program-tracer', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    {
+      'Правильный вывод на одном примере не гарантирует верную программу. Подбери короткие входы, которые отдельно проверяют каждую ветвь и каждую границу, а затем сравни результат с ручным расчётом.'
+    }
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      {
+        '№16, КЭС 3.2: демоверсия ФИПИ 2025 с. 16, 31–32, 2026 с. 16, 31–32, проект 2027 с. 17, 33–34. M16a–c: среднее положительных, последняя семеричная цифра и ввод до нуля. Коды КЭС — спецификация проекта 2027 с. 14. Примеры авторские, CC0-1.0. Комплект 2027 имеет статус проекта.'
+      }
+    </p>
+    <p>
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+    </p>
+    <p>
+      {
+        'Подготовительные подтипы в примерах и потоке не покрывают все форматы демоверсий №16: в генераторах остаются открыты дробное среднее, отбор по ненулевому остатку и ввод до нуля. В лаборатории эти приёмы можно проследить отдельно. Мини-тест проверяет понимание, а готовую программу запускай в локальном Python 3.'
+      }
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Тест проверяет гипотезу</h3>
+  <p>
+    {
+      'Начни с минимального допустимого ввода. Для отбора возьми «все подходят», «никто не подходит» и равенство порогу. Для соседних пар N = 1 проверяет отсутствие пар, а три числа — перекрытие двух пар. Отрицательные подходящие суммы выявляют неправильное начальное значение максимума. Тест должен иметь объяснимую причину и независимо вычисленный ожидаемый результат.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Тест проверяет гипотезу">
+    <title>Тест проверяет гипотезу</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Обычный → граничный → особый'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Ожидаемый ответ → ручной расчёт'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Запуск → сравнение → исправление'}
+    </text>
+  </svg>
+  <h3>Проверь протокол и завершение</h3>
+  <p>
+    {
+      'Для ввода до нуля проверь сразу ноль, один элемент перед нулём и конец длинной последовательности. Сигнал не включается в расчёт, данные после него не требуются. Для циклов обработки цифр проверь само число 0: его запись содержит одну цифру, хотя while n > 0 не выполнится. В каждом цикле должно меняться состояние, приближающее выход.'
+    }
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 440 152"
+    aria-label="Проверь протокол и завершение"
+  >
+    <title>Проверь протокол и завершение</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'N = 1 → соседних пар нет'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Только последняя пара подходит'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Отрицательная сумма → максимум'}
+    </text>
+  </svg>
+  <h3>Испытай файл, который сдаёшь</h3>
+  <p>
+    {
+      'Сохрани answer.py, запусти локальный Python 3, передай ввод и сравни точный вывод. В учебных ZIP есть входы, ожидаемые результаты и check.py для десяти локальных запусков. После исправления повтори прежние тесты: новая правка может нарушить старую ветвь. Прохождение учебного набора не заменяет официальную экспертную оценку и не доказывает работу на всех данных.'
+    }
+  </p>
+</Theory>
+
+<Interactive
+  id="program-tracer"
+  title="Лаборатория: Python: граничные тесты и проверка программы"
+  goal="Предскажи вывод программы, пройди строки и объясни каждое изменение состояния."
+  controls="Tab перемещает фокус, стрелки меняют выбор, Enter и пробел нажимают кнопки. Поля доступны мышью и касанием. При отключённых анимациях используй ручные шаги."
+  taskNumbers={[16]}
+  modulePath="/src/interactives/ProgramTracer.tsx"
+  parameters={{ program: 'pairs' }}
+>
+  <p>
+    {
+      'Запиши таблицу: строка кода, прочитанные данные, переменные, условие, вывод. Отмечай только выполненную ветвь, обновляй накопители и проверяй окончание цикла. Для N прочитай ровно N значений; для ввода до нуля исключи завершающий сигнал. Среднее считай по количеству отобранных.'
+    }
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Подготовка: ноль и цифры"
+    source={codingExample('testing', 0)}
+  />
+  <Example
+    id="example-2"
+    title="2. Подготовка: отрицательный максимум"
+    source={codingExample('testing', 1)}
+  />
+  <Example
+    id="example-3"
+    title="3. Подготовка: цепочка в конце"
+    source={codingExample('testing', 2)}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Проверять только пример">
+    <p>{'Он редко включает все границы и ветви.'}</p>
+  </Mistake>
+  <Mistake title="Считать наличие файла проверкой">
+    <p>{'Нужно реальное нормальное завершение с правильным выводом.'}</p>
+  </Mistake>
+  <Mistake title="Не повторять старые тесты">
+    <p>{'После изменения кода снова проверь уже обработанные случаи.'}</p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1"
+    choice={codingQuestion('testing', 0)}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2"
+    choice={codingQuestion('testing', 1)}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3"
+    choice={codingQuestion('testing', 2)}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4"
+    choice={codingQuestion('testing', 3)}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5"
+    choice={codingQuestion('testing', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[16]} />
+
+<CheatSheet>
+  <ul>
+    <li>Каждый тест должен ловить конкретную возможную ошибку.</li>
+    <li>Проверь минимум, равенство, пустой отбор и последний участок.</li>
+    <li>Запускай сохранённый файл, а не другую копию программы.</li>
+  </ul>
+</CheatSheet>

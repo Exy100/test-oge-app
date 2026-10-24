@@ -1,5 +1,6 @@
 /** Only working course scenes belong in the inventory. */
 export const interactives = [
+  { id: 'robot-lab', kind: '2d', load: () => import('./RobotLab.tsx') },
   { id: 'text-volume', kind: '2d', load: () => import('./TextVolume.tsx') },
   {
     id: 'bits-and-bytes',

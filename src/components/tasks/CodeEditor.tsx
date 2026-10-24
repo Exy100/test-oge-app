@@ -46,6 +46,7 @@ export default function CodeEditor({
         aria-describedby={`${id}-help`}
       />
       <button
+        className="button button-light"
         type="button"
         onClick={() => {
           if (url.current) URL.revokeObjectURL(url.current);
