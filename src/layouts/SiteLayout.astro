@@ -32,6 +32,11 @@ const devPage =
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      href={sitePath('/sitemap.xml')}
+    />
     <link rel="canonical" href={`${SITE_ORIGIN}${sitePath(route)}`} />
     <link
       rel="preload"
