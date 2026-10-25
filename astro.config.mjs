@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { SITE_ORIGIN, SITE_BASE } from './src/lib/site.ts';
 import { writeSecurityHeaders } from './scripts/security-headers.mjs';
 import { lazyModuleUrl } from './scripts/lazy-module-url.mjs';
+import { writeSitemap } from './scripts/sitemap.mjs';
 import { readFileSync } from 'node:fs';
 
 export default defineConfig({
@@ -34,6 +35,15 @@ export default defineConfig({
   integrations: [
     react(),
     mdx(),
+    {
+      name: 'complete-sitemap',
+      hooks: {
+        'astro:build:done': async ({ dir, logger }) => {
+          const count = await writeSitemap(dir, SITE_ORIGIN, SITE_BASE);
+          logger.info(`Sitemap: ${String(count)} страниц`);
+        },
+      },
+    },
     {
       name: 'security-headers',
       hooks: {

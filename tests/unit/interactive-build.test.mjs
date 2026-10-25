@@ -36,6 +36,7 @@ it(
         'public/_headers',
         'scripts/lazy-module-url.mjs',
         'scripts/security-headers.mjs',
+        'scripts/sitemap.mjs',
         'src/lib/site.ts',
         'src/components/lessons/Interactive.astro',
         'src/components/lessons/InteractiveHost.tsx',
