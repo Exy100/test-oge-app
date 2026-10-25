@@ -86,10 +86,12 @@ export default function SceneCanvas({
   label,
   fallback,
   children,
+  cameraPosition = [5, 4, 8],
 }: InteractiveRuntime & {
   label: string;
   fallback: ReactNode;
-  children: (color: string) => ReactNode;
+  children: (color: string, background: string) => ReactNode;
+  cameraPosition?: [number, number, number];
 }) {
   const stage = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -106,7 +108,10 @@ export default function SceneCanvas({
       <RenderBoundary onError={fail}>
         <ambientLight intensity={1.5} />
         <directionalLight position={[5, 8, 6]} intensity={2} />
-        {children(getComputedStyle(stage.current).color)}
+        {children(
+          getComputedStyle(stage.current).color,
+          getComputedStyle(stage.current).backgroundColor,
+        )}
         {import.meta.env.DEV && (
           <FrameMonitor running={running} sample={setSample} />
         )}
@@ -132,7 +137,7 @@ export default function SceneCanvas({
         },
         dpr: [1, 2],
         orthographic: true,
-        camera: { position: [5, 4, 8], zoom: 42, near: 0.1, far: 100 },
+        camera: { position: cameraPosition, zoom: 42, near: 0.1, far: 100 },
         gl: { antialias: true, alpha: true, powerPreference: 'low-power' },
         flat: true,
         frameloop: running ? 'always' : 'demand',

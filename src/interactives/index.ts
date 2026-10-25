@@ -1,6 +1,22 @@
+import {
+  mazeLevels,
+  sortingLevels,
+} from '../lib/interactives/factory-levels.ts';
 import { warehouseLevels, packetLevels } from '../lib/interactives/games.ts';
 /** Only working course scenes belong in the inventory. */
 export const interactives = [
+  {
+    id: 'robot-maze',
+    kind: '3d',
+    levels: mazeLevels,
+    load: () => import('./RobotMaze.tsx'),
+  },
+  {
+    id: 'sorting-center',
+    kind: '3d',
+    levels: sortingLevels,
+    load: () => import('./SortingCenter.tsx'),
+  },
   {
     id: 'bit-warehouse',
     kind: '3d',

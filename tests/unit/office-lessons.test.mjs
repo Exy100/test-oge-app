@@ -34,7 +34,26 @@ it('publishes six complete lessons with real scenes and full practical examples'
   expect(course).toHaveLength(6);
   for (const { source, lesson } of course) {
     expect(lesson.findings).toEqual([]);
-    expect(lesson.references).toHaveLength(1);
+    expect(lesson.references).toHaveLength(
+      lesson.data.id === 'sheet-selection' ? 2 : 1,
+    );
+    if (lesson.data.id === 'sheet-selection') {
+      expect(lesson.references.map((reference) => reference.id)).toEqual([
+        'spreadsheet-lab',
+        'sorting-center',
+      ]);
+      expect(
+        interactives.find((item) => item.id === 'sorting-center'),
+      ).toMatchObject({
+        kind: '3d',
+        levels: expect.arrayContaining([
+          expect.objectContaining({ id: expect.any(String) }),
+        ]),
+      });
+      expect(
+        interactives.find((item) => item.id === 'sorting-center').levels,
+      ).toHaveLength(3);
+    }
     expect(
       interactives.find((item) => item.id === lesson.references[0].id),
     ).toMatchObject({ kind: '2d' });
