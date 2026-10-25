@@ -13,6 +13,9 @@ test('variant builder and both №13 alternatives match Node in every browser', 
   page,
 }) => {
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/variants/');
+  await expect(
+    page.getByRole('combobox', { name: 'Фиксированный вариант', exact: true }),
+  ).toBeEnabled();
   const actual = await page.evaluate(async () => {
     const path = '/test-oge-app/src/core/variants/index.ts';
     const api = (await import(

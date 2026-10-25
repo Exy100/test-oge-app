@@ -1,0 +1,235 @@
+---
+id: logic-negation
+title: 'Скобки и отрицание составного условия'
+section: i3
+taskNumbers: [3]
+readingMinutes: 10
+prerequisites: ['logic-operations']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'logic-builder', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №3 отрицание может охватывать целую часть выражения, а скобки меняют
+    порядок действий. Если отрицать только ближайшее сравнение вместо всего
+    условия, изменится ответ. Разберём порядок вычисления и равносильные
+    преобразования до подстановки чисел.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №3: с. 5. КЭС 2.7 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры ниже авторские; комплект 2027 имеет статус проекта.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Порядок действий</h3>
+  <p>
+    Сначала вычисляются выражения в скобках, затем НЕ, затем И, затем ИЛИ.
+    Скобки показывают, к какой части относится отрицание. НЕ A ИЛИ B и НЕ (A ИЛИ
+    B) — разные выражения. Читай условие как дерево: от внутренних частей к
+    внешней операции.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Дерево условия НЕ от A ИЛИ B"
+  >
+    <title>Дерево условия НЕ от A ИЛИ B</title>
+    <path
+      d="M70 36 L155 49 L240 36 M155 49 V77"
+      stroke="currentColor"
+      fill="none"
+    />
+    <text x="12" y="26" fill="currentColor">
+      {'A и B → сначала A ИЛИ B'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'Значение внутренней части → затем НЕ'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Отрицание относится ко всей скобке'}
+    </text>
+  </svg>
+  <h3>Законы отрицания</h3>
+  <p>
+    НЕ (A ИЛИ B) равносильно (НЕ A) И (НЕ B): ни одно не истинно. НЕ (A И B)
+    равносильно (НЕ A) ИЛИ (НЕ B): хотя бы одна часть ложна. При переносе
+    отрицания внутрь скобок меняются и значения частей, и операция между ними.
+  </p>
+  <svg role="img" viewBox="0 0 400 143" aria-label="Два правила де Моргана">
+    <title>Два правила де Моргана</title>
+    <text x="12" y="26" fill="currentColor">
+      {'НЕ (A ИЛИ B) = (НЕ A) И (НЕ B)'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'НЕ (A И B) = (НЕ A) ИЛИ (НЕ B)'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'Проверь каждое правило на 00, 01, 10, 11'}
+    </text>
+  </svg>
+  <h3>Отрицание сравнения</h3>
+  <p>
+    Отрицание «X больше a» — «X не больше a», то есть X ≤ a. Граница включается.
+    Отрицание X ≥ a — X &lt; a. Не заменяй знак механически, забывая равенство.
+    В разобранных заданиях отдельно проверяй значение на каждой границе.
+  </p>
+</Theory>
+
+<Interactive
+  id="logic-builder"
+  title="Лаборатория: Скобки и отрицание составного условия"
+  goal="Построй условие «ни A, ни B» разными способами и найди набор, на котором ошибочное выражение отличается."
+  controls="Переходи по полям и кнопкам клавишей Tab. Выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием."
+  taskNumbers={[3]}
+  modulePath="/src/interactives/LogicBuilder.tsx"
+  parameters={{ goal: 'neither' }}
+>
+  <p>
+    Сначала вычисли внутренние скобки. Чтобы отрицать ИЛИ, отрицай обе части и
+    замени ИЛИ на И; чтобы отрицать И, замени его на ИЛИ и отрицай обе части.
+    Подставь все четыре набора: это обнаружит ошибку области действия НЕ.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №3: основной приём"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-example-1-1',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №3: составное условие или другая схема"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-example-2-7',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №3: проверка сложного случая"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+<Mistake title="Отрицать только первую часть скобки"><p>НЕ перед скобкой относится ко всему выражению внутри. Сначала найди его значение.</p></Mistake>
+<Mistake title="При переносе НЕ оставить прежнюю операцию"><p>По правилам де Моргана И и ИЛИ меняются местами вместе с отрицанием обеих частей.</p></Mistake>
+<Mistake title="В отрицании строгого сравнения потерять равенство"><p>НЕ (X > a) включает X = a. Проверь граничное значение непосредственно.</p></Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Чему равносильно НЕ (A ИЛИ B)?',
+      options: [
+        { id: 'correct', text: '(НЕ A) И (НЕ B)' },
+        { id: 'wrong', text: '(НЕ A) ИЛИ (НЕ B)' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Чтобы ни одна часть не была истинной, обе должны быть ложны.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что означает НЕ (X > a)?',
+      options: [
+        { id: 'wrong', text: 'X < a' },
+        { id: 'correct', text: 'X ≤ a' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Значение X = a не больше a, поэтому входит в отрицание строгого сравнения.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-negation-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[3]} />
+
+<CheatSheet>
+  <ul>
+    <li>Порядок: скобки → НЕ → И → ИЛИ.</li>
+    <li>НЕ (A ИЛИ B) = НЕ A И НЕ B; НЕ (A И B) = НЕ A ИЛИ НЕ B.</li>
+    <li>
+      На границе строгий знак при отрицании становится нестрогим и наоборот.
+    </li>
+  </ul>
+</CheatSheet>

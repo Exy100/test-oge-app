@@ -1,0 +1,20 @@
+---
+interface Props {
+  id?: string;
+}
+const { id = 'cheatsheet' } = Astro.props;
+---
+
+<section class="lesson-section" id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>Шпаргалка</h2>
+  <details class="lesson-cheatsheet">
+    <summary>Открыть правила для повторения</summary>
+    <div>
+      <slot />
+    </div>
+  </details>
+</section>
+
+<script>
+  import '../../lib/print-details';
+</script>

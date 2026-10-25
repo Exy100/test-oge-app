@@ -1,0 +1,250 @@
+---
+id: decoding
+title: 'Декодирование: проверяем весь сигнал'
+section: i2
+taskNumbers: [2]
+readingMinutes: 10
+prerequisites: ['code-tables']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'code-decoder', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В M02a ответ — полная расшифровка, а в M02b нужно назвать только
+    повторяющиеся буквы. Эти вопросы могут использовать похожие таблицы. Сначала
+    полностью восстанови сообщение, затем выполни именно то действие, которое
+    просит условие.
+  </p>
+  <p>
+    Подтверждённые форматы: M02a, M02b, №2. Демоверсии ФИПИ 2025–2026 и проект
+    2027, печатная с. 4 и ответы 2025, с. 17. КЭС 2.1 по спецификации проекта
+    2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <h3>Префиксная таблица</h3>
+  <p>
+    Если ни одно кодовое слово не совпадает с началом другого, таблица
+    называется префиксной. Накапливай знаки от левого края: как только получился
+    код буквы, её границу можно зафиксировать и начать новую группу. Считай
+    каждую позицию ровно один раз.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 115"
+    aria-label="Дерево префиксного кода: А — 0, Б — 10, В — 110, Г — 111"
+  >
+    <title>Граница буквы в префиксном коде</title>
+    <text x="8" y="25" fill="currentColor">
+      {'0 → А; 10 → Б'}
+    </text>
+    <text x="8" y="63" fill="currentColor">
+      {'110 → В; 111 → Г'}
+    </text>
+    <text x="8" y="103" fill="currentColor">
+      {'Код не продолжается другим кодом'}
+    </text>
+  </svg>
+  <h3>Обратное кодирование</h3>
+  <p>
+    Когда получил буквы, замени каждую её кодом и соедини. Должен получиться
+    исходный сигнал целиком. Такая проверка обнаруживает пропущенные или лишние
+    буквы, но сама по себе не доказывает единственность: у непрефиксной таблицы
+    проверь другие разбиения.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 112"
+    aria-label="Цикл проверки: сигнал расшифровывается в буквы, буквы кодируются обратно, строки сравниваются целиком"
+  >
+    <title>Проверка ответа</title>
+    <text x="8" y="25" fill="currentColor">
+      {'Сигнал → буквы по таблице'}
+    </text>
+    <path d="M20 38 v25 h275" fill="none" stroke="currentColor" />
+    <text x="8" y="101" fill="currentColor">
+      {'Буквы → коды → исходный сигнал'}
+    </text>
+  </svg>
+  <h3>Если спрашивают повторяющиеся буквы</h3>
+  <p>
+    Сначала выпиши полную расшифровку, затем посчитай в ней каждую букву. В
+    ответ включи по одному разу только те буквы, которые встретились более
+    одного раза. В формате M02b порядок этих букв не важен; наш проверяемый
+    генератор задаёт допустимые перестановки. Не присылай всё сообщение вместо
+    ответа.
+  </p>
+</Theory>
+
+<Interactive
+  id="code-decoder"
+  title="Лаборатория: Декодирование: проверяем весь сигнал"
+  goal="Пройди сигнал по кодам букв, проверь ответ обратным кодированием и найди повторяющиеся буквы."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[2]}
+  modulePath="/src/interactives/CodeDecoder.tsx"
+  parameters={{ preset: 'prefix' }}
+>
+  <p>
+    В префиксной таблице читай сигнал слева направо и отделяй букву при первом
+    совпадении с её кодом. Для проверки закодируй найденные буквы обратно и
+    сравни сигнал целиком. Если нужны повторяющиеся буквы, посчитай их в готовом
+    сообщении, а не в двоичной записи.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ: полная расшифровка"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'decoding-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ: проверка продолжения"
+    source={{
+      generatorId: 'decode-nonprefix-v2',
+      taskNumber: 2,
+      seed: 'decoding-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ: повторяющиеся буквы"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'decoding-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Считать повторения нулей и единиц">
+    <p>
+      В M02b спрашивают буквы исходного сообщения. Сначала расшифруй его
+      целиком.
+    </p>
+  </Mistake>
+  <Mistake title="Переписать повторённую букву столько же раз">
+    <p>
+      В ответе требуется назвать повторяющиеся буквы; каждую укажи один раз.
+    </p>
+  </Mistake>
+  <Mistake title="Остановиться перед концом сигнала">
+    <p>
+      Даже верное начало не доказывает полный ответ. Проверь, что использованы
+      все знаки без остатка.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что даёт обратное кодирование?',
+      options: [
+        { id: 'correct', text: 'Проверку совпадения с исходным сигналом' },
+        {
+          id: 'wrong',
+          text: 'Доказательство единственности для любой таблицы',
+        },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Оно подтверждает допустимость найденного сообщения, но другие разбиения могут существовать.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что считать, если нужны повторяющиеся буквы?',
+      options: [
+        { id: 'wrong', text: 'Вхождения единиц в сигнале' },
+        { id: 'correct', text: 'Вхождения букв в расшифрованном сообщении' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Двоичные знаки кодируют буквы, но сами буквами сообщения не являются.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'decoding-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'decode-nonprefix-v2',
+      taskNumber: 2,
+      seed: 'decoding-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'decoding-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[2]} />
+
+<CheatSheet>
+  <ul>
+    <li>Префиксный код: ни одно кодовое слово не является началом другого.</li>
+    <li>Используй весь сигнал и проверь обратным кодированием.</li>
+    <li>Повторяющиеся буквы ищи в сообщении, каждую запиши один раз.</li>
+  </ul>
+</CheatSheet>

@@ -1,0 +1,38 @@
+---
+import type { StreamReference } from '../../core/stream/schemas';
+import { shortQuestion } from '../../lib/lessons/content';
+import { validateChoice, type ChoiceQuestion } from '../../lib/lessons/quiz';
+import QuestionForm from './QuestionForm';
+type Props = { id: string; title: string } & (
+  | { source: StreamReference; choice?: never }
+  | { choice: ChoiceQuestion; source?: never }
+);
+const { id, title } = Astro.props;
+const question = Astro.props.source
+  ? shortQuestion(Astro.props.source)
+  : validateChoice(Astro.props.choice);
+const archive =
+  Astro.props.source?.generatorId === 'context-reading-v2'
+    ? 'reading'
+    : Astro.props.source?.generatorId === 'file-extensions-v2'
+      ? 'selection'
+      : undefined;
+---
+
+{archive && (
+  <p>
+    <a
+      href={`${import.meta.env.BASE_URL}materials/files/${archive}.zip`}
+      download
+    >
+      Скачать файлы к вопросу: {title} (ZIP)
+    </a>
+  </p>
+)}
+<QuestionForm id={id} title={title} question={question} client:visible />
+<noscript>
+  <p>
+    Чтобы проверить ответ в мини-тесте, включи JavaScript. Теория и разборы
+    доступны без него.
+  </p>
+</noscript>

@@ -1,6 +1,7 @@
 import { createProcessor } from '@mdx-js/mdx';
 import { parseDocument } from 'yaml';
 import { lineAt } from './files.mjs';
+import { createLessonSchema } from '../../src/lib/lessons/schema.ts';
 
 const jsx = (node) =>
   node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement';
@@ -46,26 +47,10 @@ export function readLesson(file, source, config) {
     fail(1, 'Frontmatter должен быть объектом.');
     return { findings };
   }
-  for (const key of ['id', 'title', 'section'])
-    if (typeof data[key] !== 'string' || !data[key].trim())
-      fail(1, `Нужно непустое поле ${key}.`);
-  if (!Object.hasOwn(config.sections, data.section))
-    fail(1, 'Неизвестный раздел урока.');
-  if (!Number.isInteger(data.readingMinutes) || data.readingMinutes <= 0)
-    fail(1, 'readingMinutes должен быть положительным целым числом.');
-  if (
-    !Array.isArray(data.taskNumbers) ||
-    !data.taskNumbers.length ||
-    data.taskNumbers.some((n) => !Number.isInteger(n) || n < 1 || n > 16) ||
-    new Set(data.taskNumbers).size !== data.taskNumbers.length
-  )
-    fail(1, 'taskNumbers: уникальные номера 1–16.');
-  if (
-    !Array.isArray(data.prerequisites) ||
-    data.prerequisites.some((id) => typeof id !== 'string' || !id.trim()) ||
-    new Set(data.prerequisites).size !== data.prerequisites.length
-  )
-    fail(1, 'prerequisites: список уникальных идентификаторов уроков.');
+  const metadata = createLessonSchema(config.sections).safeParse(data);
+  if (!metadata.success)
+    for (const issue of metadata.error.issues)
+      fail(1, `${issue.path.join('.')}: ${issue.message}`);
 
   // A one-line JSX component containing prose is wrapped in an MDX paragraph.
   // Unwrap only that container; code fences and expressions never count as blocks.
@@ -96,9 +81,16 @@ export function readLesson(file, source, config) {
     )
   )
     fail(offset + 1, 'Нарушен порядок блоков урока.');
+  const counts = Object.fromEntries(
+    config.blocks.map((name) => [
+      name,
+      names.filter((item) => item === name).length,
+    ]),
+  );
   const count = (blockName, childNames, minimum) => {
     const block = blocks.find((node) => node.name === blockName);
-    if (block && descendants(block, childNames).length < minimum)
+    const actual = block ? descendants(block, childNames).length : 0;
+    if (block && actual < minimum)
       fail(
         offset + (block.position?.start.line ?? 1),
         `${blockName}: нужно не менее ${minimum} элементов ${childNames.join('/')}.`,
@@ -148,5 +140,10 @@ export function readLesson(file, source, config) {
     )
       fail(offset + (block.position?.start.line ?? 1), `Пустой блок ${name}.`);
   }
-  return { data, references, findings };
+  return {
+    data: metadata.success ? metadata.data : undefined,
+    references,
+    counts,
+    findings,
+  };
 }

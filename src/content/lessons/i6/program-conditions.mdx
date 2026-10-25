@@ -1,0 +1,199 @@
+---
+id: program-conditions
+title: 'Условия и параметр по девяти запускам'
+section: i6
+taskNumbers: [6]
+readingMinutes: 13
+prerequisites: ['program-variables', 'logic-operations']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'program-tracer', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В проверенных демоверсиях №6 программу запускают девять раз с разными парами
+    входных чисел. Нужно найти целый параметр A по заданному количеству YES или
+    NO. Вопрос может требовать минимум, максимум или любое допустимое значение.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №6: с. 6. КЭС 3.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские. Комплект 2027 имеет статус проекта; подготовительные
+      упражнения помечены отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+<h3>Один запуск — одна пара</h3>
+<p>Каждая пара независимо задаёт s и t. Для условия с or достаточно истинности одной части; and требует обе. Строгое > ложно при равенстве. Если or уже истинен благодаря части без A, этот запуск даст YES при любом A.</p>
+<svg role="img" viewBox="0 0 400 150" aria-label="Два пути к YES при ИЛИ">
+<title>Два пути к YES при ИЛИ</title>
+<rect x="4" y="4" width="392" height="140" rx="8" fill="none" stroke="currentColor" />
+<text x="14" y="35" fill="currentColor">{'t > 0? Да → YES при любом A'}</text>
+<text x="14" y="77" fill="currentColor">{'Иначе проверь s > A'}</text>
+<text x="14" y="119" fill="currentColor">{'Нет обеих истинных частей → NO'}</text>
+</svg>
+<h3>Раздели постоянные и зависимые результаты</h3>
+<p>В лаборатории условие s > A or t > 0. Сначала отметь пары с t > 0: они всегда дают YES. На остальных парах требуется s > A, то есть A < s. Для целого A это A ≤ s − 1. Чтобы получить NO, нужны одновременно t ≤ 0 и A ≥ s.</p>
+<svg role="img" viewBox="0 0 400 150" aria-label="Строгое сравнение на целых">
+<title>Строгое сравнение на целых</title>
+<rect x="4" y="4" width="392" height="140" rx="8" fill="none" stroke="currentColor" />
+<text x="14" y="35" fill="currentColor">{'s > A означает A ≤ s − 1'}</text>
+<text x="14" y="77" fill="currentColor">{'s ≤ A означает A ≥ s'}</text>
+<text x="14" y="119" fill="currentColor">{'Равенство даёт ложь для s > A'}</text>
+</svg>
+<h3>Найди интервал и прочитай вопрос</h3>
+<p>Проверяй границы по значениям s в зависимых запусках: при росте A число YES здесь не увеличивается. Упорядочь эти значения и найди участок, где число YES равно требуемому. Для минимума выбери левую целую границу, для максимума правую, для «любого» — любое целое внутри. Если одна сторона не ограничена, не придумывай ей границу.</p>
+</Theory>
+
+<Interactive id="program-tracer" title="Лаборатория: Условия и параметр по девяти запускам"
+ goal="Предскажи вывод, пройди строки и объясни изменения состояния; для №6 проверь параметр на девяти парах."
+ controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Кнопки и поля доступны мышью и касанием. Шаги выполняются вручную."
+ taskNumbers={[6]} modulePath="/src/interactives/ProgramTracer.tsx" parameters={{ program: 'branch' }}>
+<p>Нарисуй таблицу: шаг, строка кода, переменные, условие, вывод. После ввода и присваивания обновляй только нужную переменную. При условии переходи лишь в выбранную ветвь, а цикл проверяй перед каждым проходом. Для s > A or t > 0 отметь постоянные YES с t > 0; в остальных запусках сравни s с A. Проверь все девять пар и требуемый край интервала целых A.</p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №6: основной приём"
+    source={{
+      generatorId: 'parameter-min-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-example-1-16',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №6: проверка шагов"
+    source={{
+      generatorId: 'parameter-max-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №6: сложный случай"
+    source={{
+      generatorId: 'parameter-any-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-example-3-1',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+<Mistake title="Считать ИЛИ требованием обеих частей">
+<p>При or одной истинной части достаточно. Постоянные YES не зависят от A.</p>
+</Mistake>
+<Mistake title="Потерять единицу на границе">
+<p>Для целых A условие A < s заканчивается на s − 1. Равенство не проходит строгую проверку.</p>
+</Mistake>
+<Mistake title="Найти любое A вместо минимума">
+<p>После количества YES прочитай требование к параметру. Проверь соседнее целое у нужного края.</p>
+</Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что будет при or, если часть без A уже истинна?',
+      options: [
+        { id: 'correct', text: 'YES при любом A' },
+        { id: 'wrong', text: 'Результат всё равно зависит от A' },
+      ],
+      correctId: 'correct',
+      explanation: 'Включающее ИЛИ истинно при хотя бы одной истинной части.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'В каком случае s > A ложно?',
+      options: [
+        { id: 'wrong', text: 'Только при s < A' },
+        { id: 'correct', text: 'При s = A' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Строгое сравнение не включает равенство; оно ложно и при s меньше A.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ"
+    source={{
+      generatorId: 'parameter-min-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ"
+    source={{
+      generatorId: 'parameter-max-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ"
+    source={{
+      generatorId: 'parameter-any-v2',
+      taskNumber: 6,
+      seed: 'program-conditions-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[6]} />
+
+<CheatSheet>
+  <ul>
+    <li>Девять пар — девять независимых запусков.</li>
+    <li>Отметь постоянные YES, затем разберись с зависимыми сравнениями.</li>
+    <li>
+      Проверь количество YES/NO, целые границы и требование min/max/любое.
+    </li>
+  </ul>
+</CheatSheet>

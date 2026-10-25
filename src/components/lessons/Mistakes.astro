@@ -1,0 +1,13 @@
+---
+import Section from './Section.astro';
+interface Props {
+  id?: string;
+}
+const { id = 'mistakes' } = Astro.props;
+---
+
+<Section id={id} title="Типичные ошибки">
+  <ul class="lesson-mistakes">
+    <slot />
+  </ul>
+</Section>

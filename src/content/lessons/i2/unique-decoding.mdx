@@ -1,0 +1,258 @@
+---
+id: unique-decoding
+title: 'Однозначность и непрефиксные таблицы'
+section: i2
+taskNumbers: [2]
+readingMinutes: 11
+prerequisites: ['decoding']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'code-decoder', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В демоверсиях №2 таблица не обязана быть префиксной. Выбор самого короткого
+    или самого длинного подходящего кода может привести к тупику. Нужно
+    проверять все подходящие продолжения и считать только те ветви, которые
+    читают запись целиком.
+  </p>
+  <p>
+    Подтверждённые форматы: M02a, M02b, №2. Демоверсии ФИПИ 2025–2026 и проект
+    2027, печатная с. 4 и ответы 2025, с. 17. КЭС 2.1 по спецификации проекта
+    2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <h3>Совпадение с началом — развилка</h3>
+  <p>
+    В учебной таблице А → 0, Б → 01, В → 11, Г → 101 код А является началом кода
+    Б. Для сигнала 011 первая буква может казаться А или Б. После А остаётся 11
+    — код В. После Б остаётся 1, а такого кода нет. Значит, у этого сообщения
+    только один полный разбор: АВ. Непрефиксность таблицы не доказывает
+    неоднозначность конкретного сообщения.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 120"
+    aria-label="Развилка для 011: А и остаток 11 дают АВ; Б и остаток 1 дают тупик"
+  >
+    <title>Проверяем обе ветви</title>
+    <text x="8" y="23" fill="currentColor">
+      {'011'}
+    </text>
+    <path
+      d="M40 32 l-20 20 m20 -20 l120 20"
+      stroke="currentColor"
+      fill="none"
+    />
+    <text x="8" y="78" fill="currentColor">
+      {'0 | 11 → АВ'}
+    </text>
+    <text x="8" y="112" fill="currentColor">
+      {'01 | 1 → тупик'}
+    </text>
+  </svg>
+  <h3>Несколько полных разборов</h3>
+  <p>
+    У другой таблицы А → 0, Б → 01, В → 10, Г → 11 сигнал 010 читается как АВ и
+    как БА. Оба сообщения кодируются в одну запись. Такой сигнал неоднозначен.
+    Не выбирай ответ по тому, какое слово «лучше звучит»: ограничений на смысл в
+    задаче нет.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 110"
+    aria-label="По второй таблице сигнал 010 имеет два полных разбора: 0 и 10 дают АВ; 01 и 0 дают БА"
+  >
+    <title>Два допустимых сообщения</title>
+    <text x="8" y="26" fill="currentColor">
+      {'010 → 0 | 10 → АВ'}
+    </text>
+    <text x="8" y="77" fill="currentColor">
+      {'010 → 01 | 0 → БА'}
+    </text>
+  </svg>
+  <h3>Таблица и отдельное сообщение</h3>
+  <p>
+    Префиксная таблица гарантирует единственность расшифровки любого корректно
+    закодированного сообщения. Если она непрефиксная, одной этой проверки
+    недостаточно: конкретный сигнал может иметь ноль, один или несколько полных
+    разборов. В экзаменационных примерах ниже корректность и единственность
+    проверены генератором; в лаборатории можно менять таблицу и видеть
+    неоднозначные случаи.
+  </p>
+</Theory>
+
+<Interactive
+  id="code-decoder"
+  title="Лаборатория: Однозначность и непрефиксные таблицы"
+  goal="Сравни ветви непрефиксного кода: найди тупик, единственную расшифровку и сообщение с двумя разборами."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[2]}
+  modulePath="/src/interactives/CodeDecoder.tsx"
+  parameters={{ preset: 'nonprefix' }}
+>
+  <p>
+    Для каждого подходящего в начале кода выпиши остаток сигнала и продолжи так
+    же. Ветвь с непрочитанным хвостом не считается решением. Один полный разбор
+    означает единственную расшифровку данного сообщения, несколько —
+    неоднозначность, ни одного — невозможность прочитать сигнал по этой таблице.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ: границы без развилок"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ: исключаем тупиковую ветвь"
+    source={{
+      generatorId: 'decode-nonprefix-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ: разбор и форма ответа"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Всегда выбирать самый короткий код">
+    <p>
+      У непрефиксной таблицы короткий код может увести в тупик. Проверь остаток
+      и другие подходящие ветви.
+    </p>
+  </Mistake>
+  <Mistake title="Отбросить задачу из-за непрефиксной таблицы">
+    <p>
+      Таблица может однозначно декодировать именно данное сообщение. Нужен
+      полный разбор сигнала.
+    </p>
+  </Mistake>
+  <Mistake title="Выбрать осмысленное слово вместо проверки">
+    <p>
+      Смысл не заменяет правила таблицы. Если два сообщения кодируются
+      одинаково, без дополнительных условий выбрать одно нельзя.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt:
+        'Непрефиксная таблица обязательно даёт несколько разборов любого сигнала?',
+      options: [
+        { id: 'correct', text: 'Нет, нужно проверить конкретный сигнал' },
+        { id: 'wrong', text: 'Да, всегда' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Совпадение начал создаёт возможную развилку, но часть ветвей может завершиться тупиком.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Какая ветвь считается допустимой?',
+      options: [
+        { id: 'wrong', text: 'Начинающаяся с самого длинного кода' },
+        { id: 'correct', text: 'Использующая весь сигнал без остатка' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Только полный разбор соответствует сообщению. Длина первого кода не определяет правильность.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'decode-prefix-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'decode-nonprefix-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'decode-repeated-v2',
+      taskNumber: 2,
+      seed: 'unique-decoding-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[2]} />
+
+<CheatSheet>
+  <ul>
+    <li>Проверь каждый код, подходящий к текущему началу остатка.</li>
+    <li>Считай только полные разборы; тупики отбрасывай.</li>
+    <li>
+      Префиксность — достаточное условие единственности; для непрефиксной
+      таблицы анализируй сигнал.
+    </li>
+  </ul>
+</CheatSheet>

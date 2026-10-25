@@ -1,0 +1,265 @@
+---
+id: executor-commands
+title: 'Команды исполнителя и промежуточные значения'
+section: i5
+taskNumbers: [5]
+readingMinutes: 9
+prerequisites: []
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'fixed-executor', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №5 дано начальное число, цель и две команды. Нужно записать номера команд
+    слева направо; в проверенных демоверсиях допускается любая программа не
+    длиннее пяти команд. Начнём с точного смысла одной команды и её действия на
+    текущее число.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №5: с. 5. КЭС 3.4 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские. Комплект 2027 имеет статус проекта; подготовительные
+      упражнения помечены отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Команда изменяет текущее состояние</h3>
+  <p>
+    У исполнителя есть число — его состояние. Команда применяет указанное
+    действие именно к этому числу. Номер команды не равен её аргументу: если
+    команда 2 означает «прибавить 3», цифра 2 в ответе не означает прибавление
+    двух.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 150"
+    aria-label="Команда действует на текущее число"
+  >
+    <title>Команда действует на текущее число</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Текущее x → команда → новое x'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'× k: новое x = x · k'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'+ c: новое x = x + c'}
+    </text>
+  </svg>
+  <h3>Порядок имеет значение</h3>
+  <p>
+    Сначала выполни первую команду, затем примени вторую к полученному
+    результату. Прибавление и умножение обычно нельзя переставить. Записывай
+    цепочку состояний, чтобы не перескакивать от исходного числа сразу к цели.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 150"
+    aria-label="Не путай удвоение и квадрат"
+  >
+    <title>Не путай удвоение и квадрат</title>
+    <rect
+      x="4"
+      y="4"
+      width="392"
+      height="140"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Удвоить: x → 2 · x'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Возвести в квадрат: x → x · x'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Выполняй действие из условия'}
+    </text>
+  </svg>
+  <h3>Квадрат — отдельная операция</h3>
+  <p>
+    Возвести в квадрат — умножить текущее число на него самого. Это не умножение
+    на 2. В лаборатории можно переключить команды и увидеть, как меняется одна и
+    та же запись программы. Ограничение длины относится к количеству
+    цифр-команд, а не к величине результата.
+  </p>
+</Theory>
+
+<Interactive
+  id="fixed-executor"
+  title="Лаборатория: Команды исполнителя и промежуточные значения"
+  goal="Составь допустимую программу, проверь цель и объясни каждый переход."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Кнопки и поля доступны мышью и касанием. Шаги выполняются вручную."
+  taskNumbers={[5]}
+  modulePath="/src/interactives/FixedExecutor.tsx"
+  parameters={{ preset: 'multiply' }}
+>
+  <p>
+    Выпиши начальное число и определения команд. Составь последовательность до
+    пяти цифр 1 и 2, применяй действия слева направо и записывай каждое
+    состояние. Сравни последнее число с целью; любая подходящая программа
+    допустима. При обратном поиске используй точные обратные действия и разверни
+    порядок команд.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №5: основной приём"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-example-1-7',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №5: проверка шагов"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №5: сложный случай"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Прибавить номер команды">
+    <p>
+      Прочитай определение команды: её номер служит обозначением, а действие
+      задано отдельно.
+    </p>
+  </Mistake>
+  <Mistake title="Взять исходное число на каждом шаге">
+    <p>
+      После команды старое значение заменяется новым. Следующий шаг начинается с
+      результата предыдущего.
+    </p>
+  </Mistake>
+  <Mistake title="Квадрат заменить удвоением">
+    <p>Запиши произведение числа на само себя; не заменяй его множителем 2.</p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что означает цифра в записи программы?',
+      options: [
+        { id: 'correct', text: 'Номер команды из условия' },
+        { id: 'wrong', text: 'Число, которое всегда надо прибавить' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Сначала найди команду с этим номером, затем выполни указанное действие.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'К какому числу применяется следующая команда?',
+      options: [
+        { id: 'wrong', text: 'Всегда к начальному числу' },
+        { id: 'correct', text: 'К результату предыдущей команды' },
+      ],
+      correctId: 'correct',
+      explanation: 'Состояние исполнителя обновляется после каждого шага.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-multiply-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ"
+    source={{
+      generatorId: 'executor-square-v2',
+      taskNumber: 5,
+      seed: 'executor-commands-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[5]} />
+
+<CheatSheet>
+  <ul>
+    <li>Выпиши определения команд и начальное состояние.</li>
+    <li>Читай программу слева направо и сохраняй каждое новое число.</li>
+    <li>Различай умножение на 2 и квадрат; проверь длину записи.</li>
+  </ul>
+</CheatSheet>

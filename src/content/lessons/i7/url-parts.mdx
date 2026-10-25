@@ -1,0 +1,261 @@
+---
+id: url-parts
+title: 'Части URL: точки, двоеточие и слеши'
+section: i7
+taskNumbers: [7]
+readingMinutes: 10
+prerequisites: ['network-resources']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'resource-address', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №7 важны не только слова в адресе, но и знаки между ними. Потерянная точка
+    или перепутанные слеши меняют запись. Научимся разделять смысловые части URL
+    и фрагменты из таблицы задания: их границы не обязаны совпадать.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №7: с. 7. КЭС 1.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские; комплект 2027 имеет статус проекта. Учебное НЕ не
+      выдаётся за подтверждённый формат №8.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Смысловые части URL</h3>
+  <p>
+    Для адресов этого урока используется схема протокол://сервер/путь. После
+    названия схемы идут двоеточие и два прямых слеша; после имени сервера — ещё
+    один прямой слеш. Обратный слеш из путей Windows здесь не нужен. Полный
+    стандарт URL шире: в этом опыте нет параметров, портов или учётных данных.
+  </p>
+  <svg role="img" viewBox="0 0 410 155" aria-label="Порядок разделителей">
+    <title>Порядок разделителей</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'схема → :// → сервер → / → файл'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'После схемы: двоеточие и два /'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Перед файлом: один /'}
+    </text>
+  </svg>
+  <h3>Различай точки</h3>
+  <p>
+    Доменное имя состоит из частей, разделённых точками. У файла своя точка
+    перед расширением. В записи atlas.ru/map.txt часть ru относится к серверу, а
+    txt — к файлу. Текст файла может совпасть с частью сервера: его роль
+    определяет место в адресе, а не похожесть букв.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 410 155"
+    aria-label="Одна запись, разные разбиения"
+  >
+    <title>Одна запись, разные разбиения</title>
+    <rect
+      x="4"
+      y="4"
+      width="402"
+      height="145"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="34" fill="currentColor">
+      {'atlas. + ru → atlas.ru'}
+    </text>
+    <text x="14" y="76" fill="currentColor">
+      {'atlas + .ru → atlas.ru'}
+    </text>
+    <text x="14" y="118" fill="currentColor">
+      {'Граница фрагмента не меняет URL'}
+    </text>
+  </svg>
+  <h3>Фрагмент не обязан быть целой частью</h3>
+  <p>
+    Таблица может содержать atlas. и ru либо atlas и .ru. Точка уже включена в
+    один из фрагментов, повторно добавлять её нельзя. Соединяй фрагменты
+    буквально. Сначала сверь полученный адрес с описанием, потом переводись от
+    текста к цифровым меткам.
+  </p>
+</Theory>
+
+<Interactive
+  id="resource-address"
+  title="Лаборатория: Части URL: точки, двоеточие и слеши"
+  goal="Собери адрес всеми семью фрагментами и проверь порядок частей."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием. Таблицы можно прокручивать с клавиатуры."
+  taskNumbers={[7]}
+  modulePath="/src/interactives/ResourceAddress.tsx"
+  parameters={{ preset: 'ftp' }}
+>
+  <p>
+    Выпиши протокол, сервер и файл из условия. Собери схему
+    протокол://сервер/путь, затем найди разбиение ровно на семь данных
+    фрагментов. Используй каждую метку один раз, соединяй фрагменты буквально
+    без новых знаков и проверь весь адрес. После проверки запиши только цифры
+    меток в порядке соединения.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №7: основной приём"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-example-1-1',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №7: другая конфигурация"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-example-2-1',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №7: сложный случай"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Использовать обратный слеш">
+    <p>В этих URL нужен прямой /; не переноси оформление пути Windows.</p>
+  </Mistake>
+  <Mistake title="Удвоить точку">
+    <p>
+      Проверь, к какому фрагменту уже приписана точка. При соединении знаки не
+      добавляются.
+    </p>
+  </Mistake>
+  <Mistake title="Считать фрагменты смысловыми блоками">
+    <p>
+      Фрагмент может содержать часть имени вместе со знаком. Восстанови смысл
+      адреса, а затем найди точное разбиение.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Нужно ли добавить точку между atlas. и ru?',
+      options: [
+        { id: 'correct', text: 'Нет, она уже есть в первом фрагменте' },
+        { id: 'wrong', text: 'Да, между фрагментами всегда ставится точка' },
+      ],
+      correctId: 'correct',
+      explanation: 'Фрагменты соединяются буквально без новых символов.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что определяет роль одинакового текста в URL?',
+      options: [
+        { id: 'wrong', text: 'Только сами буквы, место не важно' },
+        { id: 'correct', text: 'Его место в адресе' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Один и тот же текст может встречаться в имени сервера и в имени файла.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №7"
+    source={{
+      generatorId: 'url-fragments-v2',
+      taskNumber: 7,
+      seed: 'url-parts-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[7]} />
+
+<CheatSheet>
+  <ul>
+    <li>В этих URL после схемы стоит ://, после сервера — /.</li>
+    <li>Различай доменные точки и точку расширения.</li>
+    <li>Не добавляй знаки между фрагментами таблицы.</li>
+  </ul>
+</CheatSheet>

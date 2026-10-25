@@ -1,0 +1,214 @@
+---
+id: python-conditions
+title: 'Python: условия отбора и остаток от деления'
+section: i14
+taskNumbers: [16]
+readingMinutes: 14
+prerequisites: ['python-input-output']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import { codingExample, codingQuestion } from '../../../lib/lessons/coding';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'program-tracer', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    {
+      'Условие отбора определяет, какие данные влияют на ответ. Ошибка в одном знаке сравнения или основании системы счисления меняет результат даже у аккуратно написанного цикла.'
+    }
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      {
+        '№16, КЭС 3.2: демоверсия ФИПИ 2025 с. 16, 31–32, 2026 с. 16, 31–32, проект 2027 с. 17, 33–34. M16a–c: среднее положительных, последняя семеричная цифра и ввод до нуля. Коды КЭС — спецификация проекта 2027 с. 14. Примеры авторские, CC0-1.0. Комплект 2027 имеет статус проекта.'
+      }
+    </p>
+    <p>
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+    </p>
+    <p>
+      {
+        'Подготовительные подтипы в примерах и потоке не покрывают все форматы демоверсий №16: в генераторах остаются открыты дробное среднее, отбор по ненулевому остатку и ввод до нуля. В лаборатории эти приёмы можно проследить отдельно. Мини-тест проверяет понимание, а готовую программу запускай в локальном Python 3.'
+      }
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Переведи слова в сравнения</h3>
+  <p>
+    {
+      '«Не меньше» означает >=, «больше» означает >. Одновременно обязательные признаки соединяют and, хотя бы один достаточный — or. Равенство проверяют ==, присваивают через =. Для границы составь три теста: ниже, ровно на ней и выше. Если условие включает два признака, проверь случай, когда выполнен только один.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Переведи слова в сравнения">
+    <title>Переведи слова в сравнения</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Не меньше → >=; больше → >'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Оба признака → and'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Хотя бы один → or'}
+    </text>
+  </svg>
+  <h3>Последняя цифра в основании b</h3>
+  <p>
+    {
+      'Для неотрицательного целого остаток x % b даёт последнюю цифру его записи в основании b. В формате демоверсии 2026 требуется сумма чисел с последней семеричной цифрой 1: условие x % 7 == 1, а не проверка кратности. Десятичная последняя цифра, которую ты видишь во входе, может быть другой.'
+    }
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 440 152"
+    aria-label="Последняя цифра в основании b"
+  >
+    <title>Последняя цифра в основании b</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Последняя цифра → x % b'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Четыре разряда → b³ ≤ x < b⁴'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Разделитель 0 → остановка'}
+    </text>
+  </svg>
+  <h3>Число разрядов и конец ввода</h3>
+  <p>
+    {
+      'Четырёхзначное восьмеричное число удовлетворяет 8 ** 3 <= x < 8 ** 4. В проекте 2027 дополнительно нужна последняя цифра 5, то есть x % 8 == 5; оба условия обязательны. Ноль завершает ввод и не учитывается. В режиме лаборатории «ввод до нуля» попробуй граничные значения и сразу ноль; ограничение числа строк служит наглядности трассы.'
+    }
+  </p>
+</Theory>
+
+<Interactive
+  id="program-tracer"
+  title="Лаборатория: Python: условия отбора и остаток от деления"
+  goal="Предскажи вывод программы, пройди строки и объясни каждое изменение состояния."
+  controls="Tab перемещает фокус, стрелки меняют выбор, Enter и пробел нажимают кнопки. Поля доступны мышью и касанием. При отключённых анимациях используй ручные шаги."
+  taskNumbers={[16]}
+  modulePath="/src/interactives/ProgramTracer.tsx"
+  parameters={{ program: 'residue' }}
+>
+  <p>
+    {
+      'Запиши таблицу: строка кода, прочитанные данные, переменные, условие, вывод. Отмечай только выполненную ветвь, обновляй накопители и проверяй окончание цикла. Для N прочитай ровно N значений; для ввода до нуля исключи завершающий сигнал. Среднее считай по количеству отобранных.'
+    }
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Подготовка: одновременные признаки"
+    source={codingExample('conditions', 0)}
+  />
+  <Example
+    id="example-2"
+    title="2. Подготовка: условие на пару"
+    source={codingExample('conditions', 1)}
+  />
+  <Example
+    id="example-3"
+    title="3. Подготовка: условие продолжения цепочки"
+    source={codingExample('conditions', 2)}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Проверять кратность вместо остатка 1">
+    <p>{'x % 7 == 0 и x % 7 == 1 отбирают разные числа.'}</p>
+  </Mistake>
+  <Mistake title="Использовать десятичные границы">
+    <p>{'Число разрядов определяется основанием записи.'}</p>
+  </Mistake>
+  <Mistake title="Заменить and на or">
+    <p>{'Тогда достаточно одного признака, хотя условие требует оба.'}</p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1"
+    choice={codingQuestion('conditions', 0)}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2"
+    choice={codingQuestion('conditions', 1)}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3"
+    choice={codingQuestion('conditions', 2)}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4"
+    choice={codingQuestion('conditions', 3)}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5"
+    choice={codingQuestion('conditions', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[16]} />
+
+<CheatSheet>
+  <ul>
+    <li>Проверь строгость границы и равенство.</li>
+    <li>Последняя цифра в основании b — остаток x % b.</li>
+    <li>Не включай разделитель окончания в данные.</li>
+  </ul>
+</CheatSheet>

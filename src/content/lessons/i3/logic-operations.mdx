@@ -1,0 +1,309 @@
+---
+id: logic-operations
+title: 'Высказывания и операции И, ИЛИ, НЕ'
+section: i3
+taskNumbers: [3]
+readingMinutes: 9
+prerequisites: []
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'logic-builder', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В №3 составное высказывание проверяют для чисел X. Сначала нужно понять
+    операции над истинностью: когда все части должны выполняться, когда
+    достаточно одной и что меняет отрицание. Затем заменишь простые высказывания
+    неравенствами и найдёшь числа из условия.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №3: с. 5. КЭС 2.7 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры ниже авторские; комплект 2027 имеет статус проекта.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Высказывание имеет значение истинности</h3>
+  <p>
+    Высказывание может быть истинным или ложным. A и B в лаборатории — два
+    независимых высказывания, а 1 и 0 обозначают истину и ложь. В задаче о
+    числах роль A может играть «X больше границы», но само число X не становится
+    значением истинности: проверяется утверждение о нём.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 200"
+    aria-label="Таблица истинности И и ИЛИ: 00 даёт 0 и 0; 01 и 10 дают 0 и 1; 11 даёт 1 и 1"
+  >
+    <title>Таблица операций И и ИЛИ</title>
+    <rect
+      x="16"
+      y="8"
+      width="368"
+      height="180"
+      fill="none"
+      stroke="currentColor"
+    />
+    <path
+      d="M85 8 V188 M165 8 V188 M280 8 V188 M16 38 H384 M16 73 H384 M16 108 H384 M16 143 H384"
+      stroke="currentColor"
+    />
+    <text x="50" y="26" fill="currentColor" text-anchor="middle">
+      {'A'}
+    </text>
+    <text x="120" y="26" fill="currentColor" text-anchor="middle">
+      {'B'}
+    </text>
+    <text x="220" y="26" fill="currentColor" text-anchor="middle">
+      {'A И B'}
+    </text>
+    <text x="330" y="26" fill="currentColor" text-anchor="middle">
+      {'A ИЛИ B'}
+    </text>
+    <text x="50" y="61" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="120" y="61" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="220" y="61" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="330" y="61" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="50" y="96" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="120" y="96" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="220" y="96" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="330" y="96" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="50" y="131" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="120" y="131" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="220" y="131" fill="currentColor" text-anchor="middle">
+      {'0'}
+    </text>
+    <text x="330" y="131" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="50" y="166" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="120" y="166" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="220" y="166" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+    <text x="330" y="166" fill="currentColor" text-anchor="middle">
+      {'1'}
+    </text>
+  </svg>
+  <h3>И и включающее ИЛИ</h3>
+  <p>
+    A И B истинно, только если истинны обе части. A ИЛИ B истинно, если истинна
+    хотя бы одна часть, в том числе обе. Обычное логическое ИЛИ не означает
+    «ровно одно». Для И ищи пересечение подходящих значений, для ИЛИ —
+    объединение.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 400 143"
+    aria-label="Отрицание меняет истину на ложь и обратно"
+  >
+    <title>Отрицание меняет истину на ложь и обратно</title>
+    <text x="12" y="26" fill="currentColor">
+      {'A = 0 → НЕ A = 1'}
+    </text>
+    <text x="12" y="61" fill="currentColor">
+      {'A = 1 → НЕ A = 0'}
+    </text>
+    <text x="12" y="96" fill="currentColor">
+      {'НЕ (НЕ A) имеет то же значение, что A'}
+    </text>
+  </svg>
+  <h3>Проверяй все случаи</h3>
+  <p>
+    Два выражения эквивалентны, когда совпадают на каждом допустимом наборе. Для
+    независимых A и B наборов четыре. Одного удачного примера недостаточно. При
+    подстановке неравенств область X и границы дополнительно задаются условием
+    задачи.
+  </p>
+</Theory>
+
+<Interactive
+  id="logic-builder"
+  title="Лаборатория: Высказывания и операции И, ИЛИ, НЕ"
+  goal="Составь условие для независимых высказываний A и B и проверь его на всех четырёх наборах."
+  controls="Переходи по полям и кнопкам клавишей Tab. Выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием."
+  taskNumbers={[3]}
+  modulePath="/src/interactives/LogicBuilder.tsx"
+  parameters={{ goal: 'and' }}
+>
+  <p>
+    Для И истинна только строка, где обе части истинны. Для ИЛИ ложна только
+    строка, где обе ложны. НЕ меняет значение на противоположное. Составь четыре
+    пары 00, 01, 10, 11 и проверь своё выражение для каждой пары.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №3: основной приём"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №3: составное условие или другая схема"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-example-2-6',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №3: проверка сложного случая"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Понимать ИЛИ как «ровно одно»">
+    <p>
+      В логическом ИЛИ случай двух истинных частей тоже даёт истину. Проверь
+      последнюю строку таблицы.
+    </p>
+  </Mistake>
+  <Mistake title="Для И выбрать значения любой одной части">
+    <p>
+      Обе части должны выполняться одновременно. Отметь пересечение их множеств.
+    </p>
+  </Mistake>
+  <Mistake title="Сделать вывод по одному набору">
+    <p>
+      Совпадение на одном наборе не означает эквивалентность. Проверь все четыре
+      набора.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Когда истинно A И B?',
+      options: [
+        { id: 'correct', text: 'Когда обе части истинны' },
+        { id: 'wrong', text: 'Когда истинна хотя бы одна часть' },
+      ],
+      correctId: 'correct',
+      explanation: 'Операция И требует одновременного выполнения обеих частей.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Если истинны обе части, чему равно A ИЛИ B?',
+      options: [
+        { id: 'wrong', text: 'Лжи' },
+        { id: 'correct', text: 'Истине' },
+      ],
+      correctId: 'correct',
+      explanation: 'Включающее ИЛИ допускает и одну, и две истинные части.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'logic-count-true-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'logic-min-false-v2',
+      taskNumber: 3,
+      seed: 'logic-operations-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[3]} />
+
+<CheatSheet>
+  <ul>
+    <li>И — одновременно обе части; ИЛИ — хотя бы одна, включая обе.</li>
+    <li>НЕ меняет значение высказывания на противоположное.</li>
+    <li>Эквивалентность проверяется на всех допустимых наборах.</li>
+  </ul>
+</CheatSheet>

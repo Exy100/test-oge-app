@@ -5,7 +5,8 @@
   "type": "module",
   "overrides": {
     "miniflare": {
-      "sharp": "0.35.5"
+      "sharp": "0.35.5",
+      "undici": "7.30.1"
     },
     "lighthouse": "13.5.0",
     "basic-ftp": "6.2.2",
@@ -38,7 +39,8 @@
     "sample": "node scripts/sample-tasks.mjs",
     "sample:variant": "node scripts/sample-variant.mjs",
     "sample:dataset": "node scripts/sample-dataset.mjs",
-    "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py && python3 scripts/check-documents.py && python3 scripts/check-spreadsheets.py",
+    "check:office": "npm run sample:dataset && python3 scripts/check-office.py && python3 scripts/check-presentations.py && python3 scripts/check-documents.py && python3 scripts/check-spreadsheets.py && npm run check:office-lessons",
+    "check:office-lessons": "node scripts/sample-office-lessons.mjs && python3 scripts/check-office-lessons.py",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
@@ -54,7 +56,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwindcss": "4.3.3",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

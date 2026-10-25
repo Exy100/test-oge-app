@@ -1,0 +1,215 @@
+.lesson-interactive {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-block: var(--space-8);
+  background: var(--surface);
+}
+.lesson-interactive h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-heading);
+}
+.lesson-interactive p,
+.interactive-alternative {
+  margin-block: var(--space-4);
+}
+.interactive-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+.interactive-alternative summary {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.information-lab {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.information-lab input,
+.information-lab textarea,
+.information-lab select {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  padding: var(--space-3);
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+}
+.information-lab input[type='checkbox'] {
+  width: auto;
+}
+.information-lab > label:has(input[type='checkbox']) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--target-size);
+}
+.lab-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.lab-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.lab-table-wide table {
+  min-width: 24rem;
+}
+.lab-table-scroll th,
+.lab-table-scroll td {
+  border: 1px solid var(--line);
+  padding: var(--space-3);
+  text-align: left;
+}
+.lab-table-scroll caption {
+  text-align: left;
+  margin-bottom: var(--space-3);
+}
+.lab-table-scroll [data-current='true'] {
+  background: var(--accent-surface);
+}
+.lab-table-scroll input {
+  min-width: 4rem;
+}
+.information-lab .teaching-graph {
+  max-width: 42rem;
+  font-size: 20px;
+}
+.information-lab svg {
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  font-size: 16px;
+}
+.information-lab form {
+  display: grid;
+  gap: var(--space-4);
+}
+.binary-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.binary-codes li {
+  border: 1px solid var(--line);
+  padding: var(--space-2);
+}
+.decoder-table {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.decoder-signal {
+  display: grid;
+  gap: var(--space-3);
+  overflow-wrap: anywhere;
+}
+@media print {
+  .interactive-screen,
+  .lesson-interactive noscript {
+    display: none;
+  }
+  .lesson-interactive {
+    color: black;
+    background: white;
+    border-color: black;
+  }
+  .interactive-alternative::details-content {
+    content-visibility: visible;
+    height: auto;
+  }
+}
+
+.program-code-frame {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.program-code,
+.lesson-page .program-code {
+  list-style: decimal;
+  padding: 1rem 1rem 1rem 3rem;
+  margin: 0;
+  width: max-content;
+  min-width: 100%;
+}
+.program-code code {
+  white-space: pre;
+  font-size: 0.95rem;
+}
+.program-code li[data-current='true'] {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  font-weight: 700;
+}
+
+.lab-address {
+  overflow-wrap: anywhere;
+}
+.lab-address-parts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+}
+.lab-address-parts dd {
+  overflow-wrap: anywhere;
+}
+
+.lab-file-tree {
+  overflow-wrap: anywhere;
+}
+.lab-file-tree ul {
+  padding-inline-start: 1.1rem;
+}
+.lab-path {
+  overflow-wrap: anywhere;
+}
+.lab-file-preview {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 24rem;
+  overflow: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+}
+
+.office-document {
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.office-document table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.office-document th,
+.office-document td {
+  border: 1px solid var(--border-strong);
+  padding: 0.35em;
+  overflow-wrap: anywhere;
+}
+.information-lab .office-slide {
+  max-width: 45rem;
+}
+.information-lab > table {
+  border-collapse: collapse;
+}
+.information-lab > table th,
+.information-lab > table td {
+  text-align: left;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+}
+
+.lesson-interactive .robot-practice .task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block: var(--space-4);
+}

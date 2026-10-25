@@ -1,0 +1,11 @@
+---
+import Section from './Section.astro';
+interface Props {
+  id?: string;
+}
+const { id = 'theory' } = Astro.props;
+---
+
+<Section id={id} title="Разберёмся в теме">
+  <slot />
+</Section>

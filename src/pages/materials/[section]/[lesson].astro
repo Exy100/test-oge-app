@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import LessonNav from '../../../components/lessons/LessonNav.astro';
+import { lessonCatalog } from '../../../lib/lessons/catalog';
+import { sitePath } from '../../../lib/site';
+import '../../../styles/lessons.css';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('lessons');
+  const catalog = lessonCatalog(entries.map((entry) => entry.data));
+  return catalog.map((lesson) => {
+    const section = catalog.filter((item) => item.section === lesson.section);
+    const index = section.findIndex((item) => item.id === lesson.id);
+    const entry = entries.find((entry) => entry.id === lesson.id);
+    if (!entry) throw new Error('Не найден урок коллекции.');
+    return {
+      params: {
+        section: lesson.section,
+        lesson: encodeURIComponent(lesson.id),
+      },
+      props: {
+        entry,
+        lesson,
+        previous: section[index - 1],
+        next: section[index + 1],
+      },
+    };
+  });
+}
+const { entry, lesson, previous, next } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<SiteLayout
+  title={lesson.title}
+  description={`${lesson.title}. Учебный материал, примеры и самопроверка по информатике.`}
+  route={lesson.route}
+>
+  <div class="container">
+    <article class="lesson-page">
+      <p>
+        <a href={sitePath(`/materials/#${lesson.section}`)}>
+          ← К темам подготовки
+        </a>
+      </p>
+      <Content />
+      <LessonNav
+        {...(previous ? { previous } : {})}
+        {...(next ? { next } : {})}
+      />
+    </article>
+  </div>
+</SiteLayout>

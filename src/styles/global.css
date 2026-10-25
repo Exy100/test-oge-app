@@ -22,6 +22,10 @@ html {
 html:focus-within {
   scroll-behavior: auto;
 }
+/* Inspection controls need a stable position before native pointer input. */
+html[data-dev-page] {
+  scroll-behavior: auto;
+}
 body {
   margin: 0;
   min-width: 320px;

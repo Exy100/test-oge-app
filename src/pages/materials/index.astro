@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import MaterialsCatalog from '../../components/materials/MaterialsCatalog.astro';
+import { lessonCatalog } from '../../lib/lessons/catalog';
+import '../../styles/materials.css';
+const lessons = lessonCatalog(
+  (await getCollection('lessons')).map((lesson) => lesson.data),
+);
+---
+
+<SiteLayout
+  title="Материалы для подготовки к ОГЭ"
+  description="Карта тем ОГЭ по информатике: выбери номера заданий, повтори основы и перейди к практике с проверкой и разборами."
+  route="/materials/"
+>
+  <div class="container materials-page">
+    <header>
+      <p class="eyebrow">ТВОЙ МАРШРУТ ПОДГОТОВКИ</p>
+      <h1>Материалы</h1>
+      <p>
+        Найди тему по номеру задания. Повторяй основы и переходи к практике с
+        подсказками и разборами.
+      </p>
+    </header>
+    <MaterialsCatalog lessons={lessons} />
+    <noscript>
+      <p>
+        Без JavaScript доступны карта, все темы и переходы к практике. Для
+        фильтра и сохранённого прогресса включи JavaScript.
+      </p>
+    </noscript>
+  </div>
+</SiteLayout>

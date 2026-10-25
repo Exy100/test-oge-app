@@ -1,0 +1,245 @@
+---
+id: text-encoding
+title: 'Кодировка и объём текста'
+section: i1
+taskNumbers: [1]
+readingMinutes: 9
+prerequisites: ['bits-bytes']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'text-volume', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Текст можно хранить разными способами. В №1 условие задаёт одинаковый размер
+    каждого знака; этого достаточно для расчёта. Название реальной кодировки не
+    заменяет данные условия. Разберём общий объём, перекодирование и переход к
+    экзаменационному вопросу об удалении слова.
+  </p>
+  <p>
+    Подтверждённые форматы: M01, №1. Демоверсии ФИПИ 2025–2026 и проект 2027,
+    печатная с. 4. КЭС 2.2 по спецификации проекта 2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <h3>Модель фиксированного размера</h3>
+  <p>
+    Если в тексте K знаков и каждый занимает i бит, объём I равен K × i бит. В
+    байтах это K × i / 8. Считай буквы, пробелы, знаки препинания и другие явно
+    включённые в текст знаки. Кавычки, которыми условие выделяет текст, не
+    считай, если они не входят в сам текст.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 100"
+    aria-label="Объём текста: количество знаков умножается на размер одного знака"
+  >
+    <title>Из чего складывается объём</title>
+    <text x="8" y="27" fill="currentColor">
+      {'K знаков × i бит на знак'}
+    </text>
+    <path d="M160 38 v22" stroke="currentColor" />
+    <text x="8" y="88" fill="currentColor">
+      {'I = K × i бит'}
+    </text>
+  </svg>
+  <h3>Перекодирование без изменения текста</h3>
+  <p>
+    Если знаки остались теми же, а размер знака изменился с i₁ до i₂ бит,
+    изменение объёма равно K × (i₂ − i₁) бит. Чтобы найти K по росту объёма,
+    раздели общий рост на рост для одного знака, предварительно согласовав
+    единицы.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 112"
+    aria-label="При перекодировании число знаков сохраняется, размер каждого знака меняется"
+  >
+    <title>Тот же текст в двух кодировках</title>
+    <text x="8" y="25" fill="currentColor">
+      {'До: K знаков, по i₁ бит'}
+    </text>
+    <path d="M15 37 v32 h290" fill="none" stroke="currentColor" />
+    <text x="8" y="100" fill="currentColor">
+      {'После: K знаков, по i₂ бит'}
+    </text>
+  </svg>
+  <h3>Границы модели</h3>
+  <p>
+    У реальных UTF-8 и UTF-16 длина знаков может различаться. Размер файла может
+    включать служебные данные. В задачах и лаборатории здесь действует явно
+    заданная условная кодировка, без заголовка. Не измеряй этот объём через
+    размер строки JavaScript или файла: следуй условию.
+  </p>
+</Theory>
+
+<Interactive
+  id="text-volume"
+  title="Лаборатория: Кодировка и объём текста"
+  goal="Измени число знаков и размер знака; проверь, как меняется объём одного и того же текста."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[1]}
+  modulePath="/src/interactives/TextVolume.tsx"
+  parameters={{ text: 'кот, дуб', width: 16 }}
+>
+  <p>
+    Объём равен числу знаков, умноженному на фиксированное число бит на знак.
+    Для байтов раздели результат на восемь. Изменение размера знака при
+    сохранении текста влияет на каждый знак. В списке «кот, дуб» запятая и
+    пробел входят в текст; внешние кавычки только выделяют его.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Учебный шаг: общий объём"
+    source={{
+      generatorId: 'text-volume-v1',
+      taskNumber: 1,
+      seed: 'text-encoding-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Учебный шаг: число знаков при перекодировании"
+    source={{
+      generatorId: 'recoding-v1',
+      taskNumber: 1,
+      seed: 'text-encoding-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №1: изменение текста"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'text-encoding-example-3-1',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Подставить число байт вместо бит на знак">
+    <p>
+      В формуле K × i единицы результата совпадают с единицами i. Переводи в
+      байты отдельным действием.
+    </p>
+  </Mistake>
+  <Mistake title="При перекодировании умножить на новый размер">
+    <p>
+      Спрашивается рост, поэтому нужен рост для одного знака: i₂ − i₁, а не весь
+      новый размер.
+    </p>
+  </Mistake>
+  <Mistake title="Измерить реальный файл вместо условной модели">
+    <p>
+      Выпиши правила из условия. Заголовки и особенности реальных кодировок
+      учитываются только когда явно заданы.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt:
+        'Как изменится объём, если число знаков удвоить при прежней кодировке?',
+      options: [
+        { id: 'correct', text: 'Удвоится' },
+        { id: 'wrong', text: 'Не изменится' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Каждый знак занимает тот же объём, а знаков стало вдвое больше.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что сохраняется при перекодировании неизменного текста?',
+      options: [
+        { id: 'wrong', text: 'Размер каждого знака' },
+        { id: 'correct', text: 'Число знаков' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'В этой задаче меняется размер знака, но последовательность знаков остаётся прежней.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'text-volume-v1',
+      taskNumber: 1,
+      seed: 'text-encoding-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'recoding-v1',
+      taskNumber: 1,
+      seed: 'text-encoding-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'text-encoding-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[1]} />
+
+<CheatSheet>
+  <ul>
+    <li>I = K × i бит; в байтах I = K × i / 8.</li>
+    <li>При том же тексте изменение объёма: K × (i₂ − i₁) бит.</li>
+    <li>Считай пробелы и пунктуацию; следуй условной кодировке из задачи.</li>
+  </ul>
+</CheatSheet>

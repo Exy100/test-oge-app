@@ -86,6 +86,218 @@ async function history(page: Page) {
 function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
+
+test('preparation plan opens available lessons for weak №1 and №2', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title] of [
+    [1, 'Удаляем и добавляем символы'],
+    [2, 'Однозначность и непрефиксные таблицы'],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(3);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+
+test('preparation plan opens new logic, shortest-route and directed-path lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [3, 'Находим натуральные решения логического условия', 3],
+    [4, 'Ищем кратчайший путь по таблице дорог', 2],
+    [9, 'Считаем пути в направленной схеме', 1],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+test('preparation plan opens new executor and program lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [5, 'Проверяем программу и формат ответа', 4],
+    [6, 'Таблица трассировки и проверка параметра', 4],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+test('preparation plan opens new network and search lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [7, 'Восстанавливаем URL из семи фрагментов', 3],
+    [8, 'Считаем результаты условного поискового запроса', 3],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+test('preparation plan opens new numeral and file lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const [number, title, count] of [
+    [10, 'Сравниваем числа и анализируем разряды', 3],
+    [11, 'Поиск в файлах: автор, герой и контекст', 2],
+    [12, 'Отбор файлов: расширения, маски и объём', 1],
+  ] as const) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true });
+    await expect(links.getByRole('link')).toHaveCount(count);
+    await links.getByRole('link', { name: title, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
+    );
+    await expect(
+      page
+        .getByRole('heading', {
+          name: new RegExp(`Задание №${String(number)}`, 'u'),
+        })
+        .first(),
+    ).toBeVisible();
+  }
+});
+test('preparation plan opens all seven Robot and Python lessons', async ({
+  page,
+}) => {
+  const saved = attempt(0);
+  await seed(page, [saved]);
+  for (const number of [15, 16]) {
+    await page.goto(url(saved));
+    const links = page
+      .locator('.result-screen')
+      .getByRole('list', { name: `Уроки к №${String(number)}`, exact: true })
+      .getByRole('link');
+    await expect(links).toHaveCount(number === 15 ? 3 : 4);
+    const hrefs = await links.evaluateAll((items) =>
+      items.map((item) => item.getAttribute('href')),
+    );
+    for (const href of hrefs) {
+      if (!href) throw new Error('Нет адреса урока.');
+      await page.goto(href);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await page
+        .getByRole('link', { name: 'Перейти к заданиям', exact: true })
+        .click();
+      await expect(page).toHaveURL(
+        new RegExp('/stream/\\?numbers=' + String(number) + '$', 'u'),
+      );
+    }
+  }
+});
+
+for (const choice of ['document', 'presentation'] as const) {
+  test(`preparation plan preserves office alternative ${choice} and opens spreadsheets`, async ({
+    page,
+  }) => {
+    const saved = attempt(0, buildFixedVariant('V01', choice));
+    await seed(page, [saved]);
+    await page.goto(url(saved));
+    const lessons = page
+      .locator('.result-screen')
+      .getByRole('list', { name: 'Уроки к №13', exact: true });
+    await expect(lessons.getByRole('link')).toHaveCount(
+      choice === 'document' ? 2 : 1,
+    );
+    await lessons.getByRole('link').first().click();
+    await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
+    await expect(page).toHaveURL(
+      new RegExp('/stream/\\?numbers=13&variant13=' + choice + '$', 'u'),
+    );
+    await page.goto(url(saved));
+    const sheets = page
+      .locator('.result-screen')
+      .getByRole('list', { name: 'Уроки к №14', exact: true });
+    await expect(sheets.getByRole('link')).toHaveCount(3);
+    await sheets
+      .getByRole('link', {
+        name: 'Круговая диаграмма: данные, легенда и значения',
+        exact: true,
+      })
+      .click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'Круговая диаграмма: данные, легенда и значения',
+    );
+  });
+}
 function lazyEntry(name: string) {
   return (target: URL) =>
     target.pathname.includes(`/${name}.`) &&

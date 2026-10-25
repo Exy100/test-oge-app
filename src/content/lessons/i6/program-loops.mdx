@@ -1,0 +1,197 @@
+---
+id: program-loops
+title: 'Циклы for и while: читаем шаг за шагом'
+section: i6
+taskNumbers: [6]
+readingMinutes: 12
+prerequisites: ['program-conditions']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'program-tracer', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Циклы нужны для чтения программ и дальнейшей подготовки к №16. Этот урок
+    развивает навык формального исполнения; он не заменяет подтверждённый формат
+    №6 с параметром и девятью парами. В разборе и мини-тесте есть отдельный
+    экзаменационный пример №6.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027; №6: с. 6. КЭС 3.2 по спецификации
+      проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры авторские. Комплект 2027 имеет статус проекта; подготовительные
+      упражнения помечены отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+<h3>for перебирает диапазон</h3>
+<p>В Python range(1, n + 1) даёт целые от 1 до n включительно: правая граница n + 1 не входит. В лаборатории в сумму добавляются только чётные i. Не смешивай сумму отобранных чисел и число подходящих итераций.</p>
+<svg role="img" viewBox="0 0 400 150" aria-label="Трасса цикла while">
+<title>Трасса цикла while</title>
+<rect x="4" y="4" width="392" height="140" rx="8" fill="none" stroke="currentColor" />
+<text x="14" y="35" fill="currentColor">{'Проверка → ложь → выход'}</text>
+<text x="14" y="77" fill="currentColor">{'Проверка → истина → тело'}</text>
+<text x="14" y="119" fill="currentColor">{'После тела → новая проверка'}</text>
+</svg>
+<h3>while сначала проверяет условие</h3>
+<p>Тело выполняется, пока условие истинно. Перед первым проходом оно тоже проверяется, поэтому возможны ноль итераций. После тела нужно вновь проверить условие на обновлённом состоянии. В режиме суммы цифр n // 10 удаляет последнюю цифру, а n % 10 извлекает её.</p>
+<svg role="img" viewBox="0 0 400 150" aria-label="Разные роли переменных">
+<title>Разные роли переменных</title>
+<rect x="4" y="4" width="392" height="140" rx="8" fill="none" stroke="currentColor" />
+<text x="14" y="35" fill="currentColor">{'i или n: управляет обходом'}</text>
+<text x="14" y="77" fill="currentColor">{'s: накапливает результат'}</text>
+<text x="14" y="119" fill="currentColor">{'Условие решает, что добавить'}</text>
+</svg>
+<h3>Следи за изменением состояния</h3>
+<p>Записывай отдельно управляющую переменную и накопитель. Ноль внутри записи числа не завершает while n > 0: важна вся оставшаяся часть n. При n = 0 тело не выполнится, и начальная сумма останется нулём. Для трассировки лаборатория ограничивает for числом n ≤ 20; это предел упражнения, не правило Python.</p>
+</Theory>
+
+<Interactive id="program-tracer" title="Лаборатория: Циклы for и while: читаем шаг за шагом"
+ goal="Предскажи вывод, пройди строки и объясни изменения состояния; для №6 проверь параметр на девяти парах."
+ controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Кнопки и поля доступны мышью и касанием. Шаги выполняются вручную."
+ taskNumbers={[6]} modulePath="/src/interactives/ProgramTracer.tsx" parameters={{ program: 'for' }}>
+<p>Нарисуй таблицу: шаг, строка кода, переменные, условие, вывод. После ввода и присваивания обновляй только нужную переменную. При условии переходи лишь в выбранную ветвь, а цикл проверяй перед каждым проходом. Для s > A or t > 0 отметь постоянные YES с t > 0; в остальных запусках сравни s с A. Проверь все девять пар и требуемый край интервала целых A.</p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Подготовительное упражнение: основной приём"
+    source={{
+      generatorId: 'program-for-v1',
+      taskNumber: 6,
+      seed: 'program-loops-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Подготовительное упражнение: проверка шагов"
+    source={{
+      generatorId: 'program-while-v1',
+      taskNumber: 6,
+      seed: 'program-loops-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №6: сложный случай"
+    source={{
+      generatorId: 'parameter-max-v2',
+      taskNumber: 6,
+      seed: 'program-loops-example-3-0',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+<Mistake title="Включить правую границу range">
+<p>range не включает свою правую границу; в range(1, n + 1) последнее значение равно n.</p>
+</Mistake>
+<Mistake title="Выполнить while хотя бы раз всегда">
+<p>Условие проверяется до тела. При ложном начальном условии итераций нет.</p>
+</Mistake>
+<Mistake title="Остановиться на нулевой цифре">
+<p>Для while n > 0 проверяется оставшееся число целиком, а не digit. Нулевая цифра просто добавляет ноль.</p>
+</Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Входит ли n в range(1, n + 1)?',
+      options: [
+        { id: 'correct', text: 'Да, последняя включённая граница — n' },
+        { id: 'wrong', text: 'Нет, последнее значение — n − 1' },
+      ],
+      correctId: 'correct',
+      explanation: 'Исключается n + 1, поэтому n остаётся в диапазоне.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Когда while может не выполнить тело ни разу?',
+      options: [
+        { id: 'wrong', text: 'Такого быть не может' },
+        { id: 'correct', text: 'Если условие ложно перед первым проходом' },
+      ],
+      correctId: 'correct',
+      explanation: 'Условие проверяют до каждой итерации, включая первую.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Подготовительное упражнение"
+    source={{
+      generatorId: 'program-for-v1',
+      taskNumber: 6,
+      seed: 'program-loops-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Подготовительное упражнение"
+    source={{
+      generatorId: 'program-while-v1',
+      taskNumber: 6,
+      seed: 'program-loops-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ"
+    source={{
+      generatorId: 'parameter-any-v2',
+      taskNumber: 6,
+      seed: 'program-loops-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[6]} />
+
+<CheatSheet>
+  <ul>
+    <li>range не включает правую границу.</li>
+    <li>while проверяет условие до тела и после каждого прохода.</li>
+    <li>Различай счётчик, накопитель, остаток % и целочисленное деление //.</li>
+  </ul>
+</CheatSheet>

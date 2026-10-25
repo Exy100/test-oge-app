@@ -281,7 +281,12 @@ export async function checkCoverage(
     );
     findings.push(...result.findings);
     if (result.data && !result.findings.length)
-      lessons.push({ ...result.data, references: result.references, file });
+      lessons.push({
+        ...result.data,
+        references: result.references,
+        counts: result.counts,
+        file,
+      });
   }
   const validLessons = unique(lessons, config.sources.lessons, (item) =>
     Object.hasOwn(config.lessons.sections, item.section),
@@ -298,10 +303,7 @@ export async function checkCoverage(
     for (const reference of lesson.references) {
       if (reference.fallback) {
         deferred.push({ lesson: lesson.id, ...reference });
-        if (
-          phase >= config.phases.interactives ||
-          !plannedIds.has(reference.id)
-        )
+        if (phase >= config.phases.lessons || !plannedIds.has(reference.id))
           fail(
             lesson.file,
             `Нельзя использовать временную замену ${reference.id} на этой фазе.`,
@@ -327,6 +329,15 @@ export async function checkCoverage(
       `Раздел ${section}`,
       validLessons.filter((lesson) => lesson.section === section).length,
       minimum,
+      config.phases.lessons,
+      config.sources.lessons,
+    );
+
+  for (const name of config.lessons.blocks)
+    metric(
+      `Блок ${name}`,
+      validLessons.reduce((sum, lesson) => sum + lesson.counts[name], 0),
+      config.lessons.minimum,
       config.phases.lessons,
       config.sources.lessons,
     );

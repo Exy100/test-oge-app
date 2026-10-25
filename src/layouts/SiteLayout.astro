@@ -12,10 +12,12 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, route = '/', noindex = false } = Astro.props;
+const devPage =
+  import.meta.env.DEV && Astro.url.pathname.startsWith(sitePath('/dev/'));
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-dev-page={devPage || undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -71,7 +73,12 @@ const { title, description, route = '/', noindex = false } = Astro.props;
           >
             Варианты
           </a>
-          <a href={sitePath('/#materials')}>Короткая теория</a>
+          <a
+            href={sitePath('/materials/')}
+            aria-current={route.startsWith('/materials/') ? 'page' : undefined}
+          >
+            Материалы
+          </a>
           <a href={sitePath('/#exam')}>Об экзамене</a>
           <a
             href={sitePath('/about/')}

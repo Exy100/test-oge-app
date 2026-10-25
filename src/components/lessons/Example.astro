@@ -1,0 +1,100 @@
+---
+import type { StreamReference } from '../../core/stream/schemas';
+import { renderRichText } from '../../core/rich-text/render';
+import { codingArchiveHref } from '../../lib/lessons/coding';
+import { officeArchiveHref } from '../../lib/lessons/office';
+import { lessonTask } from '../../lib/lessons/content';
+import '../../styles/rich-text.css';
+import Figure from '../Figure';
+import TaskFiles from '../tasks/TaskFiles';
+interface Props {
+  id: string;
+  title: string;
+  source: StreamReference;
+  guidance?: readonly string[];
+}
+const { id, title, source } = Astro.props;
+const { task, statementHtml, steps: generatedSteps } = lessonTask(source);
+if (
+  Astro.props.guidance &&
+  (Astro.props.guidance.length < 3 ||
+    Astro.props.guidance.some((step) => !step.trim()))
+)
+  throw new TypeError('Разбор должен содержать не менее трёх непустых шагов.');
+const steps = Astro.props.guidance
+  ? Astro.props.guidance.map((step) => renderRichText(step))
+  : generatedSteps;
+const archive = officeArchiveHref(source) ?? codingArchiveHref(source);
+---
+
+<article class="lesson-example" id={id} aria-labelledby={`${id}-title`}>
+  <h3 id={`${id}-title`}>{title}</h3>
+  <slot />
+  {archive && (
+    <p>
+      <a href={archive} download>
+        Скачать исходники и эталон к примеру: {title} (ZIP)
+      </a>
+    </p>
+  )}
+  <div class="rich-text-container">
+    <div class="rich-text" set:html={statementHtml} />
+  </div>
+  {task.figure && (
+    <Figure spec={task.figure} label={`Схема к примеру: ${title}`} />
+  )}
+  {task.datasetId && <TaskFiles task={task} client:visible />}
+  <details data-lesson-example>
+    <summary>Разобрать пример по шагам</summary>
+    <ol class="lesson-steps" id={`${id}-steps`}>
+      {steps.map((html, index) => (
+        <li tabindex="-1">
+          <h4>
+            Шаг {index + 1} из {steps.length}
+          </h4>
+          <div class="rich-text-container">
+            <div class="rich-text" set:html={html} />
+          </div>
+        </li>
+      ))}
+    </ol>
+    <button
+      type="button"
+      class="button button-light"
+      data-lesson-next
+      aria-controls={`${id}-steps`}
+      hidden
+    >
+      Следующий шаг
+    </button>
+    <p class="ui-sr-only" role="status" data-lesson-step-status></p>
+  </details>
+</article>
+<script>
+  import '../../lib/print-details';
+
+  for (const root of document.querySelectorAll('[data-lesson-example]')) {
+    const steps = Array.from(
+      root.querySelectorAll<HTMLElement>('.lesson-steps > li'),
+    );
+    const button = root.querySelector<HTMLButtonElement>('[data-lesson-next]');
+    const status = root.querySelector('[data-lesson-step-status]');
+    if (!button || !steps.length) continue;
+    let visible = 1;
+    for (const step of steps.slice(1)) step.dataset.lessonStepHidden = 'true';
+    button.hidden = steps.length < 2;
+    button.addEventListener('click', () => {
+      const step = steps[visible];
+      if (!step) return;
+      delete step.dataset.lessonStepHidden;
+      visible += 1;
+      if (status)
+        status.textContent = `Открыто шагов: ${String(visible)} из ${String(steps.length)}.`;
+      if (visible === steps.length) {
+        button.disabled = true;
+        button.textContent = 'Все шаги открыты';
+      }
+      step.focus();
+    });
+  }
+</script>

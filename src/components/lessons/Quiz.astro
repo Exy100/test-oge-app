@@ -1,0 +1,15 @@
+---
+import Section from './Section.astro';
+interface Props {
+  id?: string;
+}
+const { id = 'quiz' } = Astro.props;
+---
+
+<Section id={id} title="Проверь себя">
+  <p>
+    Ответы проверяются на твоём устройстве. Мини-тест проверяет понимание темы;
+    готовые документы, таблицы и программы оценивают по критериям.
+  </p>
+  <slot />
+</Section>

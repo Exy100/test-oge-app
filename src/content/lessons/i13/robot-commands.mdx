@@ -1,0 +1,213 @@
+---
+id: robot-commands
+title: 'Робот: команды, датчики и безопасный шаг'
+section: i13
+taskNumbers: [15]
+readingMinutes: 12
+prerequisites: ['program-conditions']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import { codingExample, codingQuestion } from '../../../lib/lessons/coding';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'robot-lab', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    {
+      'На поле Робота важен каждый шаг: движение в стену завершает выполнение с ошибкой. Начни с различия команды и вопроса к датчику, затем свяжи их в безопасный алгоритм.'
+    }
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      {
+        '№15, КЭС 3.1: демоверсии ФИПИ 2025–2026 с. 14–15, проект 2027 с. 15–17. M15: две стены с проходами и лестница. Коды КЭС — спецификация проекта 2027 с. 14. Примеры авторские, CC0-1.0. Комплект 2027 имеет статус проекта.'
+      }
+    </p>
+    <p>
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Команда меняет состояние</h3>
+  <p>
+    {
+      'Положение — строка и столбец; закраска — отдельное свойство клетки. Команды вверх, вниз, влево и вправо меняют положение на одну клетку, но не красят её. Команда закрасить меняет только текущую клетку. На старте клетка не становится закрашенной сама. На рисунке круг отмечает цель, а знак Робота — положение: эти отметки могут совпадать.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Команда меняет состояние">
+    <title>Команда меняет состояние</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Положение + закраска = состояние'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Датчик → ответ да или нет'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Команда → новое состояние'}
+    </text>
+  </svg>
+  <h3>Датчик отвечает на вопрос</h3>
+  <p>
+    {
+      'справа свободно не выполняет движение. Это логическое значение, которое проверяют перед командой вправо. Условия сверху стена и не сверху свободно равнозначны для данного поля. Стены могут разделять соседние клетки внутри сетки; проверять только внешний край недостаточно. Датчик относится к текущему положению и после перемещения должен проверяться заново.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Датчик отвечает на вопрос">
+    <title>Датчик отвечает на вопрос</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Справа свободно?'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Да → вправо; нет → пропустить'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'После шага → новый датчик'}
+    </text>
+  </svg>
+  <h3>Условие защищает один шаг</h3>
+  <p>
+    {
+      'Внутри если справа свободно то / вправо / все движение происходит только при истинной проверке. Граница поля тоже запрещает движение. В редакторе каждая команда занимает строку, а блок закрывается все. Алгоритмический язык Робота отличается от Python: двоеточие и отступы Python не заменяют слова то и все. Сохрани свой текст и проверь его в используемой на экзамене среде.'
+    }
+  </p>
+</Theory>
+
+<Interactive
+  id="robot-lab"
+  title="Лаборатория: Робот: команды, датчики и безопасный шаг"
+  goal="Составь программу, проверь шаги, датчики и все контрольные поля; объясни, почему решение обобщается."
+  controls="Tab перемещает фокус, стрелки меняют выбор, Enter и пробел нажимают кнопки. Поля доступны мышью и касанием. При отключённых анимациях используй ручные шаги."
+  taskNumbers={[15]}
+  modulePath="/src/interactives/RobotLab.tsx"
+  parameters={{ family: 'robot-corridor' }}
+>
+  <p>
+    {
+      'Запиши положение и закраску на бумаге. Перед движением вычисли датчик; при ложном условии пропусти блок. После шага обнови положение, после закраски — только клетку. Проследи старт, последний участок и причину завершения. Проверь условие на всех размерах, не только на рисунке.'
+    }
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Подготовка: короткий коридор"
+    source={codingExample('commands', 0)}
+  />
+  <Example
+    id="example-2"
+    title="2. Подготовка: датчик у прохода"
+    source={codingExample('commands', 1)}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат 2025: две стены"
+    source={codingExample('commands', 2)}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Принять цель за готовую закраску">
+    <p>
+      {
+        'Круг показывает, что требуется сделать. Проверяй текущую заливку и результат исполнения.'
+      }
+    </p>
+  </Mistake>
+  <Mistake title="Шагнуть перед проверкой">
+    <p>{'Столкновение уже произошло; последующий датчик его не отменяет.'}</p>
+  </Mistake>
+  <Mistake title="Смешать два языка">
+    <p>
+      {
+        'У Робота блок завершается все или кц; в Python используются двоеточие и отступы.'
+      }
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1"
+    choice={codingQuestion('commands', 0)}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2"
+    choice={codingQuestion('commands', 1)}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3"
+    choice={codingQuestion('commands', 2)}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4"
+    choice={codingQuestion('commands', 3)}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5"
+    choice={codingQuestion('commands', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[15]} />
+
+<CheatSheet>
+  <ul>
+    <li>Проверка датчика не перемещает Робота.</li>
+    <li>Закрасить действует на текущую клетку.</li>
+    <li>Перед движением проверь свободную соседнюю клетку.</li>
+  </ul>
+</CheatSheet>

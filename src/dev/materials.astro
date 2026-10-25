@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import MaterialsCatalog from '../components/materials/MaterialsCatalog.astro';
+import { lesson } from './lesson-data';
+import '../styles/materials.css';
+const lessons = [{ ...lesson, route: '/dev/lessons/' }];
+---
+
+<SiteLayout
+  title="Проверка каталога уроков"
+  description="Проверка прогресса на компонентах учебного материала"
+  noindex
+>
+  <div class="container materials-page">
+    <h1>Проверка каталога уроков</h1>
+    <MaterialsCatalog lessons={lessons} />
+  </div>
+</SiteLayout>

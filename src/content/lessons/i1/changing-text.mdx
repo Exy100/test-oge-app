@@ -1,0 +1,248 @@
+---
+id: changing-text
+title: 'Удаляем и добавляем символы'
+section: i1
+taskNumbers: [1]
+readingMinutes: 10
+prerequisites: ['text-encoding']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'text-volume', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    В формате M01 удаляют слово и убирают лишние запятую с пробелом. Объём
+    уменьшается на размер всех удалённых знаков. Нужно восстановить длину слова,
+    сопоставить её со списком и записать само слово. Добавление знаков работает
+    в обратную сторону и помогает проверить расчёт.
+  </p>
+  <p>
+    Подтверждённые форматы: M01, №1. Демоверсии ФИПИ 2025–2026 и проект 2027,
+    печатная с. 4. КЭС 2.2 по спецификации проекта 2027, с. 13.{' '}
+    <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+      Официальный комплект проекта 2027
+    </a>
+    . Примеры ниже авторские; проект не объявлен окончательно утверждённым
+    экзаменом.
+  </p>
+</Motivation>
+
+<Theory>
+  <h3>Сравни строки целиком</h3>
+  <p>
+    Пусть из списка удалено слово. Чтобы список оставался записан через запятую
+    и один пробел, исчезают также два разделителя: одна запятая и один пробел.
+    При удалении первого или последнего слова разделитель находится с другой
+    стороны, но число удалённых знаков то же. Это следует из формата списка; для
+    другого текста изменения нужно считать заново.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 105"
+    aria-label="Из списка дуб, клён, сосна удаляются слово клён, запятая и пробел"
+  >
+    <title>Что именно исчезло</title>
+    <text x="8" y="25" fill="currentColor">
+      {'дуб, клён, сосна'}
+    </text>
+    <path d="M60 35 h88" stroke="currentColor" stroke-width="3" />
+    <text x="8" y="88" fill="currentColor">
+      {'дуб, сосна'}
+    </text>
+  </svg>
+  <h3>От изменения объёма к слову</h3>
+  <p>
+    Переведи уменьшение объёма ΔI в биты и раздели на i бит на знак. Получится
+    число всех удалённых знаков. Вычти два разделителя: длина слова равна ΔI × 8
+    / i − 2, если ΔI дано в байтах. Найди слово такой длины в исходном списке.
+    Затем заново составь список без этого слова и проверь изменение.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 340 115"
+    aria-label="Обратный расчёт: уменьшение в байтах, затем число удалённых знаков, затем длина слова"
+  >
+    <title>Три шага к ответу</title>
+    <text x="8" y="24" fill="currentColor">
+      {'ΔI байт × 8 / i'}
+    </text>
+    <text x="8" y="62" fill="currentColor">
+      {'все удалённые знаки'}
+    </text>
+    <text x="8" y="100" fill="currentColor">
+      {'минус запятая и пробел → слово'}
+    </text>
+  </svg>
+  <h3>Добавление и замена</h3>
+  <p>
+    Добавленный фрагмент увеличивает объём на свой размер. При замене считай
+    разность числа знаков до и после, а не сумму обеих длин. Если длины равны и
+    кодировка та же, объём не изменится. В интерактиве можно изменить строку
+    вручную и увидеть обе длины.
+  </p>
+</Theory>
+
+<Interactive
+  id="text-volume"
+  title="Лаборатория: Удаляем и добавляем символы"
+  goal="Удали слово со знаками разделения, затем добавь свой фрагмент и сравни изменения объёма."
+  controls="Переходи по полям и кнопкам клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Те же элементы работают мышью и касанием."
+  taskNumbers={[1]}
+  modulePath="/src/interactives/TextVolume.tsx"
+  parameters={{ width: 16 }}
+>
+  <p>
+    Составь строку списка до удаления и после него. Кроме букв исчезают одна
+    запятая и один пробел. Разность длин умножь на бит на знак и раздели на
+    восемь. Для добавления сравни строки тем же способом; если длины одинаковые,
+    объёмы равны.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ: первый список"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-example-1-1',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ: более длинный список"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-example-2-3',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ: проверь единицы и разделители"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-example-3-10',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Вычесть только один разделитель">
+    <p>
+      Запятая и пробел — два отдельных знака. Сравни исходную строку с аккуратно
+      записанным новым списком.
+    </p>
+  </Mistake>
+  <Mistake title="Всегда вычитать два знака при любом удалении">
+    <p>
+      Правило относится к списку через запятую и пробел из этого формата. В
+      произвольном тексте считай реальные изменения.
+    </p>
+  </Mistake>
+  <Mistake title="Записать найденную длину вместо слова">
+    <p>
+      Число знаков — промежуточный результат. В M01 ответом служит слово из
+      исходного списка.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что исчезает при удалении слова из такого списка?',
+      options: [
+        { id: 'correct', text: 'Буквы слова, одна запятая и один пробел' },
+        { id: 'wrong', text: 'Только буквы слова' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Новый список снова записан через запятую и пробел, поэтому один разделитель из двух знаков убирается.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Что станет с объёмом при замене слова на слово той же длины?',
+      options: [
+        { id: 'wrong', text: 'Обязательно уменьшится' },
+        { id: 'correct', text: 'Не изменится при той же кодировке' },
+      ],
+      correctId: 'correct',
+      explanation: 'Размер каждого знака и общее число знаков сохранены.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Примени правило"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Примени правило"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Примени правило"
+    source={{
+      generatorId: 'removed-word-v2',
+      taskNumber: 1,
+      seed: 'changing-text-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[1]} />
+
+<CheatSheet>
+  <ul>
+    <li>Число удалённых знаков = уменьшение в байтах × 8 / i.</li>
+    <li>В списке через «, » длина удалённого слова на два меньше.</li>
+    <li>
+      Ответ — слово. Проверка — новый список и разность его объёма с исходным.
+    </li>
+  </ul>
+</CheatSheet>

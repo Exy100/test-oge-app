@@ -1,0 +1,272 @@
+---
+id: directories
+title: 'Каталоги и полные пути: где искать файл'
+section: i10
+taskNumbers: [11, 12]
+readingMinutes: 12
+prerequisites: []
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'file-tree', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Прежде чем искать реплику или считать документы, нужно выбрать правильную
+    область. В №11 автор задаёт папку поиска, а в №12 перечислены каталоги и
+    расширения. Дерево помогает не пропустить вложение и не захватить соседний
+    архив.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №10 — с. 8, №11/12 — с. 9. КЭС
+      1.1 по спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры и файлы авторские; комплект 2027 имеет статус проекта. Учебные
+      расширения названы отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Имя не определяет файл целиком</h3>
+  <p>
+    Каталог содержит файлы и другие каталоги. Полный путь внутри распакованного
+    набора описывает цепочку папок и имя файла. Два файла с одинаковым именем в
+    разных папках — разные объекты. В учебных путях используем /; файловый
+    менеджер Windows может показывать обратный слеш.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Дерево и вложение">
+    <title>Дерево и вложение</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Тексты → Нина → причал.txt'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Тексты → Нина → Черновики'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Тексты-архив — соседний каталог'}
+    </text>
+  </svg>
+  <h3>Прямое содержимое и вложенные папки</h3>
+  <p>
+    Прямой просмотр показывает только файлы данного каталога. Рекурсивный поиск
+    проходит все его подкаталоги. Каталог Тексты-архив не вложен в Тексты: общие
+    буквы в начале имени не образуют родство. Граница задаётся разделителем
+    пути.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Граница области поиска">
+    <title>Граница области поиска</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Без вложений: файлы этой папки'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'С вложениями: все потомки папки'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Соседние папки не входят в область'}
+    </text>
+  </svg>
+  <h3>Выбери область по условию</h3>
+  <p>
+    Сначала распакуй архив и найди корневую папку набора. Для №11 сузь область
+    по автору, затем проверь героя и эпизод. Для №12 учитывай все перечисленные
+    каталоги, вложения и расширения. Если области пересекаются, каждый полный
+    путь считай один раз. Папки сами по себе файлами не считаются.
+  </p>
+  <p>
+    Архивы к примерам и вопросам доступны без JavaScript:{' '}
+    <a href={`${import.meta.env.BASE_URL}materials/files/reading.zip`} download>
+      корпус рассказов для №11 (ZIP)
+    </a>
+    ,{' '}
+    <a
+      href={`${import.meta.env.BASE_URL}materials/files/selection.zip`}
+      download
+    >
+      файловый набор для №12 (ZIP)
+    </a>
+    . Это полные исходные наборы генераторов; они отличаются от малого набора
+    лаборатории. Распакуй их в отдельные папки.
+  </p>
+</Theory>
+
+<Interactive
+  id="file-tree"
+  title="Лаборатория: Каталоги и полные пути: где искать файл"
+  goal="Различи прямое содержимое и вложенные файлы, проверь число путей в выбранной области."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием; таблицы и тексты прокручиваются с клавиатуры."
+  taskNumbers={[11, 12]}
+  modulePath="/src/interactives/FileTree.tsx"
+  parameters={{ folder: 'Тексты/Нина' }}
+>
+  <p>
+    Скачай архивы выше и распакуй. Запиши путь к каждому файлу через все папки.
+    Сначала выпиши только прямые файлы выбранной папки, затем добавь потомков её
+    подкаталогов. Не добавляй соседнюю ветвь с похожим именем; одинаковые имена
+    в разных папках считай отдельно.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №12: основной приём"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'directories-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №12: несколько условий"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'directories-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №12: сложный случай"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'directories-example-3-2',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Считать одинаковые имена одним файлом">
+    <p>Сравнивай полные пути: копия в другом каталоге — отдельный файл.</p>
+  </Mistake>
+  <Mistake title="Искать только на первом уровне">
+    <p>
+      Проверь инструкцию о вложениях. В подтверждённом №12 вложенные папки
+      включены.
+    </p>
+  </Mistake>
+  <Mistake title="Включить папку с похожим именем">
+    <p>
+      Тексты и Тексты-архив — разные ветви. Общий префикс имени не делает одну
+      дочерней другой.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Одинаковые имена в разных папках — это один файл?',
+      options: [
+        { id: 'correct', text: 'Нет, это разные полные пути' },
+        { id: 'wrong', text: 'Да, имя всегда однозначно определяет файл' },
+      ],
+      correctId: 'correct',
+      explanation: 'Каталоги входят в адрес файла.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Входит ли Тексты-архив в область Тексты?',
+      options: [
+        { id: 'wrong', text: 'Да, начало имени совпадает' },
+        { id: 'correct', text: 'Нет, это соседняя папка' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Вложение определяется разделителями пути, а не похожестью имён.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №12"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'directories-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №12"
+    source={{
+      generatorId: 'file-extensions-v2',
+      taskNumber: 12,
+      seed: 'directories-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №11"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'directories-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[11, 12]} />
+
+<CheatSheet>
+  <ul>
+    <li>Распакуй архив и установи корень поиска.</li>
+    <li>Полный путь включает папки и имя; соседние ветви не смешиваются.</li>
+    <li>Проверь вложения и учитывай каждый полный путь один раз.</li>
+  </ul>
+</CheatSheet>

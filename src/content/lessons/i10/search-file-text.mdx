@@ -1,0 +1,280 @@
+---
+id: search-file-text
+title: 'Поиск в файлах: автор, герой и контекст'
+section: i10
+taskNumbers: [11]
+readingMinutes: 12
+prerequisites: ['directories']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'text-file-search', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    Найденная фраза ещё не даёт ответ на №11: одинаковые слова могут встречаться
+    у другого автора или героя. Научимся переходить от поиска к проверке эпизода
+    и извлекать нужную фамилию, профессию или кличку из контекста.
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      Демоверсии ФИПИ 2025–2026 и проект 2027: №10 — с. 8, №11/12 — с. 9. КЭС
+      1.1 по спецификации проекта 2027, с. 13.{' '}
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        Официальный комплект проекта 2027
+      </a>
+      . Примеры и файлы авторские; комплект 2027 имеет статус проекта. Учебные
+      расширения названы отдельно.
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Поиск имени и поиск содержимого</h3>
+  <p>
+    Поле имени файла отбирает названия; оно не ищет слова рассказа. Для №11
+    открой произведения указанного автора и используй поиск внутри текста. В
+    нашем корпусе рассказы имеют расширение HTM: открывай их в браузере или
+    редакторе, читающем этот формат. Не переименовывай расширение ради открытия.
+  </p>
+  <svg
+    role="img"
+    viewBox="0 0 450 160"
+    aria-label="От запроса к доказательству"
+  >
+    <title>От запроса к доказательству</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Автор → герой → нужный эпизод'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Найденная реплика → соседние абзацы'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Кто? → слово, отвечающее на вопрос'}
+    </text>
+  </svg>
+  <h3>Слова, фразы и границы</h3>
+  <p>
+    Начни с редкого фрагмента эпизода или имени героя. Если совпадений много,
+    уточни запрос и область. Поиск без учёта регистра полезен для начала
+    предложения, но не означает автоматическое отождествление е и ё или разных
+    словоформ. Опция целого слова отличает маяк от маяки; её действие зависит от
+    программы. Лаборатория явно показывает свои правила.
+  </p>
+  <svg role="img" viewBox="0 0 450 160" aria-label="Имя и содержимое">
+    <title>Имя и содержимое</title>
+    <rect
+      x="4"
+      y="4"
+      width="442"
+      height="150"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="38" fill="currentColor">
+      {'Поиск имени: название файла'}
+    </text>
+    <text x="14" y="81" fill="currentColor">
+      {'Поиск текста: слова внутри файла'}
+    </text>
+    <text x="14" y="124" fill="currentColor">
+      {'Совпадение фразы ещё не ответ'}
+    </text>
+  </svg>
+  <h3>Ответ требует соседних абзацев</h3>
+  <p>
+    Сверь автора, героя и событие. Прочитай до и после найденного места:
+    профессия или кличка может быть названа раньше реплики. Проверь, кто
+    произносит слова и о ком спрашивается. Ответ запиши в форме условия: одно
+    слово, без цитаты и пояснений. Подсчёт совпадений в лаборатории —
+    вспомогательный опыт, не замена контекстного №11.
+  </p>
+  <p>
+    Архивы к примерам и вопросам доступны без JavaScript:{' '}
+    <a href={`${import.meta.env.BASE_URL}materials/files/reading.zip`} download>
+      корпус рассказов для №11 (ZIP)
+    </a>
+    ,{' '}
+    <a
+      href={`${import.meta.env.BASE_URL}materials/files/selection.zip`}
+      download
+    >
+      файловый набор для №12 (ZIP)
+    </a>
+    . Это полные исходные наборы генераторов; они отличаются от малого набора
+    лаборатории. Распакуй их в отдельные папки.
+  </p>
+</Theory>
+
+<Interactive
+  id="text-file-search"
+  title="Лаборатория: Поиск в файлах: автор, герой и контекст"
+  goal="Найди фразу внутри файлов и ответь на вопрос по автору, герою и соседним абзацам."
+  controls="Переходи клавишей Tab, выбирай стрелками, подтверждай Enter или пробелом. Все действия доступны мышью и касанием; таблицы и тексты прокручиваются с клавиатуры."
+  taskNumbers={[11]}
+  modulePath="/src/interactives/TextFileSearch.tsx"
+  parameters={{ folder: 'Тексты/Нина' }}
+>
+  <p>
+    Открой произведения нужного автора из архива. Найди имя героя и слова
+    эпизода поиском внутри текста. Прочитай предыдущие и следующие абзацы,
+    установи говорящего и извлеки слово, о котором спрашивается. Проверь все три
+    признака до записи ответа.
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Формат ОГЭ №11: основной приём"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-example-1-0',
+    }}
+  />
+  <Example
+    id="example-2"
+    title="2. Формат ОГЭ №11: несколько условий"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-example-2-0',
+    }}
+  />
+  <Example
+    id="example-3"
+    title="3. Формат ОГЭ №11: сложный случай"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-example-3-5',
+    }}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Взять первое найденное совпадение">
+    <p>
+      Сверь все признаки: автор, герой и событие. Похожая реплика может быть в
+      другом рассказе.
+    </p>
+  </Mistake>
+  <Mistake title="Ответить именем главного героя">
+    <p>
+      Вопрос может относиться к его спутнику или щенку. Установи, о ком именно
+      спрашивается.
+    </p>
+  </Mistake>
+  <Mistake title="Не читать предыдущий абзац">
+    <p>
+      Профессия, фамилия или кличка нередко названа до реплики; одного
+      выделенного фрагмента недостаточно.
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Достаточно ли совпадения нужной фразы?',
+      options: [
+        { id: 'correct', text: 'Нет, нужно проверить автора, героя и эпизод' },
+        { id: 'wrong', text: 'Да, первое совпадение всегда верное' },
+      ],
+      correctId: 'correct',
+      explanation: 'Одинаковые реплики могут встречаться в разных контекстах.',
+    }}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2. Объясни правило"
+    choice={{
+      kind: 'choice',
+      prompt: 'Где искать профессию говорящего, если в реплике её нет?',
+      options: [
+        { id: 'wrong', text: 'В расширении имени файла' },
+        { id: 'correct', text: 'В соседних абзацах того же эпизода' },
+      ],
+      correctId: 'correct',
+      explanation:
+        'Факт может быть назван перед событием, а не в самой реплике.',
+    }}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3. Формат ОГЭ №11"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-quiz-3',
+    }}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4. Формат ОГЭ №11"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-quiz-4',
+    }}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5. Формат ОГЭ №11"
+    source={{
+      generatorId: 'context-reading-v2',
+      taskNumber: 11,
+      seed: 'search-file-text-quiz-5',
+    }}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[11]} />
+
+<CheatSheet>
+  <ul>
+    <li>Ограничь поиск произведениями автора.</li>
+    <li>Найди героя и эпизод, прочитай соседние абзацы.</li>
+    <li>Установи, о ком вопрос; запиши только нужное слово.</li>
+  </ul>
+</CheatSheet>

@@ -1,0 +1,214 @@
+---
+id: python-aggregates
+title: 'Python: счётчики, суммы, среднее и максимум'
+section: i14
+taskNumbers: [16]
+readingMinutes: 14
+prerequisites: ['python-conditions']
+---
+
+import LessonHeader from '../../../components/lessons/LessonHeader.astro';
+import Motivation from '../../../components/lessons/Motivation.astro';
+import Theory from '../../../components/lessons/Theory.astro';
+import Interactive from '../../../components/lessons/Interactive.astro';
+import Examples from '../../../components/lessons/Examples.astro';
+import Example from '../../../components/lessons/Example.astro';
+import Mistakes from '../../../components/lessons/Mistakes.astro';
+import Mistake from '../../../components/lessons/Mistake.astro';
+import Quiz from '../../../components/lessons/Quiz.astro';
+import Question from '../../../components/lessons/Question.astro';
+import StreamLink from '../../../components/lessons/StreamLink.astro';
+import CheatSheet from '../../../components/lessons/CheatSheet.astro';
+import TOC from '../../../components/lessons/TOC.astro';
+import { codingExample, codingQuestion } from '../../../lib/lessons/coding';
+
+<LessonHeader lesson={frontmatter} />
+<TOC
+  entries={[
+    { id: 'motivation', title: 'Зачем это нужно' },
+    { id: 'theory', title: 'Теория' },
+    { id: 'program-tracer', title: 'Лаборатория' },
+    { id: 'examples', title: 'Разобранные примеры' },
+    { id: 'mistakes', title: 'Типичные ошибки' },
+    { id: 'quiz', title: 'Проверь себя' },
+    { id: 'practice', title: 'Практика' },
+    { id: 'cheatsheet', title: 'Шпаргалка' },
+  ]}
+/>
+
+<Motivation>
+  <p>
+    {
+      'Количество, сумма, среднее и максимум требуют разных обновлений. Выбери минимальное состояние, которое сохраняет всю нужную информацию о уже прочитанной части последовательности.'
+    }
+  </p>
+  <details>
+    <summary>Источники и связь с экзаменом</summary>
+    <p>
+      {
+        '№16, КЭС 3.2: демоверсия ФИПИ 2025 с. 16, 31–32, 2026 с. 16, 31–32, проект 2027 с. 17, 33–34. M16a–c: среднее положительных, последняя семеричная цифра и ввод до нуля. Коды КЭС — спецификация проекта 2027 с. 14. Примеры авторские, CC0-1.0. Комплект 2027 имеет статус проекта.'
+      }
+    </p>
+    <p>
+      <a href="https://doc.fipi.ru/oge/demoversii-specifikacii-kodifikatory/2027/inf_9_2027.zip">
+        {'Официальный комплект проекта 2027'}
+      </a>
+    </p>
+    <p>
+      {
+        'Подготовительные подтипы в примерах и потоке не покрывают все форматы демоверсий №16: в генераторах остаются открыты дробное среднее, отбор по ненулевому остатку и ввод до нуля. В лаборатории эти приёмы можно проследить отдельно. Мини-тест проверяет понимание, а готовую программу запускай в локальном Python 3.'
+      }
+    </p>
+  </details>
+</Motivation>
+
+<Theory>
+  <h3>Счётчик и сумма</h3>
+  <p>
+    {
+      'Перед циклом count = 0 и total = 0. Если число подходит, увеличь count на 1, а total на само число. Не подходящее число не меняет оба накопителя. При потоковом чтении не требуется хранить весь список: для этих ответов достаточно двух величин. Сформулируй смысл count и total после обработки первых i чисел.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Счётчик и сумма">
+    <title>Счётчик и сумма</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Подходит → count + 1'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Подходит → total + x'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Среднее → total / count'}
+    </text>
+  </svg>
+  <h3>Среднее отобранных</h3>
+  <p>
+    {
+      'Для среднего положительных дели сумму положительных на их количество. N включает и другие значения, поэтому обычно не подходит как знаменатель. В Python / выполняет обычное деление и может дать дробь; // отбросит дробную часть. Демо 2025 содержит дробный результат. При отсутствии положительных среднее не определено: действуй по условию; учебная лаборатория для этого случая явно выводит 0 0, не объявляя это правилом экзамена.'
+    }
+  </p>
+  <svg role="img" viewBox="0 0 440 152" aria-label="Среднее отобранных">
+    <title>Среднее отобранных</title>
+    <rect
+      x="4"
+      y="4"
+      width="432"
+      height="144"
+      rx="8"
+      fill="none"
+      stroke="currentColor"
+    />
+    <text x="14" y="35" fill="currentColor">
+      {'Первая подходящая → максимум'}
+    </text>
+    <text x="14" y="77" fill="currentColor">
+      {'Разрыв → текущая длина 0'}
+    </text>
+    <text x="14" y="119" fill="currentColor">
+      {'Рост → обновить лучшую'}
+    </text>
+  </svg>
+  <h3>Максимум и последовательные участки</h3>
+  <p>
+    {
+      'Максимум нельзя без проверки начинать с нуля, если допустимы отрицательные ответы. В подготовительном примере соседних пар первая подходящая сумма задаёт максимум; соседние пары перекрываются. Для самой длинной цепочки храни текущую длину и лучшую; сбрасывай текущую на разрыве, а лучшую обновляй сразу при росте. Так цепочка в конце не потеряется.'
+    }
+  </p>
+</Theory>
+
+<Interactive
+  id="program-tracer"
+  title="Лаборатория: Python: счётчики, суммы, среднее и максимум"
+  goal="Предскажи вывод программы, пройди строки и объясни каждое изменение состояния."
+  controls="Tab перемещает фокус, стрелки меняют выбор, Enter и пробел нажимают кнопки. Поля доступны мышью и касанием. При отключённых анимациях используй ручные шаги."
+  taskNumbers={[16]}
+  modulePath="/src/interactives/ProgramTracer.tsx"
+  parameters={{ program: 'average' }}
+>
+  <p>
+    {
+      'Запиши таблицу: строка кода, прочитанные данные, переменные, условие, вывод. Отмечай только выполненную ветвь, обновляй накопители и проверяй окончание цикла. Для N прочитай ровно N значений; для ввода до нуля исключи завершающий сигнал. Среднее считай по количеству отобранных.'
+    }
+  </p>
+</Interactive>
+
+<Examples>
+  <Example
+    id="example-1"
+    title="1. Подготовка: счётчик и сумма"
+    source={codingExample('aggregates', 0)}
+  />
+  <Example
+    id="example-2"
+    title="2. Подготовка: максимум суммы пары"
+    source={codingExample('aggregates', 1)}
+  />
+  <Example
+    id="example-3"
+    title="3. Подготовка: текущая и лучшая длина"
+    source={codingExample('aggregates', 2)}
+  />
+</Examples>
+
+<Mistakes>
+  <Mistake title="Делить на N">
+    <p>{'Для среднего отобранных нужен их count.'}</p>
+  </Mistake>
+  <Mistake title="Взять // вместо /">
+    <p>{'Целочисленное деление уничтожит дробную часть среднего.'}</p>
+  </Mistake>
+  <Mistake title="Начать отрицательный максимум с 0">
+    <p>
+      {
+        'Используй первое подходящее значение или отдельный признак отсутствия данных.'
+      }
+    </p>
+  </Mistake>
+</Mistakes>
+
+<Quiz>
+  <Question
+    id="question-1"
+    title="Вопрос 1"
+    choice={codingQuestion('aggregates', 0)}
+  />
+  <Question
+    id="question-2"
+    title="Вопрос 2"
+    choice={codingQuestion('aggregates', 1)}
+  />
+  <Question
+    id="question-3"
+    title="Вопрос 3"
+    choice={codingQuestion('aggregates', 2)}
+  />
+  <Question
+    id="question-4"
+    title="Вопрос 4"
+    choice={codingQuestion('aggregates', 3)}
+  />
+  <Question
+    id="question-5"
+    title="Вопрос 5"
+    choice={codingQuestion('aggregates', 4)}
+  />
+</Quiz>
+
+<StreamLink taskNumbers={[16]} />
+
+<CheatSheet>
+  <ul>
+    <li>Счётчик добавляет 1, сумма добавляет x.</li>
+    <li>Среднее = сумма отобранных / их количество.</li>
+    <li>Обрабатывай первую подходящую величину и последнюю цепочку.</li>
+  </ul>
+</CheatSheet>
