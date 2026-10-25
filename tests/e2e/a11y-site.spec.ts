@@ -80,12 +80,14 @@ for (const route of auditPages)
         await scene.locator('astro-island').first().scrollIntoViewIfNeeded();
         await expect(scene.locator('.interactive-host')).toBeVisible();
         await expect(
-          scene.getByRole('button', { name: 'Пауза', exact: true }),
-        ).toBeEnabled();
-        await expect(
           scene.getByText('Загрузка интерактива…', { exact: true }),
         ).toHaveCount(0);
         await expect(scene.locator('.interactive-error')).toHaveCount(0);
+        await expect(
+          scene
+            .locator('.interactive-host > .interactive-toolbar')
+            .getByRole('button', { name: 'Пауза', exact: true }),
+        ).toBeEnabled();
       }
       await expect(
         page.locator('astro-island[client="load"][ssr]'),
