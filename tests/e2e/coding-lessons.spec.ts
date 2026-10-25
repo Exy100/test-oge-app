@@ -20,7 +20,7 @@ const lessons = preparationLessons.filter((item) =>
 );
 async function sceneFor(page: Page, route: string) {
   await page.goto(route);
-  const scene = page.locator('.lesson-interactive');
+  const scene = page.locator('#robot-lab, #program-tracer');
   await scene.scrollIntoViewIfNeeded();
   await expect(scene.locator('.information-lab')).toBeVisible();
   return scene;
@@ -432,8 +432,10 @@ for (const theme of ['light', 'dark']) {
       await page.goto(lesson.route.slice(1));
       await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
       const scene = page.locator('.lesson-interactive');
-      await scene.scrollIntoViewIfNeeded();
-      await expect(scene.locator('.information-lab')).toBeVisible();
+      for (const instance of await scene.all()) {
+        await instance.scrollIntoViewIfNeeded();
+        await expect(instance.locator('.information-lab')).toBeVisible();
+      }
       // Check the full rendered document, including all examples and quiz controls.
       const results = await new AxeBuilder({ page }).analyze();
       expect(results.violations).toEqual([]);
@@ -498,9 +500,12 @@ test('all lessons retain theory, solved examples and scene alternatives without 
   const page = await context.newPage();
   for (const lesson of lessons) {
     await page.goto(`https://127.0.0.1:4322/test-oge-app${lesson.route}`);
-    const alternative = page.locator('.interactive-alternative');
-    await alternative.locator('summary').click();
-    await expect(alternative.locator('div')).toBeVisible();
+    const alternatives = page.locator('.interactive-alternative');
+    await expect(alternatives).toHaveCount(lesson.id === 'robot-loops' ? 2 : 1);
+    for (const alternative of await alternatives.all()) {
+      await alternative.locator('summary').click();
+      await expect(alternative.locator('div')).toBeVisible();
+    }
     await page.locator('#example-1 [data-lesson-example] > summary').click();
     await expect(page.locator('#example-1 .lesson-steps > li')).toHaveCount(3);
     await expect(page.locator('#example-1 a[download]')).toBeVisible();
@@ -508,7 +513,8 @@ test('all lessons retain theory, solved examples and scene alternatives without 
     await expect(
       page.locator('#example-1 .lesson-steps > li').last(),
     ).toBeVisible();
-    await expect(page.locator('.interactive-screen')).toBeHidden();
+    for (const screen of await page.locator('.interactive-screen').all())
+      await expect(screen).toBeHidden();
     await page.emulateMedia({ media: 'screen' });
   }
   await context.close();

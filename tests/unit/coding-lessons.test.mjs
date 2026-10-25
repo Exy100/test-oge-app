@@ -27,7 +27,26 @@ it('delivers seven complete lessons, 21 resolved artifacts and 35 locally checke
   expect(lessons).toHaveLength(7);
   for (const { source, lesson } of lessons) {
     expect(lesson.findings).toEqual([]);
-    expect(lesson.references).toHaveLength(1);
+    expect(lesson.references).toHaveLength(
+      lesson.data.id === 'robot-loops' ? 2 : 1,
+    );
+    if (lesson.data.id === 'robot-loops') {
+      expect(lesson.references.map((reference) => reference.id)).toEqual([
+        'robot-lab',
+        'robot-maze',
+      ]);
+      expect(
+        interactives.find((item) => item.id === 'robot-maze'),
+      ).toMatchObject({
+        kind: '3d',
+        levels: expect.arrayContaining([
+          expect.objectContaining({ id: expect.any(String) }),
+        ]),
+      });
+      expect(
+        interactives.find((item) => item.id === 'robot-maze').levels,
+      ).toHaveLength(3);
+    }
     expect(
       interactives.some((item) => item.id === lesson.references[0].id),
     ).toBe(true);
