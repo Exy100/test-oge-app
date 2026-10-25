@@ -88,6 +88,15 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss(), lazyModuleUrl()],
+    // Lazy scene URLs are discovered after the first page load. Prebundle their
+    // shared dependencies so opening a scene cannot invalidate an active module.
+    optimizeDeps: {
+      include: [
+        'three',
+        '@react-three/fiber',
+        '@react-three/drei/core/Center.js',
+      ],
+    },
     build: { assetsInlineLimit: 0 },
     preview:
       process.env.OGE_TEST_HTTPS === '1'
