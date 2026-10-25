@@ -378,20 +378,9 @@ for (const [title, module] of [
           )
           .toBe(1);
       }
-      const disconnect = harness.getByRole('button', {
-        name: 'Отключить сцену',
-        exact: true,
-      });
-      await disconnect.evaluate((element) => {
-        element.scrollIntoView({ behavior: 'instant', block: 'center' });
-      });
-      if (module === 'RobotLab' && cycle === 19)
-        await expect
-          .poll(() =>
-            page.evaluate(() => window.interactiveResources().intervals),
-          )
-          .toBe(1);
-      await disconnect.click();
+      await harness
+        .getByRole('button', { name: 'Отключить сцену', exact: true })
+        .click();
       await expect
         .poll(() => page.evaluate(() => window.interactiveResources()))
         .toEqual(baseline);

@@ -231,10 +231,6 @@ test('a blocked store leaves a working in-memory mark and an honest notice', asy
   });
   await page.goto(lesson);
   const mark = page.getByRole('button', { name: 'Урок пройден', exact: true });
-  // Finish native scrolling before WebKit dispatches the pointer sequence.
-  await mark.evaluate((element) => {
-    element.scrollIntoView({ behavior: 'instant', block: 'center' });
-  });
   await mark.click();
   await expect(mark).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#storage-notice')).toContainText(

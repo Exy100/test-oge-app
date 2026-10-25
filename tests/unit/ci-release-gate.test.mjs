@@ -5,12 +5,15 @@ import { parse } from 'yaml';
 import { expect, test } from 'vitest';
 
 test('release requires every quality job and unconditional Lighthouse success', () => {
-  const { jobs } = parse(
+  const { jobs, on: events } = parse(
     readFileSync(
       new URL('../../.github/workflows/ci.yml', import.meta.url),
       'utf8',
     ),
   );
+  expect(events.push.branches).toContain('main');
+  expect(events).toHaveProperty('pull_request');
+  expect(events).toHaveProperty('workflow_dispatch');
   const required = [
     'quality',
     'unit',

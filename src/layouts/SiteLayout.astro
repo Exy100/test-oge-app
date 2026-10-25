@@ -12,10 +12,12 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, route = '/', noindex = false } = Astro.props;
+const devPage =
+  import.meta.env.DEV && Astro.url.pathname.startsWith(sitePath('/dev/'));
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-dev-page={devPage || undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
