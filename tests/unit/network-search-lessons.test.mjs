@@ -26,10 +26,21 @@ describe('released network and search lessons', () => {
       ).toHaveLength(3);
     for (const { lesson } of course) {
       expect(lesson.findings).toEqual([]);
-      expect(lesson.references).toHaveLength(1);
-      expect(
-        interactives.find((scene) => scene.id === lesson.references[0].id),
-      ).toMatchObject({ kind: '2d' });
+      const withGame = lesson.data.id === 'restore-address';
+      expect(lesson.references).toHaveLength(withGame ? 2 : 1);
+      if (withGame)
+        expect(lesson.references.map((reference) => reference.id)).toEqual([
+          'resource-address',
+          'packet-route',
+        ]);
+      for (const reference of lesson.references) {
+        const scene = interactives.find((scene) => scene.id === reference.id);
+        expect(scene).toMatchObject({
+          kind: reference.id === 'packet-route' ? '3d' : '2d',
+        });
+        if (reference.id === 'packet-route')
+          expect(scene.levels).toHaveLength(3);
+      }
     }
   });
   it.each(course)(

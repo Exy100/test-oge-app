@@ -1,7 +1,7 @@
 import {
   urlOrders,
   type UrlProblem,
-} from '../../core/generators/exam/short-problems';
+} from '../../core/generators/exam/short-problems.ts';
 export const addressLabs = {
   https: {
     title: 'HTTPS: текстовый файл',

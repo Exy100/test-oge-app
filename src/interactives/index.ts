@@ -1,5 +1,18 @@
+import { warehouseLevels, packetLevels } from '../lib/interactives/games.ts';
 /** Only working course scenes belong in the inventory. */
 export const interactives = [
+  {
+    id: 'bit-warehouse',
+    kind: '3d',
+    levels: warehouseLevels,
+    load: () => import('./BitWarehouse.tsx'),
+  },
+  {
+    id: 'packet-route',
+    kind: '3d',
+    levels: packetLevels,
+    load: () => import('./PacketRoute.tsx'),
+  },
   { id: 'robot-lab', kind: '2d', load: () => import('./RobotLab.tsx') },
   { id: 'text-volume', kind: '2d', load: () => import('./TextVolume.tsx') },
   {
