@@ -2,8 +2,10 @@ import { useState } from 'react';
 import type { InteractiveProps } from '../lib/interactives/module';
 import { alphabetCapacity, byteGroups } from '../lib/interactives/information';
 import { bits as formatBits } from '../core/generators/task';
+import BitCells from '../components/lessons/BitCells';
+import ThreeScene from '../components/three/ThreeScene';
 
-export default function BitsAndBytes({ id, parameters }: InteractiveProps) {
+export default function BitsAndBytes({ id, parameters, active, reducedMotion }: InteractiveProps) {
   const initial =
     typeof parameters.alphabet === 'number' ? parameters.alphabet : 17;
   alphabetCapacity(initial, 4);
@@ -11,6 +13,7 @@ export default function BitsAndBytes({ id, parameters }: InteractiveProps) {
   const [width, setWidth] = useState(4);
   const [bits, setBits] = useState('19');
   const [feedback, setFeedback] = useState('');
+  const [volume, setVolume] = useState(false);
   let alphabet: ReturnType<typeof alphabetCapacity> | undefined;
   let groups: ReturnType<typeof byteGroups> | undefined;
   let error = '';
@@ -106,28 +109,13 @@ export default function BitsAndBytes({ id, parameters }: InteractiveProps) {
       />
       {groups && (
         <>
-          <svg
-            role="img"
-            viewBox="0 0 340 65"
-            aria-labelledby={`${id}-byte-title`}
-          >
-            <title id={`${id}-byte-title`}>
-              В одном байте восемь битовых ячеек; закрашен остаток после полных
-              байтов
-            </title>
-            {Array.from({ length: 8 }, (_, index) => (
-              <rect
-                key={index}
-                x={index * 41 + 2}
-                y={8}
-                width={35}
-                height={35}
-                fill={index < groups.remainder ? 'currentColor' : 'none'}
-                stroke="currentColor"
-                strokeWidth={2}
-              />
-            ))}
-          </svg>
+          <label>
+            <input type="checkbox" checked={volume} onChange={(event) => { setVolume(event.target.checked); }} />
+            Объёмная схема
+          </label>
+          {volume ? <ThreeScene id={id} active={active} reducedMotion={reducedMotion}
+            modulePath="/src/interactives/BitCells3D.tsx" parameters={{ bits: Number(bits) }}
+            fallback={<BitCells id={id} bits={Number(bits)} />} /> : <BitCells id={id} bits={Number(bits)} />}
           <p role="status">
             Полных байтов: {groups.full}; осталось бит: {groups.remainder}.
             Проверка: {groups.full} × 8 + {groups.remainder} = {Number(bits)}{' '}
