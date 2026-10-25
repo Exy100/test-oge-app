@@ -29,14 +29,14 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(budgets).toBeDefined();
   expect(budgets.if).toBeUndefined();
   expect(budgets['continue-on-error']).not.toBe(true);
-  expect(jobs.browsers.strategy.matrix.shard).toEqual([1, 2]);
+  expect(jobs.browsers.strategy.matrix.shard).toEqual([1, 2, 3, 4, 5, 6]);
   expect(jobs.browsers.steps.some((step) => step.run === 'npm run build')).toBe(
     true,
   );
   expect(
     jobs.browsers.steps.some(
       (step) =>
-        step.run === 'npx playwright test --shard=${{ matrix.shard }}/2',
+        step.run === 'npx playwright test --shard=${{ matrix.shard }}/6',
     ),
   ).toBe(true);
   expect(
@@ -48,7 +48,7 @@ test('release requires every quality job and unconditional Lighthouse success', 
 
 test('Lighthouse shards cover every URL and released lesson exactly once with unchanged budgets', () => {
   const workflow = parse(readFileSync('.github/workflows/ci.yml', 'utf8'));
-  expect(workflow.jobs.performance.strategy.matrix.shard).toEqual([1, 2]);
+  expect(workflow.jobs.performance.strategy.matrix.shard).toEqual([1, 2, 3, 4]);
   expect(workflow.jobs.performance.strategy['fail-fast']).toBe(false);
   const step = workflow.jobs.performance.steps.find((step) =>
     step.run?.includes('npm run lh'),
@@ -59,7 +59,7 @@ test('Lighthouse shards cover every URL and released lesson exactly once with un
   );
   expect(artifact.with.name).toBe('lighthouse-reports-${{ matrix.shard }}');
   const full = lighthouseConfig();
-  const shards = ['1', '2'].map(lighthouseConfig);
+  const shards = ['1', '2', '3', '4'].map(lighthouseConfig);
   const urls = shards.flatMap((config) => config.collect.url);
   expect(urls.toSorted()).toEqual(full.collect.url.toSorted());
   expect(new Set(urls).size).toBe(urls.length);
@@ -81,7 +81,7 @@ test('Lighthouse shards cover every URL and released lesson exactly once with un
 });
 
 test('an invalid Lighthouse shard stops instead of silently omitting URLs', () => {
-  for (const shard of ['0', '3', 'wrong'])
+  for (const shard of ['0', '5', 'wrong'])
     expect(() => lighthouseConfig(shard)).toThrow('OGE_LH_SHARD');
 });
 

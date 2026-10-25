@@ -219,11 +219,11 @@ jobs:
           retention-days: 7
 
   browsers:
-    name: Browsers and accessibility (${{ matrix.shard }}/2)
+    name: Browsers and accessibility (${{ matrix.shard }}/6)
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3, 4, 5, 6]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -266,7 +266,7 @@ jobs:
         run: npx playwright test tests/e2e/variant-result.spec.ts --project=webkit --grep 'failed result|print module failure' --workers=2
 
       - name: Run all browser and accessibility tests
-        run: npx playwright test --shard=${{ matrix.shard }}/2
+        run: npx playwright test --shard=${{ matrix.shard }}/6
 
       - name: Show failed browser page context
         if: failure()
@@ -307,13 +307,13 @@ jobs:
           path: dist
 
   performance:
-    name: Lighthouse performance budgets (${{ matrix.shard }}/2)
+    name: Lighthouse performance budgets (${{ matrix.shard }}/4)
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3, 4]
     steps:
       - name: Check out source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6

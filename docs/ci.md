@@ -19,16 +19,19 @@ Workflow `.github/workflows/ci.yml` запускается на push, pull reque
 5. `npm run e2e`: все проекты Playwright — Chromium, Firefox, WebKit и mobile;
    вместе с ними выполняется axe. Браузеры и системные библиотеки устанавливаются
    самим workflow, поэтому результат не зависит от набора браузеров облачной среды.
-6. `performance`: два параллельных запуска `npm run lh`, по три прогона каждого
+   Полный набор распределён по шести обязательным группам, без фильтрации тестов.
+   После T7.11 это 2026 сценариев, включая 54 визуальных. Каждая группа укладывается
+   в прежний лимит задания; публикация требует успеха всех шести.
+6. `performance`: четыре параллельных запуска `npm run lh`, по три прогона каждого
    URL с бюджетами `lighthouserc.cjs`, на Chromium той же версии Playwright.
-   `OGE_LH_SHARD=1` / `2` делит URL без повторов и пропусков; локально без
+   `OGE_LH_SHARD=1`–`4` делит URL без повторов и пропусков; локально без
    переменной проверяется весь список. Порогам не передаются переопределения.
 7. Gitleaks по готовому `dist/`.
 
 При ошибке следующие шаги этого задания и публикация не выполняются; независимое
 параллельное задание может закончить свои проверки. Следы упавших браузерных
-тестов и видео прохождения сохраняются в `quality-reports-1` / `quality-reports-2`,
-Lighthouse-отчёты — в `lighthouse-reports-1` / `lighthouse-reports-2` на семь дней,
+тестов и видео прохождения сохраняются в `quality-reports-1`–`quality-reports-6`,
+Lighthouse-отчёты — в `lighthouse-reports-1`–`lighthouse-reports-4` на семь дней,
 в том числе при неуспешном прогоне. Покрытие и проверенные офисные
 материалы сохраняются отдельно в `source-reports` / `generated-file-reports` на тот же срок. Значения секретов не нужно
 добавлять в отчёты или сообщения workflow.
@@ -36,8 +39,8 @@ Lighthouse-отчёты — в `lighthouse-reports-1` / `lighthouse-reports-2` �
 ## Разделение проверок и публикации
 
 На одном коммите работают `quality` (код и безопасность), `unit` (три группы),
-`files` (независимые проверки файлов), `browsers` (две группы всех браузеров,
-axe и сканирование dist) и `performance` (две группы Lighthouse). `coverage` объединяет три unit-результата
+`files` (независимые проверки файлов), `browsers` (шесть групп всех браузеров,
+axe и сканирование dist) и `performance` (четыре группы Lighthouse). `coverage` объединяет три unit-результата
 и применяет общий порог ≥90%. У каждой проверки лимит 20 минут и только `contents: read`.
 Они не изменяют репозиторий и настройки Pages.
 Проверки fork PR работают через событие `pull_request`, без `pull_request_target`
@@ -81,7 +84,7 @@ GITHUB_TOKEN не имеет права менять эту настройку (
   позицию исходника в аннотациях GitHub. Явный список default/blob иначе заменяет
   автоматический GitHub-репортёр Vitest; без него виден лишь общий код выхода.
 - При красном CI открыть первый упавший шаг и его лог. Для Playwright скачать
-  `quality-reports-1` / `quality-reports-2` и открыть `trace.zip` через `npx playwright show-trace`.
+  `quality-reports-1`–`quality-reports-6` и открыть `trace.zip` через `npx playwright show-trace`.
 - Для локального воспроизведения: `npm ci`, `npm run verify`,
   `npx playwright install --with-deps chromium firefox webkit`, `npm run e2e`,
   `npm run lh` с `CHROME_PATH`, указывающим на установленный Chromium.

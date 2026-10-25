@@ -58,9 +58,9 @@ const urls = [
 ];
 
 const shard = process.env.OGE_LH_SHARD;
-if (shard !== undefined && shard !== '1' && shard !== '2')
+if (shard !== undefined && !['1', '2', '3', '4'].includes(shard))
   throw new Error(
-    'OGE_LH_SHARD должен быть 1 или 2; без него проверяются все URL.',
+    'OGE_LH_SHARD должен быть от 1 до 4; без него проверяются все URL.',
   );
 
 module.exports = {
@@ -71,7 +71,7 @@ module.exports = {
       url:
         shard === undefined
           ? urls
-          : urls.filter((_, index) => index % 2 === Number(shard) - 1),
+          : urls.filter((_, index) => index % 4 === Number(shard) - 1),
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox' },
     },
