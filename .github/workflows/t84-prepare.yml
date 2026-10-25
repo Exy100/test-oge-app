@@ -1,0 +1,66 @@
+name: T8.4 read-only source preparation
+on:
+  push:
+    branches: ['codex/t8-4-prepare*']
+permissions:
+  contents: read
+env:
+  ASTRO_TELEMETRY_DISABLED: '1'
+jobs:
+  format:
+    name: Format and validate restored source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx astro sync
+      - name: Fix source lint
+        run: npx eslint --fix src/lib/interactives/gate-levels.ts src/lib/interactives/gates.ts src/components/lessons/GateDiagram.tsx src/interactives/Gates3D.tsx src/interactives/LogicGates.tsx coverage.config.ts src/interactives/index.ts src/dev/interactives.astro tests/unit/logic-graph-lessons.test.mjs tests/e2e/logic-graphs.spec.ts tests/e2e/three-games.spec.ts tests/unit/logic-gates.test.ts tests/e2e/logic-gates.spec.ts
+      - name: Format source
+        if: always()
+        run: npx prettier --write src/lib/interactives/gate-levels.ts src/lib/interactives/gates.ts src/components/lessons/GateDiagram.tsx src/interactives/Gates3D.tsx src/interactives/LogicGates.tsx coverage.config.ts src/interactives/index.ts src/content/lessons/i3/logic-operations.mdx src/dev/interactives.astro tests/unit/logic-graph-lessons.test.mjs tests/e2e/logic-graphs.spec.ts tests/e2e/three-games.spec.ts tests/unit/logic-gates.test.ts tests/e2e/logic-gates.spec.ts
+      - name: Check types, Gate 8 and new unit coverage
+        if: always()
+        run: |
+          npm run typecheck
+          npm run check:coverage -- --phase=8
+          npx vitest run tests/unit/logic-gates.test.ts tests/unit/logic-graph-lessons.test.mjs
+      - name: Return exact source chunks
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          for(const path of ["src/lib/interactives/gate-levels.ts","src/lib/interactives/gates.ts","src/components/lessons/GateDiagram.tsx","src/interactives/Gates3D.tsx","src/interactives/LogicGates.tsx","coverage.config.ts","src/interactives/index.ts","src/content/lessons/i3/logic-operations.mdx","src/dev/interactives.astro","tests/unit/logic-graph-lessons.test.mjs","tests/e2e/logic-graphs.spec.ts","tests/e2e/three-games.spec.ts","tests/unit/logic-gates.test.ts","tests/e2e/logic-gates.spec.ts","docs/interactives.md","docs/reports/t8.4.md","docs/reviews/phase-8.md","STATUS.md","tasks.md"]) {
+           const content=readFileSync(path,'utf8'),total=Math.ceil(content.length/5000);
+           for(let index=0;index<total;index++)console.log('T84_CHUNK '+JSON.stringify({path,index,total,content:content.slice(index*5000,(index+1)*5000)}));
+          }
+          NODE
+  preview:
+    name: Inspect rendered gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Render both themes and mobile viewport
+        run: |
+          node --input-type=module <<'NODE'
+          import {writeFileSync} from 'node:fs';
+          writeFileSync('tests/e2e/t84-preview.spec.ts',"import {test as base,expect} from '@playwright/test';\nconst test=base.extend({launchOptions:async({launchOptions},use)=>{await use({...launchOptions,args:[...(launchOptions.args??[]),'--use-angle=swiftshader','--enable-unsafe-swiftshader']});}});\ntest('preview gates',async({page})=>{\n for(const sample of [{name:'desktop-light-closed',width:1280,theme:'light',open:false},{name:'mobile-light-open',width:360,theme:'light',open:true},{name:'mobile-dark-open',width:360,theme:'dark',open:true}]){\n  await page.setViewportSize({width:sample.width,height:900});await page.goto('materials/i3/logic-operations/');\n  const view=page.locator('#logic-gates');await view.scrollIntoViewIfNeeded();await expect(view.getByLabel('Уровень игры')).toBeVisible();\n  await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;},sample.theme);\n  await view.getByLabel('Условие открытия ворот').fill('A И B');\n  await view.getByLabel('Датчик A включён').setChecked(sample.open);await view.getByLabel('Датчик B включён').setChecked(sample.open);\n  await view.getByLabel('Объёмная игра').check();await expect(view.locator('canvas[data-three-ready=\"true\"]')).toBeVisible();\n  if(sample.open)await view.getByRole('button',{name:'Испытать проход',exact:true}).click();\n  await view.locator('.three-stage').scrollIntoViewIfNeeded();await expect(view.locator('canvas')).toHaveAttribute('aria-label',sample.open?/Ты за воротами/u:/Ты перед воротами/u);\n  const data=(await view.locator('.three-stage').screenshot()).toString('base64');\n  for(let i=0;i<Math.ceil(data.length/6000);i++)console.info('T84_IMAGE '+JSON.stringify({name:sample.name,index:i,total:Math.ceil(data.length/6000),content:data.slice(i*6000,(i+1)*6000)}));\n }\n});");
+          NODE
+          npx playwright test tests/e2e/t84-preview.spec.ts --project=chromium --workers=1

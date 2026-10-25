@@ -26,7 +26,12 @@ describe('released logic and graph lessons', () => {
       ).toHaveLength(3);
     for (const { lesson } of course) {
       expect(lesson.findings).toEqual([]);
-      expect(lesson.references).toHaveLength(1);
+      expect(lesson.references).toHaveLength(lesson.data.id === 'logic-operations' ? 2 : 1);
+      if (lesson.data.id === 'logic-operations') {
+        expect(lesson.references.map(reference => reference.id)).toEqual(['logic-builder', 'logic-gates']);
+        const game = interactives.find(scene => scene.id === 'logic-gates');
+        expect(game).toMatchObject({kind:'3d'}); expect(game.levels).toHaveLength(3);
+      }
       expect(
         interactives.find((scene) => scene.id === lesson.references[0].id),
       ).toMatchObject({ kind: '2d' });
