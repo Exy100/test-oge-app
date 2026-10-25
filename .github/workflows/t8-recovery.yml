@@ -1,0 +1,44 @@
+name: T8.1 recovery data
+on:
+  push:
+    branches: [codex/t8-1-recovery]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out recovered source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Resolve exact 3D versions without package scripts
+        run: |
+          cp package-lock.json "$RUNNER_TEMP/t81-base-lock.json"
+          npm install --ignore-scripts
+      - name: Format recovered files
+        run: npx prettier --write 'src/lib/three/capability.ts' 'src/components/lessons/BitCells.tsx' 'src/components/three/ThreeScene.tsx' 'src/lib/three/SceneCanvas.tsx' 'src/lib/three/three.css' 'src/interactives/BitCells3D.tsx' 'src/interactives/BitsAndBytes.tsx' 'src/dev/interactives.astro' 'package.json' 'tests/fixtures/webgl-audit.ts' 'tests/e2e/three-base.spec.ts' 'tasks.md' 'STATUS.md' 'docs/interactives.md' 'docs/reports/t7-integration.md' 'docs/reports/t8.1.md'
+      - name: Return only recovered sources and lock delta
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const paths = ["src/lib/three/capability.ts","src/components/lessons/BitCells.tsx","src/components/three/ThreeScene.tsx","src/lib/three/SceneCanvas.tsx","src/lib/three/three.css","src/interactives/BitCells3D.tsx","src/interactives/BitsAndBytes.tsx","src/dev/interactives.astro","package.json","tests/fixtures/webgl-audit.ts","tests/e2e/three-base.spec.ts","tasks.md","STATUS.md","docs/interactives.md","docs/reports/t7-integration.md","docs/reports/t8.1.md"];
+          const before=JSON.parse(readFileSync(process.env.RUNNER_TEMP+'/t81-base-lock.json','utf8'));
+          const after=JSON.parse(readFileSync('package-lock.json','utf8'));
+          const top={...after}; delete top.packages;
+          const upsert=Object.fromEntries(Object.entries(after.packages).filter(([key,value])=>JSON.stringify(before.packages[key])!==JSON.stringify(value)));
+          const remove=Object.keys(before.packages).filter(key=>!(key in after.packages));
+          const files=Object.fromEntries(paths.map(path=>[path,readFileSync(path,'utf8')]));
+          const payload={base:'9506b4fd8549d7985d5d3a7eda17dad2e7ae409d',files,lockPatch:{top,upsert,remove}};
+          const encoded=Buffer.from(JSON.stringify(payload),'utf8').toString('base64');
+          const size=6000;
+          console.log('T81_RECOVERY_TOTAL:'+String(Math.ceil(encoded.length/size)));
+          for(let i=0;i<encoded.length;i+=size) console.log('T81_RECOVERY_CHUNK_'+String(i/size).padStart(4,'0')+':'+encoded.slice(i,i+size));
+          NODE
