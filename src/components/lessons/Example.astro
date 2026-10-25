@@ -71,6 +71,8 @@ const archive = officeArchiveHref(source) ?? codingArchiveHref(source);
   </details>
 </article>
 <script>
+  import '../../lib/print-details';
+
   for (const root of document.querySelectorAll('[data-lesson-example]')) {
     const steps = Array.from(
       root.querySelectorAll<HTMLElement>('.lesson-steps > li'),

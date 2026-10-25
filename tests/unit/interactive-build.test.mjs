@@ -41,6 +41,7 @@ it(
         'src/components/lessons/InteractiveHost.tsx',
         'src/components/useHydrated.ts',
         'src/lib/fresh-module.ts',
+        'src/lib/print-details.ts',
         'src/lib/interactives',
         'src/styles/interactives.css',
       ]) {

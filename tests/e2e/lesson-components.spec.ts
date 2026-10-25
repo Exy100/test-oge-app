@@ -200,6 +200,8 @@ test('printing reveals all solution steps and the closed cheatsheet', async ({
     page.locator('#example-word [data-lesson-next]'),
   ).not.toHaveAttribute('hidden');
   await expect(page.locator('.lesson-cheatsheet > div')).toBeHidden();
+  await page.locator('#example-word summary').click();
+  await expect(page.locator('#example-word details')).toHaveAttribute('open');
   await page.getByLabel('Тема', { exact: true }).selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.emulateMedia({ media: 'print' });
@@ -218,6 +220,7 @@ test('printing reveals all solution steps and the closed cheatsheet', async ({
   await expect(page.locator('.lesson-toc')).toBeHidden();
   await page.emulateMedia({ media: 'screen' });
   await expect(page.locator('.lesson-cheatsheet > div')).toBeHidden();
+  await expect(page.locator('#example-word details')).toHaveAttribute('open');
 });
 
 test('both themes remain accessible with expanded help and quiz feedback at 360px', async ({

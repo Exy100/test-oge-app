@@ -47,7 +47,12 @@ test('logic builder constructs equivalent expressions and checks every input, no
   await scene
     .getByLabel('Твоё выражение', { exact: true })
     .fill('НЕ (НЕ A ИЛИ НЕ B)');
-  await check.press('Enter');
+  // Enter alone after a programmatic focus does not establish keyboard focus
+  // visibility in Firefox. Navigate from the preceding focusable table.
+  await scene.getByRole('region', { name: 'Таблица истинности' }).focus();
+  await page.keyboard.press('Tab');
+  await expect(check).toBeFocused();
+  await page.keyboard.press('Enter');
   await expect(scene).toContainText('совпадают на всех четырёх наборах');
   await expect(check).toHaveCSS('outline-style', 'solid');
 });
