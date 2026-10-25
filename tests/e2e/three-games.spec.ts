@@ -402,7 +402,14 @@ test('all shared 3D code fits the 250 KB gzip budget; each light game entry stay
     return file;
   }
   const shared = await graphBytes(
-    ['BitCells3D', 'Warehouse3D', 'Packet3D', 'Maze3D', 'Sorting3D'].map(entry),
+    [
+      'BitCells3D',
+      'Warehouse3D',
+      'Packet3D',
+      'Maze3D',
+      'Sorting3D',
+      'Gates3D',
+    ].map(entry),
   );
   console.info(`T8.2 shared 3D graph: ${String(shared)} gzip bytes`);
   expect(shared).toBeLessThanOrEqual(250_000);
@@ -411,6 +418,7 @@ test('all shared 3D code fits the 250 KB gzip budget; each light game entry stay
     'PacketRoute',
     'RobotMaze',
     'SortingCenter',
+    'LogicGates',
   ])
     expect(await graphBytes([entry(name)])).toBeLessThanOrEqual(80_000);
 });

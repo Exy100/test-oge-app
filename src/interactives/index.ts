@@ -1,3 +1,4 @@
+import { gateLevels } from '../lib/interactives/gate-levels.ts';
 import {
   mazeLevels,
   sortingLevels,
@@ -5,6 +6,12 @@ import {
 import { warehouseLevels, packetLevels } from '../lib/interactives/games.ts';
 /** Only working course scenes belong in the inventory. */
 export const interactives = [
+  {
+    id: 'logic-gates',
+    kind: '3d',
+    levels: gateLevels,
+    load: () => import('./LogicGates.tsx'),
+  },
   {
     id: 'robot-maze',
     kind: '3d',
