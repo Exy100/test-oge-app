@@ -37,6 +37,16 @@ test('release requires every quality job and unconditional Lighthouse success', 
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   ]);
   expect(jobs.browsers['timeout-minutes']).toBe(20);
+  const navigation = jobs.browsers.steps.find(
+    (step) =>
+      step.name === 'Check WebKit lesson navigation before the full matrix',
+  );
+  expect(navigation).toMatchObject({
+    if: 'matrix.shard == 2',
+    run: expect.stringContaining('--repeat-each=5'),
+  });
+  expect(navigation.run).toContain('--project=webkit --project=mobile-webkit');
+  expect(navigation['continue-on-error']).not.toBe(true);
   expect(jobs.browsers.steps.some((step) => step.run === 'npm run build')).toBe(
     true,
   );

@@ -273,6 +273,10 @@ jobs:
         if: matrix.shard == 2
         run: npx playwright test tests/e2e/variant-result.spec.ts --project=webkit --project=mobile-webkit --grep 'failed result|print module failure' --workers=2
 
+      - name: Check WebKit lesson navigation before the full matrix
+        if: matrix.shard == 2
+        run: npx playwright test tests/e2e/variant-result.spec.ts --project=webkit --project=mobile-webkit --grep 'preparation plan opens new executor and program lessons' --repeat-each=5 --workers=2
+
       - name: Run all browser and accessibility tests
         run: npx playwright test --shard=${{ matrix.shard }}/10
 
