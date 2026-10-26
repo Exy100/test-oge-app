@@ -1712,7 +1712,9 @@ Node isDeepStrictEqual: сравнение всех полей/значений 
   Это установка системных зависимостей, до исполнения браузерных тестов.
 - `scripts/ci-apt-mirror.sh` перед установкой LibreOffice/Playwright заменяет
   только хост `azure.archive.ubuntu.com/ubuntu` на официальный
-  `archive.ubuntu.com/ubuntu` в sources.list и deb822/list-файлах Ubuntu 24.04.
+  `archive.ubuntu.com/ubuntu` в apt-mirrors.txt, sources.list и deb822/list-файлах
+  Ubuntu 24.04. Текущий runner-images использует `mirror+file:/etc/apt/apt-mirrors.txt`;
+  это подтверждено журналом и [скриптом образа](https://github.com/actions/runner-images/blob/main/images/ubuntu/scripts/build/configure-apt-sources.sh).
   Схема URL, suites, components, signing keys и проверка подписей сохраняются.
 - Все тесты, шесть браузерных и четыре performance-группы, таймауты заданий,
   пороги, обязательность успешного CI и проверенные артефакты Pages сохранены.
