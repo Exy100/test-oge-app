@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { expectNoHorizontalOverflow } from './layout';
 import { confirmedShortGenerators } from '../../src/core/generators/exam/short-generators';
 
 const gallery = 'http://127.0.0.1:4324/test-oge-app/dev/generators/';
@@ -78,11 +79,7 @@ test('exam road diagram: arrows, text alternative and mobile accessibility in bo
     await page.getByLabel('Тема', { exact: true }).selectOption(theme);
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   }
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  await expectNoHorizontalOverflow(page);
 });
 
 test('exam tables and alternative answers stay readable on mobile', async ({
@@ -118,10 +115,6 @@ test('exam tables and alternative answers stay readable on mobile', async ({
     if (id === 'decode-repeated-v2')
       await expect(first).toContainText('Также принимаются:');
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
+    await expectNoHorizontalOverflow(page);
   }
 });

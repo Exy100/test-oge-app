@@ -132,7 +132,11 @@ export default function GeneratorGallery() {
                 <RichText source={step.text} />
                 {step.formula && <RichText source={`$$${step.formula}$$`} />}
                 {step.code && (
-                  <pre>
+                  <pre
+                    tabIndex={0}
+                    role="region"
+                    aria-label={`Программа решения, задача ${String(index + 1)}, шаг ${String(stepIndex + 1)}`}
+                  >
                     <code>{step.code}</code>
                   </pre>
                 )}

@@ -218,7 +218,7 @@
   min-width: 0;
   max-width: 100%;
 }
-.lesson-interactive .robot-practice pre {
+.information-lab pre {
   max-width: 100%;
   overflow-x: auto;
 }

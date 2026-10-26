@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { expectNoHorizontalOverflow } from './layout';
 import { learningGeneratorsForTask as generatorsForTask } from '../../src/core/generators/learning';
 import { createTaskDataset } from '../../src/core/generators/task-dataset';
 
@@ -51,10 +52,6 @@ for (const generator of [...generatorsForTask(11), ...generatorsForTask(12)]) {
       await page.getByLabel('Тема', { exact: true }).selectOption(theme);
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     }
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
+    await expectNoHorizontalOverflow(page);
   });
 }

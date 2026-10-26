@@ -24,8 +24,8 @@ import GeneratorGallery from './GeneratorGallery';
     overflow-wrap: anywhere;
   }
   .generator-gallery form {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
     align-items: end;
     gap: var(--space-4);
   }
@@ -54,6 +54,10 @@ import GeneratorGallery from './GeneratorGallery';
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     background: var(--surface);
+  }
+  .generator-example pre {
+    max-width: 100%;
+    overflow-x: auto;
   }
   .task-file-preview {
     white-space: pre-wrap;
