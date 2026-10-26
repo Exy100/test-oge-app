@@ -23,7 +23,6 @@ for (const choice of ['presentation', 'document'] as const) {
     page.on('dialog', (dialog) => dialog.accept());
     // Test-only acceleration: the deployed application still uses 150 minutes.
     await page.clock.install({ time: new Date('2026-10-22T03:00:00Z') });
-    await page.clock.pauseAt(new Date('2026-10-22T03:01:00Z'));
     const variant = buildFixedVariant('V01', choice);
     await page.goto('variants/V01/');
     await page.getByRole('button', { name: 'Пройти с таймером' }).click();
@@ -33,6 +32,8 @@ for (const choice of ['presentation', 'document'] as const) {
           choice === 'presentation' ? '13.1 — Презентация' : '13.2 — Документ',
       })
       .check();
+    // Let entry/setup render with real frames; freeze immediately before Start.
+    await page.clock.pauseAt(new Date('2026-10-22T03:01:00Z'));
     await page
       .getByRole('button', { name: 'Начать экзамен', exact: true })
       .click();
