@@ -162,7 +162,9 @@ test('a failed module can be retried while the explanation remains available', a
 test('render errors are contained and retry uses corrected parameters', async ({
   page,
 }) => {
-  await page.goto(url);
+  // Finish the lazy scene above the harness before scrolling to its checkbox.
+  // Its loading layout must not move the checkbox during the native click.
+  await scene(page);
   await page.getByLabel('Ошибка отрисовки').check();
   await page
     .getByRole('button', { name: 'Подключить сцену', exact: true })
