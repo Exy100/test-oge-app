@@ -66,6 +66,7 @@ jobs:
           npm run check:coverage
           npm run check:contrast
           npm run build
+          npm run check:security
 
   unit:
     name: Unit tests (${{ matrix.shard }}/3)
