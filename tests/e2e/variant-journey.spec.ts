@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '../fixtures/security-browser';
+import type { Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { buildFixedVariant } from '../../src/core/variants';
 import { areaSchemas, PREFIX } from '../../src/core/storage/schemas';

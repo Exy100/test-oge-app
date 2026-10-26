@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/security-browser';
 import AxeBuilder from '@axe-core/playwright';
 import {
   auditPages,

@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '../fixtures/security-browser';
+import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { generators } from '../../src/core/generators';
 import { resolveStreamTask } from '../../src/core/stream/catalog';

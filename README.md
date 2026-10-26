@@ -57,17 +57,18 @@ export ASTRO_TELEMETRY_DISABLED=1
 
 ## Проверки
 
-| Команда                  | Назначение                                                        |
-| ------------------------ | ----------------------------------------------------------------- |
-| `npm run lint`           | ESLint и проверка форматирования                                  |
-| `npm run format`         | Форматирование исходников и конфигурации                          |
-| `npm run typecheck`      | Astro Check и TypeScript strict                                   |
-| `npm run check:python`   | Запуск Python-эталонов №16 и проверка экспортированных тестов     |
-| `npm test`               | Unit-тесты Vitest                                                 |
-| `npm run verify`         | lint → typecheck → unit → forbidden → coverage → contrast → build |
-| `npm run check:contrast` | Контраст текстовых токенов в обеих темах                          |
-| `npm run e2e`            | Сборка, браузерные тесты и axe                                    |
-| `npm run lh`             | Сборка, Lighthouse и реальные сценарии INP по spec §15            |
+| Команда                  | Назначение                                                                   |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `npm run lint`           | ESLint и проверка форматирования                                             |
+| `npm run format`         | Форматирование исходников и конфигурации                                     |
+| `npm run typecheck`      | Astro Check и TypeScript strict                                              |
+| `npm run check:python`   | Запуск Python-эталонов №16 и проверка экспортированных тестов                |
+| `npm test`               | Unit-тесты Vitest                                                            |
+| `npm run verify`         | lint → typecheck → unit → forbidden → coverage → contrast → build → security |
+| `npm run check:contrast` | Контраст текстовых токенов в обеих темах                                     |
+| `npm run check:security` | Проверка dist на секретные маркеры и файлы окружения                         |
+| `npm run e2e`            | Сборка, браузерные тесты и axe                                               |
+| `npm run lh`             | Сборка, Lighthouse и реальные сценарии INP по spec §15                       |
 
 `npm run sample:variant` выгружает один вариант или все V01–V10;
 `npm run check:variants` проверяет файлы комплектов, программы и новые таблицы в Calc.
