@@ -43,7 +43,11 @@ test('360px touch: answer, notes, rotation and the next task remain usable', asy
   await input.fill(answer(first, true));
   await notes.tap();
   await notes.fill('Проверил вычисление на телефоне.');
-  const statement = await page.locator('.task-card .rich-text').innerText();
+  const condition = page.locator('.task-card .rich-text');
+  await expect(condition).toBeVisible();
+  // DOM text includes MathML and stays independent of layout-inserted spaces.
+  const statement = await condition.textContent();
+  if (statement === null) throw new Error('The task condition is missing.');
   for (const viewport of [
     { width: 800, height: 360 },
     { width: 360, height: 800 },
@@ -51,9 +55,8 @@ test('360px touch: answer, notes, rotation and the next task remain usable', asy
     await page.setViewportSize(viewport);
     await expect(input).toHaveValue(answer(first, true));
     await expect(notes).toHaveValue('Проверил вычисление на телефоне.');
-    await expect(page.locator('.task-card .rich-text')).toHaveText(statement, {
-      useInnerText: true,
-    });
+    await expect(condition).toBeVisible();
+    await expect(condition).toHaveText(statement);
     await fits(page);
   }
   await page

@@ -203,8 +203,10 @@ h1 span {
   transition: transform var(--duration-fast) var(--ease-standard);
   white-space: normal;
 }
-.button:not(:disabled):hover {
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
 }
 .button-dark {
   background: var(--button-bg);

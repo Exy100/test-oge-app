@@ -182,7 +182,9 @@ test('render errors are contained and retry uses corrected parameters', async ({
 
 test('20 mount/unmount cycles leave no listeners, timers, frames or observers behind', async ({
   page,
-}) => {
+}, info) => {
+  const activate = (control: ReturnType<Page['getByRole']>) =>
+    info.project.use.hasTouch ? control.tap() : control.click();
   await page.addInitScript(installInteractiveAudit);
   await scene(page);
   await page
@@ -196,11 +198,11 @@ test('20 mount/unmount cycles leave no listeners, timers, frames or observers be
   });
   const harness = page.locator('#harness-scene');
   for (let cycle = 0; cycle < 20; cycle += 1) {
-    await page
-      .getByRole('button', { name: 'Подключить сцену', exact: true })
-      .click();
+    await activate(
+      page.getByRole('button', { name: 'Подключить сцену', exact: true }),
+    );
     await expect(harness.locator('[data-probe-ready]')).toBeVisible();
-    await harness.getByRole('button', { name: 'Автоматически' }).click();
+    await activate(harness.getByRole('button', { name: 'Автоматически' }));
     await expect
       .poll(() => page.evaluate(() => window.interactiveResources()))
       .toEqual({
@@ -210,9 +212,9 @@ test('20 mount/unmount cycles leave no listeners, timers, frames or observers be
         intersections: baseline.intersections + 1,
         mutations: baseline.mutations + 1,
       });
-    await page
-      .getByRole('button', { name: 'Отключить сцену', exact: true })
-      .click();
+    await activate(
+      page.getByRole('button', { name: 'Отключить сцену', exact: true }),
+    );
     await expect(harness.locator('[data-probe-ready]')).toHaveCount(0);
     await expect
       .poll(() => page.evaluate(() => window.interactiveResources()))

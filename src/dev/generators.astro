@@ -31,12 +31,16 @@ import GeneratorGallery from './GeneratorGallery';
   }
   .generator-gallery label {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-2);
+    min-width: 0;
     max-width: 100%;
   }
   .generator-gallery input,
   .generator-gallery select {
     min-height: var(--target-size);
+    min-width: 0;
+    width: 100%;
     max-width: 100%;
     color: var(--ink);
     background: var(--surface);
