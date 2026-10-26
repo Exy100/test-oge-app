@@ -54,7 +54,7 @@ test('Robot accepts a general program, keyboard steps, all fields and exact down
   await expect(robot).toContainText('Пройдено полей: 8 из 8');
   const download = page.waitForEvent('download');
   const save = robot.getByRole('button', { name: 'Скачать свой код' });
-  if (info.project.name === 'mobile') await save.tap();
+  if (info.project.use.hasTouch === true) await save.tap();
   else await save.click();
   const path = await (await download).path();
   if (!path) throw new Error('Нет скачанного кода.');

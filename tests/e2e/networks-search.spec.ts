@@ -48,7 +48,7 @@ test('address builder checks exact separators, every fragment and keyboard/touch
     .press('Enter');
   await expect(check).toBeDisabled();
   const add = scene.getByRole('button', { name: '1: .txt', exact: true });
-  if (info.project.name === 'mobile') await add.tap();
+  if (info.project.use.hasTouch === true) await add.tap();
   else await add.click();
   await expect(input).toHaveValue('4627351');
   expect(await scene.locator('a[href^="http"]').count()).toBe(0);

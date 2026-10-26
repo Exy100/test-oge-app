@@ -143,7 +143,7 @@ test('graph route accepts both shortest paths and rejects a direct longer one', 
   const reveal = scene.getByRole('button', {
     name: 'Показать один кратчайший путь',
   });
-  if (info.project.name === 'mobile') await reveal.tap();
+  if (info.project.use.hasTouch === true) await reveal.tap();
   else await reveal.click();
   await expect(scene).toContainText('Один из кратчайших');
 });

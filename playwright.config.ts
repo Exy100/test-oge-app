@@ -49,7 +49,27 @@ export default defineConfig({
       use: {
         ...devices['Pixel 7'],
         viewport: { width: 360, height: 800 },
+        contextOptions: { screen: { width: 360, height: 800 } },
         ...chromiumOptions,
+      },
+    },
+    {
+      name: 'mobile-firefox',
+      testIgnore: '**/figures-visual.spec.ts',
+      use: {
+        ...devices['Desktop Firefox'],
+        viewport: { width: 360, height: 800 },
+        contextOptions: { screen: { width: 360, height: 800 } },
+        hasTouch: true,
+      },
+    },
+    {
+      name: 'mobile-webkit',
+      testIgnore: '**/figures-visual.spec.ts',
+      use: {
+        ...devices['iPhone 13 Mini'],
+        viewport: { width: 360, height: 800 },
+        contextOptions: { screen: { width: 360, height: 800 } },
       },
     },
   ],

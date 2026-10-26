@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { preparationLessons } from '../../src/lib/lessons/preparation.ts';
 import { parse } from 'yaml';
 import { expect, test } from 'vitest';
+import browserConfig from '../../playwright.config';
 
 test('release requires every quality job and unconditional Lighthouse success', () => {
   const { jobs, on: events } = parse(
@@ -32,14 +33,17 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(budgets).toBeDefined();
   expect(budgets.if).toBeUndefined();
   expect(budgets['continue-on-error']).not.toBe(true);
-  expect(jobs.browsers.strategy.matrix.shard).toEqual([1, 2, 3, 4, 5, 6]);
+  expect(jobs.browsers.strategy.matrix.shard).toEqual([
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  ]);
+  expect(jobs.browsers['timeout-minutes']).toBe(20);
   expect(jobs.browsers.steps.some((step) => step.run === 'npm run build')).toBe(
     true,
   );
   expect(
     jobs.browsers.steps.some(
       (step) =>
-        step.run === 'npx playwright test --shard=${{ matrix.shard }}/6',
+        step.run === 'npx playwright test --shard=${{ matrix.shard }}/10',
     ),
   ).toBe(true);
   expect(
@@ -47,6 +51,47 @@ test('release requires every quality job and unconditional Lighthouse success', 
       step.uses?.startsWith('actions/upload-pages-artifact@'),
     ),
   ).toBe(true);
+});
+
+test('the complete suite covers desktop and 360px touch in all three browser engines', () => {
+  const projects = browserConfig.projects.filter(
+    (project) => project.name !== 'figure-visual',
+  );
+  expect(projects.map((project) => project.name)).toEqual([
+    'chromium',
+    'firefox',
+    'webkit',
+    'mobile',
+    'mobile-firefox',
+    'mobile-webkit',
+  ]);
+  expect(
+    projects.slice(0, 3).map((project) => project.use.defaultBrowserType),
+  ).toEqual(['chromium', 'firefox', 'webkit']);
+  for (const project of projects) {
+    expect(project.testMatch).toBeUndefined();
+    expect(project.testIgnore).toBe('**/figures-visual.spec.ts');
+  }
+  const mobile = projects.filter((project) =>
+    project.name.startsWith('mobile'),
+  );
+  expect(mobile.map((project) => project.use.defaultBrowserType)).toEqual([
+    'chromium',
+    'firefox',
+    'webkit',
+  ]);
+  for (const project of mobile) {
+    expect(project.use.viewport).toEqual({ width: 360, height: 800 });
+    expect(project.use.hasTouch).toBe(true);
+  }
+  expect(
+    mobile.find((project) => project.name === 'mobile-webkit').use.isMobile,
+  ).toBe(true);
+  expect(
+    mobile.find((project) => project.name === 'mobile-firefox').use.isMobile,
+  ).toBe(false);
+  expect(browserConfig.forbidOnly).toBe(true);
+  expect(browserConfig.retries).toBe(0);
 });
 
 test('Lighthouse shards cover every URL and released lesson exactly once with unchanged budgets', () => {
