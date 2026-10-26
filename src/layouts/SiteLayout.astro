@@ -1,8 +1,10 @@
 ---
 import '../styles/global.css';
-import navigationMotion from '../styles/navigation-motion.css?url';
-import themeScript from '../scripts/theme.js?url';
+import navigationMotion from '../styles/navigation-motion.css?raw';
+import themeScript from '../scripts/theme.js?raw';
+import { createHash } from 'node:crypto';
 import primaryFont from '../assets/fonts/golos-text-cyrillic-wght-normal.woff2?url';
+import primaryLatinFont from '../assets/fonts/golos-text-latin-wght-normal.woff2?url';
 import { sitePath, SITE_ORIGIN } from '../lib/site';
 
 interface Props {
@@ -14,6 +16,12 @@ interface Props {
 const { title, description, route = '/', noindex = false } = Astro.props;
 const devPage =
   import.meta.env.DEV && Astro.url.pathname.startsWith(sitePath('/dev/'));
+Astro.csp?.insertScriptHash(
+  `sha256-${createHash('sha256').update(themeScript).digest('base64')}`,
+);
+Astro.csp?.insertStyleHash(
+  `sha256-${createHash('sha256').update(navigationMotion).digest('base64')}`,
+);
 ---
 
 <!doctype html>
@@ -22,13 +30,13 @@ const devPage =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link
+    <style
+      is:inline
       id="navigation-motion"
-      rel="stylesheet"
-      href={navigationMotion}
       media="(prefers-reduced-motion: no-preference)"
-    />
-    <script is:inline src={themeScript}></script>
+      set:html={navigationMotion}
+    ></style>
+    <script is:inline set:html={themeScript}></script>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
@@ -41,6 +49,13 @@ const devPage =
     <link
       rel="preload"
       href={primaryFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={primaryLatinFont}
       as="font"
       type="font/woff2"
       crossorigin
@@ -59,7 +74,18 @@ const devPage =
           aria-label="Информатика ОГЭ — главная"
         >
           <span class="brand-icon" aria-hidden="true">
-            &gt;_
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m5 6 6 6-6 6m9 0h5" />
+            </svg>
           </span>
           <span>
             информатика<span class="brand-level">ОГЭ · 9 КЛАСС</span>

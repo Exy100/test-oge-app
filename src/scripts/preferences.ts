@@ -44,7 +44,8 @@ function apply(settings: AppearanceSettings) {
   root.dataset.fontSize = String(settings.fontSize);
   root.dataset.animations = settings.animations ? 'on' : 'off';
   const motion = document.getElementById('navigation-motion');
-  if (motion instanceof HTMLLinkElement) motion.disabled = !settings.animations;
+  if (motion instanceof HTMLStyleElement || motion instanceof HTMLLinkElement)
+    motion.disabled = !settings.animations;
   document
     .querySelectorAll<HTMLSelectElement>('[data-theme-select]')
     .forEach((select) => {

@@ -36,6 +36,17 @@ export default defineConfig({
     react(),
     mdx(),
     {
+      name: 'paint-before-result',
+      hooks: {
+        'astro:config:setup': ({ addClientDirective }) => {
+          addClientDirective({
+            name: 'after-paint',
+            entrypoint: './src/scripts/after-paint.ts',
+          });
+        },
+      },
+    },
+    {
       name: 'complete-sitemap',
       hooks: {
         'astro:build:done': async ({ dir, logger }) => {

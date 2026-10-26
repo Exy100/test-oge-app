@@ -184,6 +184,9 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Use official Ubuntu package mirror
+        run: bash scripts/ci-apt-mirror.sh
+
       - name: Install LibreOffice and PDF text tools
         run: |
           sudo apt-get update
@@ -255,6 +258,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/oge-tools"
           tar -xzf "$archive" -C "$RUNNER_TEMP/oge-tools" gitleaks
           echo "$RUNNER_TEMP/oge-tools" >> "$GITHUB_PATH"
+
+      - name: Use official Ubuntu package mirror
+        run: bash scripts/ci-apt-mirror.sh
 
       - name: Install Chromium, Firefox and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
@@ -330,6 +336,9 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Use official Ubuntu package mirror
+        run: bash scripts/ci-apt-mirror.sh
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium

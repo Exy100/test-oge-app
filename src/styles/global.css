@@ -105,8 +105,6 @@ button:disabled {
   background: var(--banner-bg);
   color: var(--lime);
   border-radius: var(--radius-lg);
-  font: var(--weight-bold) var(--text-xl)/var(--leading-heading)
-    var(--font-mono);
 }
 .brand-level {
   display: block;

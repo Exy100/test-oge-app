@@ -2,9 +2,7 @@ import { expect, test } from '@playwright/test';
 import { gzipSync } from 'node:zlib';
 
 for (const path of ['about/', 'privacy/', 'missing-lesson/']) {
-  test(`initial JavaScript stays within 60 KiB on ${path}`, async ({
-    page,
-  }) => {
+  test(`initial JavaScript stays within 60 KB on ${path}`, async ({ page }) => {
     const scripts = new Map<string, number>();
     const pending: Promise<void>[] = [];
     page.on('response', (response) => {
@@ -41,9 +39,48 @@ for (const path of ['about/', 'privacy/', 'missing-lesson/']) {
     expect(
       bytes,
       JSON.stringify(Object.fromEntries(scripts)),
-    ).toBeLessThanOrEqual(60 * 1024);
+    ).toBeLessThanOrEqual(60_000);
   });
 }
+
+test('text fonts use two local subset families with swap and a primary preload', async ({
+  page,
+}) => {
+  await page.goto('about/');
+  const fonts = await page.evaluate(() =>
+    Array.from(document.fonts, (font) => ({
+      family: font.family,
+      display: font.display,
+      unicodeRange: font.unicodeRange,
+    })),
+  );
+  expect(fonts).toHaveLength(4);
+  expect(new Set(fonts.map((font) => font.family)).size).toBe(2);
+  for (const font of fonts) {
+    expect(font.display).toBe('swap');
+    expect(font.unicodeRange).not.toBe('U+0-10FFFF');
+  }
+  const preload = page.locator('link[rel="preload"][as="font"]');
+  await expect(preload).toHaveCount(2);
+  for (const subset of ['cyrillic', 'latin']) {
+    const file = page.locator(
+      `link[rel="preload"][as="font"][href*="golos-text-${subset}-"]`,
+    );
+    await expect(file).toHaveCount(1);
+    const href = await file.getAttribute('href');
+    expect(href).toMatch(/\.woff2$/u);
+    expect(new URL(href ?? '', page.url()).origin).toBe(
+      new URL(page.url()).origin,
+    );
+    expect((await page.request.get(href ?? '')).ok()).toBe(true);
+  }
+  await page.evaluate(() => document.fonts.ready);
+  const resources = await page.evaluate(() =>
+    performance.getEntriesByType('resource').map((entry) => entry.name),
+  );
+  expect(resources.filter((url) => url.includes('jetbrains-mono'))).toEqual([]);
+  await expect(page.locator('.brand-icon svg')).toBeVisible();
+});
 
 test('static page applies saved appearance before the body and follows settings from another tab', async ({
   page,

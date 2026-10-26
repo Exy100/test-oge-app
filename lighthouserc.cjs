@@ -55,6 +55,9 @@ const urls = [
   'http://127.0.0.1:4323/test-oge-app/variants/print/?id=V01',
   'http://127.0.0.1:4323/test-oge-app/variants/V01/result/',
   'http://127.0.0.1:4323/test-oge-app/variants/random/result/',
+  'http://127.0.0.1:4323/test-oge-app/about/',
+  'http://127.0.0.1:4323/test-oge-app/privacy/',
+  'http://127.0.0.1:4323/test-oge-app/settings/',
 ];
 
 const shard = process.env.OGE_LH_SHARD;
