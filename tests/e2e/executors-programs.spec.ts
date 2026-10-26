@@ -66,7 +66,7 @@ test('executor accepts all alternative solutions, manual steps and keyboard edit
   await expect(scene).toContainText('Пока не подходит');
   await expect(check).toHaveCSS('outline-style', 'solid');
   const add = scene.getByRole('button', { name: 'Добавить команду 2' });
-  if (info.project.name === 'mobile') await add.tap();
+  if (info.project.use.hasTouch === true) await add.tap();
   else await add.click();
   await expect(program).toHaveValue('12');
 });

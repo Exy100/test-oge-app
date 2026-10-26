@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { expectNoHorizontalOverflow } from './layout';
 import { textVolume } from '../../src/core/generators/01/text-volume';
 import { generators } from '../../src/core/generators';
 import {
@@ -41,11 +42,7 @@ test('all registered subtypes reproduce Node tasks and render code tables in the
       page.locator('.generator-example').first().getByRole('table'),
     ).toBeVisible();
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
+    await expectNoHorizontalOverflow(page);
   }
 });
 
@@ -102,11 +99,7 @@ test('Python examples render code and input tables without mobile overflow', asy
   await expect(example.locator('pre code')).toContainText('print("ДА")');
   await expect(example.getByRole('table')).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  await expectNoHorizontalOverflow(page);
 });
 
 test('№16: all Python test suites and output assessments match Node in the browser', async ({
@@ -196,11 +189,7 @@ test('№16: Python source and test files download with accessible mobile previe
     new TextDecoder().decode(dataset.files.get('tests/04.expected.txt')),
   );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  await expectNoHorizontalOverflow(page);
 });
 
 for (const id of [
@@ -238,11 +227,7 @@ for (const id of [
       await page.getByLabel('Тема', { exact: true }).selectOption(theme);
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     }
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
+    await expectNoHorizontalOverflow(page);
   });
 }
 
@@ -311,9 +296,5 @@ test('№15: field diagram, accessible mobile layout and downloaded Robot family
     Buffer.from((await createTaskDataset(task)).archive),
   );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  await expectNoHorizontalOverflow(page);
 });

@@ -1853,3 +1853,14 @@ CI f481a43, запуск
   маркеры, файлы окружения и symlink. Локально 34 целевых unit и 350 браузерных
   сценариев прошли; Gitleaks/audit чистые. [Отчёт](reports/t9.3.md).
   Доставка требует полного CI и Pages итогового коммита. Далее T9.4; Gate 9 открыт.
+
+- T9.3 опубликована через [PR №10](https://github.com/Exy100/test-oge-app/pull/10),
+  main `776a250`; [CI/Pages 40355388184](https://github.com/Exy100/test-oge-app/actions/runs/40355388184)
+  успешен: 1999 unit / 93 файла, 2870 browser, core lines 97,76%; 177 + 6
+  navigation, 51 INP — 16–144 мс. Сборка, Gitleaks/audit и все 17 заданий прошли.
+  [Отчёт](reports/t9.3.md).
+- T9.4: полные desktop/touch-профили Chromium/Firefox/WebKit на 360 px,
+  доверенные касания, смена размеров, настоящий автосейв и восстановление.
+  CLI обнаруживает 4290 сценариев; десять CI-групп сохраняют все пороги и лимиты.
+  [Матрица](cross-browser.md), [отчёт](reports/t9.4.md), ADR-052.
+  Доставка требует полного CI/Pages итогового SHA. Далее T9.5; Gate 9 открыт.

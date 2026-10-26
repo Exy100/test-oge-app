@@ -86,7 +86,7 @@ test('document properties change preview, keyboard feedback and the actual ODT',
   const reset = scene.getByRole('button', {
     name: 'Вернуть начальные свойства',
   });
-  if (info.project.name === 'mobile') await reset.tap();
+  if (info.project.use.hasTouch === true) await reset.tap();
   else await reset.press('Enter');
   await expect(
     scene.getByRole('spinbutton', { name: 'Размер шрифта, пт', exact: true }),

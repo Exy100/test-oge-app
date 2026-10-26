@@ -55,7 +55,7 @@ test('digits, decomposition, reverse conversion and exam sum work from the keybo
   await expect(scene).toContainText('Пока неверно');
   await scene.getByLabel('Сумма в десятичной системе').fill('52');
   const check = scene.getByRole('button', { name: 'Проверить сумму' });
-  if (info.project.name === 'mobile') await check.tap();
+  if (info.project.use.hasTouch === true) await check.tap();
   else await check.press('Enter');
   await expect(scene).toContainText('Верно: сумма найдена');
   await expect(scene.locator('.interactive-host')).toHaveAttribute(
@@ -108,7 +108,7 @@ test('tree navigation distinguishes nested files, same names and neighbouring fo
   const recursive = scene.getByRole('checkbox', {
     name: 'Учитывать вложенные папки',
   });
-  if (info.project.name === 'mobile') await recursive.tap();
+  if (info.project.use.hasTouch === true) await recursive.tap();
   else await recursive.press('Space');
   await scene.getByRole('button', { name: 'Проверить область' }).press('Enter');
   await expect(scene).toContainText('Пока неверно');

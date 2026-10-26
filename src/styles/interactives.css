@@ -25,6 +25,7 @@
 }
 .information-lab {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   min-width: 0;
 }
@@ -212,4 +213,12 @@
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-block: var(--space-4);
+}
+.lesson-interactive .robot-practice {
+  min-width: 0;
+  max-width: 100%;
+}
+.information-lab pre {
+  max-width: 100%;
+  overflow-x: auto;
 }

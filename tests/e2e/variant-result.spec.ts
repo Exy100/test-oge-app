@@ -208,6 +208,9 @@ test('preparation plan opens new executor and program lessons', async ({
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    const scene = page.locator('.lesson-interactive');
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene.locator('.information-lab')).toBeVisible();
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),

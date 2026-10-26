@@ -42,28 +42,30 @@ export default function GeneratorGallery() {
       >
         <label>
           Генератор
-          <select
-            disabled={!ready}
-            value={id}
-            onChange={(event) => {
-              setId(event.target.value);
-            }}
-          >
-            <optgroup label="Основной реестр">
-              {generators.map((generator) => (
-                <option key={generator.id} value={generator.id}>
-                  №{generator.taskNumber} — {generator.title}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Отдельные учебные упражнения: не входят в варианты ОГЭ">
-              {learningGenerators.map((generator) => (
-                <option key={generator.id} value={generator.id}>
-                  №{generator.taskNumber} — {generator.title}
-                </option>
-              ))}
-            </optgroup>
-          </select>
+          <span className="generator-select">
+            <select
+              disabled={!ready}
+              value={id}
+              onChange={(event) => {
+                setId(event.target.value);
+              }}
+            >
+              <optgroup label="Основной реестр">
+                {generators.map((generator) => (
+                  <option key={generator.id} value={generator.id}>
+                    №{generator.taskNumber} — {generator.title}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Отдельные учебные упражнения: не входят в варианты ОГЭ">
+                {learningGenerators.map((generator) => (
+                  <option key={generator.id} value={generator.id}>
+                    №{generator.taskNumber} — {generator.title}
+                  </option>
+                ))}
+              </optgroup>
+            </select>
+          </span>
         </label>
         <label>
           Seed
@@ -132,7 +134,11 @@ export default function GeneratorGallery() {
                 <RichText source={step.text} />
                 {step.formula && <RichText source={`$$${step.formula}$$`} />}
                 {step.code && (
-                  <pre>
+                  <pre
+                    tabIndex={0}
+                    role="region"
+                    aria-label={`Программа решения, задача ${String(index + 1)}, шаг ${String(stepIndex + 1)}`}
+                  >
                     <code>{step.code}</code>
                   </pre>
                 )}

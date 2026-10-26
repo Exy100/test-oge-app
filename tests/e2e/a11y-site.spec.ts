@@ -104,12 +104,32 @@ for (const route of auditPages)
         });
         document.documentElement.style.fontSize = '200%';
       });
+      const layout = await page.evaluate(() => ({
+        viewport: innerWidth,
+        document: document.documentElement.scrollWidth,
+        offenders:
+          document.documentElement.scrollWidth > innerWidth
+            ? Array.from(document.querySelectorAll('main *'))
+                .filter(
+                  (element) =>
+                    element.getBoundingClientRect().right > innerWidth,
+                )
+                .slice(0, 15)
+                .map((element) => ({
+                  tag: element.tagName,
+                  class: element.getAttribute('class'),
+                  width: element.getBoundingClientRect().width,
+                  right: element.getBoundingClientRect().right,
+                  minWidth: getComputedStyle(element).minWidth,
+                  overflow: getComputedStyle(element).overflowX,
+                }))
+            : [],
+      }));
       expect(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-        'No page-level horizontal overflow at 200% text',
-      ).toBe(true);
+        layout.document,
+        'No page-level horizontal overflow at 200% text: ' +
+          JSON.stringify(layout),
+      ).toBeLessThanOrEqual(layout.viewport);
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
       expect(errors).toEqual([]);
     });

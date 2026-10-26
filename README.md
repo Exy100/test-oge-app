@@ -96,6 +96,10 @@ npx playwright install --with-deps chromium firefox webkit
 npm run e2e
 ```
 
+Полный e2e включает Chromium/Firefox/WebKit на desktop и 360px touch, а также
+отдельный визуальный проект. Профили `mobile`, `mobile-firefox`, `mobile-webkit`
+проходят весь обычный набор. [Матрица браузеров и границы эмуляции](docs/cross-browser.md).
+
 Для браузерных проверок нужен OpenSSL: тестовые production-серверы используют
 HTTPS с временным локальным сертификатом в `.cache/test-tls` (см. `docs/security.md`).
 
