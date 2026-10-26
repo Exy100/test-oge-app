@@ -108,23 +108,29 @@ test('the readable page paints before result JavaScript starts loading', async (
   expect(timings.result).toBeGreaterThan(timings.paint ?? Infinity);
 });
 
-test('stalled fonts cannot prevent the saved result from loading', async ({
-  page,
-}) => {
-  const saved = attempt();
-  const held: Route[] = [];
-  await page.route(/\.woff2$/u, (route) => {
-    held.push(route);
+for (const holdFrames of [false, true])
+  test(`stalled fonts cannot prevent the saved result from loading${holdFrames ? ' with stalled animation frames' : ''}`, async ({
+    page,
+  }) => {
+    const saved = attempt();
+    const held: Route[] = [];
+    if (holdFrames)
+      await page.addInitScript(() => {
+        // Reproduce WebKit delaying frame callbacks while font requests are pending.
+        window.requestAnimationFrame = () => 1;
+      });
+    await page.route(/\.woff2$/u, (route) => {
+      held.push(route);
+    });
+    try {
+      await seed(page, [saved]);
+      await page.goto(url(saved), { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('.result-screen #result-task-1')).toBeVisible();
+      expect(held.length).toBeGreaterThan(0);
+    } finally {
+      await Promise.all(held.map((route) => route.abort()));
+    }
   });
-  try {
-    await seed(page, [saved]);
-    await page.goto(url(saved), { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('.result-screen #result-task-1')).toBeVisible();
-    expect(held.length).toBeGreaterThan(0);
-  } finally {
-    await Promise.all(held.map((route) => route.abort()));
-  }
-});
 
 test('preparation plan opens available lessons for weak №1 and №2', async ({
   page,

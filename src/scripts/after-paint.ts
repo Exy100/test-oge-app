@@ -8,10 +8,17 @@ const afterPaint: ClientDirective = (load) => {
   const start = () => {
     if (scheduled) return;
     scheduled = true;
+    let imported = false;
+    const importAndHydrate = () => {
+      if (imported) return;
+      imported = true;
+      window.clearTimeout(frameDeadline);
+      void load().then((hydrate) => hydrate());
+    };
+    // A stalled rendering opportunity must not prevent loading the result UI.
+    const frameDeadline = window.setTimeout(importAndHydrate, 200);
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        void load().then((hydrate) => hydrate());
-      });
+      requestAnimationFrame(importAndHydrate);
     });
   };
   const afterText = () => {
