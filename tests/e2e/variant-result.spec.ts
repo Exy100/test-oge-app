@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Route } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import {
@@ -86,6 +86,45 @@ async function history(page: Page) {
 function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
+
+test('the readable page paints before result JavaScript starts loading', async ({
+  page,
+}) => {
+  const saved = attempt();
+  await seed(page, [saved]);
+  await page.goto(url(saved));
+  await expect(page.locator('.result-screen #result-task-1')).toBeVisible();
+  const timings = await page.evaluate(() => ({
+    paint: performance
+      .getEntriesByType('paint')
+      .find((entry) => entry.name === 'first-contentful-paint')?.startTime,
+    result: performance
+      .getEntriesByType('resource')
+      .find((entry) =>
+        /\/VariantResult\.[^/]+\.js$/u.test(new URL(entry.name).pathname),
+      )?.startTime,
+  }));
+  expect(timings.paint).toBeGreaterThan(0);
+  expect(timings.result).toBeGreaterThan(timings.paint ?? Infinity);
+});
+
+test('stalled fonts cannot prevent the saved result from loading', async ({
+  page,
+}) => {
+  const saved = attempt();
+  const held: Route[] = [];
+  await page.route(/\.woff2$/u, (route) => {
+    held.push(route);
+  });
+  try {
+    await seed(page, [saved]);
+    await page.goto(url(saved), { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.result-screen #result-task-1')).toBeVisible();
+    expect(held.length).toBeGreaterThan(0);
+  } finally {
+    await Promise.all(held.map((route) => route.abort()));
+  }
+});
 
 test('preparation plan opens available lessons for weak №1 and №2', async ({
   page,

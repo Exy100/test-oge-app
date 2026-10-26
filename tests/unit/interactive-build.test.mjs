@@ -38,6 +38,7 @@ it(
         'scripts/security-headers.mjs',
         'scripts/sitemap.mjs',
         'src/lib/site.ts',
+        'src/scripts/after-paint.ts',
         'src/components/lessons/Interactive.astro',
         'src/components/lessons/InteractiveHost.tsx',
         'src/components/useHydrated.ts',

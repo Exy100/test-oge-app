@@ -67,7 +67,7 @@ export ASTRO_TELEMETRY_DISABLED=1
 | `npm run verify`         | lint → typecheck → unit → forbidden → coverage → contrast → build |
 | `npm run check:contrast` | Контраст текстовых токенов в обеих темах                          |
 | `npm run e2e`            | Сборка, браузерные тесты и axe                                    |
-| `npm run lh`             | Сборка и три замера Lighthouse с бюджетами spec §15               |
+| `npm run lh`             | Сборка, Lighthouse и реальные сценарии INP по spec §15            |
 
 `npm run sample:variant` выгружает один вариант или все V01–V10;
 `npm run check:variants` проверяет файлы комплектов, программы и новые таблицы в Calc.
@@ -109,8 +109,12 @@ CHROME_PATH=/usr/bin/chromium npm run lh
 Это отдельный прогон Chromium, он не заменяет Firefox и WebKit. Локальные отчёты
 остаются на машине; в CI следы браузерных ошибок и Lighthouse-отчёты сохраняются
 в артефактах GitHub Actions на семь дней. Lighthouse измеряет главную, каталог
-и выпущенные уроки, поток, варианты и результаты; список — в `lighthouserc.cjs`.
-В CI страницы разделены на две группы с одинаковыми бюджетами и тремя прогонами.
+и все выпущенные уроки, поток, варианты, результаты, настройки и информационные
+страницы: 59 URL ×3, список — в `lighthouserc.cjs`. Дополнительно выполняются
+17 сценариев ×3 с настоящим вводом и INP ≤200 мс, а заполненные результаты
+проходят ещё шесть холодных загрузок. Сценарии — `scripts/performance-scenarios.mjs`;
+JSON/HTML и сводка — `.lighthouseci/reports/interactions/` (ADR-049/050).
+В CI обе матрицы разделены на четыре обязательные группы с одинаковыми бюджетами.
 
 ## Структура
 
