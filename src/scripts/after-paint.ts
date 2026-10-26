@@ -4,6 +4,7 @@ import type { ClientDirective } from 'astro';
 // A 200 ms deadline prevents a stalled font from delaying hydration indefinitely.
 const afterPaint: ClientDirective = (load) => {
   let scheduled = false;
+  let waitingForPaint = false;
   const start = () => {
     if (scheduled) return;
     scheduled = true;
@@ -14,6 +15,7 @@ const afterPaint: ClientDirective = (load) => {
     });
   };
   const afterText = () => {
+    if (scheduled || waitingForPaint) return;
     if (
       !PerformanceObserver.supportedEntryTypes.includes('paint') ||
       performance.getEntriesByName('first-contentful-paint', 'paint').length
@@ -28,9 +30,16 @@ const afterPaint: ClientDirective = (load) => {
           .some((entry) => entry.name === 'first-contentful-paint')
       )
         return;
+      window.clearTimeout(paintDeadline);
       observer.disconnect();
       start();
     });
+    // WebKit can withhold Paint Timing while a font request is stalled.
+    const paintDeadline = window.setTimeout(() => {
+      observer.disconnect();
+      start();
+    }, 200);
+    waitingForPaint = true;
     observer.observe({ type: 'paint', buffered: true });
   };
   const deadline = window.setTimeout(afterText, 200);
