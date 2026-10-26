@@ -15,7 +15,7 @@
   box-sizing: border-box;
 }
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: var(--space-7);
 }
 /* Native focus scrolling must finish before the next pointer action. */
