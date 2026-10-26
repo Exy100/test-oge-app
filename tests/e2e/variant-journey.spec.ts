@@ -128,6 +128,8 @@ for (const choice of ['presentation', 'document'] as const) {
         PREFIX + 'variantDraft',
       ),
     ).toMatchObject({ current: null });
+    // Deadline assertions are complete. Result navigation needs real browser frames.
+    await page.clock.resume();
     // Deliberately varied self-assessments; these do not certify the sample work.
     for (const [n, score] of [
       [13, 2],
