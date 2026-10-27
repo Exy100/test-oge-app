@@ -281,6 +281,9 @@ test('each repeated download replaces its object URL and unmount releases it', a
     Object.defineProperty(window, 'officeUrls', { value: () => urls.size });
   });
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/interactives/');
+  // Finish the scene above the harness before it can shift the pointer target.
+  await page.locator('#bits-probe').scrollIntoViewIfNeeded();
+  await expect(page.locator('#bits-probe [data-probe-ready]')).toBeVisible();
   const harness = page.getByRole('region', {
     name: 'Повторное подключение и ошибки',
   });
