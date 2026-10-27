@@ -1,4 +1,3 @@
 {
-  "kind": "python-run",
-  "threshold": -71
+  "kind": "python-positive-mean"
 }

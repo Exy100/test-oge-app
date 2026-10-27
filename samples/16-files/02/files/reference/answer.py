@@ -1,12 +1,7 @@
 n = int(input())
-count = 0
 total = 0
-if n == 0:
-    count = 1
-while n > 0:
-    digit = n % 10
-    if digit % 9 == 0:
-        count += 1
-        total += digit
-    n //= 10
-print(count, total)
+for i in range(n):
+    x = int(input())
+    if x % 7 == 1:
+        total += x
+print(total)

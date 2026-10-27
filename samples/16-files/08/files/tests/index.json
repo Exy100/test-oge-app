@@ -1,9 +1,9 @@
 {
   "parameters": {
-    "kind": "python-run",
-    "threshold": -77
+    "kind": "python-base7-sum"
   },
   "timeoutSeconds": 2,
+  "outputPolicy": "integer",
   "cases": [
     {
       "id": "01",
@@ -13,37 +13,37 @@
     },
     {
       "id": "02",
-      "label": "Равенство порогу",
+      "label": "Одно подходящее число",
       "input": "tests/02.input.txt",
       "expected": "tests/02.expected.txt"
     },
     {
       "id": "03",
-      "label": "Ни одного подходящего",
+      "label": "Нет подходящих чисел",
       "input": "tests/03.input.txt",
       "expected": "tests/03.expected.txt"
     },
     {
       "id": "04",
-      "label": "Сброс длины",
+      "label": "Остаток один, а не ноль",
       "input": "tests/04.input.txt",
       "expected": "tests/04.expected.txt"
     },
     {
       "id": "05",
-      "label": "Цепочка в конце",
+      "label": "Все подходят",
       "input": "tests/05.input.txt",
       "expected": "tests/05.expected.txt"
     },
     {
       "id": "06",
-      "label": "Цепочка в начале",
+      "label": "Последняя цифра не десятичная",
       "input": "tests/06.input.txt",
       "expected": "tests/06.expected.txt"
     },
     {
       "id": "07",
-      "label": "Равные максимумы",
+      "label": "Повторяющиеся значения",
       "input": "tests/07.input.txt",
       "expected": "tests/07.expected.txt"
     },
@@ -55,13 +55,13 @@
     },
     {
       "id": "09",
-      "label": "Максимальное N, все подходят",
+      "label": "Подходящее в конце",
       "input": "tests/09.input.txt",
       "expected": "tests/09.expected.txt"
     },
     {
       "id": "10",
-      "label": "Максимальное N, разрывы",
+      "label": "Максимальное N",
       "input": "tests/10.input.txt",
       "expected": "tests/10.expected.txt"
     }

@@ -158,7 +158,7 @@ export async function checkCoverage(
           .map((item) => item.subtype),
       ).size,
       minimum,
-      requiredIds ? null : config.phases.generators,
+      requiredIds && number !== '16' ? null : config.phases.generators,
       requiredIds ? config.sources.learning : config.sources.generators,
     );
   }

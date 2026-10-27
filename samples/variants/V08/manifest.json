@@ -106,36 +106,36 @@
     {
       "path": "files/16.manifest.json",
       "format": "json",
-      "size": 5728,
-      "sha256": "4c2f54ea2fd36c01ecbe3409e3664f211cce56eefcd6e21771684da424a1c97a",
+      "size": 5746,
+      "sha256": "9c4fad5326695a89379fd0d72f882dc63d54ea633b920a8b741f800a676dd7ed",
       "license": "CC0-1.0"
     },
     {
       "path": "files/16.zip",
       "format": "zip",
-      "size": 18776,
-      "sha256": "6ecf1984d63d1ac076bdeed539c744a35be44f744dca6965b602dea89f9148b8",
+      "size": 20700,
+      "sha256": "433c09609b0035cabd85150e0927f01e48439fb24b3eef88c52b21a89ffd0279",
       "license": "CC0-1.0"
     },
     {
       "path": "index.json",
       "format": "json",
-      "size": 2311,
-      "sha256": "5b17b85aca4aa4459ed8323bd7050a08712f3834144135d3af30e42843da3305",
+      "size": 2327,
+      "sha256": "7409032fbbfad1d1d49cdc479e401215d76089d1f46e71df5e82ac9dc373d855",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.json",
       "format": "json",
-      "size": 62227,
-      "sha256": "e96f49244d7791e91dcfbc0dc87c532f7bb24846478e206df5592ae189cbb358",
+      "size": 61898,
+      "sha256": "28408da3046039469e55c14e24746b939b647c5218eaca9ea048147a62b95fe3",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.txt",
       "format": "txt",
-      "size": 35801,
-      "sha256": "737c31b1ce69ed8f3cd622567f5b05ca4372610897988040604ec5a49a49bc52",
+      "size": 35555,
+      "sha256": "5e0bc679cf3456074ad1cc741be48249454e91ff2b05994d5ef657e1bc89eb35",
       "license": "CC0-1.0"
     }
   ]

@@ -1,12 +1,7 @@
-n = int(input())
 count = 0
-total = 0
-if n == 0:
-    count = 1
-while n > 0:
-    digit = n % 10
-    if digit % 2 == 0:
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
         count += 1
-        total += digit
-    n //= 10
-print(count, total)
+    x = int(input())
+print(count)

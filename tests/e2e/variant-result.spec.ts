@@ -12,6 +12,7 @@ import {
 } from '../../src/core/variants/exam';
 import { PREFIX, areaSchemas } from '../../src/core/storage/schemas';
 import type { Variant } from '../../src/core/types';
+import legacyPrograms from '../fixtures/python-legacy-variants.json' with { type: 'json' };
 
 const variant = buildFixedVariant('V01', 'document');
 const key = PREFIX + 'variantAttempts';
@@ -86,6 +87,22 @@ async function history(page: Page) {
 function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
+
+test('history without a Python format version restores the original №16 in the worker', async ({
+  page,
+}) => {
+  const saved = attempt();
+  delete saved.pythonFormatVersion;
+  await seed(page, [saved]);
+  await page.goto(url(saved));
+  const details = await review(page, 16);
+  const legacy = legacyPrograms.find((item) => item.id === 'V01');
+  if (!legacy) throw new Error('Missing original task');
+  await expect(details).toContainText(
+    legacy.task.statement.split('\n\n')[0] ?? '',
+  );
+  expect((await history(page)).entries[0]?.pythonFormatVersion).toBeUndefined();
+});
 
 test('the readable page paints before result JavaScript starts loading', async ({
   page,

@@ -1,29 +1,29 @@
 {
   "kind": "generated",
-  "generatorId": "python-filter-v1",
-  "id": "python-filter-v1:files:python-review:8",
+  "generatorId": "python-octal-sentinel-v1",
+  "id": "python-octal-sentinel-v1:files:python-review:8",
   "seed": "python-review:8",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2291,
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
+      "size": 2624,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1513,
-      "sha256": "3e9916800751561f99f7ddf7058a34b5383257694ffc1bd9e9cad32855a185fb",
+      "size": 1829,
+      "sha256": "19dabc1f09d57b6f844d918cb41fbf8662fe84d5063e675d50ecb4824c3a6e02",
       "license": "CC0-1.0"
     },
     {
       "path": "check.py",
       "format": "py",
-      "size": 2177,
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
+      "size": 3133,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
       "license": "CC0-1.0"
     },
     {
@@ -36,162 +36,162 @@
     {
       "path": "reference/answer.py",
       "format": "py",
-      "size": 165,
-      "sha256": "b914a361193cd0cbe8bccf228faad9409146f90fb9d6c0e03535fc136125bf8f",
+      "size": 133,
+      "sha256": "5af1619178d046ecf01773d853fc6db85c47cfaab31c4a69a681b47d9005ffbb",
       "license": "CC0-1.0"
     },
     {
       "path": "source/parameters.json",
       "format": "json",
-      "size": 64,
-      "sha256": "0ef01babe090e0a5f683a8b857a601c1b57861ed8f64384db608ab65c6de94dc",
+      "size": 38,
+      "sha256": "51732606774193118e9268c94a33b31438de57e240ff277cb05b1512da3e4241",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/01.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/01.input.txt",
       "format": "txt",
-      "size": 59,
-      "sha256": "6bde3526b2f463aac95f67062c41ced898f761caba9dcfd061e6def96c25093e",
+      "size": 94,
+      "sha256": "e025ccc6d8fcf8e91b0c84bce3dcb0f6367dfcff0244365400cf874d84fa0b12",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/02.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/02.input.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "70df528934492a33f66bffe9f5206ac62d6d27ab1b32db0ce1425c0e7c5e3342",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/03.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "size": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/03.input.txt",
       "format": "txt",
-      "size": 9,
-      "sha256": "bcefb054d6035cd9d8688a0cc43c705a4aca8f526a30dbfd9686da9d8bc46d7a",
+      "size": 6,
+      "sha256": "0b7a8bc42ed6e8604a1fe391decb96c7dcbbb75fa348697a32fcab6a73016140",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/04.expected.txt",
       "format": "txt",
-      "size": 5,
-      "sha256": "865d03a46ff8cfc3e4904bc75b802252b98df20b3547645245ab04ffcb5165af",
+      "size": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/04.input.txt",
       "format": "txt",
-      "size": 9,
-      "sha256": "cf4eb152b7b3e4a06a7e1989d126033e35280f59c330c8e5cd9acef1e7752a3f",
+      "size": 14,
+      "sha256": "3bffc84f544e473e75f3ba250831e06d88f207a07a02dec1737a67a114743fe9",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/05.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "size": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/05.input.txt",
       "format": "txt",
-      "size": 9,
-      "sha256": "b47b851fd1bb0a41e64c915d91214567ff3d91531edc354d44216748161aedd5",
+      "size": 22,
+      "sha256": "909521a7bb65568c1f7708e08a31cc2f46c9fabb7fc436b9c4380cb7c919be33",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/06.expected.txt",
       "format": "txt",
-      "size": 8,
-      "sha256": "3d6bf5e37d5f614f8a9ba04929f1fb5ca8500e7e90f6f46eba38e0108bbfa219",
+      "size": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/06.input.txt",
       "format": "txt",
-      "size": 15,
-      "sha256": "733dc5707576f4065ec00cb477e0b378d91c32ca27586d84369663d112f305ad",
+      "size": 14,
+      "sha256": "8ce3a22961d0196d2ec47762b2505e02476d6b0ab4593594e55581ca71264f95",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/07.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "dea7e4555848aab04a6d866158df9903d5d45f49d18f6745f2c52f8670de280a",
+      "size": 2,
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/07.input.txt",
       "format": "txt",
-      "size": 8,
-      "sha256": "a70f9145e7e500bf9b5c42bdec03573d6eddf464bed90786b889db16f06b0b42",
+      "size": 14,
+      "sha256": "fb5e038a13a520b32f7a98889fc144064d0872a34415b35dc9d9ac863b3893b8",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/08.expected.txt",
       "format": "txt",
-      "size": 7,
-      "sha256": "841d2ea0f17de3d4a7fa5beaf349d84a614b3e093d0edce2a4a2539e0e1c5ebb",
+      "size": 2,
+      "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/08.input.txt",
       "format": "txt",
-      "size": 38,
-      "sha256": "e57c46ff0cf6d4dccaeac87b46d9e43bbce687abb178f0bc7da4b02b7d666ece",
+      "size": 14,
+      "sha256": "5179f97d64f1cfafe89323ba4d3c731a5e790720f1791008e853404eaef4fbe2",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/09.expected.txt",
       "format": "txt",
-      "size": 5,
-      "sha256": "69abf4e1b4c2c89b9d6b25e993480c32b55c9f406f1c918b8d941e422e1be14b",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/09.input.txt",
       "format": "txt",
-      "size": 8,
-      "sha256": "5f70d722634be69979400651322e639cf116292ce636d22793ce4a7c69277edb",
+      "size": 10,
+      "sha256": "133c078239ea72a685de8263a1664df8460390dfd72421fb8ec578999b97f3f0",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/10.expected.txt",
       "format": "txt",
-      "size": 10,
-      "sha256": "d07754d09782f82e8909c023588126491a91162146ada03622a094b4da7b5ec5",
+      "size": 5,
+      "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/10.input.txt",
       "format": "txt",
-      "size": 5382,
-      "sha256": "780af9f674aaddda2bb2b43c881cf69b647d4c9896b6f2120c82c9a71bf3dd43",
+      "size": 4502,
+      "sha256": "b4e5864555c2e5d88b7c83495498095c52a7f2692eb94853002ec8390a0e7be6",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/index.json",
       "format": "json",
-      "size": 1723,
-      "sha256": "436b190a611c4f3e407cb696719ea41763734e4593c23e552ded0e2e94956041",
+      "size": 1786,
+      "sha256": "5976e9f98adc80a56b7a53d50f0e19f3d89b47bfbba0ef090175a42c346623d3",
       "license": "CC0-1.0"
     }
   ]

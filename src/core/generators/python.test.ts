@@ -8,6 +8,7 @@ import { checkGeneratorSeed } from './quality';
 import { createTaskDataset } from './task-dataset';
 import { readZip } from '../datasets/zip';
 import { referencePython } from './16/programs';
+import { pythonGenerators } from './16/programs';
 import {
   assessProgramRuns,
   equalProgramOutput,
@@ -17,6 +18,7 @@ import {
   programCases,
   programKinds,
   programParameters,
+  programOutputPolicy,
   sequenceInput,
   validateProgramParameters,
   type ProgramParameters,
@@ -34,6 +36,10 @@ const seeds =
   })[0] ?? [];
 function oracle(p: ProgramParameters, input: string): string {
   const numbers = input.trim().split(/\s+/u).map(Number);
+  if (p.kind === 'python-octal-sentinel') {
+    expect(numbers.pop()).toBe(0);
+    return `${String(numbers.filter((value) => value >= 8 ** 3 && value < 8 ** 4 && value % 8 === 5).length)}\n`;
+  }
   if (p.kind === 'python-digits') {
     let n = numbers[0] ?? 0,
       count = 0,
@@ -50,6 +56,22 @@ function oracle(p: ProgramParameters, input: string): string {
   }
   const count = numbers.shift();
   expect(numbers.length).toBe(count);
+  if (p.kind === 'python-positive-mean') {
+    let total = 0,
+      accepted = 0;
+    for (const value of numbers)
+      if (value > 0) {
+        total += value;
+        accepted++;
+      }
+    return `${String(total / accepted)} ${String(accepted)}\n`;
+  }
+  if (p.kind === 'python-base7-sum') {
+    let sum = 0;
+    for (const value of numbers)
+      if (Number.isInteger((value - 1) / 7)) sum += value;
+    return `${String(sum)}\n`;
+  }
   if (p.kind === 'python-filter') {
     let matches = 0,
       sum = 0;
@@ -100,7 +122,7 @@ function runPython(
   expect(result.stderr).toBe('');
   return JSON.parse(result.stdout) as string[][];
 }
-for (const generator of generatorsForTask(16))
+for (const generator of pythonGenerators)
   describe(generator.id, () => {
     test.each([0, 1, 2, 3])(
       '500 distinct seeds, batch %i: oracle, files, hashes and schema',
@@ -219,12 +241,23 @@ test('real Python 3 executes 500 seeds per subtype on all ten cases', () => {
         code: referencePython(p),
         inputs: cases.map((item) => item.input),
         expected: cases.map((item) => oracle(p, item.input)),
+        policy: programOutputPolicy(p),
       };
     }),
   );
-  expect(groups).toHaveLength(2000);
+  expect(groups).toHaveLength(3500);
   const outputs = runPython(groups);
-  expect(outputs).toEqual(groups.map((group) => group.expected));
+  expect(outputs).toHaveLength(groups.length);
+  for (const [index, group] of groups.entries())
+    expect(
+      outputs[index]?.every((output, position) =>
+        equalProgramOutput(
+          group.expected[position] ?? '',
+          output,
+          group.policy,
+        ),
+      ),
+    ).toBe(true);
 }, 30000);
 test('boundary mutations fail real Python tests instead of earning full credit', () => {
   const groups = programKinds.map((kind) => {
@@ -236,6 +269,12 @@ test('boundary mutations fail real Python tests instead of earning full credit',
       code = code.replace('if n == 0:\n    count = 1\n', '');
     else if (kind === 'python-pairs')
       code = code.replace('count == 0 or pair_sum > best', 'pair_sum > best');
+    else if (kind === 'python-positive-mean')
+      code = code.replace('total / count', 'total // count');
+    else if (kind === 'python-base7-sum')
+      code = code.replace('x % 7 == 1', 'x % 7 == 0');
+    else if (kind === 'python-octal-sentinel')
+      code = code.replace('512 <= x < 4096', '0 <= x < 10000');
     else
       code = code.replace(
         'else:\n        current = 0',
@@ -262,6 +301,18 @@ test('small inputs are exhaustively checked with an independent oracle', () => {
         expect(expectedProgramOutput(p, `${String(n)}\n`)).toBe(
           oracle(p, `${String(n)}\n`),
         );
+    } else if (
+      p.kind === 'python-positive-mean' ||
+      p.kind === 'python-base7-sum' ||
+      p.kind === 'python-octal-sentinel'
+    ) {
+      for (let x = 1; x <= 10000; x++) {
+        const input =
+          p.kind === 'python-octal-sentinel'
+            ? `${String(x)}\n0\n`
+            : sequenceInput([x]);
+        expect(expectedProgramOutput(p, input)).toBe(oracle(p, input));
+      }
     } else
       for (let n = 1; n <= 5; n++)
         for (let mask = 0; mask < 3 ** n; mask++) {
@@ -368,7 +419,7 @@ test('strict input boundaries and complete output evidence', () => {
 test.each(Array.from({ length: 12 }, (_, i) => i))(
   'committed Python sample %i reproduces exact bytes',
   async (i) => {
-    const generator = generatorsForTask(16)[i % 4];
+    const generator = generatorsForTask(16)[i % 3];
     if (!generator) throw new Error('Missing Python generator');
     const dataset = await createTaskDataset(
       generator.generate(`python-review:${String(i)}`),

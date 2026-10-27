@@ -61,6 +61,7 @@ import {
 
 import { spreadsheetGenerators } from './14/spreadsheets.ts';
 import { createRegistry } from './registry.ts';
+import { learningPythonGenerators } from './16/programs.ts';
 
 export const learningGenerators = createRegistry([
   textVolume,
@@ -110,6 +111,7 @@ export const learningGenerators = createRegistry([
   fileSizeTotal,
   fileLargest,
   ...spreadsheetGenerators,
+  ...learningPythonGenerators,
 ]);
 export function getLearningGenerator(id: string): Generator {
   const generator = learningGenerators.find((entry) => entry.id === id);

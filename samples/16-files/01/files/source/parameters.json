@@ -1,5 +1,3 @@
 {
-  "kind": "python-filter",
-  "divisor": 7,
-  "threshold": 42
+  "kind": "python-positive-mean"
 }

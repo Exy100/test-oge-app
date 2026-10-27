@@ -37,6 +37,16 @@ async function stageThree() {
     config.sources.generators,
     'export const generators = [' + generators.join(',') + '];',
   );
+  await file(
+    config.sources.learning,
+    'export const learningGenerators = [' +
+      Array.from(
+        { length: 4 },
+        (_, i) =>
+          `{ id: "python-learning-${i}", taskNumber: 16, subtype: "learning-${i}", generate: (seed) => ({ seed }), verify: (task) => typeof task.seed === "string" }`,
+      ).join(',') +
+      '];',
+  );
   const banks = Object.entries(config.banks).flatMap(([kind, count]) =>
     Array.from({ length: count }, (_, i) => ({
       id: kind + '-' + i,
@@ -110,8 +120,8 @@ describe('coverage configuration and phase checks', () => {
     expect(Object.values(config.generators).reduce((a, b) => a + b, 0)).toBe(
       58,
     );
-    expect(Object.keys(config.examFormats)).toHaveLength(13);
-    expect(Object.values(config.examFormats).flat()).toHaveLength(22);
+    expect(Object.keys(config.examFormats)).toHaveLength(14);
+    expect(Object.values(config.examFormats).flat()).toHaveLength(25);
     expect(config.examFormats[2]).toEqual([
       'decode-prefix-v2',
       'decode-nonprefix-v2',
@@ -121,6 +131,11 @@ describe('coverage configuration and phase checks', () => {
       'sheet-count-range-v2',
       'sheet-sum-mean-v2',
       'sheet-count-mean-v2',
+    ]);
+    expect(config.examFormats[16]).toEqual([
+      'python-positive-mean-v1',
+      'python-base7-sum-v1',
+      'python-octal-sentinel-v1',
     ]);
     expect(config.banks).toEqual({ presentation: 12, document: 12 });
     expect(Object.values(config.lessons.sections)).toEqual([
@@ -199,6 +214,25 @@ describe('coverage configuration and phase checks', () => {
         item.message.includes('Повтор подтипа 1:text'),
       ),
     ).toBe(true);
+  });
+
+  it('requires all three exam formats and keeps the four learning subtypes mandatory for №16', async () => {
+    await stageThree();
+    await file(
+      config.sources.learning,
+      'export const learningGenerators = [];',
+    );
+    const result = await checkCoverage(root, 3);
+    expect(
+      result.findings.some((item) =>
+        item.message.includes('№16: учебный инвентарь: 0/4'),
+      ),
+    ).toBe(true);
+    expect(
+      result.metrics.find(
+        (item) => item.label === '№16: подтверждённые генераторы',
+      ),
+    ).toMatchObject({ actual: 3, minimum: 3, required: true });
   });
 
   it('rejects malformed registries even before their minimum becomes mandatory', async () => {

@@ -6,8 +6,28 @@ import { createExamDraft, type ExamAttempt } from './exam';
 import { LocalStore, type StoragePort } from '../storage/store';
 import { ScoreSchema } from '../schemas';
 import { PREFIX } from '../storage/schemas';
+import legacyPrograms from '../../../tests/fixtures/python-legacy-variants.json' with { type: 'json' };
 
 const variant = buildFixedVariant('V01', 'document');
+test('saved attempts retain their old №16; new attempts explicitly select confirmed formats', () => {
+  for (const saved of legacyPrograms) {
+    const identity = {
+      variantId: saved.id,
+      seed: saved.seed,
+      variant13: 'presentation' as const,
+    };
+    const restored = buildExamVariant(identity);
+    expect(restored.tasks.find((task) => task.taskNumber === 16)).toEqual(
+      saved.task,
+    );
+    const current = buildExamVariant({ ...identity, pythonFormatVersion: 1 });
+    expect(current).toEqual(buildFixedVariant(saved.id));
+    expect(current.tasks.filter((task) => task.taskNumber !== 16)).toEqual(
+      restored.tasks.filter((task) => task.taskNumber !== 16),
+    );
+  }
+  expect(attemptForTotal(0).pythonFormatVersion).toBe(1);
+});
 function attemptForTotal(total: number, source = variant): ExamAttempt {
   const choice = source.tasks.find((task) => task.taskNumber === 13)?.variant13;
   if (!choice) throw new Error('Нет работы №13.');

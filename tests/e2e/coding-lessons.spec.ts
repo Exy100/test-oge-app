@@ -224,10 +224,10 @@ test('new sequence traces accept fractional means, newline-separated predictions
     scene.getByRole('button', { name: 'Проверить прогноз' }),
   ).toHaveCount(0);
 });
-test('all eleven static code ZIP archives preserve exact generated code, fields, tests and manifests', async ({
+test('all ten static code ZIP archives preserve exact generated code, fields, tests and manifests', async ({
   request,
 }) => {
-  expect(codingSources).toHaveLength(11);
+  expect(codingSources).toHaveLength(10);
   for (const source of codingSources) {
     const href = codingArchiveHref(source);
     if (!href) throw new Error('Нет источника.');

@@ -1,9 +1,9 @@
 {
   "parameters": {
-    "kind": "python-digits",
-    "divisor": 9
+    "kind": "python-base7-sum"
   },
   "timeoutSeconds": 2,
+  "outputPolicy": "integer",
   "cases": [
     {
       "id": "01",
@@ -13,55 +13,55 @@
     },
     {
       "id": "02",
-      "label": "Ноль — одна цифра",
+      "label": "Одно подходящее число",
       "input": "tests/02.input.txt",
       "expected": "tests/02.expected.txt"
     },
     {
       "id": "03",
-      "label": "Нет подходящих цифр",
+      "label": "Нет подходящих чисел",
       "input": "tests/03.input.txt",
       "expected": "tests/03.expected.txt"
     },
     {
       "id": "04",
-      "label": "Однозначное число",
+      "label": "Остаток один, а не ноль",
       "input": "tests/04.input.txt",
       "expected": "tests/04.expected.txt"
     },
     {
       "id": "05",
-      "label": "Ноль в конце",
+      "label": "Все подходят",
       "input": "tests/05.input.txt",
       "expected": "tests/05.expected.txt"
     },
     {
       "id": "06",
-      "label": "Длинная цепочка нулей",
+      "label": "Последняя цифра не десятичная",
       "input": "tests/06.input.txt",
       "expected": "tests/06.expected.txt"
     },
     {
       "id": "07",
-      "label": "Верхняя граница",
+      "label": "Повторяющиеся значения",
       "input": "tests/07.input.txt",
       "expected": "tests/07.expected.txt"
     },
     {
       "id": "08",
-      "label": "Все цифры не подходят",
+      "label": "Границы значений",
       "input": "tests/08.input.txt",
       "expected": "tests/08.expected.txt"
     },
     {
       "id": "09",
-      "label": "Все цифры подходят",
+      "label": "Подходящее в конце",
       "input": "tests/09.input.txt",
       "expected": "tests/09.expected.txt"
     },
     {
       "id": "10",
-      "label": "Чередование цифр и нулей",
+      "label": "Максимальное N",
       "input": "tests/10.input.txt",
       "expected": "tests/10.expected.txt"
     }

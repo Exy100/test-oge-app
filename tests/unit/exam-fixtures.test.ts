@@ -119,7 +119,7 @@ describe('official exam fixtures, with explicit separation from generated tasks'
       if (row.integration !== 'covered')
         expect(row.gap.length).toBeGreaterThan(20);
     }
-    expect(pendingProductIntegrations.length).toBeGreaterThan(0);
+    expect(pendingProductIntegrations).toEqual([]);
     expect(publishedRobotCondition.closesIn).toBe(
       formatRows.find((row) => row.id === 'M15')?.owner,
     );

@@ -1,12 +1,7 @@
-n = int(input())
-current = 0
-best = 0
-for i in range(n):
+count = 0
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
+        count += 1
     x = int(input())
-    if x >= -81:
-        current += 1
-        if current > best:
-            best = current
-    else:
-        current = 0
-print(best)
+print(count)

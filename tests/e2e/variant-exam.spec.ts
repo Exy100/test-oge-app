@@ -5,6 +5,8 @@ import { areaSchemas, PREFIX } from '../../src/core/storage/schemas';
 import { buildFixedVariant, VARIANT_VERSION } from '../../src/core/variants';
 import { readZip } from '../../src/core/datasets/zip';
 import { referenceProgram } from '../../src/core/generators/15/robots';
+import { createExamDraft } from '../../src/core/variants/exam';
+import legacyPrograms from '../fixtures/python-legacy-variants.json' with { type: 'json' };
 import { isRobotKind } from '../../src/core/generators/15/fields';
 import {
   isProgramKind,
@@ -19,6 +21,45 @@ if (!first || first.answer.type === 'artifact')
 const correct = first.answer.value;
 const draftKey = PREFIX + 'variantDraft',
   historyKey = PREFIX + 'variantAttempts';
+test('old Python exam drafts retain their original №16 and saved source on resume', async ({
+  page,
+}) => {
+  const draft = createExamDraft(
+    {
+      id: 'legacy-python-draft',
+      variantId: 'V01',
+      seed: 'informatics-variant-v1:V01',
+      variant13: 'presentation',
+    },
+    Date.now(),
+  );
+  delete draft.pythonFormatVersion;
+  draft.answers = [
+    { taskNumber: 16, text: 'print("мой прежний код")\n', reasoning: '' },
+  ];
+  await page.addInitScript(
+    ({ key, draft }) => {
+      localStorage.setItem(key, JSON.stringify({ version: 1, current: draft }));
+    },
+    { key: draftKey, draft },
+  );
+  await page.goto('variants/V01/');
+  await page
+    .getByRole('button', { name: 'Пройти с таймером', exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: 'Продолжить экзамен', exact: true })
+    .click();
+  await number(page, 16).click();
+  await expect(page.getByLabel('Код Python', { exact: true })).toHaveValue(
+    'print("мой прежний код")\n',
+  );
+  const legacy = legacyPrograms.find((item) => item.id === 'V01');
+  if (!legacy) throw new Error('Missing original task');
+  await expect(page.locator('.exam-task')).toContainText(
+    legacy.task.statement.split('\n\n')[0] ?? '',
+  );
+});
 async function start(
   page: Page,
   choice = '13.2 — Документ',

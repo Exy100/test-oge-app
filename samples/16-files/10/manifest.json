@@ -1,29 +1,29 @@
 {
   "kind": "generated",
-  "generatorId": "python-digits-v1",
-  "id": "python-digits-v1:files:python-review:9",
+  "generatorId": "python-positive-mean-v1",
+  "id": "python-positive-mean-v1:files:python-review:9",
   "seed": "python-review:9",
   "generatorVersion": "educational-files-v1",
   "files": [
     {
       "path": "README.txt",
       "format": "txt",
-      "size": 2291,
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
+      "size": 2624,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
       "license": "CC0-1.0"
     },
     {
       "path": "assignment.txt",
       "format": "txt",
-      "size": 1541,
-      "sha256": "ee7fbcb56c2ed24cf1eecfe64a96dfe570b0767ba68a274c5776de58bd44e71d",
+      "size": 1967,
+      "sha256": "6ac9e6517c25c098353cca3eb9f5c9894e9102bb06fb99cb76117a390cdc1eea",
       "license": "CC0-1.0"
     },
     {
       "path": "check.py",
       "format": "py",
-      "size": 2177,
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
+      "size": 3133,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
       "license": "CC0-1.0"
     },
     {
@@ -36,162 +36,162 @@
     {
       "path": "reference/answer.py",
       "format": "py",
-      "size": 192,
-      "sha256": "65aeb5e663400b5115993057bbcb9377485b26d20f8e4d6862b357da9affad95",
+      "size": 157,
+      "sha256": "c77e0b2ee06322447d318d8396025d10f211674b19cd2a9b6f885925afe66799",
       "license": "CC0-1.0"
     },
     {
       "path": "source/parameters.json",
       "format": "json",
-      "size": 46,
-      "sha256": "ebaa047dd3e609d851267fe53665468637e54bf47fb39ba98c88b14c15894882",
+      "size": 37,
+      "sha256": "b404de086df92286c56b700a4155ff72642130d990a7c9e085e925ac974d8096",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/01.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "f447e635ef60d86f4591ef150e99d027d79600a624955da19c447d2e7f957fc8",
+      "size": 21,
+      "sha256": "0921f7d662f3c1e982942bf633818c8e51a3ab0976d2c63381777ee2056c1f04",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/01.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "f429a7d638c80a489e336dc2233e1f13508afce304bdf87f7acad4d610646d5f",
+      "size": 69,
+      "sha256": "f9e7df77d2b2e315bf2b03c2c193a19f8d40ad39514eed2752d86cfe6eb92612",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/02.expected.txt",
       "format": "txt",
       "size": 4,
-      "sha256": "f4a8ae8e74ddfb896a256de4e3099911dcaa6a9302591713898069b0bcd6e3d7",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/02.input.txt",
       "format": "txt",
-      "size": 2,
-      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 4,
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/03.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "size": 6,
+      "sha256": "586a54f115812b9f9202a1597ba7efbb1d33260f61108973e45ac24cd67384b2",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/03.input.txt",
       "format": "txt",
-      "size": 2,
-      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 6,
+      "sha256": "16db82ab17793aba9e0a9e0354e513f6febd12c4538904ec725a1f1897bf5d78",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/04.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "size": 21,
+      "sha256": "e04e3de582c4c1741aaca1e70eaa541860b9b0f173091cbc484b2635c28d77da",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/04.input.txt",
       "format": "txt",
-      "size": 2,
-      "sha256": "2e6d31a5983a91251bfae5aefa1c0a19d8ba3cf601d0e8a706b4cfa9661a6b8a",
+      "size": 8,
+      "sha256": "a0ca422ee9dfb349e0aa59f754047515c2a1c3935f3e4a189a2bddabdd3f27d6",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/05.expected.txt",
       "format": "txt",
       "size": 4,
-      "sha256": "f4a8ae8e74ddfb896a256de4e3099911dcaa6a9302591713898069b0bcd6e3d7",
+      "sha256": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/05.input.txt",
       "format": "txt",
-      "size": 3,
-      "sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+      "size": 6,
+      "sha256": "911df223a8689c50b15f5cb6ef3c0e39636faa2f11dce692f5b6345471c6b2e9",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/06.expected.txt",
       "format": "txt",
-      "size": 5,
-      "sha256": "b5e3d11d69c5dc27f627f637044791ac5e06a13cb7cb39a71b0bedc1335dded7",
+      "size": 4,
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/06.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "68df2a7a62f96b51246c016704185d4868554f431aa9489c8db1e0fbc5acbc4d",
+      "size": 14,
+      "sha256": "76370e56106b5ae9a50e511bf7fbe0a7e9e2272f2dfa667d78a68bc62524e8c6",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/07.expected.txt",
       "format": "txt",
       "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "sha256": "c84ee08831e31415e32cdb604fbe79f9aef82e00a33ae7579f7d82dfa8c41eef",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/07.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "78baa4a5790252082e467caf5f4b3e32c13879028424ae08e456db84c051ba7a",
+      "size": 8,
+      "sha256": "0a5f3717c82e9a3d20a9807d428493f708385d89eb9086e0d9fc638866604a9e",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/08.expected.txt",
       "format": "txt",
-      "size": 4,
-      "sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "size": 8,
+      "sha256": "b60179835d9167402296bff0d17308875c975917781bd9c3e31a5e83ba15b781",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/08.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "005284d7c6b2fca64f102c34ba87ec2c7a852a9e4b279958444706506231d5d1",
+      "size": 17,
+      "sha256": "83ee59cebbaaf457f95fd955a07e43f7e3a500c9281683841ad676a77315e679",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/09.expected.txt",
       "format": "txt",
-      "size": 6,
-      "sha256": "16028bfafeacb8910fc360513e06cdfa635cd51c5851f3746669d4fb4bd275a9",
+      "size": 4,
+      "sha256": "0e4e7e29b59587ca9e5f63caa49528eab661ae25cbdf4258266f77fb626e7f74",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/09.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "23b9731d0b4f2c1af808b399fd6ab638eca632598782d0f474278a73f8fbebd3",
+      "size": 12,
+      "sha256": "a944b654c1fa71998170defae6c28b481acca9d21ff67c86f464568e98563511",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/10.expected.txt",
       "format": "txt",
       "size": 4,
-      "sha256": "3e6a55c946ac49027ba9b8aa0aed2362f58b55fd739cb84287ea16693421fb1b",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/10.input.txt",
       "format": "txt",
-      "size": 13,
-      "sha256": "6f9ba697dd2d76a40c014d68ee0015aabb9b8b007a3da473cdf1f4d6bf991eb3",
+      "size": 7000,
+      "sha256": "1e9d8d9dca0dc3cd841d747b89fa16753ba2d6b6b7995f5bff01556cddcad414",
       "license": "CC0-1.0"
     },
     {
       "path": "tests/index.json",
       "format": "json",
-      "size": 1724,
-      "sha256": "5c7c3a4bae1009a825b5847e07f1f3f95a70b255efcf791dfde70585d1c91d08",
+      "size": 1770,
+      "sha256": "62a9be3ca5dc491b58f13894dc7a4225feaa8c83106fac08c89e0eda6b8c034e",
       "license": "CC0-1.0"
     }
   ]

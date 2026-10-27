@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expectNoHorizontalOverflow } from './layout';
 import { textVolume } from '../../src/core/generators/01/text-volume';
 import { generators } from '../../src/core/generators';
+import { pythonGenerators } from '../../src/core/generators/16/programs';
 import {
   assessProgramRuns,
   programCases,
@@ -150,47 +151,57 @@ test('№16: all Python test suites and output assessments match Node in the bro
   );
 });
 
-test('№16: Python source and test files download with accessible mobile preview', async ({
-  page,
-}) => {
-  await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
-  await page.getByLabel('Seed', { exact: true }).fill('browser-python');
-  await page
-    .getByRole('combobox', { name: 'Генератор', exact: true })
-    .selectOption('python-pairs-v1');
-  await page.getByRole('button', { name: 'Показать 20 задач' }).click();
-  const example = page.locator('.generator-example').first();
-  await example.getByRole('button', { name: 'Подготовить файлы' }).click();
-  const link = example.getByRole('link', { name: 'Скачать ZIP', exact: true });
-  await expect(link).toBeVisible();
-  const pending = page.waitForEvent('download');
-  await link.click();
-  const path = await (await pending).path();
-  if (!path) throw new Error('Missing Python archive');
-  const { readFile } = await import('node:fs/promises');
-  const { createTaskDataset } =
-    await import('../../src/core/generators/task-dataset');
-  const generator = generators.find((item) => item.id === 'python-pairs-v1');
-  if (!generator) throw new Error('Missing Python generator');
-  const dataset = await createTaskDataset(
-    generator.generate('browser-python:0'),
-  );
-  expect(await readFile(path)).toEqual(Buffer.from(dataset.archive));
-  await example
-    .getByLabel('Файл для просмотра')
-    .selectOption('reference/answer.py');
-  await expect(example.locator('.task-file-preview')).toHaveText(
-    new TextDecoder().decode(dataset.files.get('reference/answer.py')),
-  );
-  await example
-    .getByLabel('Файл для просмотра')
-    .selectOption('tests/04.expected.txt');
-  await expect(example.locator('.task-file-preview')).toHaveText(
-    new TextDecoder().decode(dataset.files.get('tests/04.expected.txt')),
-  );
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  await expectNoHorizontalOverflow(page);
-});
+for (const kind of [
+  'python-pairs',
+  'python-positive-mean',
+  'python-base7-sum',
+  'python-octal-sentinel',
+]) {
+  test(`№16 ${kind}: Python source and test files download with accessible mobile preview`, async ({
+    page,
+  }) => {
+    await page.goto('http://127.0.0.1:4324/test-oge-app/dev/generators/');
+    await page.getByLabel('Seed', { exact: true }).fill('browser-python');
+    await page
+      .getByRole('combobox', { name: 'Генератор', exact: true })
+      .selectOption(`${kind}-v1`);
+    await page.getByRole('button', { name: 'Показать 20 задач' }).click();
+    const example = page.locator('.generator-example').first();
+    await example.getByRole('button', { name: 'Подготовить файлы' }).click();
+    const link = example.getByRole('link', {
+      name: 'Скачать ZIP',
+      exact: true,
+    });
+    await expect(link).toBeVisible();
+    const pending = page.waitForEvent('download');
+    await link.click();
+    const path = await (await pending).path();
+    if (!path) throw new Error('Missing Python archive');
+    const { readFile } = await import('node:fs/promises');
+    const { createTaskDataset } =
+      await import('../../src/core/generators/task-dataset');
+    const generator = pythonGenerators.find((item) => item.id === `${kind}-v1`);
+    if (!generator) throw new Error('Missing Python generator');
+    const dataset = await createTaskDataset(
+      generator.generate('browser-python:0'),
+    );
+    expect(await readFile(path)).toEqual(Buffer.from(dataset.archive));
+    await example
+      .getByLabel('Файл для просмотра')
+      .selectOption('reference/answer.py');
+    await expect(example.locator('.task-file-preview')).toHaveText(
+      new TextDecoder().decode(dataset.files.get('reference/answer.py')),
+    );
+    await example
+      .getByLabel('Файл для просмотра')
+      .selectOption('tests/04.expected.txt');
+    await expect(example.locator('.task-file-preview')).toHaveText(
+      new TextDecoder().decode(dataset.files.get('tests/04.expected.txt')),
+    );
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    await expectNoHorizontalOverflow(page);
+  });
+}
 
 for (const id of [
   'url-move-v1',

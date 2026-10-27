@@ -20,6 +20,7 @@ export function createExamDraft(
     version: 1,
     current: {
       ...identity,
+      pythonFormatVersion: 1,
       mode,
       startedAt: new Date(now).toISOString(),
       elapsedMs: 0,

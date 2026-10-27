@@ -142,9 +142,10 @@ def main():
                     for case in tests:
                         data = child[case["input"]].decode()
                         expected = python.expected(parameters, data)
-                        assert child[case["expected"]].decode() == expected
+                        assert python.same_output(parameters, expected, child[case["expected"]].decode())
                         result = subprocess.run([sys.executable, "-I", str(program)], input=data, capture_output=True, text=True, encoding="utf-8", cwd=work, timeout=2, check=False)
-                        assert result.returncode == 0 and not result.stderr and result.stdout == expected
+                        assert result.returncode == 0 and not result.stderr
+                        assert python.same_output(parameters, expected, result.stdout)
                         python_runs += 1
     assert nested_count == 70 and python_runs == 100 and robot_fields == 80
     soffice = shutil.which("soffice") or shutil.which("libreoffice")

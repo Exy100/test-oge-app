@@ -16,7 +16,11 @@ ROOT = Path(__file__).resolve().parents[1]
 def expected(parameters, data):
     values = list(map(int, data.split()))
     kind = parameters["kind"]
-    if kind == "python-digits":
+    if kind == "python-octal-sentinel":
+        assert values.pop() == 0 and len(values) <= 1000
+        assert all(1 <= value <= 10000 for value in values)
+        result = [sum(len(oct(x)[2:]) == 4 and oct(x).endswith("5") for x in values)]
+    elif kind == "python-digits":
         assert len(values) == 1 and 0 <= values[0] <= 999999999999
         digits = [int(d) for d in str(values[0])]
         selected = [d for d in digits if d % parameters["divisor"] == 0]
@@ -25,7 +29,14 @@ def expected(parameters, data):
         count, *values = values
         assert 1 <= count <= 1000 and len(values) == count
         assert all(-10000 <= value <= 10000 for value in values)
-        if kind == "python-filter":
+        if kind == "python-positive-mean":
+            selected = [x for x in values if x > 0]
+            assert selected
+            result = [sum(selected) / len(selected), len(selected)]
+        elif kind == "python-base7-sum":
+            assert all(value > 0 for value in values)
+            result = [sum(x for x in values if (x - 1) // 7 * 7 + 1 == x)]
+        elif kind == "python-filter":
             selected = [x for x in values if x >= parameters["threshold"] and x % parameters["divisor"] == 0]
             result = [len(selected), sum(selected)]
         elif kind == "python-pairs":
@@ -46,6 +57,17 @@ def run_checker(directory, program, expected_status):
     assert result.returncode == expected_status, (result.stdout, result.stderr)
     assert not result.stderr, result.stderr
     return result.stdout
+
+
+def same_output(parameters, target, actual):
+    if parameters["kind"] != "python-positive-mean":
+        return actual == target
+    parts, expected_parts = actual.split(), target.split()
+    if len(parts) != 2 or re.fullmatch(r"[+-]?[0-9]+", parts[1]) is None:
+        return False
+    if re.fullmatch(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?", parts[0]) is None:
+        return False
+    return float(parts[0]) == float(expected_parts[0]) and int(parts[1]) == int(expected_parts[1])
 
 
 def main():
@@ -80,7 +102,8 @@ def main():
             assert case["expected"] in {entry["path"] for entry in entries}
             data = (files / case["input"]).read_text(encoding="utf-8")
             target = (files / case["expected"]).read_text(encoding="utf-8")
-            assert target == expected(parameters, data)
+            independent = expected(parameters, data)
+            assert same_output(parameters, independent, target)
             with tempfile.TemporaryDirectory(prefix="oge-reference-") as work:
                 result = subprocess.run(
                     [sys.executable, "-I", str(files / "reference/answer.py")],
@@ -88,11 +111,11 @@ def main():
                     cwd=work, timeout=2, check=False,
                 )
             assert result.returncode == 0 and not result.stderr, result.stderr
-            assert result.stdout == target, (sample.name, case["id"], result.stdout, target)
+            assert same_output(parameters, target, result.stdout), (sample.name, case["id"], result.stdout, target)
             executions += 1
         output = run_checker(files, files / "reference/answer.py", 0)
         assert "Пройдено: 10/10; учебный балл: 2" in output
-    assert kinds == {"python-filter", "python-digits", "python-pairs", "python-run"}
+    assert kinds == {"python-positive-mean", "python-base7-sum", "python-octal-sentinel"}
     assert files_checked == 324 and executions == 120
 
     # Exercise the exported checker itself with trusted, deliberately faulty programs.
