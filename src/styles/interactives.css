@@ -19,6 +19,23 @@
   align-items: center;
   gap: var(--space-4);
 }
+/* Reserve every status at the current font size so scrolling cannot move links. */
+.interactive-status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+.interactive-status > span {
+  grid-area: 1 / 1;
+}
+.interactive-status-size {
+  visibility: hidden;
+  pointer-events: none;
+}
+.interactive-status-size::before {
+  content: attr(data-status-text);
+}
 .interactive-alternative summary {
   text-decoration: underline;
   text-underline-offset: 0.2em;
