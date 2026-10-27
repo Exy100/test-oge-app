@@ -4,6 +4,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 import MaterialsCatalog from '../../components/materials/MaterialsCatalog.astro';
 import { lessonCatalog } from '../../lib/lessons/catalog';
 import '../../styles/materials.css';
+import PrintButton from '../../components/PrintButton.astro';
 const lessons = lessonCatalog(
   (await getCollection('lessons')).map((lesson) => lesson.data),
 );
@@ -23,6 +24,7 @@ const lessons = lessonCatalog(
         подсказками и разборами.
       </p>
     </header>
+    <PrintButton label="Распечатать карту и список уроков" />
     <MaterialsCatalog lessons={lessons} />
     <noscript>
       <p>

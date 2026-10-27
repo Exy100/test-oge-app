@@ -1,4 +1,5 @@
 ---
+import PrintButton from '../PrintButton.astro';
 interface Props {
   id?: string;
 }
@@ -13,6 +14,7 @@ const { id = 'cheatsheet' } = Astro.props;
       <slot />
     </div>
   </details>
+  <PrintButton label="Распечатать шпаргалку" selection="cheatsheet" />
 </section>
 
 <script>

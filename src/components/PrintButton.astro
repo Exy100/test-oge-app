@@ -1,0 +1,56 @@
+---
+interface Props {
+  label: string;
+  selection?: 'cheatsheet';
+}
+const { label, selection } = Astro.props;
+---
+
+<span class="print-actions">
+  <button
+    type="button"
+    class="button button-light"
+    data-print-button
+    data-print-part={selection}
+    disabled
+  >
+    {label}
+  </button>
+  <span role="status" data-print-feedback hidden></span>
+  <noscript>
+    Для печати открой нужные блоки и используй меню печати браузера.
+  </noscript>
+</span>
+
+<script>
+  import { printDocument } from '../lib/print-document';
+  import '../lib/print-details';
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    '[data-print-button]',
+  )) {
+    button.addEventListener('click', () => {
+      const feedback = button.parentElement?.querySelector<HTMLElement>(
+        '[data-print-feedback]',
+      );
+      if (feedback) feedback.hidden = true;
+      try {
+        const selection =
+          button.dataset.printPart === 'cheatsheet'
+            ? button.closest<HTMLElement>('.lesson-section')
+            : null;
+        printDocument({
+          trigger: button,
+          ...(selection ? { selection } : {}),
+        });
+      } catch {
+        if (feedback) {
+          feedback.textContent =
+            'Не удалось открыть печать. Используй меню печати браузера.';
+          feedback.hidden = false;
+        }
+      }
+    });
+    button.disabled = false;
+  }
+</script>

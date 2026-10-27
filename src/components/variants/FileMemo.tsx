@@ -1,9 +1,38 @@
 import { fileMemo } from '../../core/variants/file-memo';
+import { useState } from 'react';
+import { useHydrated } from '../useHydrated';
+import { Button } from '../ui/Button';
+import { printDocument } from '../../lib/print-document';
 
 export default function FileMemo() {
+  const ready = useHydrated();
+  const [error, setError] = useState('');
   return (
     <section className="file-memo" aria-label="Памятка о файлах">
+      <h1 className="print-heading">Памятка о файлах</h1>
       <h3>Как работать с файлами</h3>
+      <div className="print-actions">
+        <Button
+          variant="secondary"
+          disabled={!ready}
+          onClick={(event) => {
+            const selection =
+              event.currentTarget.closest<HTMLElement>('.file-memo');
+            if (!selection) throw new Error('Не найдена памятка о файлах.');
+            try {
+              setError('');
+              printDocument({ trigger: event.currentTarget, selection });
+            } catch {
+              setError(
+                'Не удалось открыть печать. Используй меню печати браузера.',
+              );
+            }
+          }}
+        >
+          Распечатать памятку о файлах
+        </Button>
+        {error && <p role="alert">{error}</p>}
+      </div>
       <p>{fileMemo.introduction}</p>
       <ol>
         {fileMemo.steps.map((step) => (

@@ -3,6 +3,7 @@ import type { LessonMetadata } from '../../lib/lessons/schema';
 import { prerequisiteLinks, type LessonLink } from '../../lib/lessons/links';
 import '../../styles/lessons.css';
 import LessonCompletion from './LessonCompletion';
+import PrintButton from '../PrintButton.astro';
 import { getCollection } from 'astro:content';
 import { lessonRoute } from '../../lib/lessons/catalog';
 interface Props {
@@ -28,6 +29,7 @@ const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
     {lesson.readingMinutes} мин
   </p>
   <h1>{lesson.title}</h1>
+  <PrintButton label="Распечатать урок" />
   {prerequisites.length ? (
     <div class="lesson-prerequisites">
       <p>Перед началом повтори:</p>

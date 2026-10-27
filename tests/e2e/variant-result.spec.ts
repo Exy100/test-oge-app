@@ -563,6 +563,15 @@ test('print preparation includes every condition, answer, solution and rubric wi
 }) => {
   await seed(page, [attempt(21)]);
   await page.goto(url());
+  await expect(
+    page.getByRole('button', { name: 'Подготовить результат к печати' }),
+  ).toBeEnabled();
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('.result-print-notice')).toBeVisible();
+  await expect(page.locator('.result-print-notice')).toContainText(
+    'краткая сводка',
+  );
+  await page.emulateMedia({ media: 'screen' });
   await page
     .getByRole('button', { name: 'Подготовить результат к печати' })
     .click();
@@ -574,6 +583,7 @@ test('print preparation includes every condition, answer, solution and rubric wi
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('.result-screen')).toBeHidden();
   await expect(page.locator('.result-print')).toBeVisible();
+  await expect(page.locator('.result-print-notice')).toBeHidden();
   await expect(page.locator('.result-print-task').last()).toContainText(
     'print(7)',
   );

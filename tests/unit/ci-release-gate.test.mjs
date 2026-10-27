@@ -21,11 +21,16 @@ test('release requires every quality job and unconditional Lighthouse success', 
     'coverage',
     'files',
     'browsers',
+    'printing',
     'performance',
   ];
   expect(jobs.deploy.needs).toEqual(expect.arrayContaining(required));
   for (const id of required)
     expect(jobs[id]['continue-on-error']).not.toBe(true);
+  expect(jobs.printing['timeout-minutes']).toBe(20);
+  expect(
+    jobs.printing.steps.some((step) => step.run === 'npm run check:print'),
+  ).toBe(true);
   expect(jobs.performance.if).toBeUndefined();
   const budgets = jobs.performance.steps.find((step) =>
     step.run?.includes('npm run lh'),

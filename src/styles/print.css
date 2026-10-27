@@ -1,0 +1,149 @@
+.print-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-4);
+}
+.print-heading,
+.result-print-notice {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  :root,
+  :root[data-theme],
+  :root[data-font-size] {
+    color-scheme: light;
+    font-size: 11pt;
+    --ink: #111;
+    --muted: #333;
+    --canvas: #fff;
+    --surface: #fff;
+    --soft: #fff;
+    --section: #fff;
+    --accent-surface: #fff;
+    --line: #777;
+    --border-strong: #777;
+  }
+  body,
+  main,
+  .container,
+  .info-page,
+  .info-content,
+  .lesson-page,
+  .materials-page {
+    color: #111;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    width: auto;
+  }
+  /* Leave room for glyph ink beyond the line box at the paper edge. */
+  body {
+    padding-inline: 1mm !important;
+  }
+  .file-memo > h3,
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .storage-notice,
+  .info-back,
+  .print-actions,
+  button,
+  .rich-text-copy,
+  .rich-text-notice {
+    display: none !important;
+  }
+  .lesson-page .lesson-section:has(.lesson-question) {
+    display: none !important;
+  }
+  .lesson-cheatsheet > summary,
+  [data-lesson-example] > summary,
+  .materials-count,
+  .materials-completed,
+  .materials-practice {
+    display: none !important;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  caption {
+    break-after: avoid;
+  }
+  pre,
+  pre code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow: visible;
+    max-height: none;
+    font-variant-ligatures: none;
+  }
+  .rich-text,
+  .rich-text .katex,
+  .figure-scroll,
+  .file-formats-scroll {
+    overflow: visible;
+  }
+  .rich-text table {
+    display: table;
+    width: 100%;
+    overflow: visible;
+  }
+  th,
+  td {
+    overflow-wrap: anywhere;
+  }
+  tr,
+  svg,
+  img {
+    break-inside: avoid;
+  }
+  svg,
+  .task-figure svg,
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  /* Important declarations in the reset layer outrank unlayered ones. */
+  @layer base {
+    .materials-group[hidden],
+    .materials-topic[hidden],
+    .materials-lessons li[hidden] {
+      display: block !important;
+    }
+  }
+  .print-heading {
+    display: block;
+  }
+  .variant-result:not(.result-print-ready) > .result-print-notice {
+    display: block;
+    border: 1px solid #777;
+    padding: 3mm;
+  }
+  :root[data-print-selection] [data-print-path] {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: auto;
+    max-width: none;
+    overflow: visible;
+  }
+  :root[data-print-selection]
+    [data-print-path]
+    > :not([data-print-path]):not([data-print-selected]):not(
+      [data-print-keep]
+    ) {
+    display: none !important;
+  }
+  :root[data-print-selection] .lesson-prerequisites {
+    display: none;
+  }
+}

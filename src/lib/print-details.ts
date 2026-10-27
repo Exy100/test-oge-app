@@ -10,8 +10,9 @@ function expand() {
   if (printing) return;
   printing = true;
   for (const details of document.querySelectorAll<HTMLDetailsElement>(
-    '.interactive-alternative, .lesson-cheatsheet, [data-lesson-example]',
+    '.lesson-page details, .result-print details, .interactive-alternative, .lesson-cheatsheet, [data-lesson-example]',
   )) {
+    if (details.closest('.interactive-screen, .lesson-question')) continue;
     if (!details.open) {
       closed.add(details);
       details.open = true;
@@ -30,5 +31,7 @@ media.addEventListener('change', () => {
   else restore();
 });
 window.addEventListener('beforeprint', expand);
-window.addEventListener('afterprint', restore);
+window.addEventListener('afterprint', () => {
+  if (!media.matches) restore();
+});
 if (media.matches) expand();

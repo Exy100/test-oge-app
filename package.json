@@ -28,6 +28,7 @@
     "typecheck": "astro check && tsc --noEmit",
     "test": "vitest run",
     "e2e": "npm run build && playwright test",
+    "check:print": "npm run build && playwright test --config=playwright.print.config.ts",
     "lh": "npm run build && lhci autorun && node scripts/check-interactions.mjs",
     "check:forbidden": "node scripts/check-forbidden.mjs",
     "check:coverage": "node scripts/check-coverage.mjs",
