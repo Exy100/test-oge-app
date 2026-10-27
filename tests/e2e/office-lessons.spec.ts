@@ -282,7 +282,9 @@ test('each repeated download replaces its object URL and unmount releases it', a
   });
   await page.goto('http://127.0.0.1:4324/test-oge-app/dev/interactives/');
   // Finish the scene above the harness before it can shift the pointer target.
-  await page.locator('#bits-probe').scrollIntoViewIfNeeded();
+  await page
+    .getByRole('link', { name: 'Перейти к сцене', exact: true })
+    .click();
   await expect(page.locator('#bits-probe [data-probe-ready]')).toBeVisible();
   const harness = page.getByRole('region', {
     name: 'Повторное подключение и ошибки',
@@ -421,7 +423,9 @@ for (const [title, module] of [
   }) => {
     await page.addInitScript(installInteractiveAudit);
     await page.goto('http://127.0.0.1:4324/test-oge-app/dev/interactives/');
-    await page.locator('#bits-probe').scrollIntoViewIfNeeded();
+    await page
+      .getByRole('link', { name: 'Перейти к сцене', exact: true })
+      .click();
     await expect(page.locator('#bits-probe [data-probe-ready]')).toBeVisible();
     await page
       .locator('#bits-probe')

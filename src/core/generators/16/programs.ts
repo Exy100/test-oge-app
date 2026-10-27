@@ -5,6 +5,7 @@ import {
   programCases,
   programKinds,
   programParameters,
+  isExamProgramKind,
   validateProgramParameters,
   type ProgramKind,
   type ProgramParameters,
@@ -14,6 +15,12 @@ export const programDatasetId = (kind: ProgramKind, seed: string): string =>
   `${kind}-v1:files:${seed}`;
 export function referencePython(p: ProgramParameters): string {
   validateProgramParameters(p);
+  if (p.kind === 'python-positive-mean')
+    return 'n = int(input())\ncount = 0\ntotal = 0\nfor i in range(n):\n    x = int(input())\n    if x > 0:\n        count += 1\n        total += x\nprint(total / count, count)\n';
+  if (p.kind === 'python-base7-sum')
+    return 'n = int(input())\ntotal = 0\nfor i in range(n):\n    x = int(input())\n    if x % 7 == 1:\n        total += x\nprint(total)\n';
+  if (p.kind === 'python-octal-sentinel')
+    return 'count = 0\nx = int(input())\nwhile x != 0:\n    if 512 <= x < 4096 and x % 8 == 5:\n        count += 1\n    x = int(input())\nprint(count)\n';
   if (p.kind === 'python-filter')
     return `n = int(input())\ncount = 0\ntotal = 0\nfor i in range(n):\n    x = int(input())\n    if x % ${String(p.divisor)} == 0 and x >= ${String(p.threshold)}:\n        count += 1\n        total += x\nprint(count, total)\n`;
   if (p.kind === 'python-digits')
@@ -27,8 +34,17 @@ const titles: Record<ProgramKind, string> = {
   'python-digits': 'Обработка цифр числа',
   'python-pairs': 'Соседние пары',
   'python-run': 'Самая длинная цепочка',
+  'python-positive-mean': 'Среднее положительных чисел',
+  'python-base7-sum': 'Сумма по семеричной записи',
+  'python-octal-sentinel': 'Восьмеричная запись и ввод до нуля',
 };
 function rules(p: ProgramParameters): string {
+  if (p.kind === 'python-positive-mean')
+    return 'Среди N целых чисел найди среднее арифметическое положительных чисел и их количество. Хотя бы одно положительное число есть. Выведи сначала среднее, затем количество. Среднее не округляй до целого: используй обычное деление. Дробную часть записывай через точку; допустима экспоненциальная запись. Проверка принимает абсолютную погрешность среднего не более 0.000001; количество должно быть целым и точным.';
+  if (p.kind === 'python-base7-sum')
+    return 'Среди N натуральных чисел найди сумму тех, последняя цифра семеричной записи которых равна 1. Выведи сумму в десятичной системе. Если подходящих чисел нет, выведи 0.';
+  if (p.kind === 'python-octal-sentinel')
+    return 'Вводится последовательность натуральных чисел, за которой следует 0 — признак конца ввода. Найди количество чисел, восьмеричная запись которых состоит ровно из четырёх цифр и заканчивается цифрой 5. Выведи количество в десятичной системе; если подходящих чисел нет, выведи 0. Завершающий ноль в последовательность не входит.';
   if (p.kind === 'python-filter')
     return `Среди N целых чисел найди количество и сумму тех, которые делятся на ${String(p.divisor)} без остатка и не меньше ${String(p.threshold)}. Выведи два целых числа: сначала количество, затем сумму. Если подходящих чисел нет, выведи 0 0.`;
   if (p.kind === 'python-digits')
@@ -46,10 +62,18 @@ function generator(kind: ProgramKind): Generator {
     const input =
       kind === 'python-digits'
         ? 'Ввод: одна строка, целое число от 0 до 999999999999 включительно.'
-        : 'Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем ровно N строк, по одному целому числу от −10000 до 10000 включительно. Порядок чисел сохраняется.';
+        : kind === 'python-octal-sentinel'
+          ? 'Ввод: по одному числу на строке, от 1 до 10000 включительно; не более 1000 чисел. Последняя строка — 0. Первое число тоже может быть нулём. Количество чисел заранее не задано.'
+          : kind === 'python-base7-sum'
+            ? 'Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем N строк, по одному натуральному числу от 1 до 10000 включительно.'
+            : 'Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем ровно N строк, по одному целому числу от −10000 до 10000 включительно. Порядок чисел сохраняется.';
+    const output =
+      kind === 'python-positive-mean'
+        ? 'Выводи только среднее и целое количество, без приглашений и пояснений. Разделяй числа пробелами или переводами строк.'
+        : 'Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.';
     return {
       ...taskFrom(kind, 16, seed, {
-        statement: `Напиши программу на Python 3. ${rules(p)}\n\n${input}\nВыводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.\n\nПример ввода:\n\`\`\`\n${example.input.trimEnd()}\n\`\`\`\nПример вывода:\n\`\`\`\n${example.output.trimEnd()}\n\`\`\`\n\nСохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.`,
+        statement: `Напиши программу на Python 3. ${rules(p)}\n\n${input}\n${output}\n\nПример ввода:\n\`\`\`\n${example.input.trimEnd()}\n\`\`\`\nПример вывода:\n\`\`\`\n${example.output.trimEnd()}\n\`\`\`\n\nСохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.`,
         answer: {
           type: 'artifact',
           kind: 'program',
@@ -73,6 +97,12 @@ function generator(kind: ProgramKind): Generator {
         ],
       }),
       datasetId: programDatasetId(kind, seed),
+      ...(isExamProgramKind(kind)
+        ? {
+            difficulty:
+              kind === 'python-base7-sum' ? (2 as const) : (3 as const),
+          }
+        : {}),
       criteria: {
         max: 2 as const,
         levels: [
@@ -115,3 +145,9 @@ function generator(kind: ProgramKind): Generator {
   };
 }
 export const pythonGenerators = programKinds.map(generator);
+export const examPythonGenerators = pythonGenerators.filter((item) =>
+  isExamProgramKind(item.subtype),
+);
+export const learningPythonGenerators = pythonGenerators.filter(
+  (item) => !isExamProgramKind(item.subtype),
+);

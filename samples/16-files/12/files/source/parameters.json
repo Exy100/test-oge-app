@@ -1,4 +1,3 @@
 {
-  "kind": "python-run",
-  "threshold": -81
+  "kind": "python-octal-sentinel"
 }

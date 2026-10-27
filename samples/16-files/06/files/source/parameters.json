@@ -1,4 +1,3 @@
 {
-  "kind": "python-digits",
-  "divisor": 2
+  "kind": "python-octal-sentinel"
 }

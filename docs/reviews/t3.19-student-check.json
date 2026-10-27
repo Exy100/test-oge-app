@@ -1,0 +1,129 @@
+{
+  "kind": "agent-independent-format-review",
+  "humanVerdict": null,
+  "cases": [
+    {
+      "sample": 10,
+      "generatorId": "python-positive-mean-v1",
+      "seed": "python-review:9",
+      "matrix": "M16a",
+      "input": "14\n0\n-66\n3439\n6821\n2613\n8630\n3979\n6279\n2175\n5169\n3439\n2274\n8539\n7755\n",
+      "computed": [
+        5092.666666666667,
+        12
+      ],
+      "reasoning": "Положительных 12, сумма 61112, среднее 15278/3.",
+      "matches": true
+    },
+    {
+      "sample": 9,
+      "generatorId": "python-octal-sentinel-v1",
+      "seed": "python-review:8",
+      "matrix": "M16c",
+      "input": "6826\n5005\n5320\n7405\n8618\n9144\n9742\n5337\n969\n3814\n8291\n8223\n3831\n1166\n5877\n8981\n940\n192\n4368\n0\n",
+      "computed": [
+        0
+      ],
+      "reasoning": "Четыре восьмеричные цифры на 5: []; количество 0.",
+      "matches": true
+    },
+    {
+      "sample": 12,
+      "generatorId": "python-octal-sentinel-v1",
+      "seed": "python-review:11",
+      "matrix": "M16c",
+      "input": "4561\n4659\n915\n4633\n5581\n538\n7117\n1169\n1956\n5063\n4136\n4081\n0\n",
+      "computed": [
+        0
+      ],
+      "reasoning": "Четыре восьмеричные цифры на 5: []; количество 0.",
+      "matches": true
+    },
+    {
+      "sample": 1,
+      "generatorId": "python-positive-mean-v1",
+      "seed": "python-review:0",
+      "matrix": "M16a",
+      "input": "22\n0\n-50\n5375\n2951\n8357\n6883\n8826\n5022\n3826\n6888\n9696\n8245\n4110\n157\n789\n1887\n1885\n6958\n9005\n3157\n8419\n3060\n",
+      "computed": [
+        5274.8,
+        20
+      ],
+      "reasoning": "Положительных 20, сумма 105496, среднее 26374/5.",
+      "matches": true
+    },
+    {
+      "sample": 4,
+      "generatorId": "python-positive-mean-v1",
+      "seed": "python-review:3",
+      "matrix": "M16a",
+      "input": "9\n0\n-11\n1487\n7958\n9202\n6632\n290\n6782\n7683\n",
+      "computed": [
+        5719.142857142857,
+        7
+      ],
+      "reasoning": "Положительных 7, сумма 40034, среднее 40034/7.",
+      "matches": true
+    },
+    {
+      "sample": 11,
+      "generatorId": "python-base7-sum-v1",
+      "seed": "python-review:10",
+      "matrix": "M16b",
+      "input": "9\n5629\n5801\n9448\n8136\n5202\n3454\n944\n4387\n2629\n",
+      "computed": [
+        10831
+      ],
+      "reasoning": "Отбор по записи в основании 7: [5629, 5202]; сумма 10831.",
+      "matches": true
+    },
+    {
+      "sample": 8,
+      "generatorId": "python-base7-sum-v1",
+      "seed": "python-review:7",
+      "matrix": "M16b",
+      "input": "13\n2632\n3216\n9242\n5722\n3950\n8470\n2061\n6940\n9178\n3182\n4625\n4487\n648\n",
+      "computed": [
+        9178
+      ],
+      "reasoning": "Отбор по записи в основании 7: [9178]; сумма 9178.",
+      "matches": true
+    },
+    {
+      "sample": 5,
+      "generatorId": "python-base7-sum-v1",
+      "seed": "python-review:4",
+      "matrix": "M16b",
+      "input": "19\n5969\n8189\n746\n9150\n6823\n2139\n401\n9949\n6011\n945\n388\n9628\n3412\n6761\n4283\n543\n8901\n7506\n2757\n",
+      "computed": [
+        9150
+      ],
+      "reasoning": "Отбор по записи в основании 7: [9150]; сумма 9150.",
+      "matches": true
+    },
+    {
+      "sample": 2,
+      "generatorId": "python-base7-sum-v1",
+      "seed": "python-review:1",
+      "matrix": "M16b",
+      "input": "20\n4477\n9093\n5409\n1534\n6392\n7122\n7584\n232\n144\n4176\n5879\n9972\n4768\n3804\n6280\n7912\n4284\n8996\n570\n3882\n",
+      "computed": [
+        28202
+      ],
+      "reasoning": "Отбор по записи в основании 7: [1534, 6392, 232, 4768, 6280, 8996]; сумма 28202.",
+      "matches": true
+    },
+    {
+      "sample": 6,
+      "generatorId": "python-octal-sentinel-v1",
+      "seed": "python-review:5",
+      "matrix": "M16c",
+      "input": "8307\n8984\n2339\n8561\n5722\n5193\n2597\n5895\n1394\n8\n8582\n8853\n6712\n6904\n85\n1411\n3165\n5430\n5665\n7759\n0\n",
+      "computed": [
+        2
+      ],
+      "reasoning": "Четыре восьмеричные цифры на 5: [2597, 3165]; количество 2.",
+      "matches": true
+    }
+  ]
+}

@@ -1,4 +1,8 @@
-import type { ProgramCase, ProgramParameters } from './problems.ts';
+import {
+  parseProgramInput,
+  type ProgramCase,
+  type ProgramParameters,
+} from './problems.ts';
 
 interface ProgramGuidance {
   steps: readonly [string, string, string];
@@ -10,6 +14,58 @@ export function programGuidance(
   p: ProgramParameters,
   example: ProgramCase,
 ): ProgramGuidance {
+  if (p.kind === 'python-positive-mean') {
+    const selected = parseProgramInput(p, example.input).filter(
+      (value) => value > 0,
+    );
+    const sum = selected.reduce((total, value) => total + value, 0);
+    return {
+      steps: [
+        'Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.',
+        'Для каждого положительного числа увеличивай счётчик и сумму. После цикла раздели сумму на счётчик оператором /, а не //; положительное число гарантировано условием.',
+        `В примере положительные числа: ${selected.join(', ')}. Сумма ${String(sum)}, количество ${String(selected.length)}; среднее ${String(sum)} / ${String(selected.length)} = ${String(sum / selected.length)}. Вывод: ${example.output.trim()}.`,
+      ],
+      hints: [
+        'Отбирай только числа строго больше нуля. Отрицательные числа и нули не входят ни в сумму, ни в количество.',
+        'Храни сумму и количество положительных, затем используй обычное деление суммы на количество.',
+        'Проверь 0, 1, 2: среднее положительных равно 1.5, количество — 2. Целочисленное деление потеряет дробную часть.',
+      ],
+    };
+  }
+  if (p.kind === 'python-base7-sum') {
+    const selected = parseProgramInput(p, example.input).filter(
+      (value) => value % 7 === 1,
+    );
+    return {
+      steps: [
+        'Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.',
+        'Прочитай N и ровно N чисел. Начни сумму с нуля и прибавляй только подходящие значения. Если их нет, сумма останется нулём.',
+        `В примере подходят числа: ${selected.join(', ') || 'нет'}. Их сумма ${example.output.trim()}. Например, 15 в десятичной системе — это 21 в семеричной, а 11 — это 14: десятичная последняя цифра здесь не помогает.`,
+      ],
+      hints: [
+        'Вспомни, как остаток от деления на основание связан с последней цифрой записи.',
+        'Проверяй остаток 1 от деления на 7. Нужна сумма самих чисел, а не их количество или сумма цифр.',
+        'Проверь 7, 8, 9: подходит только 8, потому что его семеричная запись — 11. Сумма равна 8.',
+      ],
+    };
+  }
+  if (p.kind === 'python-octal-sentinel') {
+    const selected = parseProgramInput(p, example.input).filter(
+      (value) => value >= 512 && value < 4096 && value % 8 === 5,
+    );
+    return {
+      steps: [
+        'Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.',
+        'Прочитай первое число до цикла. Пока оно не равно нулю, проверь оба условия, при успехе увеличь счётчик и обязательно прочитай следующее число. Ноль завершает ввод.',
+        `В примере подходят числа: ${selected.join(', ') || 'нет'}. Количество ${String(selected.length)}, вывод ${example.output.trim()}. Первое подходящее значение — 517 (1005 в восьмеричной системе), последнее — 4093 (7775).`,
+      ],
+      hints: [
+        'Здесь нет N в первой строке: это уже первое число последовательности. Ноль означает конец ввода.',
+        'Совмести диапазон 512 ≤ x < 4096 и остаток 5 при делении на 8.',
+        'Проверь 509, 517, 4093, 4101 и завершающий 0: подходят 517 и 4093. При вводе сразу 0 ответ равен 0.',
+      ],
+    };
+  }
   if (p.kind === 'python-digits') {
     const number = Number(example.input.trim());
     const selected = Array.from(String(number), Number).filter(

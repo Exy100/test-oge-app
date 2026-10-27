@@ -46,14 +46,14 @@ test('registry supports lookup and rejects duplicates', () => {
   expect(getGenerator('removed-word-v2').id).toBe('removed-word-v2');
   expect(() => getGenerator(textVolume.id)).toThrow('не найден');
   expect(learningGenerators).toContainEqual(textVolume);
-  expect(learningGenerators).toHaveLength(50);
+  expect(learningGenerators).toHaveLength(54);
   expect(
     generators.some((generator) =>
       learningGenerators.some(({ id }) => id === generator.id),
     ),
   ).toBe(false);
   expect(generatorsForTask(14)).toHaveLength(3);
-  expect(generators).toHaveLength(33);
+  expect(generators).toHaveLength(32);
   expect(generatorsForTask(15).map((generator) => generator.id)).toEqual([
     'robot-corridor-v2',
     'robot-wall-gaps-v2',
@@ -63,7 +63,8 @@ test('registry supports lookup and rejects duplicates', () => {
     'robot-corner-left-v2',
     'robot-stairs-v2',
   ]);
-  expect(generatorsForTask(16)).toHaveLength(4);
+  expect(generatorsForTask(16)).toHaveLength(3);
+  expect(learningGeneratorsForTask(16)).toHaveLength(4);
   expect(generatorsForTask(13)).toEqual([]);
   expect(() => getGenerator('missing')).toThrow('не найден');
   expect(() => createRegistry([textVolume, textVolume])).toThrow();

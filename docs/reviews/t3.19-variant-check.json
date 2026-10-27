@@ -1,0 +1,72 @@
+[
+  {
+    "id": "V01",
+    "old": "python-filter-v1",
+    "new": "python-octal-sentinel-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V02",
+    "old": "python-filter-v1",
+    "new": "python-base7-sum-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V03",
+    "old": "python-pairs-v1",
+    "new": "python-octal-sentinel-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V04",
+    "old": "python-pairs-v1",
+    "new": "python-base7-sum-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V05",
+    "old": "python-digits-v1",
+    "new": "python-base7-sum-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V06",
+    "old": "python-digits-v1",
+    "new": "python-base7-sum-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V07",
+    "old": "python-filter-v1",
+    "new": "python-octal-sentinel-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V08",
+    "old": "python-pairs-v1",
+    "new": "python-positive-mean-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V09",
+    "old": "python-pairs-v1",
+    "new": "python-positive-mean-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  },
+  {
+    "id": "V10",
+    "old": "python-run-v1",
+    "new": "python-positive-mean-v1",
+    "unchangedTasks": 15,
+    "unchangedNestedFiles": 12
+  }
+]

@@ -9,7 +9,7 @@ export interface FormatRow {
   fixtureIds: string[];
   generatorIds: string[];
   integration: 'covered' | 'partial' | 'deferred';
-  owner: 'T3.14' | 'T3.15' | 'T3.16' | 'T3.17' | 'T3.12';
+  owner: 'T3.14' | 'T3.15' | 'T3.16' | 'T3.17' | 'T3.19';
   gap: string;
 }
 const ids = (number: TaskNumber) =>
@@ -214,30 +214,30 @@ export const formatRows: FormatRow[] = [
     taskNumber: 16,
     format: 'Среднее положительных и их количество, дробный вывод',
     fixtureIds: ['D2025-16'],
-    generatorIds: [],
-    integration: 'deferred',
-    owner: 'T3.12',
-    gap: 'Нужен дробный результат; текущий локальный checker принимает только целые. Повторная задача №16 требует планирования (Q-I8).',
+    generatorIds: ['python-positive-mean-v1'],
+    integration: 'covered',
+    owner: 'T3.19',
+    gap: '',
   },
   {
     id: 'M16b',
     taskNumber: 16,
     format: 'Сумма значений с заданным остатком в системе счисления',
     fixtureIds: ['D2026-16'],
-    generatorIds: ['python-filter-v1'],
-    integration: 'partial',
-    owner: 'T3.12',
-    gap: 'Фильтр кратности и пара count/sum не покрывают остаток 1 и единственный sum. Q-I8.',
+    generatorIds: ['python-base7-sum-v1'],
+    integration: 'covered',
+    owner: 'T3.19',
+    gap: '',
   },
   {
     id: 'M16c',
     taskNumber: 16,
     format: 'Ввод до нуля, число значений с длиной записи и последней цифрой',
     fixtureIds: ['D2027-16'],
-    generatorIds: ['python-digits-v1'],
-    integration: 'deferred',
-    owner: 'T3.12',
-    gap: 'Текущий подтип обрабатывает цифры одного числа, а не последовательность до нуля. Q-I8.',
+    generatorIds: ['python-octal-sentinel-v1'],
+    integration: 'covered',
+    owner: 'T3.19',
+    gap: '',
   },
 ];
 

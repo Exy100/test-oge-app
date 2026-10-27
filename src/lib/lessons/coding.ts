@@ -19,10 +19,22 @@ const kinds = {
   commands: ['robot-corridor', 'robot-wall-gaps', 'robot-corner-right'],
   loops: ['robot-wall-gaps', 'robot-room', 'robot-comb'],
   general: ['robot-corner-right', 'robot-corner-left', 'robot-stairs'],
-  input: ['python-filter', 'python-digits', 'python-pairs'],
-  conditions: ['python-filter', 'python-pairs', 'python-run'],
-  aggregates: ['python-filter', 'python-pairs', 'python-run'],
-  testing: ['python-digits', 'python-pairs', 'python-run'],
+  input: ['python-positive-mean', 'python-base7-sum', 'python-octal-sentinel'],
+  conditions: [
+    'python-base7-sum',
+    'python-octal-sentinel',
+    'python-positive-mean',
+  ],
+  aggregates: [
+    'python-positive-mean',
+    'python-base7-sum',
+    'python-octal-sentinel',
+  ],
+  testing: [
+    'python-octal-sentinel',
+    'python-positive-mean',
+    'python-base7-sum',
+  ],
 } as const;
 export const codingSources: StreamReference[] = [
   ...new Set(Object.values(kinds).flat()),

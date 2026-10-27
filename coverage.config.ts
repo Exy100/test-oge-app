@@ -1,4 +1,4 @@
-/** Product minima; №1–12/14 use the owner-approved sourced formats (Q-I9, Q-I10 / ADR-038–039). */
+/** Product minima; №1–12/14/16 require every sourced exam format (ADR-038/039/055). */
 export default {
   currentPhase: 3,
   phases: { generators: 3, banks: 3, variants: 3, lessons: 7, interactives: 8 },
@@ -27,7 +27,7 @@ export default {
     15: 4,
     16: 4,
   },
-  // The old 4/3 values above remain visible as learning inventory for №1–12 and №14.
+  // Learning inventory remains separate; all four №16 learning types stay mandatory.
   // Every ID below is mandatory in exam selection; an overall total cannot replace it.
   examFormats: {
     1: ['removed-word-v2'],
@@ -43,6 +43,11 @@ export default {
     11: ['context-reading-v2'],
     12: ['file-extensions-v2'],
     14: ['sheet-count-range-v2', 'sheet-sum-mean-v2', 'sheet-count-mean-v2'],
+    16: [
+      'python-positive-mean-v1',
+      'python-base7-sum-v1',
+      'python-octal-sentinel-v1',
+    ],
   },
   banks: { presentation: 12, document: 12 },
   variants: {

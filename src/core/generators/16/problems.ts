@@ -5,7 +5,17 @@ export const programKinds = [
   'python-digits',
   'python-pairs',
   'python-run',
+  'python-positive-mean',
+  'python-base7-sum',
+  'python-octal-sentinel',
 ] as const;
+export const examProgramKinds = [
+  'python-positive-mean',
+  'python-base7-sum',
+  'python-octal-sentinel',
+] as const;
+export const isExamProgramKind = (kind: string): boolean =>
+  examProgramKinds.some((value) => value === kind);
 export type ProgramKind = (typeof programKinds)[number];
 export const isProgramKind = (value: string): value is ProgramKind =>
   programKinds.some((kind) => kind === value);
@@ -13,7 +23,10 @@ export type ProgramParameters =
   | { kind: 'python-filter'; divisor: number; threshold: number }
   | { kind: 'python-digits'; divisor: number }
   | { kind: 'python-pairs'; divisor: number }
-  | { kind: 'python-run'; threshold: number };
+  | { kind: 'python-run'; threshold: number }
+  | { kind: 'python-positive-mean' }
+  | { kind: 'python-base7-sum' }
+  | { kind: 'python-octal-sentinel' };
 export interface ProgramCase {
   id: string;
   label: string;
@@ -32,7 +45,12 @@ function integer(value: number, min: number, max: number): void {
 }
 export function validateProgramParameters(p: ProgramParameters): void {
   if (!isProgramKind(p.kind)) throw new Error('Неизвестный подтип программы.');
-  if (p.kind !== 'python-run') integer(p.divisor, 2, 9);
+  if (
+    p.kind === 'python-filter' ||
+    p.kind === 'python-digits' ||
+    p.kind === 'python-pairs'
+  )
+    integer(p.divisor, 2, 9);
   if (p.kind === 'python-filter' || p.kind === 'python-run')
     integer(p.threshold, -100, 100);
   const keys =
@@ -40,7 +58,9 @@ export function validateProgramParameters(p: ProgramParameters): void {
       ? ['kind', 'divisor', 'threshold']
       : p.kind === 'python-run'
         ? ['kind', 'threshold']
-        : ['kind', 'divisor'];
+        : isExamProgramKind(p.kind)
+          ? ['kind']
+          : ['kind', 'divisor'];
   if (
     Object.keys(p).length !== keys.length ||
     Object.keys(p).some((key) => !keys.includes(key))
@@ -52,6 +72,12 @@ export function programParameters(
   seed: string,
 ): ProgramParameters {
   const rng = new Rng(`${kind}:parameters:${seed}`);
+  if (
+    kind === 'python-positive-mean' ||
+    kind === 'python-base7-sum' ||
+    kind === 'python-octal-sentinel'
+  )
+    return { kind };
   if (kind === 'python-run') return { kind, threshold: rng.int(-90, 90) };
   const divisor = rng.int(2, 9);
   return kind === 'python-filter'
@@ -72,6 +98,12 @@ export function parseProgramInput(
   )
     throw new Error('На каждой строке должно быть одно целое число.');
   const values = input.trimEnd().split(/\r?\n/u).map(Number);
+  if (p.kind === 'python-octal-sentinel') {
+    if (values.pop() !== 0 || values.length > programLimits.count)
+      throw new Error('Последовательность должна заканчиваться нулём.');
+    for (const value of values) integer(value, 1, programLimits.value);
+    return values;
+  }
   if (p.kind === 'python-digits') {
     if (values.length !== 1)
       throw new Error('Ожидается одно неотрицательное число.');
@@ -83,7 +115,13 @@ export function parseProgramInput(
   if (values.length !== count)
     throw new Error('Количество чисел не совпало с N.');
   for (const value of values)
-    integer(value, -programLimits.value, programLimits.value);
+    integer(
+      value,
+      p.kind === 'python-base7-sum' ? 1 : -programLimits.value,
+      programLimits.value,
+    );
+  if (p.kind === 'python-positive-mean' && !values.some((value) => value > 0))
+    throw new Error('В последовательности должно быть положительное число.');
   return values;
 }
 /** A declarative oracle; the Python references use streaming loops. */
@@ -92,6 +130,14 @@ export function expectedProgramOutput(
   input: string,
 ): string {
   const values = parseProgramInput(p, input);
+  if (p.kind === 'python-positive-mean') {
+    const selected = values.filter((value) => value > 0);
+    return `${String(selected.reduce((sum, value) => sum + value, 0) / selected.length)} ${String(selected.length)}\n`;
+  }
+  if (p.kind === 'python-base7-sum')
+    return `${String(values.filter((value) => value.toString(7).endsWith('1')).reduce((sum, value) => sum + value, 0))}\n`;
+  if (p.kind === 'python-octal-sentinel')
+    return `${String(values.filter((value) => /^[1-7][0-7]{2}5$/u.test(value.toString(8))).length)}\n`;
   if (p.kind === 'python-filter' || p.kind === 'python-digits') {
     const selected = (
       p.kind === 'python-digits'
@@ -124,7 +170,70 @@ export function programCases(
   validateProgramParameters(p);
   const rng = new Rng(`${p.kind}:cases:${seed}`);
   let inputs: readonly [string, string][];
-  if (p.kind === 'python-digits') {
+  if (
+    p.kind === 'python-positive-mean' ||
+    p.kind === 'python-base7-sum' ||
+    p.kind === 'python-octal-sentinel'
+  ) {
+    const random = Array.from({ length: rng.int(6, 20) }, () =>
+      rng.int(1, 10000),
+    );
+    const sequences: readonly [string, readonly number[]][] =
+      p.kind === 'python-positive-mean'
+        ? [
+            ['Пример', [0, -rng.int(1, 100), ...random]],
+            ['Одно положительное число', [1]],
+            ['Дробное среднее', [1, 2]],
+            ['Периодическая дробь', [1, 1, 2]],
+            ['Ноль не положителен', [0, 2]],
+            ['Отрицательные не учитываются', [-10000, -1, 1]],
+            ['Все положительные', [2, 4, 6]],
+            ['Границы значений', [-10000, 0, 10000]],
+            ['Положительное в конце', [-3, 0, -2, 7]],
+            [
+              'Максимальное N',
+              Array.from({ length: 1000 }, (_, index) =>
+                index === 999 ? 1 : -10000,
+              ),
+            ],
+          ]
+        : p.kind === 'python-base7-sum'
+          ? [
+              ['Пример', random],
+              ['Одно подходящее число', [1]],
+              ['Нет подходящих чисел', [7, 14]],
+              ['Остаток один, а не ноль', [7, 8, 9]],
+              ['Все подходят', [1, 8, 15]],
+              ['Последняя цифра не десятичная', [11, 15, 71]],
+              ['Повторяющиеся значения', [8, 8, 8]],
+              ['Границы значений', [1, 10000]],
+              ['Подходящее в конце', [2, 3, 15]],
+              ['Максимальное N', Array.from({ length: 1000 }, () => 9997)],
+            ]
+          : [
+              ['Пример', random],
+              ['Сразу ноль', []],
+              ['Первое подходящее число', [517]],
+              ['Нижняя граница длины', [509, 512, 517]],
+              ['Верхняя граница длины', [4093, 4095, 4096, 4101]],
+              ['Последняя цифра пять', [516, 517, 518]],
+              ['Восьмеричная, а не десятичная цифра', [525, 535, 557]],
+              ['Повторяющиеся значения', [517, 517, 517]],
+              ['Границы значений', [1, 10000]],
+              [
+                'Максимальная длина',
+                Array.from({ length: 1000 }, (_, index) =>
+                  index % 2 ? 4093 : 517,
+                ),
+              ],
+            ];
+    inputs = sequences.map(([label, values]) => [
+      label,
+      p.kind === 'python-octal-sentinel'
+        ? `${values.length ? values.join('\n') + '\n' : ''}0\n`
+        : sequenceInput(values),
+    ]);
+  } else if (p.kind === 'python-digits') {
     const values = [
       rng.int(0, 999999) * 1000000 + rng.int(0, 999999),
       0,
@@ -229,7 +338,42 @@ export function programCases(
     output: expectedProgramOutput(p, input),
   }));
 }
-export function equalProgramOutput(expected: string, actual: string): boolean {
+export type ProgramOutputPolicy = 'integer' | 'positive-mean';
+export const programOutputPolicy = (
+  p: ProgramParameters,
+): ProgramOutputPolicy =>
+  p.kind === 'python-positive-mean' ? 'positive-mean' : 'integer';
+export function equalProgramOutput(
+  expected: string,
+  actual: string,
+  policy: ProgramOutputPolicy = 'integer',
+): boolean {
+  if (policy === 'positive-mean') {
+    const parse = (text: string) => {
+      const parts = text.trim().split(/\s+/u);
+      if (
+        text.length > 1024 ||
+        parts.length !== 2 ||
+        !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/u.test(
+          parts[0] ?? '',
+        ) ||
+        !/^[+-]?\d+$/u.test(parts[1] ?? '')
+      )
+        return undefined;
+      const values = parts.map(Number);
+      return Number.isFinite(values[0]) && Number.isSafeInteger(values[1])
+        ? values
+        : undefined;
+    };
+    const target = parse(expected),
+      result = parse(actual);
+    return (
+      target !== undefined &&
+      result !== undefined &&
+      target[1] === result[1] &&
+      Math.abs((target[0] ?? 0) - (result[0] ?? 0)) <= 1e-6
+    );
+  }
   const normalize = (value: string): string | undefined => {
     if (value.length > 1024 || !value.trim()) return undefined;
     const tokens = value.trim().split(/\s+/u);
@@ -267,7 +411,7 @@ export function assessProgramRuns(
         run !== undefined &&
         run.exitCode === 0 &&
         !run.timedOut &&
-        equalProgramOutput(item.output, run.stdout),
+        equalProgramOutput(item.output, run.stdout, programOutputPolicy(p)),
     };
   });
   const passed = results.filter((item) => item.success).length;

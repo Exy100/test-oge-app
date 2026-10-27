@@ -1,5 +1,6 @@
 """Проверка собственного или доверенного Python-файла на учебных тестах."""
 import json
+import math
 from pathlib import Path
 import re
 import subprocess
@@ -11,7 +12,29 @@ def tokens(text):
     parts = text.split()
     if not parts or len(text) > 1024 or any(re.fullmatch(r"[+-]?[0-9]+", p) is None for p in parts):
         return None
-    return [int(p) for p in parts]
+    values = [int(p) for p in parts]
+    return values if all(abs(value) <= 9007199254740991 for value in values) else None
+
+
+def mean_tokens(text):
+    parts = text.split()
+    if len(text) > 1024 or len(parts) != 2:
+        return None
+    if re.fullmatch(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?", parts[0]) is None:
+        return None
+    count = tokens(parts[1])
+    mean = float(parts[0])
+    return (mean, count[0]) if math.isfinite(mean) and count is not None else None
+
+
+def equal_output(expected, actual, policy):
+    if policy == "positive-mean":
+        target, result = mean_tokens(expected), mean_tokens(actual)
+        return target is not None and result is not None and target[1] == result[1] and math.isclose(target[0], result[0], rel_tol=0, abs_tol=1e-6)
+    if policy != "integer":
+        return False
+    target = tokens(expected)
+    return target is not None and target == tokens(actual)
 
 
 def main():
@@ -23,10 +46,12 @@ def main():
         print("Файл программы не найден.", file=sys.stderr)
         return 2
     root = Path(__file__).resolve().parent
-    cases = json.loads((root / "tests/index.json").read_text(encoding="utf-8"))["cases"]
+    index = json.loads((root / "tests/index.json").read_text(encoding="utf-8"))
+    cases = index["cases"]
+    policy = index.get("outputPolicy", "integer")
     passed = 0
     for case in cases:
-        expected = tokens((root / case["expected"]).read_text(encoding="utf-8"))
+        expected = (root / case["expected"]).read_text(encoding="utf-8")
         data = (root / case["input"]).read_bytes()
         with tempfile.TemporaryDirectory(prefix="oge-python-") as work:
             with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
@@ -38,7 +63,7 @@ def main():
                     )
                     output.seek(0)
                     actual = output.read(1025).decode("utf-8")
-                    success = result.returncode == 0 and expected is not None and tokens(actual) == expected
+                    success = result.returncode == 0 and equal_output(expected, actual, policy)
                 except (subprocess.TimeoutExpired, UnicodeDecodeError, OSError):
                     success = False
         passed += int(success)

@@ -1,5 +1,5 @@
 import { robotGenerators } from './15/robots.ts';
-import { pythonGenerators } from './16/programs.ts';
+import { examPythonGenerators } from './16/programs.ts';
 import { spreadsheetGenerators } from './14/exam-spreadsheets.ts';
 import { confirmedShortGenerators } from './exam/short-generators.ts';
 import { confirmedFileGenerators } from './exam/file-generators.ts';
@@ -15,7 +15,7 @@ export const generators = createRegistry(
     ...confirmedFileGenerators,
     ...spreadsheetGenerators,
     ...robotGenerators,
-    ...pythonGenerators,
+    ...examPythonGenerators,
   ].sort((a, b) => a.taskNumber - b.taskNumber),
 );
 export function getGenerator(id: string): Generator {

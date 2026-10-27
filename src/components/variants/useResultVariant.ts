@@ -5,8 +5,8 @@ import type { ExamAttempt } from '../../core/variants/exam';
 
 /** Keep generator verification off the UI thread; terminate on completion or navigation. */
 export function useResultVariant(attempt: ExamAttempt, supplied?: Variant) {
-  const { variantId, seed, variant13 } = attempt;
-  const key = JSON.stringify([variantId, seed, variant13]);
+  const { variantId, seed, variant13, pythonFormatVersion } = attempt;
+  const key = JSON.stringify([variantId, seed, variant13, pythonFormatVersion]);
   const [loaded, setLoaded] = useState<{
     key: string;
     variant: Variant | null;
@@ -42,7 +42,14 @@ export function useResultVariant(attempt: ExamAttempt, supplied?: Variant) {
         void import('../../core/variants/result-variant')
           .then(({ buildExamVariant }) => {
             if (active)
-              finish(buildExamVariant({ variantId, seed, variant13 }));
+              finish(
+                buildExamVariant({
+                  variantId,
+                  seed,
+                  variant13,
+                  pythonFormatVersion,
+                }),
+              );
           })
           .catch(fail)
           .finally(() => {
@@ -70,7 +77,7 @@ export function useResultVariant(attempt: ExamAttempt, supplied?: Variant) {
           worker?.terminate();
           fail();
         };
-        worker.postMessage({ variantId, seed, variant13 });
+        worker.postMessage({ variantId, seed, variant13, pythonFormatVersion });
       }
     } catch {
       clearTimeout(timeout);
@@ -81,7 +88,7 @@ export function useResultVariant(attempt: ExamAttempt, supplied?: Variant) {
       clearTimeout(timeout);
       worker?.terminate();
     };
-  }, [variantId, seed, variant13, key, supplied]);
+  }, [variantId, seed, variant13, pythonFormatVersion, key, supplied]);
   return useMemo(
     () =>
       supplied

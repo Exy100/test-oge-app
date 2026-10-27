@@ -1,9 +1,7 @@
-n = int(input())
 count = 0
-total = 0
-for i in range(n):
-    x = int(input())
-    if x % 8 == 0 and x >= 8:
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
         count += 1
-        total += x
-print(count, total)
+    x = int(input())
+print(count)

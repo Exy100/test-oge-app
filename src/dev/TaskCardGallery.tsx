@@ -11,6 +11,7 @@ import {
 import { taskExample } from '../../tests/fixtures/model-examples';
 import type { TaskInstance } from '../core/types';
 import { guidanceExample } from '../../tests/fixtures/guidance-example';
+import { learningPythonGenerators } from '../core/generators/16/programs';
 
 const sources = streamSources();
 export default function TaskCardGallery() {
@@ -20,8 +21,9 @@ export default function TaskCardGallery() {
   const [outcomes, setOutcomes] = useState<StreamOutcome[]>([]);
   const [revision, setRevision] = useState(0);
   const source = sources.find((item) => item.generatorId === id);
+  const learning = learningPythonGenerators.find((item) => item.id === id);
   const fixture = shortFixtures.find((item) => `fixture:${item.id}` === id);
-  if (!source && !fixture && id !== 'guidance-contract')
+  if (!source && !fixture && !learning && id !== 'guidance-contract')
     throw new Error('Нет источника для карточки.');
   const task: TaskInstance =
     id === 'guidance-contract'
@@ -35,11 +37,13 @@ export default function TaskCardGallery() {
             statement: `Проверка записи ответа ${fixture.id} на бланке. Условие экзамена в приложение не копируется.`,
             answer: answerFormat(fixture),
           }
-        : resolveStreamTask({
-            generatorId: id,
-            seed: source?.kind === 'curated' ? (source.seeds[0] ?? '') : seed,
-            taskNumber: source?.taskNumber ?? 1,
-          });
+        : learning
+          ? learning.generate(seed)
+          : resolveStreamTask({
+              generatorId: id,
+              seed: source?.kind === 'curated' ? (source.seeds[0] ?? '') : seed,
+              taskNumber: source?.taskNumber ?? 1,
+            });
   return (
     <div className="stream">
       <label>
@@ -58,6 +62,13 @@ export default function TaskCardGallery() {
               {item.generatorId}
             </option>
           ))}
+          <optgroup label="Учебные упражнения №16">
+            {learningPythonGenerators.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.id}
+              </option>
+            ))}
+          </optgroup>
           <option value="guidance-contract">
             Контракт помощи: текст, код и формулы
           </option>

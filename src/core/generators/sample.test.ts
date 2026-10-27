@@ -46,7 +46,7 @@ test('review exports preserve graph arrows and every valid answer, including unb
 });
 test('absent generators and invalid counts fail explicitly', () => {
   expect(() => sampleTasks(17 as never, 50)).toThrow('нет зарегистрированных');
-  expect(sampleTasks(16, 4)).toContain('python-run-v1');
+  expect(sampleTasks(16, 4)).toContain('python-octal-sentinel-v1');
   for (const count of [0, -1, 0.5, 1001, Infinity])
     expect(() => sampleTasks(1, count)).toThrow();
 });

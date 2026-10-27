@@ -1,9 +1,9 @@
 {
   "parameters": {
-    "kind": "python-digits",
-    "divisor": 2
+    "kind": "python-octal-sentinel"
   },
   "timeoutSeconds": 2,
+  "outputPolicy": "integer",
   "cases": [
     {
       "id": "01",
@@ -13,55 +13,55 @@
     },
     {
       "id": "02",
-      "label": "Ноль — одна цифра",
+      "label": "Сразу ноль",
       "input": "tests/02.input.txt",
       "expected": "tests/02.expected.txt"
     },
     {
       "id": "03",
-      "label": "Нет подходящих цифр",
+      "label": "Первое подходящее число",
       "input": "tests/03.input.txt",
       "expected": "tests/03.expected.txt"
     },
     {
       "id": "04",
-      "label": "Однозначное число",
+      "label": "Нижняя граница длины",
       "input": "tests/04.input.txt",
       "expected": "tests/04.expected.txt"
     },
     {
       "id": "05",
-      "label": "Ноль в конце",
+      "label": "Верхняя граница длины",
       "input": "tests/05.input.txt",
       "expected": "tests/05.expected.txt"
     },
     {
       "id": "06",
-      "label": "Длинная цепочка нулей",
+      "label": "Последняя цифра пять",
       "input": "tests/06.input.txt",
       "expected": "tests/06.expected.txt"
     },
     {
       "id": "07",
-      "label": "Верхняя граница",
+      "label": "Восьмеричная, а не десятичная цифра",
       "input": "tests/07.input.txt",
       "expected": "tests/07.expected.txt"
     },
     {
       "id": "08",
-      "label": "Все цифры не подходят",
+      "label": "Повторяющиеся значения",
       "input": "tests/08.input.txt",
       "expected": "tests/08.expected.txt"
     },
     {
       "id": "09",
-      "label": "Все цифры подходят",
+      "label": "Границы значений",
       "input": "tests/09.input.txt",
       "expected": "tests/09.expected.txt"
     },
     {
       "id": "10",
-      "label": "Чередование цифр и нулей",
+      "label": "Максимальная длина",
       "input": "tests/10.input.txt",
       "expected": "tests/10.expected.txt"
     }

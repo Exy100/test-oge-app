@@ -1,5 +1,909 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`python-base7-sum-v1 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-base7-sum-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-base7-sum-v1:files:golden-1",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "python-base7-sum-v1",
+  "hints": [
+    "Вспомни, как остаток от деления на основание связан с последней цифрой записи.",
+    "Проверяй остаток 1 от деления на 7. Нужна сумма самих чисел, а не их количество или сумма цифр.",
+    "Проверь 7, 8, 9: подходит только 8, потому что его семеричная запись — 11. Сумма равна 8.",
+  ],
+  "id": "python-base7-sum-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+    {
+      "text": "Прочитай N и ровно N чисел. Начни сумму с нуля и прибавляй только подходящие значения. Если их нет, сумма останется нулём.",
+    },
+    {
+      "code": "n = int(input())
+total = 0
+for i in range(n):
+    x = int(input())
+    if x % 7 == 1:
+        total += x
+print(total)
+",
+      "text": "В примере подходят числа: 5965, 6595. Их сумма 12560. Например, 15 в десятичной системе — это 21 в семеричной, а 11 — это 14: десятичная последняя цифра здесь не помогает.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N натуральных чисел найди сумму тех, последняя цифра семеричной записи которых равна 1. Выведи сумму в десятичной системе. Если подходящих чисел нет, выведи 0.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем N строк, по одному натуральному числу от 1 до 10000 включительно.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+9
+6257
+595
+5965
+3091
+4750
+8253
+6595
+4584
+2036
+\`\`\`
+Пример вывода:
+\`\`\`
+12560
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-base7-sum",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-base7-sum-v1 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "6c3a9170d64db64bb0072419302a61576bdd5120cf6dd76a9969bf5cfabb8c69",
+      "size": 1403,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5e58784fc325d8c9fbed75e3eded3d85008b7ece4df76b570cf8435b4050b69f",
+      "size": 118,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "abb346a1f8e80726ee2554351fd6cf999aa5e2f3478294c4d3418bd1dc00431e",
+      "size": 33,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "dae9bd53b8bba0ab14f5a8632eb4bc8aa2ee039c93506c3f071705c2f5d008d3",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "9938ddb4f1f8540f16699e22100a2761c22be383cabbc4c77a812bdefcd9da97",
+      "size": 46,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "1c6487a7e778612c5b3e9e8b6409e12ac191a1776fb2967fd887e1ae26fda797",
+      "size": 7,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "2b51302f1c073f50ca8b6af87dac4b1313547f7eb9e1310b612701cbbd0b8327",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "fff940fb2b6ae04a2e8d51301f095278b1355eab55a41bd113ba76980bb7b2b6",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "816c83d0ac08a94e91547a30df27dbbe88c7643cfa3c99d33120fd361173759a",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "13537dae01402de5bb5494287994c25b836cbd256e640bd97d41ada90e8174b3",
+      "size": 11,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "5f70d722634be69979400651322e639cf116292ce636d22793ce4a7c69277edb",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "bc0c50d5cb2d46395895a3a15183e49998054427f871b908561e045576663eda",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "05f3c353a4623f73b0d90eca48a46c3a38e20bab9348fcd0606f92f9df49c822",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "fd78966ae8032101523eb8436e1090ebcdbf64c05e6322f39688588b3b06437f",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "06e803df78d52a27294e3e70ef60b475c1e294172b3106bb344c1feb05656068",
+      "size": 5005,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "ab22325acb277674ebf27f725d2b80678a3342b999418cd7981f83dcf1a69dd9",
+      "size": 1759,
+    },
+  ],
+  "generatorId": "python-base7-sum-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-base7-sum-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`python-base7-sum-v1 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-base7-sum-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-base7-sum-v1:files:golden-2",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "python-base7-sum-v1",
+  "hints": [
+    "Вспомни, как остаток от деления на основание связан с последней цифрой записи.",
+    "Проверяй остаток 1 от деления на 7. Нужна сумма самих чисел, а не их количество или сумма цифр.",
+    "Проверь 7, 8, 9: подходит только 8, потому что его семеричная запись — 11. Сумма равна 8.",
+  ],
+  "id": "python-base7-sum-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+    {
+      "text": "Прочитай N и ровно N чисел. Начни сумму с нуля и прибавляй только подходящие значения. Если их нет, сумма останется нулём.",
+    },
+    {
+      "code": "n = int(input())
+total = 0
+for i in range(n):
+    x = int(input())
+    if x % 7 == 1:
+        total += x
+print(total)
+",
+      "text": "В примере подходят числа: 92. Их сумма 92. Например, 15 в десятичной системе — это 21 в семеричной, а 11 — это 14: десятичная последняя цифра здесь не помогает.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N натуральных чисел найди сумму тех, последняя цифра семеричной записи которых равна 1. Выведи сумму в десятичной системе. Если подходящих чисел нет, выведи 0.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем N строк, по одному натуральному числу от 1 до 10000 включительно.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+16
+9901
+92
+4958
+9788
+1169
+1446
+9499
+9807
+3033
+1882
+8140
+8365
+4490
+3791
+3359
+8752
+\`\`\`
+Пример вывода:
+\`\`\`
+92
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-base7-sum",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-base7-sum-v1 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "1430b99b0d65418dcebc0ca2b1ffc50f6c0bc47fd5cbf7bb907b1216523c18c0",
+      "size": 1435,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5e58784fc325d8c9fbed75e3eded3d85008b7ece4df76b570cf8435b4050b69f",
+      "size": 118,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "abb346a1f8e80726ee2554351fd6cf999aa5e2f3478294c4d3418bd1dc00431e",
+      "size": 33,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "13c1dc569ae4a0d7f90d8f83d22fc9c8fa526e133f8fea0f9526c8533c4d8da3",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "a771f7d0a993c66c901834af636cbd4eaeb40697c6358b38e4318ab7d20cc045",
+      "size": 81,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "1c6487a7e778612c5b3e9e8b6409e12ac191a1776fb2967fd887e1ae26fda797",
+      "size": 7,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "2b51302f1c073f50ca8b6af87dac4b1313547f7eb9e1310b612701cbbd0b8327",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "fff940fb2b6ae04a2e8d51301f095278b1355eab55a41bd113ba76980bb7b2b6",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "816c83d0ac08a94e91547a30df27dbbe88c7643cfa3c99d33120fd361173759a",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "13537dae01402de5bb5494287994c25b836cbd256e640bd97d41ada90e8174b3",
+      "size": 11,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "5f70d722634be69979400651322e639cf116292ce636d22793ce4a7c69277edb",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "bc0c50d5cb2d46395895a3a15183e49998054427f871b908561e045576663eda",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "05f3c353a4623f73b0d90eca48a46c3a38e20bab9348fcd0606f92f9df49c822",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "fd78966ae8032101523eb8436e1090ebcdbf64c05e6322f39688588b3b06437f",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "06e803df78d52a27294e3e70ef60b475c1e294172b3106bb344c1feb05656068",
+      "size": 5005,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "ab22325acb277674ebf27f725d2b80678a3342b999418cd7981f83dcf1a69dd9",
+      "size": 1759,
+    },
+  ],
+  "generatorId": "python-base7-sum-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-base7-sum-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`python-base7-sum-v1 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-base7-sum-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-base7-sum-v1:files:golden-3",
+  "difficulty": 2,
+  "examPart": 2,
+  "generatorId": "python-base7-sum-v1",
+  "hints": [
+    "Вспомни, как остаток от деления на основание связан с последней цифрой записи.",
+    "Проверяй остаток 1 от деления на 7. Нужна сумма самих чисел, а не их количество или сумма цифр.",
+    "Проверь 7, 8, 9: подходит только 8, потому что его семеричная запись — 11. Сумма равна 8.",
+  ],
+  "id": "python-base7-sum-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Последняя цифра записи по основанию 7 равна остатку от деления числа на 7. Поэтому нужна проверка x % 7 == 1.",
+    },
+    {
+      "text": "Прочитай N и ровно N чисел. Начни сумму с нуля и прибавляй только подходящие значения. Если их нет, сумма останется нулём.",
+    },
+    {
+      "code": "n = int(input())
+total = 0
+for i in range(n):
+    x = int(input())
+    if x % 7 == 1:
+        total += x
+print(total)
+",
+      "text": "В примере подходят числа: 5734, 9024. Их сумма 14758. Например, 15 в десятичной системе — это 21 в семеричной, а 11 — это 14: десятичная последняя цифра здесь не помогает.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N натуральных чисел найди сумму тех, последняя цифра семеричной записи которых равна 1. Выведи сумму в десятичной системе. Если подходящих чисел нет, выведи 0.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем N строк, по одному натуральному числу от 1 до 10000 включительно.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+15
+7161
+9105
+2786
+6571
+3251
+2322
+24
+4797
+5826
+9029
+9593
+5734
+9024
+1570
+7415
+\`\`\`
+Пример вывода:
+\`\`\`
+14758
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-base7-sum",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-base7-sum-v1 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "fdd88fc2e19b70d39867598d1552a695233f21d8425adc0b0ee849d620933a38",
+      "size": 1433,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5e58784fc325d8c9fbed75e3eded3d85008b7ece4df76b570cf8435b4050b69f",
+      "size": 118,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "abb346a1f8e80726ee2554351fd6cf999aa5e2f3478294c4d3418bd1dc00431e",
+      "size": 33,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "87a4b62ea96cdb8574a39a0b917c9dc4215cc415496c2ed969f6a4436948cbc4",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "3dab7297094cf9d2e86fc9eaf236f9147e74a5da54dcb758519f9e73af2bf057",
+      "size": 76,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "1c6487a7e778612c5b3e9e8b6409e12ac191a1776fb2967fd887e1ae26fda797",
+      "size": 7,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "aa67a169b0bba217aa0aa88a65346920c84c42447c36ba5f7ea65f422c1fe5d8",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "2b51302f1c073f50ca8b6af87dac4b1313547f7eb9e1310b612701cbbd0b8327",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "fff940fb2b6ae04a2e8d51301f095278b1355eab55a41bd113ba76980bb7b2b6",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "816c83d0ac08a94e91547a30df27dbbe88c7643cfa3c99d33120fd361173759a",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "13537dae01402de5bb5494287994c25b836cbd256e640bd97d41ada90e8174b3",
+      "size": 11,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "5f70d722634be69979400651322e639cf116292ce636d22793ce4a7c69277edb",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "bc0c50d5cb2d46395895a3a15183e49998054427f871b908561e045576663eda",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+      "size": 3,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "05f3c353a4623f73b0d90eca48a46c3a38e20bab9348fcd0606f92f9df49c822",
+      "size": 9,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "fd78966ae8032101523eb8436e1090ebcdbf64c05e6322f39688588b3b06437f",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "06e803df78d52a27294e3e70ef60b475c1e294172b3106bb344c1feb05656068",
+      "size": 5005,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "ab22325acb277674ebf27f725d2b80678a3342b999418cd7981f83dcf1a69dd9",
+      "size": 1759,
+    },
+  ],
+  "generatorId": "python-base7-sum-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-base7-sum-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
 exports[`python-digits-v1 > golden task and manifest golden-1 1`] = `
 {
   "answer": {
@@ -99,8 +1003,8 @@ exports[`python-digits-v1 > golden task and manifest golden-1 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -113,8 +1017,8 @@ exports[`python-digits-v1 > golden task and manifest golden-1 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -281,8 +1185,8 @@ exports[`python-digits-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "c626aa0232651d5fbf804b25a06079a2f53f035aff4f0bdd7dffb9f804672940",
-      "size": 1724,
+      "sha256": "fa5e1ac9e4520b12cc0fc6eb8fe55e7eedef6ae9bbb17e0d5fda4e1a8a88729a",
+      "size": 1753,
     },
   ],
   "generatorId": "python-digits-v1",
@@ -392,8 +1296,8 @@ exports[`python-digits-v1 > golden task and manifest golden-2 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -406,8 +1310,8 @@ exports[`python-digits-v1 > golden task and manifest golden-2 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -574,8 +1478,8 @@ exports[`python-digits-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "5c7c3a4bae1009a825b5847e07f1f3f95a70b255efcf791dfde70585d1c91d08",
-      "size": 1724,
+      "sha256": "5fc08cb091748584ea06dc1c37c706d4240c7af0ba720564aaa68ecb34381d5b",
+      "size": 1753,
     },
   ],
   "generatorId": "python-digits-v1",
@@ -685,8 +1589,8 @@ exports[`python-digits-v1 > golden task and manifest golden-3 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -699,8 +1603,8 @@ exports[`python-digits-v1 > golden task and manifest golden-3 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -867,8 +1771,8 @@ exports[`python-digits-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "8021206454917f3538467ad3ea49921c88879e429485d7160b8e7eafe516c129",
-      "size": 1724,
+      "sha256": "b885550886a498a73711d4d7eda0dc63dd705464450904a2cd4f5bb8f25784f3",
+      "size": 1753,
     },
   ],
   "generatorId": "python-digits-v1",
@@ -982,8 +1886,8 @@ exports[`python-filter-v1 > golden task and manifest golden-1 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -996,8 +1900,8 @@ exports[`python-filter-v1 > golden task and manifest golden-1 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -1164,8 +2068,8 @@ exports[`python-filter-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "8ddf711f3d04fc98a401d6fb04cfd11d2447314f50c3d3f8e73fe9b847600286",
-      "size": 1725,
+      "sha256": "3608e3aeed04cde82df089d4532402e6b9d873ce0dbe0b80301acd314c8a5f5d",
+      "size": 1754,
     },
   ],
   "generatorId": "python-filter-v1",
@@ -1291,8 +2195,8 @@ exports[`python-filter-v1 > golden task and manifest golden-2 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -1305,8 +2209,8 @@ exports[`python-filter-v1 > golden task and manifest golden-2 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -1473,8 +2377,8 @@ exports[`python-filter-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "7eb4f8c325eb5b6ecc0f1f0afb6c853f1d94ca026cf5276850b36400ffb62fe0",
-      "size": 1725,
+      "sha256": "dc9b380b974a32fb71898f31ad4292066a115c3ef8139fcc73ab31100aa95d39",
+      "size": 1754,
     },
   ],
   "generatorId": "python-filter-v1",
@@ -1589,8 +2493,8 @@ exports[`python-filter-v1 > golden task and manifest golden-3 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -1603,8 +2507,8 @@ exports[`python-filter-v1 > golden task and manifest golden-3 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -1771,13 +2675,907 @@ exports[`python-filter-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "89ea88c3561f92bb03cf3ea84df421d81d5eae24b9bdd1f28665f85142140489",
-      "size": 1724,
+      "sha256": "f80c944e787bd95f15c0e7de9e8ac1af3fc369a11e414bd6e19ee9c053b55942",
+      "size": 1753,
     },
   ],
   "generatorId": "python-filter-v1",
   "generatorVersion": "educational-files-v1",
   "id": "python-filter-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-octal-sentinel-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-octal-sentinel-v1:files:golden-1",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-octal-sentinel-v1",
+  "hints": [
+    "Здесь нет N в первой строке: это уже первое число последовательности. Ноль означает конец ввода.",
+    "Совмести диапазон 512 ≤ x < 4096 и остаток 5 при делении на 8.",
+    "Проверь 509, 517, 4093, 4101 и завершающий 0: подходят 517 и 4093. При вводе сразу 0 ответ равен 0.",
+  ],
+  "id": "python-octal-sentinel-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+    {
+      "text": "Прочитай первое число до цикла. Пока оно не равно нулю, проверь оба условия, при успехе увеличь счётчик и обязательно прочитай следующее число. Ноль завершает ввод.",
+    },
+    {
+      "code": "count = 0
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
+        count += 1
+    x = int(input())
+print(count)
+",
+      "text": "В примере подходят числа: нет. Количество 0, вывод 0. Первое подходящее значение — 517 (1005 в восьмеричной системе), последнее — 4093 (7775).",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Вводится последовательность натуральных чисел, за которой следует 0 — признак конца ввода. Найди количество чисел, восьмеричная запись которых состоит ровно из четырёх цифр и заканчивается цифрой 5. Выведи количество в десятичной системе; если подходящих чисел нет, выведи 0. Завершающий ноль в последовательность не входит.
+
+Ввод: по одному числу на строке, от 1 до 10000 включительно; не более 1000 чисел. Последняя строка — 0. Первое число тоже может быть нулём. Количество чисел заранее не задано.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+833
+9101
+7691
+7948
+7709
+5052
+5253
+3543
+4879
+0
+\`\`\`
+Пример вывода:
+\`\`\`
+0
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-octal-sentinel",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "abb773572403eb6b82d9326b017b111c3e1402f1a9ec41c3e916d4141866e3e9",
+      "size": 1781,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5af1619178d046ecf01773d853fc6db85c47cfaab31c4a69a681b47d9005ffbb",
+      "size": 133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "51732606774193118e9268c94a33b31438de57e240ff277cb05b1512da3e4241",
+      "size": 38,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "7bfbf9bf11456c194cfff3000484f721eb88a20f1a8a9cd2452abb11702a6a4e",
+      "size": 46,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "0b7a8bc42ed6e8604a1fe391decb96c7dcbbb75fa348697a32fcab6a73016140",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "3bffc84f544e473e75f3ba250831e06d88f207a07a02dec1737a67a114743fe9",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "909521a7bb65568c1f7708e08a31cc2f46c9fabb7fc436b9c4380cb7c919be33",
+      "size": 22,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "8ce3a22961d0196d2ec47762b2505e02476d6b0ab4593594e55581ca71264f95",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "fb5e038a13a520b32f7a98889fc144064d0872a34415b35dc9d9ac863b3893b8",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "5179f97d64f1cfafe89323ba4d3c731a5e790720f1791008e853404eaef4fbe2",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "133c078239ea72a685de8263a1664df8460390dfd72421fb8ec578999b97f3f0",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "size": 5,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "b4e5864555c2e5d88b7c83495498095c52a7f2692eb94853002ec8390a0e7be6",
+      "size": 4502,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "5976e9f98adc80a56b7a53d50f0e19f3d89b47bfbba0ef090175a42c346623d3",
+      "size": 1786,
+    },
+  ],
+  "generatorId": "python-octal-sentinel-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-octal-sentinel-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-octal-sentinel-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-octal-sentinel-v1:files:golden-2",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-octal-sentinel-v1",
+  "hints": [
+    "Здесь нет N в первой строке: это уже первое число последовательности. Ноль означает конец ввода.",
+    "Совмести диапазон 512 ≤ x < 4096 и остаток 5 при делении на 8.",
+    "Проверь 509, 517, 4093, 4101 и завершающий 0: подходят 517 и 4093. При вводе сразу 0 ответ равен 0.",
+  ],
+  "id": "python-octal-sentinel-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+    {
+      "text": "Прочитай первое число до цикла. Пока оно не равно нулю, проверь оба условия, при успехе увеличь счётчик и обязательно прочитай следующее число. Ноль завершает ввод.",
+    },
+    {
+      "code": "count = 0
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
+        count += 1
+    x = int(input())
+print(count)
+",
+      "text": "В примере подходят числа: 3317. Количество 1, вывод 1. Первое подходящее значение — 517 (1005 в восьмеричной системе), последнее — 4093 (7775).",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Вводится последовательность натуральных чисел, за которой следует 0 — признак конца ввода. Найди количество чисел, восьмеричная запись которых состоит ровно из четырёх цифр и заканчивается цифрой 5. Выведи количество в десятичной системе; если подходящих чисел нет, выведи 0. Завершающий ноль в последовательность не входит.
+
+Ввод: по одному числу на строке, от 1 до 10000 включительно; не более 1000 чисел. Последняя строка — 0. Первое число тоже может быть нулём. Количество чисел заранее не задано.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+5383
+5076
+2793
+9925
+3317
+8284
+7428
+0
+\`\`\`
+Пример вывода:
+\`\`\`
+1
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-octal-sentinel",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "0a11ad75faa52a617bdd73725283a6358de978ef4432ff6f811c5721a719f7c8",
+      "size": 1772,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5af1619178d046ecf01773d853fc6db85c47cfaab31c4a69a681b47d9005ffbb",
+      "size": 133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "51732606774193118e9268c94a33b31438de57e240ff277cb05b1512da3e4241",
+      "size": 38,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "3f51f31048ecc69d913f5808c59d624c9714ab329c837d337b3f9eb4f5e5f845",
+      "size": 37,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "0b7a8bc42ed6e8604a1fe391decb96c7dcbbb75fa348697a32fcab6a73016140",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "3bffc84f544e473e75f3ba250831e06d88f207a07a02dec1737a67a114743fe9",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "909521a7bb65568c1f7708e08a31cc2f46c9fabb7fc436b9c4380cb7c919be33",
+      "size": 22,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "8ce3a22961d0196d2ec47762b2505e02476d6b0ab4593594e55581ca71264f95",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "fb5e038a13a520b32f7a98889fc144064d0872a34415b35dc9d9ac863b3893b8",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "5179f97d64f1cfafe89323ba4d3c731a5e790720f1791008e853404eaef4fbe2",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "133c078239ea72a685de8263a1664df8460390dfd72421fb8ec578999b97f3f0",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "size": 5,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "b4e5864555c2e5d88b7c83495498095c52a7f2692eb94853002ec8390a0e7be6",
+      "size": 4502,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "5976e9f98adc80a56b7a53d50f0e19f3d89b47bfbba0ef090175a42c346623d3",
+      "size": 1786,
+    },
+  ],
+  "generatorId": "python-octal-sentinel-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-octal-sentinel-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-octal-sentinel-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-octal-sentinel-v1:files:golden-3",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-octal-sentinel-v1",
+  "hints": [
+    "Здесь нет N в первой строке: это уже первое число последовательности. Ноль означает конец ввода.",
+    "Совмести диапазон 512 ≤ x < 4096 и остаток 5 при делении на 8.",
+    "Проверь 509, 517, 4093, 4101 и завершающий 0: подходят 517 и 4093. При вводе сразу 0 ответ равен 0.",
+  ],
+  "id": "python-octal-sentinel-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Четыре восьмеричные цифры означают 8³ ≤ x < 8⁴, то есть 512 ≤ x < 4096. Последняя цифра 5 означает x % 8 == 5.",
+    },
+    {
+      "text": "Прочитай первое число до цикла. Пока оно не равно нулю, проверь оба условия, при успехе увеличь счётчик и обязательно прочитай следующее число. Ноль завершает ввод.",
+    },
+    {
+      "code": "count = 0
+x = int(input())
+while x != 0:
+    if 512 <= x < 4096 and x % 8 == 5:
+        count += 1
+    x = int(input())
+print(count)
+",
+      "text": "В примере подходят числа: нет. Количество 0, вывод 0. Первое подходящее значение — 517 (1005 в восьмеричной системе), последнее — 4093 (7775).",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Вводится последовательность натуральных чисел, за которой следует 0 — признак конца ввода. Найди количество чисел, восьмеричная запись которых состоит ровно из четырёх цифр и заканчивается цифрой 5. Выведи количество в десятичной системе; если подходящих чисел нет, выведи 0. Завершающий ноль в последовательность не входит.
+
+Ввод: по одному числу на строке, от 1 до 10000 включительно; не более 1000 чисел. Последняя строка — 0. Первое число тоже может быть нулём. Количество чисел заранее не задано.
+Выводи только указанные целые числа, без приглашений и пояснений. Числа результата разделяй пробелом.
+
+Пример ввода:
+\`\`\`
+3567
+2633
+6714
+4144
+2151
+3859
+2480
+6624
+6273
+1695
+7666
+9211
+1834
+9789
+0
+\`\`\`
+Пример вывода:
+\`\`\`
+0
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-octal-sentinel",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-octal-sentinel-v1 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "3626e66fef9bbae38843eb4a35e41c98fa52e0dbd46683aff9143e23e4ea0e38",
+      "size": 1807,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "5af1619178d046ecf01773d853fc6db85c47cfaab31c4a69a681b47d9005ffbb",
+      "size": 133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "51732606774193118e9268c94a33b31438de57e240ff277cb05b1512da3e4241",
+      "size": 38,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "c869747ec0e34a66212cc78c73d38e06beab0ee8cb14b39f65af9bf73860873a",
+      "size": 72,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "0b7a8bc42ed6e8604a1fe391decb96c7dcbbb75fa348697a32fcab6a73016140",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "3bffc84f544e473e75f3ba250831e06d88f207a07a02dec1737a67a114743fe9",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "909521a7bb65568c1f7708e08a31cc2f46c9fabb7fc436b9c4380cb7c919be33",
+      "size": 22,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "8ce3a22961d0196d2ec47762b2505e02476d6b0ab4593594e55581ca71264f95",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "fb5e038a13a520b32f7a98889fc144064d0872a34415b35dc9d9ac863b3893b8",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "5179f97d64f1cfafe89323ba4d3c731a5e790720f1791008e853404eaef4fbe2",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "133c078239ea72a685de8263a1664df8460390dfd72421fb8ec578999b97f3f0",
+      "size": 10,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+      "size": 5,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "b4e5864555c2e5d88b7c83495498095c52a7f2692eb94853002ec8390a0e7be6",
+      "size": 4502,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "5976e9f98adc80a56b7a53d50f0e19f3d89b47bfbba0ef090175a42c346623d3",
+      "size": 1786,
+    },
+  ],
+  "generatorId": "python-octal-sentinel-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-octal-sentinel-v1:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }
@@ -1893,8 +3691,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-1 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -1907,8 +3705,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-1 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -2075,8 +3873,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "8b6cb3fc6dfc6ea06e2700b6298d9f413b7b0ea4b29037195d5f102781c35795",
-      "size": 1706,
+      "sha256": "8597d09f0cb6cc46da0a1255abba8f91fa4a574b01a2c9b6d241517da0c5fba3",
+      "size": 1735,
     },
   ],
   "generatorId": "python-pairs-v1",
@@ -2204,8 +4002,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-2 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -2218,8 +4016,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-2 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -2386,8 +4184,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "2f33560685b81b92d769d63784a0900f0e6060bc6f07b3b820664a028b44f073",
-      "size": 1706,
+      "sha256": "b4865b013dffe48fa12ae3260b6baf664b82c76142cd24003032f0927dec5d22",
+      "size": 1735,
     },
   ],
   "generatorId": "python-pairs-v1",
@@ -2511,8 +4309,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-3 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -2525,8 +4323,8 @@ exports[`python-pairs-v1 > golden task and manifest golden-3 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -2693,13 +4491,921 @@ exports[`python-pairs-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "fb7830a4f873b4d38243788595d2e2a3cca629c2f7a64b16408a584b13080c3f",
-      "size": 1706,
+      "sha256": "f6c2bca6836eabe133c169e0e272d72e1d6fd59a809ebee68f276d352f7f40a3",
+      "size": 1735,
     },
   ],
   "generatorId": "python-pairs-v1",
   "generatorVersion": "educational-files-v1",
   "id": "python-pairs-v1:files:golden-3",
+  "kind": "generated",
+  "seed": "golden-3",
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-1 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-positive-mean-v1:golden-1:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-positive-mean-v1:files:golden-1",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-positive-mean-v1",
+  "hints": [
+    "Отбирай только числа строго больше нуля. Отрицательные числа и нули не входят ни в сумму, ни в количество.",
+    "Храни сумму и количество положительных, затем используй обычное деление суммы на количество.",
+    "Проверь 0, 1, 2: среднее положительных равно 1.5, количество — 2. Целочисленное деление потеряет дробную часть.",
+  ],
+  "id": "python-positive-mean-v1:golden-1",
+  "seed": "golden-1",
+  "solution": [
+    {
+      "text": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+    {
+      "text": "Для каждого положительного числа увеличивай счётчик и сумму. После цикла раздели сумму на счётчик оператором /, а не //; положительное число гарантировано условием.",
+    },
+    {
+      "code": "n = int(input())
+count = 0
+total = 0
+for i in range(n):
+    x = int(input())
+    if x > 0:
+        count += 1
+        total += x
+print(total / count, count)
+",
+      "text": "В примере положительные числа: 8090, 5668, 2546, 2092, 1774, 4731, 7437. Сумма 32338, количество 7; среднее 32338 / 7 = 4619.714285714285. Вывод: 4619.714285714285 7.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N целых чисел найди среднее арифметическое положительных чисел и их количество. Хотя бы одно положительное число есть. Выведи сначала среднее, затем количество. Среднее не округляй до целого: используй обычное деление. Дробную часть записывай через точку; допустима экспоненциальная запись. Проверка принимает абсолютную погрешность среднего не более 0.000001; количество должно быть целым и точным.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем ровно N строк, по одному целому числу от −10000 до 10000 включительно. Порядок чисел сохраняется.
+Выводи только среднее и целое количество, без приглашений и пояснений. Разделяй числа пробелами или переводами строк.
+
+Пример ввода:
+\`\`\`
+9
+0
+-51
+8090
+5668
+2546
+2092
+1774
+4731
+7437
+\`\`\`
+Пример вывода:
+\`\`\`
+4619.714285714285 7
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-positive-mean",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-1 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "0ae55dfa804cf09137e4e41db6a0ff7e00fe724fddbd6ff29015f6359b9fdaf7",
+      "size": 1940,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "c77e0b2ee06322447d318d8396025d10f211674b19cd2a9b6f885925afe66799",
+      "size": 157,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "b404de086df92286c56b700a4155ff72642130d990a7c9e085e925ac974d8096",
+      "size": 37,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "6d7189087ae5da71ae5f41490216836190608697197edd4ab06b5742c61bdfd1",
+      "size": 20,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "97ed6b6eb09f51f2138d7a702364b16c876ad12e39f6d064872e0950502a094e",
+      "size": 43,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "586a54f115812b9f9202a1597ba7efbb1d33260f61108973e45ac24cd67384b2",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "16db82ab17793aba9e0a9e0354e513f6febd12c4538904ec725a1f1897bf5d78",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "e04e3de582c4c1741aaca1e70eaa541860b9b0f173091cbc484b2635c28d77da",
+      "size": 21,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "a0ca422ee9dfb349e0aa59f754047515c2a1c3935f3e4a189a2bddabdd3f27d6",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "911df223a8689c50b15f5cb6ef3c0e39636faa2f11dce692f5b6345471c6b2e9",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "76370e56106b5ae9a50e511bf7fbe0a7e9e2272f2dfa667d78a68bc62524e8c6",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "c84ee08831e31415e32cdb604fbe79f9aef82e00a33ae7579f7d82dfa8c41eef",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "0a5f3717c82e9a3d20a9807d428493f708385d89eb9086e0d9fc638866604a9e",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "b60179835d9167402296bff0d17308875c975917781bd9c3e31a5e83ba15b781",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "83ee59cebbaaf457f95fd955a07e43f7e3a500c9281683841ad676a77315e679",
+      "size": 17,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "0e4e7e29b59587ca9e5f63caa49528eab661ae25cbdf4258266f77fb626e7f74",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "a944b654c1fa71998170defae6c28b481acca9d21ff67c86f464568e98563511",
+      "size": 12,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "1e9d8d9dca0dc3cd841d747b89fa16753ba2d6b6b7995f5bff01556cddcad414",
+      "size": 7000,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "62a9be3ca5dc491b58f13894dc7a4225feaa8c83106fac08c89e0eda6b8c034e",
+      "size": 1770,
+    },
+  ],
+  "generatorId": "python-positive-mean-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-positive-mean-v1:files:golden-1",
+  "kind": "generated",
+  "seed": "golden-1",
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-2 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-positive-mean-v1:golden-2:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-positive-mean-v1:files:golden-2",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-positive-mean-v1",
+  "hints": [
+    "Отбирай только числа строго больше нуля. Отрицательные числа и нули не входят ни в сумму, ни в количество.",
+    "Храни сумму и количество положительных, затем используй обычное деление суммы на количество.",
+    "Проверь 0, 1, 2: среднее положительных равно 1.5, количество — 2. Целочисленное деление потеряет дробную часть.",
+  ],
+  "id": "python-positive-mean-v1:golden-2",
+  "seed": "golden-2",
+  "solution": [
+    {
+      "text": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+    {
+      "text": "Для каждого положительного числа увеличивай счётчик и сумму. После цикла раздели сумму на счётчик оператором /, а не //; положительное число гарантировано условием.",
+    },
+    {
+      "code": "n = int(input())
+count = 0
+total = 0
+for i in range(n):
+    x = int(input())
+    if x > 0:
+        count += 1
+        total += x
+print(total / count, count)
+",
+      "text": "В примере положительные числа: 9178, 2426, 3256, 4704, 7598, 7874, 5111, 2017, 3769, 7220, 8030, 538, 8061, 6330, 7025, 3134, 3283, 6171. Сумма 95725, количество 18; среднее 95725 / 18 = 5318.055555555556. Вывод: 5318.055555555556 18.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N целых чисел найди среднее арифметическое положительных чисел и их количество. Хотя бы одно положительное число есть. Выведи сначала среднее, затем количество. Среднее не округляй до целого: используй обычное деление. Дробную часть записывай через точку; допустима экспоненциальная запись. Проверка принимает абсолютную погрешность среднего не более 0.000001; количество должно быть целым и точным.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем ровно N строк, по одному целому числу от −10000 до 10000 включительно. Порядок чисел сохраняется.
+Выводи только среднее и целое количество, без приглашений и пояснений. Разделяй числа пробелами или переводами строк.
+
+Пример ввода:
+\`\`\`
+20
+0
+-34
+9178
+2426
+3256
+4704
+7598
+7874
+5111
+2017
+3769
+7220
+8030
+538
+8061
+6330
+7025
+3134
+3283
+6171
+\`\`\`
+Пример вывода:
+\`\`\`
+5318.055555555556 18
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-positive-mean",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-2 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "952b4fe93079991197bbb78e0ea804a039257bf8aa25d4ed12d093b6c299f8f8",
+      "size": 1996,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "c77e0b2ee06322447d318d8396025d10f211674b19cd2a9b6f885925afe66799",
+      "size": 157,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "b404de086df92286c56b700a4155ff72642130d990a7c9e085e925ac974d8096",
+      "size": 37,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "29be7327163e0920b2ff4b2f0ad10633af6eaa5559065f69c2cc5a5f4b00cc4c",
+      "size": 21,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "c376887ad06962761c9ba1005b18f1ced1a0e9dd2800259b009e9db1ca0b7feb",
+      "size": 98,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "586a54f115812b9f9202a1597ba7efbb1d33260f61108973e45ac24cd67384b2",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "16db82ab17793aba9e0a9e0354e513f6febd12c4538904ec725a1f1897bf5d78",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "e04e3de582c4c1741aaca1e70eaa541860b9b0f173091cbc484b2635c28d77da",
+      "size": 21,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "a0ca422ee9dfb349e0aa59f754047515c2a1c3935f3e4a189a2bddabdd3f27d6",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "911df223a8689c50b15f5cb6ef3c0e39636faa2f11dce692f5b6345471c6b2e9",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "76370e56106b5ae9a50e511bf7fbe0a7e9e2272f2dfa667d78a68bc62524e8c6",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "c84ee08831e31415e32cdb604fbe79f9aef82e00a33ae7579f7d82dfa8c41eef",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "0a5f3717c82e9a3d20a9807d428493f708385d89eb9086e0d9fc638866604a9e",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "b60179835d9167402296bff0d17308875c975917781bd9c3e31a5e83ba15b781",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "83ee59cebbaaf457f95fd955a07e43f7e3a500c9281683841ad676a77315e679",
+      "size": 17,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "0e4e7e29b59587ca9e5f63caa49528eab661ae25cbdf4258266f77fb626e7f74",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "a944b654c1fa71998170defae6c28b481acca9d21ff67c86f464568e98563511",
+      "size": 12,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "1e9d8d9dca0dc3cd841d747b89fa16753ba2d6b6b7995f5bff01556cddcad414",
+      "size": 7000,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "62a9be3ca5dc491b58f13894dc7a4225feaa8c83106fac08c89e0eda6b8c034e",
+      "size": 1770,
+    },
+  ],
+  "generatorId": "python-positive-mean-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-positive-mean-v1:files:golden-2",
+  "kind": "generated",
+  "seed": "golden-2",
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-3 1`] = `
+{
+  "answer": {
+    "kind": "program",
+    "referenceId": "python-positive-mean-v1:golden-3:reference",
+    "type": "artifact",
+  },
+  "commonMistakes": [
+    {
+      "answer": "example-only",
+      "explanation": "Вывод готового ответа из примера не решает задачу для других входных данных.",
+    },
+    {
+      "answer": "boundary",
+      "explanation": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+  ],
+  "criteria": {
+    "levels": [
+      {
+        "description": "Ни один тест не пройден: нет запуска, ошибка исполнения или неверный вывод. Само наличие файла не даёт балла.",
+        "score": 0,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на части из десяти тестов, но не на всех.",
+        "score": 1,
+      },
+      {
+        "description": "Программа нормально завершилась и дала верный вывод на всех десяти тестах, включая граничные случаи.",
+        "score": 2,
+      },
+    ],
+    "max": 2,
+  },
+  "datasetId": "python-positive-mean-v1:files:golden-3",
+  "difficulty": 3,
+  "examPart": 2,
+  "generatorId": "python-positive-mean-v1",
+  "hints": [
+    "Отбирай только числа строго больше нуля. Отрицательные числа и нули не входят ни в сумму, ни в количество.",
+    "Храни сумму и количество положительных, затем используй обычное деление суммы на количество.",
+    "Проверь 0, 1, 2: среднее положительных равно 1.5, количество — 2. Целочисленное деление потеряет дробную часть.",
+  ],
+  "id": "python-positive-mean-v1:golden-3",
+  "seed": "golden-3",
+  "solution": [
+    {
+      "text": "Начни сумму и счётчик с нуля. Прочитай N, затем ровно N чисел. Условие положительности — x > 0: ноль не подходит.",
+    },
+    {
+      "text": "Для каждого положительного числа увеличивай счётчик и сумму. После цикла раздели сумму на счётчик оператором /, а не //; положительное число гарантировано условием.",
+    },
+    {
+      "code": "n = int(input())
+count = 0
+total = 0
+for i in range(n):
+    x = int(input())
+    if x > 0:
+        count += 1
+        total += x
+print(total / count, count)
+",
+      "text": "В примере положительные числа: 8617, 2091, 7472, 4138, 666, 2405, 9922. Сумма 35311, количество 7; среднее 35311 / 7 = 5044.428571428572. Вывод: 5044.428571428572 7.",
+    },
+  ],
+  "statement": "Напиши программу на Python 3. Среди N целых чисел найди среднее арифметическое положительных чисел и их количество. Хотя бы одно положительное число есть. Выведи сначала среднее, затем количество. Среднее не округляй до целого: используй обычное деление. Дробную часть записывай через точку; допустима экспоненциальная запись. Проверка принимает абсолютную погрешность среднего не более 0.000001; количество должно быть целым и точным.
+
+Ввод: первая строка — N, целое от 1 до 1000 включительно. Затем ровно N строк, по одному целому числу от −10000 до 10000 включительно. Порядок чисел сохраняется.
+Выводи только среднее и целое количество, без приглашений и пояснений. Разделяй числа пробелами или переводами строк.
+
+Пример ввода:
+\`\`\`
+9
+0
+-29
+8617
+2091
+7472
+4138
+666
+2405
+9922
+\`\`\`
+Пример вывода:
+\`\`\`
+5044.428571428572 7
+\`\`\`
+
+Сохрани код в answer.py, UTF-8. В архиве находятся десять тестов, эталон и инструкция локального запуска. Проверка использует лимит 2 секунды на тест; это учебное ограничение, а не норма экзамена. Учебные критерии 0/1/2 относятся к результатам запусков и не заменяют официальную экспертную оценку.",
+  "subtype": "python-positive-mean",
+  "taskNumber": 16,
+  "topics": [
+    "Создание программ на Python",
+  ],
+}
+`;
+
+exports[`python-positive-mean-v1 > golden task and manifest golden-3 2`] = `
+{
+  "files": [
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "README.txt",
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "assignment.txt",
+      "sha256": "fccad91886fce5837cf7d7d75757a3dd4474ff795ccf201eee9028f735e57adf",
+      "size": 1939,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "check.py",
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "criteria.json",
+      "sha256": "e5bb18d881d24f3d6b4af274139c1ebe2359114c8a84f899cb15252f5293406b",
+      "size": 790,
+    },
+    {
+      "format": "py",
+      "license": "CC0-1.0",
+      "path": "reference/answer.py",
+      "sha256": "c77e0b2ee06322447d318d8396025d10f211674b19cd2a9b6f885925afe66799",
+      "size": 157,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "source/parameters.json",
+      "sha256": "b404de086df92286c56b700a4155ff72642130d990a7c9e085e925ac974d8096",
+      "size": 37,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.expected.txt",
+      "sha256": "651b30ec796e69fd38ea005b40c74c6cbf6d0a9159db45c65cd3e813af417c4b",
+      "size": 20,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/01.input.txt",
+      "sha256": "f831dab2e27e94d60740105f3f6eb80390c7e357a6e024a0abeb9bbf3e631d34",
+      "size": 42,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/02.input.txt",
+      "sha256": "ad0fadf63cc7cd779ce475e345bf4063565b63a3c2efef1eebc89790aaa6acba",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.expected.txt",
+      "sha256": "586a54f115812b9f9202a1597ba7efbb1d33260f61108973e45ac24cd67384b2",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/03.input.txt",
+      "sha256": "16db82ab17793aba9e0a9e0354e513f6febd12c4538904ec725a1f1897bf5d78",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.expected.txt",
+      "sha256": "e04e3de582c4c1741aaca1e70eaa541860b9b0f173091cbc484b2635c28d77da",
+      "size": 21,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/04.input.txt",
+      "sha256": "a0ca422ee9dfb349e0aa59f754047515c2a1c3935f3e4a189a2bddabdd3f27d6",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.expected.txt",
+      "sha256": "dfac347cb71ae693ba8a54687f7112aff24ec67f88a3c66f69a7bf968fa2ac16",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/05.input.txt",
+      "sha256": "911df223a8689c50b15f5cb6ef3c0e39636faa2f11dce692f5b6345471c6b2e9",
+      "size": 6,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/06.input.txt",
+      "sha256": "76370e56106b5ae9a50e511bf7fbe0a7e9e2272f2dfa667d78a68bc62524e8c6",
+      "size": 14,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.expected.txt",
+      "sha256": "c84ee08831e31415e32cdb604fbe79f9aef82e00a33ae7579f7d82dfa8c41eef",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/07.input.txt",
+      "sha256": "0a5f3717c82e9a3d20a9807d428493f708385d89eb9086e0d9fc638866604a9e",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.expected.txt",
+      "sha256": "b60179835d9167402296bff0d17308875c975917781bd9c3e31a5e83ba15b781",
+      "size": 8,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/08.input.txt",
+      "sha256": "83ee59cebbaaf457f95fd955a07e43f7e3a500c9281683841ad676a77315e679",
+      "size": 17,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.expected.txt",
+      "sha256": "0e4e7e29b59587ca9e5f63caa49528eab661ae25cbdf4258266f77fb626e7f74",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/09.input.txt",
+      "sha256": "a944b654c1fa71998170defae6c28b481acca9d21ff67c86f464568e98563511",
+      "size": 12,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.expected.txt",
+      "sha256": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "size": 4,
+    },
+    {
+      "format": "txt",
+      "license": "CC0-1.0",
+      "path": "tests/10.input.txt",
+      "sha256": "1e9d8d9dca0dc3cd841d747b89fa16753ba2d6b6b7995f5bff01556cddcad414",
+      "size": 7000,
+    },
+    {
+      "format": "json",
+      "license": "CC0-1.0",
+      "path": "tests/index.json",
+      "sha256": "62a9be3ca5dc491b58f13894dc7a4225feaa8c83106fac08c89e0eda6b8c034e",
+      "size": 1770,
+    },
+  ],
+  "generatorId": "python-positive-mean-v1",
+  "generatorVersion": "educational-files-v1",
+  "id": "python-positive-mean-v1:files:golden-3",
   "kind": "generated",
   "seed": "golden-3",
 }
@@ -2810,8 +5516,8 @@ exports[`python-run-v1 > golden task and manifest golden-1 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -2824,8 +5530,8 @@ exports[`python-run-v1 > golden task and manifest golden-1 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -2992,8 +5698,8 @@ exports[`python-run-v1 > golden task and manifest golden-1 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "df4de50046cf60b35de6d15a265d2283cea542ec594ddbebd11c2c402d2c4670",
-      "size": 1719,
+      "sha256": "3bfcf45a0c6542e344c34a87a55ed67ec124f8f7250fa528ff4ed1728f907d8e",
+      "size": 1748,
     },
   ],
   "generatorId": "python-run-v1",
@@ -3116,8 +5822,8 @@ exports[`python-run-v1 > golden task and manifest golden-2 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -3130,8 +5836,8 @@ exports[`python-run-v1 > golden task and manifest golden-2 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -3298,8 +6004,8 @@ exports[`python-run-v1 > golden task and manifest golden-2 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "945f1e858a8aecbd4b4986669b553ffa7845e79c383bd0efa8f8e76b01a3c65d",
-      "size": 1720,
+      "sha256": "7744a972ef1af00eecf283c4e0fc2311d1b87b33e4bb96285ee0b1d7baee4567",
+      "size": 1749,
     },
   ],
   "generatorId": "python-run-v1",
@@ -3415,8 +6121,8 @@ exports[`python-run-v1 > golden task and manifest golden-3 2`] = `
       "format": "txt",
       "license": "CC0-1.0",
       "path": "README.txt",
-      "sha256": "1f7fb1a696974f5f3cfdc9bb38ec798cb4fb5a60e7778884aa59f2d3408494a3",
-      "size": 2291,
+      "sha256": "0061aaed23ab2cf113373c9a2eb3cd997ef6e68b061ed0a75dce6f605ac4555b",
+      "size": 2624,
     },
     {
       "format": "txt",
@@ -3429,8 +6135,8 @@ exports[`python-run-v1 > golden task and manifest golden-3 2`] = `
       "format": "py",
       "license": "CC0-1.0",
       "path": "check.py",
-      "sha256": "4641e1e42e0ceb95386a1ba29065917369e44c64c87af795324b5ce9e0cb1253",
-      "size": 2177,
+      "sha256": "4431d44e223e2fafc49edc9f1242abe8c4ef540c6e2574eb2e73247d4f5931bb",
+      "size": 3133,
     },
     {
       "format": "json",
@@ -3597,8 +6303,8 @@ exports[`python-run-v1 > golden task and manifest golden-3 2`] = `
       "format": "json",
       "license": "CC0-1.0",
       "path": "tests/index.json",
-      "sha256": "856ac37f17f51effb895928af260f2a3d8d28cf58e7331476f29e6e91e39bce8",
-      "size": 1720,
+      "sha256": "9c570cfde892aabe05a534a62135430ad6fc94402e1fb075dbabdceb1e3cbbd4",
+      "size": 1749,
     },
   ],
   "generatorId": "python-run-v1",

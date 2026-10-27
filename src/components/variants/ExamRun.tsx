@@ -48,8 +48,9 @@ export default function ExamRun({
         variantId: draft.variantId,
         seed: draft.seed,
         variant13: draft.variant13,
+        pythonFormatVersion: draft.pythonFormatVersion,
       }),
-    [draft.variantId, draft.seed, draft.variant13],
+    [draft.variantId, draft.seed, draft.variant13, draft.pythonFormatVersion],
   );
   const [current, setCurrent] = useState<TaskNumber>(() =>
     training ? (draft.currentTask ?? 1) : (emptyExamNumbers(draft)[0] ?? 1),
