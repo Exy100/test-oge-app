@@ -280,6 +280,10 @@ export default function ExamFinished({
       className={`exam-finished variant-result${Print ? ' result-print-ready' : ''}`}
       aria-labelledby="exam-finished-title"
     >
+      <p className="result-print-notice">
+        Печатается краткая сводка. Для условий и разборов всех 16 номеров закрой
+        печать и нажми «Подготовить результат к печати» на странице результата.
+      </p>
       <div className="result-screen">
         <h2 ref={heading} id="exam-finished-title" tabIndex={-1}>
           {current.mode === 'training'

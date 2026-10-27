@@ -318,6 +318,50 @@ jobs:
         with:
           path: dist
 
+  printing:
+    name: Printed A4 PDFs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node and npm cache
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Use official Ubuntu package mirror
+        run: bash scripts/ci-apt-mirror.sh
+
+      - name: Install Chromium and PDF text tools
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y poppler-utils
+
+      - name: Build and verify every printed A4 document
+        run: npm run check:print
+
+      - name: Save printed PDFs and page previews
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: print-reports
+          path: |
+            .cache/print-pdf/
+            test-results/print/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+
   performance:
     name: Lighthouse performance budgets (${{ matrix.shard }}/4)
     runs-on: ubuntu-24.04
@@ -387,7 +431,7 @@ jobs:
 
   deploy:
     name: Publish tested site
-    needs: [quality, unit, coverage, files, browsers, performance]
+    needs: [quality, unit, coverage, files, browsers, printing, performance]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10

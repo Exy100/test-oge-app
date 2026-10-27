@@ -67,6 +67,7 @@ export ASTRO_TELEMETRY_DISABLED=1
 | `npm run verify`         | lint → typecheck → unit → forbidden → coverage → contrast → build → security |
 | `npm run check:contrast` | Контраст текстовых токенов в обеих темах                                     |
 | `npm run check:security` | Проверка dist на секретные маркеры и файлы окружения                         |
+| `npm run check:print`    | Сборка и проверка 94 A4 PDF (нужны Chromium и Poppler)                       |
 | `npm run e2e`            | Сборка, браузерные тесты и axe                                               |
 | `npm run lh`             | Сборка, Lighthouse и реальные сценарии INP по spec §15                       |
 
@@ -99,6 +100,10 @@ npm run e2e
 Полный e2e включает Chromium/Firefox/WebKit на desktop и 360px touch, а также
 отдельный визуальный проект. Профили `mobile`, `mobile-firefox`, `mobile-webkit`
 проходят весь обычный набор. [Матрица браузеров и границы эмуляции](docs/cross-browser.md).
+
+Печать уроков, шпаргалок, каталога, памятки и результата описана в
+[docs/printing.md](docs/printing.md). `npm run check:print` экспортирует реальные
+PDF и проверяет их текст и поля страницы; в Linux нужен пакет `poppler-utils`.
 
 Для браузерных проверок нужен OpenSSL: тестовые production-серверы используют
 HTTPS с временным локальным сертификатом в `.cache/test-tls` (см. `docs/security.md`).

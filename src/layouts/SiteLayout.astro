@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/print.css';
 import navigationMotion from '../styles/navigation-motion.css?raw';
 import themeScript from '../scripts/theme.js?raw';
 import { createHash } from 'node:crypto';
@@ -159,6 +160,7 @@ Astro.csp?.insertStyleHash(
     </footer>
     <script>
       import '../scripts/preferences';
+      import '../lib/print-details';
     </script>
   </body>
 </html>
