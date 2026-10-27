@@ -37,7 +37,7 @@ test('cheatsheet prints only its rules and lesson title, then restores focus and
   await expect(page.locator('html')).not.toHaveAttribute(
     'data-print-selection',
   );
-  expect(await screenDetails(page)).toEqual(before);
+  await expect.poll(() => screenDetails(page)).toEqual(before);
   await expect(button).toBeFocused();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-font-size', '200');
@@ -53,7 +53,7 @@ test('cheatsheet prints only its rules and lesson title, then restores focus and
   await expect(page.locator('html')).not.toHaveAttribute(
     'data-print-selection',
   );
-  expect(await screenDetails(page)).toEqual(before);
+  await expect.poll(() => screenDetails(page)).toEqual(before);
 });
 
 test('reference lesson print opens static explanations and restores every screen block', async ({
@@ -84,7 +84,7 @@ test('reference lesson print opens static explanations and restores every screen
   await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
   await expect(page.locator('#example-3 details')).toHaveAttribute('open', '');
   await page.emulateMedia({ media: 'screen' });
-  expect(await screenDetails(page)).toEqual(before);
+  await expect.poll(() => screenDetails(page)).toEqual(before);
   await expect(button).toBeFocused();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
@@ -110,7 +110,7 @@ test('file memo prints independently of variant tasks and retains exam limitatio
   await expect(page.locator('.variant-tasks')).toBeHidden();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.emulateMedia({ media: 'screen' });
-  expect(await screenDetails(page)).toEqual(before);
+  await expect.poll(() => screenDetails(page)).toEqual(before);
   await expect(page.locator('.variant-tasks')).toBeVisible();
   await expect(button).toBeFocused();
 });

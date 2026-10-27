@@ -33,7 +33,7 @@ for (const lesson of preparationLessons) {
     const sheet = await provePdf(page, article, `${lesson.id}-sheet`);
     expect(sheet.text).toContain(compact(lesson.title));
     await page.emulateMedia({ media: 'screen' });
-    expect(await screenDetails(page)).toEqual(before);
+    await expect.poll(() => screenDetails(page)).toEqual(before);
     await expect(sheetButton).toBeFocused();
     await page
       .getByRole('button', { name: 'Распечатать урок', exact: true })
@@ -47,7 +47,7 @@ for (const lesson of preparationLessons) {
     expect(reference.text).toContain(compact(lesson.title));
     expect(reference.text).toContain(compact('Примеры по шагам'));
     await page.emulateMedia({ media: 'screen' });
-    expect(await screenDetails(page)).toEqual(before);
+    await expect.poll(() => screenDetails(page)).toEqual(before);
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(page.locator('html')).toHaveAttribute('data-font-size', '200');
   });
