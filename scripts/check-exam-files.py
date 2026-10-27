@@ -73,7 +73,7 @@ def jpeg(payload):
 
 
 def reading(task, blocks):
-    author, hero, episode = re.search(r'автора «([^»]+)» герой «([^»]+)» ([^.]+)\.', task['statement']).groups()
+    author, episode = re.search(r'Автор рассказа — ([^.]+)\. Найди эпизод: ([^.]+)\.', task['statement']).groups()
     results = []
     for path, document in blocks.items():
         if not path.startswith('Тексты/'+author+'/') or ('p', 'Автор: '+author+'.') not in document:
@@ -84,14 +84,20 @@ def reading(task, blocks):
                 context = []
             else:
                 context.append(paragraph)
-                if hero+' '+episode+'.' not in paragraph:
+                if episode+'.' not in paragraph:
                     continue
                 adjective, speaker = re.search(r'«Это (\w+) труд», — сказал (\w+)\.', paragraph).groups()
                 role, name = re.search(r'Местный (\w+) (\w+) встретил гостя', ' '.join(context)).groups()
                 assert name == speaker
                 question = task['statement']
                 nickname = re.search(r'Щенка, бегавшего рядом, звали (\w+)\.', ' '.join(context)).group(1)
-                results.append(nickname if 'Как звали щенка' in question else speaker if 'Какова фамилия' in question else role)
+                if 'Как звали щенка' in question:
+                    results.append(nickname)
+                elif 'Какова фамилия' in question:
+                    results.append(speaker)
+                else:
+                    assert 'Как называется профессия' in question
+                    results.append(role)
     assert len(results) == 1
     return results[0]
 

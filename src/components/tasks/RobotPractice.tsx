@@ -121,17 +121,13 @@ export default function RobotPractice({
         </select>
       </label>
       <Figure
-        spec={
-          result
-            ? {
-                ...field,
-                start: result.position,
-                painted: result.painted,
-                description:
-                  'Текущее состояние Робота: круги — цели, знак Робота — его положение.',
-              }
-            : field
-        }
+        spec={{
+          ...field,
+          start: result?.position ?? field.start,
+          painted: result?.painted ?? field.painted,
+          description:
+            'Текущее состояние Робота: круги — цели, знак Робота — его положение.',
+        }}
         label="Поле выполнения"
       />
       <CodeEditor

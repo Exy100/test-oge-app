@@ -164,13 +164,18 @@ function generator(kind: RobotKind): Generator {
           referenceId: `${kind}-v2:${seed}:reference`,
         },
         solution: reasoning[kind].map((text, index) => ({
-          text,
+          text:
+            index === 0
+              ? `В показанном поле старт: строка ${String(field.start.row)}, столбец ${String(field.start.column)}. ${text}`
+              : index === 2
+                ? `${text} Сверь закраску с изображённым примером: число целевых клеток — ${String(field.targets.length)}, лишних быть не должно. Затем проверь остальные поля семейства; размеры ${String(field.rows)} × ${String(field.columns)} нельзя зашивать в программу.`
+                : text,
           ...(index === 2 ? { code: referenceProgram(kind) } : {}),
         })),
         hints: [
-          'Начни с датчиков и границ: размер на рисунке — только пример.',
-          reasoning[kind][1],
-          'Проверь короткое поле, последний участок, лишнюю закраску и завершение цикла.',
+          `На примере ${String(field.rows)} × ${String(field.columns)} начни со строки ${String(field.start.row)}, столбца ${String(field.start.column)}. ${reasoning[kind][0]}`,
+          `${reasoning[kind][1]} Для семейства «${titles[kind]}» движение должно зависеть от датчиков, а не от размеров примера.`,
+          `Найди на рисунке целевые клетки: их число ${String(field.targets.length)}. Сравни закраску с ними, затем проверь короткое поле и последний участок семейства «${titles[kind]}»: программа должна завершиться без лишней закраски.`,
         ],
         commonMistakes: [
           {

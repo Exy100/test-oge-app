@@ -519,7 +519,10 @@ test('other-tab self-assessments update live without changing an active draft or
   await other.evaluate((key) => {
     localStorage.setItem(key, JSON.stringify({ version: 1, entries: [] }));
   }, key);
-  await expect(page.getByRole('status')).toContainText('Попытка не найдена');
+  await expect(
+    page.getByRole('status').filter({ hasText: 'Попытка не найдена' }),
+  ).toBeVisible();
+  await expect(page.locator('.result-screen .result-summary')).toHaveCount(0);
   expect((await history(page)).entries).toHaveLength(0);
   await other.close();
 });

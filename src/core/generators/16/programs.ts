@@ -1,5 +1,6 @@
 import type { Generator, TaskInstance } from '../../types.ts';
 import { taskFrom } from '../task.ts';
+import { programGuidance } from './guidance.ts';
 import {
   programCases,
   programKinds,
@@ -27,28 +28,6 @@ const titles: Record<ProgramKind, string> = {
   'python-pairs': 'Соседние пары',
   'python-run': 'Самая длинная цепочка',
 };
-const reasoning: Record<ProgramKind, readonly [string, string, string]> = {
-  'python-filter': [
-    'Создай счётчик и сумму с начальными значениями 0.',
-    'Для каждого из N чисел проверь одновременно кратность и включённую границу. Меняй обе величины только для подходящих чисел.',
-    'После цикла выведи счётчик и сумму; если ничего не подошло, оба значения останутся 0.',
-  ],
-  'python-digits': [
-    'Учти, что запись числа 0 состоит из одной подходящей цифры 0.',
-    'Остаток от деления на 10 даёт последнюю цифру. Проверь её кратность, обнови счётчик и сумму, затем отбрось цифру целочисленным делением.',
-    'Частное уменьшается до 0, поэтому цикл завершится. Порядок просмотра цифр на количество и сумму не влияет.',
-  ],
-  'python-pairs': [
-    'Запомни первое число. Каждое следующее образует пару с предыдущим; при N = 1 пар нет.',
-    'Для подходящей пары обнови счётчик и максимум. Первая подходящая сумма задаёт максимум даже тогда, когда она отрицательная.',
-    'На каждом шаге сохраняй текущее число как предыдущее. Так соседние пары могут перекрываться; при отсутствии подходящих выведи 0 0.',
-  ],
-  'python-run': [
-    'Храни длину текущей цепочки и наибольшую найденную длину; начни с нулей.',
-    'При числе не меньше порога увеличивай текущую длину и сразу обновляй максимум; при меньшем числе сбрасывай текущую длину.',
-    'Выведи максимум после всех N чисел. Обновление внутри цикла учитывает цепочку в конце; если подходящих чисел не было, ответ равен 0.',
-  ],
-};
 function rules(p: ProgramParameters): string {
   if (p.kind === 'python-filter')
     return `Среди N целых чисел найди количество и сумму тех, которые делятся на ${String(p.divisor)} без остатка и не меньше ${String(p.threshold)}. Выведи два целых числа: сначала количество, затем сумму. Если подходящих чисел нет, выведи 0 0.`;
@@ -63,6 +42,7 @@ function generator(kind: ProgramKind): Generator {
     const p = programParameters(kind, seed),
       example = programCases(p, seed)[0];
     if (!example) throw new Error('Нет примера ввода.');
+    const guidance = programGuidance(p, example);
     const input =
       kind === 'python-digits'
         ? 'Ввод: одна строка, целое число от 0 до 999999999999 включительно.'
@@ -75,22 +55,21 @@ function generator(kind: ProgramKind): Generator {
           kind: 'program',
           referenceId: `${kind}-v1:${seed}:reference`,
         },
-        solution: reasoning[kind].map((text, index) => ({
+        solution: guidance.steps.map((text, index) => ({
           text,
           ...(index === 2 ? { code: referencePython(p) } : {}),
         })),
-        hints: [
-          'Отдельно выпиши, какие данные читаются и какие величины должны попасть в ответ.',
-          reasoning[kind][1],
-          'Проверь минимальный ввод, отсутствие подходящих элементов и крайние значения. Не подставляй ответ из примера.',
-        ],
+        hints: [...guidance.hints],
         commonMistakes: [
           {
             answer: 'example-only',
             explanation:
               'Вывод готового ответа из примера не решает задачу для других входных данных.',
           },
-          { answer: 'boundary', explanation: reasoning[kind][0] },
+          {
+            answer: 'boundary',
+            explanation: guidance.steps[0],
+          },
         ],
       }),
       datasetId: programDatasetId(kind, seed),

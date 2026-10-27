@@ -27,6 +27,21 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(jobs.deploy.needs).toEqual(expect.arrayContaining(required));
   for (const id of required)
     expect(jobs[id]['continue-on-error']).not.toBe(true);
+  const source = jobs.quality.steps.find((step) =>
+    step.run?.includes('npm run typecheck'),
+  );
+  expect(source.run).toContain(
+    'npm run build\nnode scripts/check-content.mjs\nnpm run check:security',
+  );
+  const scripts = JSON.parse(
+    readFileSync(new URL('../../package.json', import.meta.url), 'utf8'),
+  ).scripts;
+  expect(scripts.verify).toContain(
+    'npm run build && node scripts/check-content.mjs && npm run check:security',
+  );
+  expect(scripts['check:content']).toBe(
+    'npm run build && node scripts/check-content.mjs',
+  );
   expect(jobs.printing['timeout-minutes']).toBe(20);
   expect(
     jobs.printing.steps.some((step) => step.run === 'npm run check:print'),

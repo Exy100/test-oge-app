@@ -66,7 +66,18 @@ jobs:
           npm run check:coverage
           npm run check:contrast
           npm run build
+          node scripts/check-content.mjs
           npm run check:security
+
+      - name: Save content audit and generated review samples
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: content-reports
+          path: .cache/content-audit/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
 
   unit:
     name: Unit tests (${{ matrix.shard }}/3)

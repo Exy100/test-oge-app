@@ -15,8 +15,8 @@
     {
       "path": "alternatives13.json",
       "format": "json",
-      "size": 10140,
-      "sha256": "a43409003c4a622166bff6cb56054a3fb0afd24fc5b9f75aebed49e9dd1a9c83",
+      "size": 11345,
+      "sha256": "e621621df1b67a16530ac20affb7133b9de473ed66b07825f3159a1861972a49",
       "license": "CC0-1.0"
     },
     {
@@ -127,15 +127,15 @@
     {
       "path": "variant.json",
       "format": "json",
-      "size": 55132,
-      "sha256": "f51a549d801c03af4d827898ebcd6c4af77c3d489a6c8b9ebf6b809dd7965c24",
+      "size": 62638,
+      "sha256": "f3b45c9dc28a47beddff4a85553e580f23db7d58af7b956d22ef5d96e2efa490",
       "license": "CC0-1.0"
     },
     {
       "path": "variant.txt",
       "format": "txt",
-      "size": 32140,
-      "sha256": "3f32b7a5a71db725cd370530f6eb85f908046d41b88be9f51320f39796ed3529",
+      "size": 35757,
+      "sha256": "b887f47f0f5d5562a021028a2a8aa7fc154837d6356f592ee85122692581cc55",
       "license": "CC0-1.0"
     }
   ]

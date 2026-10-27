@@ -66,7 +66,11 @@ test('Robot accepts a general program, keyboard steps, all fields and exact down
   await expect(
     robot.getByRole('status', { name: 'Выполнение Робота' }),
   ).toHaveText('Готов к запуску.');
+  const caption = robot.locator('figure[data-kind="robot-field"] figcaption');
+  const fieldDescription = await caption.innerText();
   await robot.getByRole('button', { name: 'Шаг', exact: true }).click();
+  // Changing the caption height here moves the next control under the pointer.
+  await expect(caption).toHaveText(fieldDescription);
   await robot.getByRole('button', { name: 'Шаг', exact: true }).click();
   await expect(
     robot.getByRole('status', { name: 'Выполнение Робота' }),
