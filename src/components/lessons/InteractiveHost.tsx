@@ -14,6 +14,13 @@ interface HostProps {
   parameters: Readonly<Record<string, InteractiveValue>>;
 }
 
+const statusMessages = {
+  paused: 'Пауза. Можно продолжить с того же места.',
+  reduced: 'Анимация отключена. Используй пошаговое управление.',
+  active: 'Интерактив готов к работе.',
+  offscreen: 'Анимация приостановлена, пока интерактив не виден.',
+} as const;
+
 class InteractiveBoundary extends Component<
   { children: ReactNode; retry: () => void },
   { failed: boolean }
@@ -98,14 +105,24 @@ export default function InteractiveHost({
         >
           Пауза
         </button>
-        <p role="status">
-          {paused
-            ? 'Пауза. Можно продолжить с того же места.'
-            : runtime.reducedMotion
-              ? 'Анимация отключена. Используй пошаговое управление.'
-              : active
-                ? 'Интерактив готов к работе.'
-                : 'Анимация приостановлена, пока интерактив не виден.'}
+        <p role="status" className="interactive-status">
+          {Object.values(statusMessages).map((text) => (
+            <span
+              key={text}
+              className="interactive-status-size"
+              aria-hidden="true"
+              data-status-text={text}
+            />
+          ))}
+          <span>
+            {paused
+              ? statusMessages.paused
+              : runtime.reducedMotion
+                ? statusMessages.reduced
+                : active
+                  ? statusMessages.active
+                  : statusMessages.offscreen}
+          </span>
         </p>
       </div>
       <InteractiveBoundary

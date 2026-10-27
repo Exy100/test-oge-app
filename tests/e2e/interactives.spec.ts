@@ -4,6 +4,58 @@ import { installInteractiveAudit } from '../fixtures/interactive-audit';
 
 const url = 'http://127.0.0.1:4324/test-oge-app/dev/interactives/';
 
+test('lesson status keeps the practice link stationary across pause, motion and viewport changes', async ({
+  page,
+}) => {
+  await page.goto('materials/i5/executor-check/');
+  const scene = page.locator('.lesson-interactive');
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene.locator('.information-lab')).toBeVisible();
+  const host = scene.locator('.interactive-host');
+  await expect(host).toHaveAttribute('data-interactive-active', 'true');
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+  });
+  const geometry = () =>
+    page.evaluate(() => {
+      const toolbar = document.querySelector(
+        '.interactive-host > .interactive-toolbar',
+      );
+      const practice = document.querySelector('.lesson-practice');
+      if (
+        !(toolbar instanceof HTMLElement) ||
+        !(practice instanceof HTMLElement)
+      )
+        throw new Error('Missing lesson layout');
+      return {
+        toolbarHeight: toolbar.offsetHeight,
+        practiceTop: practice.offsetTop,
+      };
+    });
+  const initial = await geometry();
+  const pause = host.getByRole('button', { name: 'Пауза', exact: true });
+  await pause.click();
+  await expect(pause).toHaveAttribute('aria-pressed', 'true');
+  expect(await geometry()).toEqual(initial);
+  await pause.click();
+  await expect(host).toHaveAttribute('data-interactive-active', 'true');
+  expect(await geometry()).toEqual(initial);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(host).toHaveAttribute('data-reduced-motion', 'true');
+  expect(await geometry()).toEqual(initial);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect(host).toHaveAttribute('data-reduced-motion', 'false');
+  const link = page.getByRole('link', {
+    name: 'Перейти к заданиям',
+    exact: true,
+  });
+  await link.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute('data-interactive-active', 'false');
+  expect(await geometry()).toEqual(initial);
+  await link.click();
+  await expect(page).toHaveURL(/\/stream\/\?numbers=5$/u);
+});
+
 async function scene(page: Page) {
   await page.goto(url);
   const scene = page.locator('#bits-probe');
