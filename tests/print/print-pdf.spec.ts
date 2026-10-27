@@ -28,7 +28,7 @@ for (const lesson of preparationLessons) {
     await sheetButton.click();
     await page.emulateMedia({ media: 'print' });
     const article = page.locator('.lesson-page');
-    await expectPaper(page, article);
+    await expectPaper(page, article, 'rgb(0, 0, 0)');
     await expect(page.locator('#theory')).toBeHidden();
     const sheet = await provePdf(page, article, `${lesson.id}-sheet`);
     expect(sheet.text).toContain(compact(lesson.title));
@@ -39,7 +39,7 @@ for (const lesson of preparationLessons) {
       .getByRole('button', { name: 'Распечатать урок', exact: true })
       .click();
     await page.emulateMedia({ media: 'print' });
-    await expectPaper(page, article);
+    await expectPaper(page, article, 'rgb(0, 0, 0)');
     await expect(
       page.locator('#example-3 .lesson-steps > li').last(),
     ).toBeVisible();

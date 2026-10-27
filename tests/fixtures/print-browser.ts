@@ -32,16 +32,26 @@ export async function darkLargeText(page: Page) {
   await expect(page.locator('html')).toHaveAttribute('data-font-size', '200');
 }
 
-export async function expectPaper(page: Page, content: Locator) {
+export async function expectPaper(
+  page: Page,
+  content: Locator,
+  ink = 'rgb(17, 17, 17)',
+) {
   await expect(page.locator('html')).toHaveCSS('color-scheme', 'light');
+  const pixels = (11 * 96) / 72;
+  // Gecko quantizes the computed font size to FreeType's 1/64 CSS pixel grid.
+  const expected =
+    page.context().browser()?.browserType().name() === 'firefox'
+      ? Math.round(pixels * 64) / 64
+      : pixels;
   expect(
     await page
       .locator('html')
       .evaluate((element) =>
         Number.parseFloat(getComputedStyle(element).fontSize),
       ),
-  ).toBeCloseTo(14.6667, 2);
-  await expect(content).toHaveCSS('color', 'rgb(17, 17, 17)');
+  ).toBeCloseTo(expected, 2);
+  await expect(content).toHaveCSS('color', ink);
   await expect(page.locator('.site-header')).toBeHidden();
   await expect(page.locator('.site-footer')).toBeHidden();
 }

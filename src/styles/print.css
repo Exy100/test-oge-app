@@ -44,6 +44,9 @@
     max-width: none;
     width: auto;
   }
+  .lesson-page {
+    color: #000;
+  }
   /* Leave room for glyph ink beyond the line box at the paper edge. */
   body {
     padding-inline: 1mm !important;

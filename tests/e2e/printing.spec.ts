@@ -23,7 +23,7 @@ test('cheatsheet prints only its rules and lesson title, then restores focus and
   await button.click();
   await expect(page.locator('html')).toHaveAttribute('data-print-calls', '1');
   await page.emulateMedia({ media: 'print' });
-  await expectPaper(page, page.locator('.lesson-page'));
+  await expectPaper(page, page.locator('.lesson-page'), 'rgb(0, 0, 0)');
   await expect(page.locator('.lesson-header h1')).toBeVisible();
   await expect(page.locator('.lesson-cheatsheet > div')).toBeVisible();
   await expect(page.locator('#theory')).toBeHidden();
@@ -72,7 +72,7 @@ test('reference lesson print opens static explanations and restores every screen
   });
   await button.click();
   await page.emulateMedia({ media: 'print' });
-  await expectPaper(page, page.locator('.lesson-page'));
+  await expectPaper(page, page.locator('.lesson-page'), 'rgb(0, 0, 0)');
   await expect(page.locator('#theory')).toBeVisible();
   await expect(
     page.locator('#example-3 .lesson-steps > li').last(),
