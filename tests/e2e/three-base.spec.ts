@@ -253,7 +253,9 @@ test('twenty native WebGL mount/unmount cycles release every handle and context'
   test.setTimeout(90_000);
   await page.addInitScript(installWebGLAudit);
   await page.goto(development);
-  await page.locator('#bits-probe').scrollIntoViewIfNeeded();
+  await page
+    .getByRole('link', { name: 'Перейти к сцене', exact: true })
+    .click();
   await expect(page.locator('#bits-probe [data-probe-ready]')).toBeVisible();
   const harness = page.getByRole('region', {
     name: 'Повторное подключение и ошибки',
@@ -270,6 +272,8 @@ test('twenty native WebGL mount/unmount cycles release every handle and context'
       await expect(
         harness.locator('canvas[data-three-ready="true"]'),
       ).toBeVisible();
+      await harness.locator('canvas').scrollIntoViewIfNeeded();
+      await expect(harness.locator('canvas')).toBeInViewport();
       await expect
         .poll(() => page.evaluate(() => window.webGLResources().buffers))
         .toBeGreaterThan(0);
