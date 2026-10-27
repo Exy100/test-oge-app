@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { generators } from '../../src/core/generators';
+import { pythonGenerators } from '../../src/core/generators/16/programs';
 import {
   streamSources,
   resolveStreamTask,
@@ -260,7 +261,9 @@ for (const kind of programKinds) {
   test(`card: ${kind}, keyboard editor, exact code export and computed examples`, async ({
     page,
   }) => {
-    await open(page, generators.find((g) => g.subtype === kind)?.id ?? '');
+    const generator = pythonGenerators.find((g) => g.subtype === kind);
+    if (!generator) throw new Error('Нет генератора Python.');
+    await open(page, generator.id);
     const editor = page.getByLabel('Код Python', { exact: true });
     const code = 'n = int(input())\nprint(n)\n';
     await editor.fill(code);
