@@ -11,10 +11,25 @@ export async function interceptPrint(page: Page) {
 }
 
 export async function darkLargeText(page: Page) {
-  await page.getByLabel('Тема', { exact: true }).selectOption('dark');
+  const theme = page.getByLabel('Тема', { exact: true });
+  await theme.selectOption('dark');
+  await expect(theme).toBeEnabled();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  // Lazy islands must read the same persisted preference as the page shell.
   await page.evaluate(() => {
-    document.documentElement.dataset.fontSize = '200';
+    const key = 'oge:informatics:v1:settings';
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        version: 1,
+        theme: 'dark',
+        fontSize: 200,
+        animations: true,
+      }),
+    );
+    window.dispatchEvent(new StorageEvent('storage', { key }));
   });
+  await expect(page.locator('html')).toHaveAttribute('data-font-size', '200');
 }
 
 export async function expectPaper(page: Page, content: Locator) {
