@@ -146,7 +146,11 @@ test('V01–V10 cover every confirmed №1–12 generator and varied difficulty,
   const reading = tasks
     .filter((task) => task.taskNumber === 11)
     .map((task) => task.statement);
-  for (const question of ['Как звали щенка', 'Какова фамилия', 'Кем работал'])
+  for (const question of [
+    'Как звали щенка',
+    'Какова фамилия',
+    'Как называется профессия',
+  ])
     expect(reading.some((statement) => statement.includes(question))).toBe(
       true,
     );

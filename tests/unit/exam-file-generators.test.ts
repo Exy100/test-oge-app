@@ -277,7 +277,7 @@ for (const fixture of shortFixtures) {
         {
           nickname: 'Как звали щенка',
           character: 'Какова фамилия',
-          role: 'Кем работал',
+          role: 'Как называется профессия',
         }[parameters.response],
       );
       expect(generator.verify(task)).toBe(true);

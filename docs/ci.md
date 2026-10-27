@@ -14,7 +14,8 @@ Workflow `.github/workflows/ci.yml` запускается на push в `main`, 
    из официального релиза и проверяется закреплённой SHA-256. Значения секретов
    не печатаются (`--redact`).
 2. `npm audit --audit-level=high`: зависимости, включая инструменты разработки.
-3. Формат, ESLint, типы, forbidden, инвентарь текущего этапа и production-сборка;
+3. Формат, ESLint, типы, forbidden, инвентарь текущего этапа и production-сборка; после build — обязательный
+   offline аудит языка, терминов и формул (`node scripts/check-content.mjs`);
    отдельно — все unit-тесты в трёх группах с общим покрытием ядра ≥90%.
 4. `npm run check:office`, `npm run check:robots`, `npm run check:python` и `npm run check:variants`:
    реальные офисные файлы открываются в LibreOffice, программы Робота проверяются
@@ -62,7 +63,9 @@ Workflow `.github/workflows/ci.yml` запускается на push в `main`, 
 Lighthouse-отчёты — в `lighthouse-reports-1`–`lighthouse-reports-4` на семь дней,
 в том числе при неуспешном прогоне. Покрытие и проверенные офисные
 материалы сохраняются отдельно в `source-reports` / `generated-file-reports` на тот же срок. Значения секретов не нужно
-добавлять в отчёты или сообщения workflow.
+добавлять в отчёты или сообщения workflow. Аудит текста сохраняет `report.json`,
+`samples.json` и `samples.md` в `content-reports` на семь дней, включая неуспешный
+запуск. [Область проверки и ограничения](content-audit.md).
 
 ## Разделение проверок и публикации
 

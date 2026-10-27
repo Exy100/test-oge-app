@@ -35,8 +35,14 @@ export function readingOracle(
   task: TaskInstance,
   files: ReadonlyMap<string, Uint8Array>,
 ): string {
-  const q = /автора «([^»]+)» герой «([^»]+)» ([^.]+)\./u.exec(task.statement);
-  if (!q) throw new Error('Reading question missing');
+  const q = /Автор рассказа — ([^.]+)\. Найди эпизод: ([^.]+)\./u.exec(
+    task.statement,
+  );
+  const nickname = task.statement.includes('Как звали щенка');
+  const character = task.statement.includes('Какова фамилия');
+  const role = task.statement.includes('Как называется профессия');
+  if (!q || (!nickname && !character && !role))
+    throw new Error('Reading question missing');
   const answers: string[] = [];
   for (const [path, bytes] of files) {
     if (!path.startsWith(`Тексты/${q[1] ?? ''}/`) || !path.endsWith('.htm'))
@@ -46,7 +52,7 @@ export function readingOracle(
     let preceding: string[] = [];
     for (const block of blocks) {
       if (block.tag === 'h2') preceding = [];
-      else if (block.text.includes(`${q[2] ?? ''} ${q[3] ?? ''}.`)) {
+      else if (block.text.includes(`${q[2] ?? ''}.`)) {
         const speaker = block.text.split('— сказал ')[1]?.split('.')[0] ?? '',
           arrival = preceding.find((text) => text.includes('Местный ')) ?? '',
           identity =
@@ -55,11 +61,11 @@ export function readingOracle(
         if (identity[1] !== speaker)
           throw new Error('Inconsistent narrative identity');
         answers.push(
-          task.statement.includes('Как звали щенка')
+          nickname
             ? (arrival
                 .split('Щенка, бегавшего рядом, звали ')[1]
                 ?.split('.')[0] ?? '')
-            : task.statement.includes('Какова фамилия')
+            : character
               ? speaker
               : (identity[0] ?? ''),
         );
