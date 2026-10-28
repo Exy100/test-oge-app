@@ -28,7 +28,7 @@ test('source preparation stays disabled until its entry handler is ready', async
     return resume;
   });
   try {
-    await page.reload();
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const materials = page.locator('.variant-files');
     await materials.locator('summary').focus();
     await page.keyboard.press('Enter');
