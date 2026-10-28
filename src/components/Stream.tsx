@@ -89,15 +89,19 @@ export default function Stream({
     const signature = () =>
       JSON.stringify([store.read('streamStats'), store.read('reviewQueue')]);
     let previous = signature();
+    let completed = store.read('streamStats').completed;
     const restored = withStreamProgress(initialStreamState(), store.snapshot());
     latest.current = restored;
     return store.subscribe(() => {
       const next = signature();
       if (next === previous) return;
       previous = next;
+      const nextCompleted = store.read('streamStats').completed;
+      const replacedProgress = nextCompleted < completed;
+      completed = nextCompleted;
       if (writing.current) return;
-      // Imports, reset and results from another tab must not be overwritten by
-      // an old answer or an asynchronous task transition in this tab.
+      // Cancel transitions that captured old progress. Normal results in another
+      // tab refresh counters while this tab keeps its answer, notes and feedback.
       navigation.current += 1;
       advancing.current = false;
       setBusy(false);
@@ -107,9 +111,13 @@ export default function Stream({
       );
       latest.current = updated;
       setState(updated);
-      resultRecorded.current = false;
-      setOutcome(null);
-      setRevision((value) => value + 1);
+      // A reset or rollback still discards the accepted view; it must never
+      // restore a removed result when the learner moves to the next task.
+      if (replacedProgress) {
+        resultRecorded.current = false;
+        setOutcome(null);
+        setRevision((value) => value + 1);
+      }
       setSelectionInfo((info) => ({ ...info, waiting: null }));
     });
   }, []);
