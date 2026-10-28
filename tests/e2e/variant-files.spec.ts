@@ -6,6 +6,49 @@ import { variantConditionsText } from '../../src/core/variants/conditions';
 import { readZip, packZip } from '../../src/core/datasets/zip';
 import { verifyArchive } from '../../src/core/datasets';
 
+test('source preparation stays disabled until its entry handler is ready', async ({
+  page,
+}) => {
+  await page.goto('variants/V01/');
+  await expect(
+    page.getByRole('button', {
+      name: 'Подготовить комплект варианта',
+      includeHidden: true,
+    }),
+  ).toBeEnabled();
+  const gate = Promise.withResolvers<undefined>();
+  const handled: Promise<void>[] = [];
+  let intercepted = 0;
+  const entryModule = (url: URL) =>
+    /\/_astro\/ExamEntry\.[^/]+\.js$/u.test(url.pathname);
+  await page.route(entryModule, (route) => {
+    intercepted++;
+    const resume = gate.promise.then(() => route.continue());
+    handled.push(resume);
+    return resume;
+  });
+  try {
+    await page.reload();
+    const materials = page.locator('.variant-files');
+    await materials.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => intercepted).toBeGreaterThan(0);
+    const prepare = materials.getByRole('button', {
+      name: 'Подготовить комплект варианта',
+    });
+    await expect(prepare).toBeDisabled();
+    gate.resolve(undefined);
+    await prepare.click();
+    await expect(
+      materials.getByRole('link', { name: 'Скачать комплект ZIP' }),
+    ).toBeVisible();
+  } finally {
+    gate.resolve(undefined);
+    await Promise.all(handled);
+    await page.unroute(entryModule);
+  }
+});
+
 test('variant source download verifies exact files and detects modified or oversized archives', async ({
   page,
 }) => {
