@@ -12,6 +12,7 @@
   [Ревью 4](docs/reviews/phase-4.md), [ревью 5](docs/reviews/phase-5.md).
 - T6.0 реализована: [локальные примеры разбора](docs/ai-feedback.md) через
   заменяемый адаптер. [Отчёт](docs/reports/t6.0.md), ADR-056; полный CI/Pages обязателен.
+  [Доставка: готовность уроков в Firefox и WebKit](docs/reports/t6.0-delivery.md).
   Реальное подключение T6.1–T6.10 отложено: не заданы домен, модели, бюджет и Worker.
 - T7.1–T7.11 опубликованы: 45 уроков и 18 2D-сцен.
   Gate 7 ждёт учителя. [Отчёт](docs/reports/t7-integration.md), [ревью](docs/reviews/phase-7.md).

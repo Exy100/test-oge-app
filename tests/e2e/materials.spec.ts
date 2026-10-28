@@ -162,6 +162,45 @@ test('completion survives reload and updates an open catalog in another tab; und
   await expect(catalog.locator('.materials-completed')).toContainText('0 из 1');
 });
 
+test('a reloaded completion button stays disabled until its handler restores the saved mark', async ({
+  page,
+}) => {
+  await page.goto(lesson);
+  const mark = page.getByRole('button', { name: 'Урок пройден', exact: true });
+  await mark.click();
+  await expect(mark).toHaveAttribute('aria-pressed', 'true');
+  const gate = Promise.withResolvers<undefined>();
+  const handled: Promise<void>[] = [];
+  let intercepted = 0;
+  const completionModule = (url: URL) =>
+    url.pathname.endsWith('/src/components/lessons/LessonCompletion.tsx');
+  await page.route(completionModule, (route) => {
+    intercepted++;
+    const resume = gate.promise.then(() => route.continue());
+    handled.push(resume);
+    return resume;
+  });
+  try {
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect.poll(() => intercepted).toBeGreaterThan(0);
+    await page.waitForLoadState('load');
+    await mark.scrollIntoViewIfNeeded();
+    await expect(mark).toBeDisabled();
+    gate.resolve(undefined);
+    await expect(mark).toBeEnabled();
+    await expect(mark).toHaveAttribute('aria-pressed', 'true');
+    await mark.click();
+    await expect(mark).toHaveAttribute('aria-pressed', 'false');
+    await page.reload();
+    await expect(mark).toBeEnabled();
+    await expect(mark).toHaveAttribute('aria-pressed', 'false');
+  } finally {
+    gate.resolve(undefined);
+    await Promise.all(handled);
+    await page.unroute(completionModule);
+  }
+});
+
 test('Settings export, reset and import restore lesson marks across tabs', async ({
   page,
   context,
