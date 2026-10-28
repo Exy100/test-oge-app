@@ -11,6 +11,7 @@ import RobotPractice from './RobotPractice';
 import PythonPractice from './PythonPractice';
 import TaskGuidance from './TaskGuidance';
 import CriteriaLevels from './CriteriaLevels';
+import AiPanel from '../ai/AiPanel';
 import '../../styles/task-card.css';
 
 export interface TaskCardProps {
@@ -299,6 +300,17 @@ function TaskCardBody({
           ? 'Черновик сохраняется вместе с вариантом.'
           : 'Черновик доступен до смены задания или перезагрузки.'}
       </p>
+      {short && accepted && check && check.verdict !== 'format_error' && (
+        <AiPanel
+          key={JSON.stringify([raw, notes])}
+          request={{
+            generatorId: task.generatorId,
+            seed: task.seed,
+            answer: raw,
+            reasoning: notes,
+          }}
+        />
+      )}
       <TaskGuidance task={task} />
     </article>
   );
