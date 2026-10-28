@@ -303,6 +303,7 @@ function TaskCardBody({
       {short && accepted && check && check.verdict !== 'format_error' && (
         <AiPanel
           key={JSON.stringify([raw, notes])}
+          taskNumber={task.taskNumber}
           request={{
             generatorId: task.generatorId,
             seed: task.seed,

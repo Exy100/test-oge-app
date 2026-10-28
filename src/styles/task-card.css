@@ -155,6 +155,17 @@
 .ai-panel-output {
   min-width: 0;
 }
+.ai-panel-lessons ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ai-panel-lessons a {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-size);
+  padding-block: var(--space-2);
+}
 .task-guidance-list {
   list-style: none;
   padding: 0;
@@ -250,6 +261,12 @@
   }
   .task-card .program-example {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 30rem) {
+  .task-card,
+  .ai-panel {
+    padding: var(--space-2);
   }
 }
 

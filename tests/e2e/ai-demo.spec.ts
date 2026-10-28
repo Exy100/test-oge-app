@@ -6,6 +6,8 @@ import { homeTask } from '../../src/lib/home-practice';
 import { readyHome } from '../fixtures/home-browser';
 import { PREFIX, areaSchemas } from '../../src/core/storage/schemas';
 import { link, ready, current, stats } from '../fixtures/stream-browser';
+import type { TaskInstance } from '../../src/core/types';
+import { sitePath } from '../../src/lib/site';
 
 const generator = generators.find((item) => item.id === 'numeral-sum-v2');
 if (!generator) throw new Error('Missing numeral generator');
@@ -14,8 +16,12 @@ if (task.answer.type !== 'integer') throw new Error('Expected integer answer');
 const correct = task.answer.value;
 const wrong = String(BigInt(correct) + 1n);
 
-async function checked(page: Page, answer = correct) {
-  await page.goto(link(task));
+async function checked(
+  page: Page,
+  answer = correct,
+  instance: TaskInstance = task,
+) {
+  await page.goto(link(instance));
   await ready(page);
   await expect(page.locator('.ai-panel')).toHaveCount(0);
   await page.getByLabel('Как я решал', { exact: true }).fill('Мой черновик');
@@ -59,6 +65,16 @@ test('demo feedback streams locally, keeps the original score and remains access
   });
   await expect(output).toContainText('Пример для верного ответа');
   await expect(output).toBeFocused();
+  const lessons = panel.getByRole('navigation', {
+    name: 'Материалы по теме задания №10',
+  });
+  await expect(lessons.getByRole('link')).toHaveCount(3);
+  await expect(
+    lessons.getByRole('link', {
+      name: 'Перевод чисел: веса разрядов и остатки',
+      exact: true,
+    }),
+  ).toHaveAttribute('href', sitePath('/materials/i9/base-conversion/'));
   expect(await stats(page)).toEqual(before);
   await expect(page.getByLabel('Как я решал', { exact: true })).toHaveValue(
     'Мой черновик',
@@ -66,13 +82,92 @@ test('demo feedback streams locally, keeps the original score and remains access
   expect(external).toEqual([]);
   expect(api).toEqual([]);
   expect(providers.length).toBeGreaterThan(0);
-  const accessibility = await new AxeBuilder({ page })
-    .include('.ai-panel')
-    .analyze();
-  expect(accessibility.violations).toEqual([]);
-  expect(
-    await page.evaluate(() => document.documentElement.scrollWidth),
-  ).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '200%';
+  });
+  for (const theme of ['light', 'dark']) {
+    await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+    const accessibility = await new AxeBuilder({ page })
+      .include('.ai-panel')
+      .analyze();
+    expect(accessibility.violations).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
+  }
+});
+
+test('topic lessons open by keyboard while the checked task and draft stay in their tab', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('Missing base URL');
+  const origin = new URL(baseURL).origin;
+  const external: string[] = [];
+  const api: string[] = [];
+  context.on('request', (request) => {
+    const url = new URL(request.url());
+    if (/^https?:$/u.test(url.protocol) && url.origin !== origin)
+      external.push(url.href);
+    if (url.pathname.includes('/api/')) api.push(url.pathname);
+  });
+  const generator = generators.find((item) => item.id === 'paths-diagram-v2');
+  if (!generator) throw new Error('Missing directed-path generator');
+  const instance = generator.generate('demo-lesson-paths');
+  if (instance.answer.type !== 'integer')
+    throw new Error('Expected integer answer');
+  const answer = String(BigInt(instance.answer.value) + 1n);
+  const panel = await checked(page, answer, instance);
+  const before = await stats(page);
+  const taskUrl = page.url();
+  await expect(panel.getByRole('navigation')).toHaveCount(0);
+  await panel.getByRole('button', { name: 'Показать пример разбора' }).click();
+  await expect(panel.getByRole('status').first()).toHaveText(
+    'Пример разбора готов.',
+  );
+  const lessons = panel.getByRole('navigation', {
+    name: 'Материалы по теме задания №9',
+  });
+  await expect(lessons.getByRole('link')).toHaveCount(1);
+  const lesson = lessons.getByRole('link', {
+    name: 'Считаем пути в направленной схеме',
+    exact: true,
+  });
+  await expect(lesson).toHaveAttribute(
+    'href',
+    sitePath('/materials/i4/directed-paths/'),
+  );
+  await expect(lesson).toHaveAttribute('target', '_blank');
+  await expect(lesson).toHaveAttribute('rel', 'noopener');
+  await lesson.focus();
+  const opened = context.waitForEvent('page');
+  await lesson.press('Enter');
+  const reading = await opened;
+  await expect(reading.getByRole('heading', { level: 1 })).toHaveText(
+    'Считаем пути в направленной схеме',
+  );
+  await expect(
+    reading.getByRole('button', { name: 'Урок пройден', exact: true }),
+  ).toBeEnabled();
+  await reading.close();
+  await expect(page).toHaveURL(taskUrl);
+  await expect(page.getByLabel('Твой ответ', { exact: true })).toHaveValue(
+    answer,
+  );
+  await expect(page.getByLabel('Как я решал', { exact: true })).toHaveValue(
+    'Мой черновик',
+  );
+  await expect(page.locator('.task-feedback')).toHaveAttribute(
+    'data-verdict',
+    'incorrect',
+  );
+  await expect(
+    panel.getByRole('region', { name: 'Текст разбора' }),
+  ).toContainText('Пример для неверного ответа');
+  expect(await stats(page)).toEqual(before);
+  expect(external).toEqual([]);
+  expect(api).toEqual([]);
 });
 
 test('stop, repeat and changed notes preserve the checked answer', async ({
@@ -92,6 +187,7 @@ test('stop, repeat and changed notes preserve the checked answer', async ({
   await expect(panel.getByRole('status').first()).toContainText(
     'Разбор остановлен',
   );
+  await expect(panel.getByRole('navigation')).toHaveCount(0);
   await expect(
     panel.getByRole('button', { name: 'Повторить разбор', exact: true }),
   ).toBeFocused();
@@ -110,6 +206,7 @@ test('stop, repeat and changed notes preserve the checked answer', async ({
   await expect(
     panel.getByRole('region', { name: 'Текст разбора' }),
   ).toHaveCount(0);
+  await expect(panel.getByRole('navigation')).toHaveCount(0);
   await expect(
     panel.getByRole('button', { name: 'Показать пример разбора' }),
   ).toBeEnabled();
