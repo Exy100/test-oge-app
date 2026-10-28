@@ -89,6 +89,12 @@ function url(saved = attempt(), segment = 'V01') {
   return `variants/${segment}/result/?${new URLSearchParams({ attempt: saved.id })}`;
 }
 
+async function lessonReady(page: Page) {
+  await expect(
+    page.getByRole('button', { name: 'Урок пройден', exact: true }),
+  ).toBeEnabled();
+}
+
 test('history without a Python format version restores the original №16 in the worker', async ({
   page,
 }) => {
@@ -166,6 +172,7 @@ test('preparation plan opens available lessons for weak №1 and №2', async ({
     await expect(links.getByRole('link')).toHaveCount(3);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
@@ -199,6 +206,7 @@ test('preparation plan opens new logic, shortest-route and directed-path lessons
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
@@ -233,6 +241,7 @@ test('preparation plan opens new executor and program lessons', async ({
     const scene = page.locator('.lesson-interactive');
     await scene.scrollIntoViewIfNeeded();
     await expect(scene.locator('.information-lab')).toBeVisible();
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
@@ -264,6 +273,7 @@ test('preparation plan opens new network and search lessons', async ({
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
@@ -296,6 +306,7 @@ test('preparation plan opens new numeral and file lessons', async ({
     await expect(links.getByRole('link')).toHaveCount(count);
     await links.getByRole('link', { name: title, exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
@@ -330,6 +341,7 @@ test('preparation plan opens all seven Robot and Python lessons', async ({
       if (!href) throw new Error('Нет адреса урока.');
       await page.goto(href);
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await lessonReady(page);
       await page
         .getByRole('link', { name: 'Перейти к заданиям', exact: true })
         .click();
@@ -356,6 +368,7 @@ for (const choice of ['document', 'presentation'] as const) {
       choice === 'document' ? 2 : 1,
     );
     await lessons.getByRole('link').first().click();
+    await lessonReady(page);
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp('/stream/\\?numbers=13&variant13=' + choice + '$', 'u'),

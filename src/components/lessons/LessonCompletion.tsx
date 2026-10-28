@@ -2,7 +2,13 @@ import { useStoredAreas } from '../useStoredAreas';
 import { useHydrated } from '../useHydrated';
 import { browserStore } from '../../core/storage/browser';
 import { setLessonCompleted } from '../../lib/lessons/progress';
-import { useState } from 'react';
+import { useState, type ButtonHTMLAttributes } from 'react';
+
+// Firefox supports this attribute on buttons to avoid restoring disabled state
+// ahead of React hydration. React's button type omits the browser extension.
+const reloadAttributes: ButtonHTMLAttributes<HTMLButtonElement> & {
+  autoComplete: 'off';
+} = { autoComplete: 'off' };
 
 export default function LessonCompletion({ lessonId }: { lessonId: string }) {
   const { lessonProgress } = useStoredAreas();
@@ -14,6 +20,7 @@ export default function LessonCompletion({ lessonId }: { lessonId: string }) {
   return (
     <div className="lesson-completion">
       <button
+        {...reloadAttributes}
         type="button"
         className="button"
         disabled={!ready}
