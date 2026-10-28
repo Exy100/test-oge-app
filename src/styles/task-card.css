@@ -142,6 +142,19 @@
   border-top: 1px solid var(--line);
   padding-top: var(--space-4);
 }
+.ai-panel {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: var(--soft);
+  overflow-wrap: anywhere;
+}
+.ai-panel-label {
+  font-weight: var(--weight-medium);
+}
+.ai-panel-output {
+  min-width: 0;
+}
 .task-guidance-list {
   list-style: none;
   padding: 0;
