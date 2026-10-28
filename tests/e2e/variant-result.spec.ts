@@ -13,6 +13,7 @@ import {
 import { PREFIX, areaSchemas } from '../../src/core/storage/schemas';
 import type { Variant } from '../../src/core/types';
 import legacyPrograms from '../fixtures/python-legacy-variants.json' with { type: 'json' };
+import { ready as streamReady } from '../fixtures/stream-browser';
 
 const variant = buildFixedVariant('V01', 'document');
 const key = PREFIX + 'variantAttempts';
@@ -169,6 +170,8 @@ test('preparation plan opens available lessons for weak №1 and №2', async ({
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
     );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     await expect(
       page
         .getByRole('heading', {
@@ -200,6 +203,8 @@ test('preparation plan opens new logic, shortest-route and directed-path lessons
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
     );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     await expect(
       page
         .getByRole('heading', {
@@ -232,6 +237,8 @@ test('preparation plan opens new executor and program lessons', async ({
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
     );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     await expect(
       page
         .getByRole('heading', {
@@ -261,6 +268,8 @@ test('preparation plan opens new network and search lessons', async ({
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
     );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     await expect(
       page
         .getByRole('heading', {
@@ -291,6 +300,8 @@ test('preparation plan opens new numeral and file lessons', async ({
     await expect(page).toHaveURL(
       new RegExp(`/stream/\\?numbers=${String(number)}$`, 'u'),
     );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     await expect(
       page
         .getByRole('heading', {
@@ -325,6 +336,8 @@ test('preparation plan opens all seven Robot and Python lessons', async ({
       await expect(page).toHaveURL(
         new RegExp('/stream/\\?numbers=' + String(number) + '$', 'u'),
       );
+      await streamReady(page);
+      await expect(page.getByLabel('Что решать')).toHaveValue(String(number));
     }
   }
 });
@@ -346,6 +359,10 @@ for (const choice of ['document', 'presentation'] as const) {
     await page.getByRole('link', { name: 'Перейти к заданиям' }).click();
     await expect(page).toHaveURL(
       new RegExp('/stream/\\?numbers=13&variant13=' + choice + '$', 'u'),
+    );
+    await streamReady(page);
+    await expect(page.getByLabel('Что решать')).toHaveValue(
+      choice === 'document' ? '13.2' : '13.1',
     );
     await page.goto(url(saved));
     const sheets = page
