@@ -183,7 +183,6 @@ test('a reloaded completion button stays disabled until its handler restores the
   try {
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect.poll(() => intercepted).toBeGreaterThan(0);
-    await page.waitForLoadState('load');
     await mark.scrollIntoViewIfNeeded();
     await expect(mark).toBeDisabled();
     gate.resolve(undefined);

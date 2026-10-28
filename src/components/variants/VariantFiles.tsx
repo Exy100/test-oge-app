@@ -1,13 +1,21 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import type { Dataset } from '../../core/datasets';
 import { fixedVariants } from '../../core/variants/catalog';
 import { variantPrintHref } from '../../lib/variant-links';
 import type { ExamIdentity } from './VariantExam';
 import FileMemo from './FileMemo';
 import { Button } from '../ui/Button';
+import { useHydrated } from '../useHydrated';
 import '../../styles/variant-files.css';
 
+// Keep Firefox from restoring an enabled button before hydration on reload.
+const reloadAttributes: ButtonHTMLAttributes<HTMLButtonElement> & {
+  autoComplete: 'off';
+} = { autoComplete: 'off' };
+
 export default function VariantFiles({ variantId, seed }: ExamIdentity) {
+  const ready = useHydrated();
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [links, setLinks] = useState<{ zip: string; manifest: string } | null>(
     null,
@@ -111,8 +119,9 @@ export default function VariantFiles({ variantId, seed }: ExamIdentity) {
         </p>
         {!dataset && (
           <Button
+            {...reloadAttributes}
             variant="secondary"
-            disabled={busy}
+            disabled={busy || !ready}
             onClick={() => {
               void prepare();
             }}
