@@ -6,6 +6,7 @@ import feedbackUrl from '../../lib/ai/feedback.ts?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
 import { preparationLessons } from '../../lib/lessons/preparation';
 import { sitePath } from '../../lib/site';
+import { lessonStreamHref } from '../../lib/lessons/links';
 
 type Status = 'idle' | 'loading' | 'streaming' | 'done' | 'stopped' | 'error';
 
@@ -153,6 +154,26 @@ export default function AiPanel({
               </li>
             ))}
           </ul>
+        </nav>
+      )}
+      {status === 'done' && (
+        <nav
+          className="ai-panel-practice"
+          aria-labelledby={`${id}-practice-title`}
+        >
+          <h4 id={`${id}-practice-title`}>Практика по заданию №{taskNumber}</h4>
+          <p id={`${id}-practice-help`}>
+            Поток откроется в новой вкладке с выбранным номером задания. Текущий
+            ответ и черновик останутся здесь.
+          </p>
+          <a
+            href={lessonStreamHref([taskNumber])}
+            target="_blank"
+            rel="noopener"
+            aria-describedby={`${id}-practice-help`}
+          >
+            Решать задания №{taskNumber}
+          </a>
         </nav>
       )}
     </section>

@@ -75,6 +75,9 @@ test('demo feedback streams locally, keeps the original score and remains access
       exact: true,
     }),
   ).toHaveAttribute('href', sitePath('/materials/i9/base-conversion/'));
+  await expect(
+    panel.getByRole('link', { name: 'Решать задания №10', exact: true }),
+  ).toHaveAttribute('href', sitePath('/stream/?numbers=10'));
   expect(await stats(page)).toEqual(before);
   await expect(page.getByLabel('Как я решал', { exact: true })).toHaveValue(
     'Мой черновик',
@@ -97,7 +100,7 @@ test('demo feedback streams locally, keeps the original score and remains access
   }
 });
 
-test('topic lessons open by keyboard while the checked task and draft stay in their tab', async ({
+test('topic lessons and practice open by keyboard while the checked task and draft stay in their tab', async ({
   page,
   context,
   baseURL,
@@ -151,6 +154,61 @@ test('topic lessons open by keyboard while the checked task and draft stay in th
     reading.getByRole('button', { name: 'Урок пройден', exact: true }),
   ).toBeEnabled();
   await reading.close();
+  expect(await stats(page)).toEqual(before);
+  const practice = panel.getByRole('link', {
+    name: 'Решать задания №9',
+    exact: true,
+  });
+  await expect(practice).toHaveAttribute(
+    'href',
+    sitePath('/stream/?numbers=9'),
+  );
+  await expect(practice).toHaveAttribute('target', '_blank');
+  await expect(practice).toHaveAttribute('rel', 'noopener');
+  await practice.focus();
+  const practicing = context.waitForEvent('page');
+  await practice.press('Enter');
+  const exercise = await practicing;
+  await ready(exercise);
+  await expect(
+    exercise.getByRole('combobox', { name: 'Что решать', exact: true }),
+  ).toHaveValue('9');
+  await expect(
+    exercise.getByRole('heading', { name: 'Задание №9', exact: true }),
+  ).toBeVisible();
+  // A filter link has no task/seed until a stream transition writes its URL.
+  expect(await stats(exercise)).toEqual(before);
+  await exercise
+    .getByRole('button', { name: 'Пропустить задание', exact: true })
+    .click();
+  await ready(exercise);
+  const next = current(exercise);
+  expect(next.taskNumber).toBe(9);
+  expect([next.generatorId, next.seed]).not.toEqual([
+    instance.generatorId,
+    instance.seed,
+  ]);
+  if (next.answer.type !== 'integer') throw new Error('Expected integer task');
+  const skipped = await stats(exercise);
+  expect(skipped.completed).toBe(before.completed + 1);
+  expect(skipped.entries).toEqual(before.entries);
+  await exercise
+    .getByLabel('Твой ответ', { exact: true })
+    .fill(next.answer.value);
+  await exercise
+    .getByRole('button', { name: 'Проверить ответ', exact: true })
+    .click();
+  await expect(exercise.locator('.task-feedback')).toHaveAttribute(
+    'data-verdict',
+    'correct',
+  );
+  const after = await stats(exercise);
+  expect(after.completed).toBe(skipped.completed + 1);
+  const row = after.entries.find((entry) => entry.taskNumber === 9);
+  expect(row).toMatchObject({ attempts: 2, correct: 1 });
+  // Wait for shared counters before checking that their update kept the draft.
+  await expect(page.locator('.progress-accuracy')).toHaveText('50%');
+  await exercise.close();
   await expect(page).toHaveURL(taskUrl);
   await expect(page.getByLabel('Твой ответ', { exact: true })).toHaveValue(
     answer,
@@ -165,7 +223,13 @@ test('topic lessons open by keyboard while the checked task and draft stay in th
   await expect(
     panel.getByRole('region', { name: 'Текст разбора' }),
   ).toContainText('Пример для неверного ответа');
-  expect(await stats(page)).toEqual(before);
+  expect(await stats(page)).toEqual(after);
+  await page
+    .getByRole('button', { name: 'Следующее задание', exact: true })
+    .click();
+  await ready(page);
+  expect(current(page).taskNumber).toBe(9);
+  expect(await stats(page)).toEqual(after);
   expect(external).toEqual([]);
   expect(api).toEqual([]);
 });
@@ -272,6 +336,7 @@ for (const entry of ['demo-provider', 'feedback']) {
     await expect(panel.getByRole('alert')).toContainText(
       'твой ответ и черновик сохранены',
     );
+    await expect(panel.getByRole('navigation')).toHaveCount(0);
     await expect(
       panel.getByRole('button', { name: 'Попробовать ещё раз', exact: true }),
     ).toBeFocused();
@@ -289,6 +354,7 @@ for (const entry of ['demo-provider', 'feedback']) {
 
 test('training uses the same panel without editing saved answers or self-assessments', async ({
   page,
+  context,
 }) => {
   page.on('dialog', (dialog) => dialog.accept());
   const first = buildFixedVariant('V01', 'document').tasks[0];
@@ -316,6 +382,22 @@ test('training uses the same panel without editing saved answers or self-assessm
   await panel.getByRole('button', { name: 'Показать пример разбора' }).click();
   await expect(panel.getByRole('status').first()).toHaveText(
     'Пример разбора готов.',
+  );
+  const opened = context.waitForEvent('page');
+  await panel
+    .getByRole('link', { name: 'Решать задания №1', exact: true })
+    .click();
+  const practice = await opened;
+  await ready(practice);
+  await expect(
+    practice.getByRole('combobox', { name: 'Что решать', exact: true }),
+  ).toHaveValue('1');
+  await expect(
+    practice.getByRole('heading', { name: 'Задание №1', exact: true }),
+  ).toBeVisible();
+  await practice.close();
+  await expect(page.getByLabel('Твой ответ', { exact: true })).toHaveValue(
+    first.answer.value,
   );
   expect((await saved())?.answers).toEqual(before?.answers);
   expect((await saved())?.assessments).toEqual(before?.assessments);
