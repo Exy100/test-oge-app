@@ -4,10 +4,18 @@ import { feedbackSource, loadFeedbackProvider } from '../../lib/ai/provider';
 import RichTextView from '../RichTextView';
 import feedbackUrl from '../../lib/ai/feedback.ts?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
+import { preparationLessons } from '../../lib/lessons/preparation';
+import { sitePath } from '../../lib/site';
 
 type Status = 'idle' | 'loading' | 'streaming' | 'done' | 'stopped' | 'error';
 
-export default function AiPanel({ request }: { request: FeedbackRequest }) {
+export default function AiPanel({
+  request,
+  taskNumber,
+}: {
+  request: FeedbackRequest;
+  taskNumber: number;
+}) {
   const id = useId();
   const active = useRef<AbortController | null>(null);
   const output = useRef<HTMLDivElement>(null);
@@ -16,6 +24,9 @@ export default function AiPanel({ request }: { request: FeedbackRequest }) {
   const [html, setHtml] = useState('');
   const [error, setError] = useState('');
   const busy = status === 'loading' || status === 'streaming';
+  const lessons = preparationLessons.filter(
+    (lesson) => lesson.taskNumber === taskNumber,
+  );
   useEffect(() => () => active.current?.abort(), []);
   useEffect(() => {
     if (status === 'done') output.current?.focus();
@@ -117,6 +128,33 @@ export default function AiPanel({ request }: { request: FeedbackRequest }) {
         </div>
       )}
       {html && <p>Демонстрационный ответ. Сверяйся с эталонным решением.</p>}
+      {status === 'done' && lessons.length > 0 && (
+        <nav
+          className="ai-panel-lessons"
+          aria-labelledby={`${id}-lessons-title`}
+        >
+          <h4 id={`${id}-lessons-title`}>
+            Материалы по теме задания №{taskNumber}
+          </h4>
+          <p id={`${id}-lessons-help`}>
+            Урок откроется в новой вкладке. Задание и черновик останутся здесь.
+          </p>
+          <ul>
+            {lessons.map((lesson) => (
+              <li key={lesson.id}>
+                <a
+                  href={sitePath(lesson.route)}
+                  target="_blank"
+                  rel="noopener"
+                  aria-describedby={`${id}-lessons-help`}
+                >
+                  {lesson.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </section>
   );
 }
