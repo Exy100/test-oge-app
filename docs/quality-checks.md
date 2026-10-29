@@ -2,6 +2,12 @@
 
 `npm run verify` выполняет lint, форматирование, проверку типов, unit-тесты,
 check:forbidden, check:coverage и сборку. Скрипты не изменяют исходники.
+T6.1 добавляет `worker:check`: Wrangler dry-run собирает сервер в
+`.cache/ai-worker`, затем выполняется тот же побайтовый поиск секретных маркеров,
+что для dist. CI дополнительно запускает Gitleaks по сборке и сохраняет
+`worker-bundle`. `tests/unit/ai-worker.test.ts` входит в обычные три unit-shard:
+проверяет HTTP-границу в Node и настоящем Workers runtime. Пороги и таймауты
+остальных проверок не меняются; Worker в интернет не публикуется.
 Версии парсеров зафиксированы в package-lock; Node 24 читает TS-реестры напрямую.
 
 T3.14: `npx vitest run tests/unit/exam-fixtures.test.ts` проверяет

@@ -62,12 +62,23 @@ jobs:
           set -euo pipefail
           npm run lint
           npm run typecheck
+          npm run worker:check
+          gitleaks dir .cache/ai-worker --redact --no-banner
           npm run check:forbidden
           npm run check:coverage
           npm run check:contrast
           npm run build
           node scripts/check-content.mjs
           npm run check:security
+
+      - name: Save checked Worker bundle
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: worker-bundle
+          path: .cache/ai-worker/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Save content audit and generated review samples
         if: always()
