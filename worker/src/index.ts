@@ -1,4 +1,5 @@
 import { prepareRequests, PreparationError } from './prepare-request';
+import { buildPrompt } from './prompts';
 
 interface Env {
   SITE_ORIGIN: string;
@@ -139,7 +140,7 @@ export default {
     try {
       const body = await readJson(request);
       if (!prepare) throw new PreparationError(500);
-      prepare(body);
+      buildPrompt(prepare(body));
     } catch (cause) {
       if (cause instanceof PreparationError)
         return error(
@@ -158,7 +159,7 @@ export default {
           : 'Не удалось прочитать JSON запроса.',
       );
     }
-    // The trusted task is prepared locally; no provider is connected yet.
+    // Task and messages are prepared locally; no provider is connected yet.
     return error(
       503,
       'ai-disabled',
