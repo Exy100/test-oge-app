@@ -1,4 +1,4 @@
-import { requestContracts } from './contracts';
+import { prepareRequests, PreparationError } from './prepare-request';
 
 interface Env {
   SITE_ORIGIN: string;
@@ -116,10 +116,10 @@ export default {
       )
     )
       return error(403, 'origin', 'Запрос с этого сайта не разрешён.');
-    const contract = Object.entries(requestContracts).find(
+    const prepare = Object.entries(prepareRequests).find(
       ([path]) => path === url.pathname,
     )?.[1];
-    if (!health && !contract) return error(404, 'route', 'Маршрут не найден.');
+    if (!health && !prepare) return error(404, 'route', 'Маршрут не найден.');
     const method = health ? 'GET' : 'POST';
     if (request.method !== method)
       return error(405, 'method', 'Метод запроса не поддерживается.', method);
@@ -138,9 +138,17 @@ export default {
       );
     try {
       const body = await readJson(request);
-      if (!contract?.safeParse(body).success)
-        return error(400, 'request', 'Проверь поля и ограничения запроса.');
+      if (!prepare) throw new PreparationError(500);
+      prepare(body);
     } catch (cause) {
+      if (cause instanceof PreparationError)
+        return error(
+          cause.status,
+          cause.status === 400 ? 'request' : 'task-unavailable',
+          cause.status === 400
+            ? 'Проверь задание, формат ответа и поля запроса.'
+            : 'Не удалось проверить задание. Попробуй ещё раз.',
+        );
       if (!(cause instanceof RequestError)) throw cause;
       return error(
         cause.status,
@@ -150,7 +158,7 @@ export default {
           : 'Не удалось прочитать JSON запроса.',
       );
     }
-    // No provider is connected in T6.1; valid input must never trigger a paid call.
+    // The trusted task is prepared locally; no provider is connected yet.
     return error(
       503,
       'ai-disabled',
