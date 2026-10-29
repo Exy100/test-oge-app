@@ -73,7 +73,7 @@ for (const [path, body] of [
   [
     'part2-grade',
     {
-      bankId: 'P01',
+      bankId: 'curated-presentations-v2:P01',
       solution: 'Моя работа',
       criteriaAnswers: { title: 'Есть заголовок' },
     },
@@ -438,9 +438,35 @@ test('the production entry runs in real Workers with the same protected boundari
     for (const [request, status] of [
       [post(feedback), 503],
       [post(generatedWork, 'part2-grade'), 503],
-      [post({ bankId: 'P01', solution: 'Моя работа' }, 'part2-grade'), 503],
+      [
+        post(
+          { bankId: 'curated-presentations-v2:P01', solution: 'Моя работа' },
+          'part2-grade',
+        ),
+        503,
+      ],
       [post(summary, 'variant-summary'), 503],
       [post({ ...feedback, correctAnswer: '12' }), 400],
+      [post({ ...feedback, generatorId: 'unknown-v9' }), 400],
+      [
+        post({
+          generatorId: generatedWork.generatorId,
+          seed: 'boundary',
+          answer: '1',
+        }),
+        400,
+      ],
+      [
+        post(
+          {
+            bankId: 'curated-presentations-v2:P01',
+            seed: 'P02',
+            solution: 'Моя работа',
+          },
+          'part2-grade',
+        ),
+        400,
+      ],
       [post(feedback, 'stream-feedback', { Origin: 'https://evil.test' }), 403],
       [post({ ...feedback, reasoning: 'x'.repeat(9000) }), 413],
       [
