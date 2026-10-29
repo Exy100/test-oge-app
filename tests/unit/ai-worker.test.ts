@@ -41,8 +41,14 @@ function checkHeaders(response: { headers: Pick<Headers, 'get' | 'has'> }) {
   expect(response.headers.get('Strict-Transport-Security')).toContain(
     'max-age=31536000',
   );
-  expect(response.headers.get('Referrer-Policy')).toBe('no-referrer');
+  expect(response.headers.get('Referrer-Policy')).toBe(
+    'strict-origin-when-cross-origin',
+  );
+  expect(response.headers.get('Cross-Origin-Opener-Policy')).toBe(
+    'same-origin',
+  );
   expect(response.headers.get('Permissions-Policy')).toContain('camera=()');
+  expect(response.headers.get('Permissions-Policy')).toContain('payment=()');
   expect(response.headers.get('Vary')).toBe('Origin');
   expect(response.headers.has('Access-Control-Allow-Origin')).toBe(false);
   expect(response.headers.has('Set-Cookie')).toBe(false);

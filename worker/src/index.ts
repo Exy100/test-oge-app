@@ -8,8 +8,9 @@ const securityHeaders = {
   'Cache-Control': 'no-store',
   'Content-Security-Policy':
     "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-  'Referrer-Policy': 'no-referrer',
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',

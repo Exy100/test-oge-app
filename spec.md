@@ -674,6 +674,9 @@ POST требует точного `Origin`. У GET health заголовок м
 Также: `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`,
 `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (камера, микрофон,
 геолокация, платежи — запрещены), `Cross-Origin-Opener-Policy: same-origin`.
+Для JSON-ответов API CSP строже, чем для страниц: `default-src 'none';
+frame-ancestors 'none'; base-uri 'none'; form-action 'none'` (ADR-059).
+API не загружает ресурсы документа; остальные перечисленные заголовки сохраняются.
 
 Файлы практики: не открывать произвольный HTML из файлов как доверенный документ,
 не исполнять макросы, не исполнять код ученика через eval, проверять пути архивов,

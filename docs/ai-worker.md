@@ -58,7 +58,8 @@ Content-Length не заменяет подсчёт фактических ба�
 IP, заголовки или тела запросов. Локальная консоль Wrangler показывает методы,
 пути и статусы без содержимого работы ученика.
 Все ответы имеют no-store, CSP, nosniff, защиту от встраивания, HSTS,
-ограничения Permissions-Policy и Referrer-Policy. Cookies и разрешающих CORS
+COOP same-origin, ограничения Permissions-Policy (включая платежи) и Referrer-Policy.
+Observability в конфигурации выключена. Cookies и разрешающих CORS
 заголовков нет. GET health без Origin допустим только при совпадении
 origin адреса запроса с настройкой сайта.
 

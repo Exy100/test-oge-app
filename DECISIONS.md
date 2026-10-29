@@ -1918,6 +1918,10 @@ Node isDeepStrictEqual: сравнение всех полей/значений 
   POST требует точного Origin; GET health допускает отсутствие заголовка
   только при совпадении origin адреса с настройкой сайта. Это поддерживает
   обычный same-origin GET без исключения для чужого или `null` Origin.
+- JSON-ответы не загружают ресурсы документа, поэтому их CSP использует
+  `default-src 'none'` и запрет frame-ancestors/base-uri/form-action.
+  Остальные заголовки spec §12 сохраняются: в том числе COOP same-origin,
+  strict-origin-when-cross-origin и запрет camera/microphone/geolocation/payment.
 - Конкретизированы формы `criteriaAnswers` (словарь id → текст) и `part2Self`
   (различные номера №13–16 с nullable score). Пределы баллов берутся из
   существующего examConfig, сводка не принимает тексты ответов. Семантическое
