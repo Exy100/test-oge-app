@@ -1,6 +1,7 @@
 name = "oge-ai-proxy"
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
+compatibility_flags = ["enable_request_signal"]
 workers_dev = false
 preview_urls = false
 
