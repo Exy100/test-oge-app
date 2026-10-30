@@ -23,7 +23,16 @@ export interface FeedbackProvider {
 
 export class FeedbackError extends Error {
   constructor(
-    readonly code: 'invalid-request' | 'invalid-response' | 'unavailable',
+    readonly code:
+      | 'invalid-request'
+      | 'invalid-response'
+      | 'unavailable'
+      | 'consent'
+      | 'rate-limit'
+      | 'budget'
+      | 'network'
+      | 'timeout'
+      | 'disabled',
   ) {
     super(code);
     this.name = 'FeedbackError';
@@ -31,7 +40,22 @@ export class FeedbackError extends Error {
 }
 
 export function feedbackErrorMessage(error: unknown): string {
-  if (error instanceof FeedbackError && error.code === 'invalid-request')
-    return 'Для разбора нужен краткий ответ до 300 символов и черновик до 1500 символов к заданию №1–12.';
+  if (error instanceof FeedbackError) {
+    const messages = {
+      'invalid-request':
+        'Для разбора нужен краткий ответ до 300 символов и черновик до 1500 символов к заданию №1–12.',
+      consent: 'Для отправки ответа нужно твоё согласие.',
+      'rate-limit': 'Достигнут лимит разборов. Подожди и попробуй позже.',
+      budget: 'Дневной лимит сервиса исчерпан. Попробуй завтра.',
+      network:
+        'Не удалось связаться с сервером. Проверь соединение и попробуй ещё раз.',
+      timeout: 'Разбор не успел загрузиться. Попробуй ещё раз.',
+      disabled: 'ИИ отключён. Ты можешь продолжать решать задания без него.',
+      'invalid-response':
+        'Не удалось получить полный разбор. Попробуй ещё раз.',
+      unavailable: 'Сервис разбора временно недоступен. Попробуй позже.',
+    };
+    return messages[error.code];
+  }
   return 'Не удалось открыть разбор. Попробуй ещё раз — твой ответ и черновик сохранены.';
 }

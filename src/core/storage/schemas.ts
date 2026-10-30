@@ -139,7 +139,11 @@ export const areaSchemas = {
       .max(500)
       .refine((rows) => unique(rows.map((row) => row.lessonId))),
   }),
-  aiConsent: z.strictObject({ version, enabled: z.boolean() }),
+  aiConsent: z.strictObject({
+    version,
+    enabled: z.boolean(),
+    policy: z.literal('openrouter-feedback-v1').optional(),
+  }),
 };
 export const areasSchema = z
   .strictObject(areaSchemas)

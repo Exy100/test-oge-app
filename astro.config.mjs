@@ -67,6 +67,10 @@ export default defineConfig({
         'astro:config:setup': ({ command, injectRoute }) => {
           if (command === 'dev') {
             injectRoute({
+              pattern: '/dev/ai',
+              entrypoint: './src/dev/ai.astro',
+            });
+            injectRoute({
               pattern: '/dev/materials',
               entrypoint: './src/dev/materials.astro',
             });

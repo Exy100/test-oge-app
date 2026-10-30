@@ -1,0 +1,15 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import AiPanelHarness from './AiPanelHarness';
+---
+
+<SiteLayout
+  title="Проверка панели ИИ"
+  description="Локальная проверка клиента."
+  route="/dev/ai/"
+>
+  <div class="container">
+    <h1>Проверка панели ИИ</h1>
+    <AiPanelHarness client:load />
+  </div>
+</SiteLayout>
