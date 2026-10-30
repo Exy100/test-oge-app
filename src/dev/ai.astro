@@ -1,0 +1,27 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import AiPanelHarness from './AiPanelHarness';
+---
+
+<SiteLayout
+  title="Проверка панели ИИ"
+  description="Локальная проверка клиента."
+  route="/dev/ai/"
+>
+  <div class="container">
+    <h1>Проверка панели ИИ</h1>
+    <AiPanelHarness client:load />
+  </div>
+</SiteLayout>
+
+<style>
+  :global(.ai-client-harness) {
+    min-inline-size: 0;
+  }
+  :global(.ai-client-harness input) {
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+</style>

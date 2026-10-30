@@ -18,7 +18,14 @@ export function browserStore() {
   if (!local) {
     const store = new LocalStore(() => window.localStorage);
     local = store;
-    store.subscribe(publish);
+    let consent = store.read('aiConsent');
+    store.subscribe(() => {
+      const next = store.read('aiConsent');
+      if (consent.policy && (!next.enabled || next.policy !== consent.policy))
+        session?.clear();
+      consent = next;
+      publish();
+    });
     window.addEventListener('storage', (event) => {
       if (
         event.key === null ||

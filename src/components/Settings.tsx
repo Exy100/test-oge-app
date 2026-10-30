@@ -164,6 +164,7 @@ export default function Settings() {
                 version: 1,
                 enabled: event.target.checked,
               });
+              if (!event.target.checked) browserCache().clear();
             }}
           />
           Предлагать разбор с ИИ
@@ -171,8 +172,19 @@ export default function Settings() {
         <p>
           ИИ пока не подключён. Перед первой отправкой ответа сайт назовёт
           провайдера, покажет состав данных и отдельно запросит согласие. Этот
-          переключатель ничего не отправляет.
+          переключатель ничего не отправляет. Отключение отзовёт согласие и
+          очистит временный кэш в этой вкладке.
         </p>
+        {data.aiConsent.policy && (
+          <Button
+            onClick={() => {
+              save('aiConsent', { version: 1, enabled: false });
+              browserCache().clear();
+            }}
+          >
+            Отозвать согласие на отправку ответов
+          </Button>
+        )}
       </fieldset>
       <section aria-labelledby="settings-data">
         <h2 id="settings-data">Твои данные</h2>
@@ -224,7 +236,13 @@ export default function Settings() {
           onClick={() => {
             if (!pending) return;
             browserCache().replace(pending.aiCache);
-            browserStore().replace(pending.areas);
+            browserStore().replace({
+              ...pending.areas,
+              aiConsent: {
+                version: 1,
+                enabled: pending.areas.aiConsent.enabled,
+              },
+            });
             setPending(null);
             setMessage(
               browserStore().memoryOnly || browserCache().memoryOnly
