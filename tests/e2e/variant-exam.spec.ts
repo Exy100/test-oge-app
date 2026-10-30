@@ -259,13 +259,26 @@ test('a second tab cannot overwrite an active exam and can resume when the first
   expect((await savedDraft(other))?.current?.answers[0]?.text).toBe(
     'сохранить из первой вкладки',
   );
+  const heldExamLocks = () =>
+    other.evaluate(async () => {
+      const snapshot = await navigator.locks.query();
+      return (
+        snapshot.held?.filter(
+          (lock) => lock.name === 'oge:informatics:variantDraft',
+        ).length ?? 0
+      );
+    });
+  await expect.poll(heldExamLocks).toBe(1);
   const closed = page.waitForEvent('close');
   await page.close({ runBeforeUnload: true });
   await closed;
+  // WebKit can report page closure before releasing its native Web Lock.
+  await expect.poll(heldExamLocks).toBe(0);
   await other
     .getByRole('button', { name: 'Продолжить экзамен', exact: true })
     .click();
   await expect(other.getByRole('timer')).toBeVisible();
+  await expect.poll(heldExamLocks).toBe(1);
   await number(other, 1).click();
   await expect(other.getByLabel('Твой ответ', { exact: true })).toHaveValue(
     'сохранить из первой вкладки',
