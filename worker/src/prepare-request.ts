@@ -109,3 +109,7 @@ export const prepareRequests = {
     input: validated(requestContracts['/api/ai/variant-summary'], body),
   }),
 };
+
+export type PreparedRequest = ReturnType<
+  (typeof prepareRequests)[keyof typeof prepareRequests]
+>;

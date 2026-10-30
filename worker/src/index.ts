@@ -1,5 +1,9 @@
 import { prepareRequests, PreparationError } from './prepare-request';
 import { buildPrompt } from './prompts';
+import type { OpenRouterClient } from './openrouter';
+import { TransportError } from './transport';
+
+export { createOpenRouter } from './openrouter';
 
 interface Env {
   SITE_ORIGIN: string;
@@ -98,72 +102,90 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const origin = configuredOrigin(env.SITE_ORIGIN);
-    if (!origin)
-      return error(503, 'configuration', 'Сервис разбора недоступен.');
-    const url = new URL(request.url);
-    const health = url.pathname === '/api/ai/health';
-    const suppliedOrigin = request.headers.get('Origin');
-    // Same-origin GET fetches may omit Origin. POSTs must supply it explicitly.
-    if (
-      suppliedOrigin !== origin &&
-      !(
-        health &&
-        request.method === 'GET' &&
-        suppliedOrigin === null &&
-        url.origin === origin
+export function createWorker(client?: OpenRouterClient) {
+  return {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      const origin = configuredOrigin(env.SITE_ORIGIN);
+      if (!origin)
+        return error(503, 'configuration', 'Сервис разбора недоступен.');
+      const url = new URL(request.url);
+      const health = url.pathname === '/api/ai/health';
+      const suppliedOrigin = request.headers.get('Origin');
+      // Same-origin GET fetches may omit Origin. POSTs must supply it explicitly.
+      if (
+        suppliedOrigin !== origin &&
+        !(
+          health &&
+          request.method === 'GET' &&
+          suppliedOrigin === null &&
+          url.origin === origin
+        )
       )
-    )
-      return error(403, 'origin', 'Запрос с этого сайта не разрешён.');
-    const prepare = Object.entries(prepareRequests).find(
-      ([path]) => path === url.pathname,
-    )?.[1];
-    if (!health && !prepare) return error(404, 'route', 'Маршрут не найден.');
-    const method = health ? 'GET' : 'POST';
-    if (request.method !== method)
-      return error(405, 'method', 'Метод запроса не поддерживается.', method);
-    if (health) return json({ enabled: false });
-    const media = request.headers
-      .get('Content-Type')
-      ?.split(';')[0]
-      ?.trim()
-      .toLowerCase();
-    const encoding = request.headers.get('Content-Encoding')?.toLowerCase();
-    if (media !== 'application/json' || (encoding && encoding !== 'identity'))
-      return error(
-        415,
-        'media-type',
-        'Нужен JSON в кодировке UTF-8 без сжатия.',
-      );
-    try {
-      const body = await readJson(request);
-      if (!prepare) throw new PreparationError(500);
-      buildPrompt(prepare(body));
-    } catch (cause) {
-      if (cause instanceof PreparationError)
+        return error(403, 'origin', 'Запрос с этого сайта не разрешён.');
+      const prepare = Object.entries(prepareRequests).find(
+        ([path]) => path === url.pathname,
+      )?.[1];
+      if (!health && !prepare) return error(404, 'route', 'Маршрут не найден.');
+      const method = health ? 'GET' : 'POST';
+      if (request.method !== method)
+        return error(405, 'method', 'Метод запроса не поддерживается.', method);
+      if (health) return json({ enabled: Boolean(client) });
+      const media = request.headers
+        .get('Content-Type')
+        ?.split(';')[0]
+        ?.trim()
+        .toLowerCase();
+      const encoding = request.headers.get('Content-Encoding')?.toLowerCase();
+      if (media !== 'application/json' || (encoding && encoding !== 'identity'))
+        return error(
+          415,
+          'media-type',
+          'Нужен JSON в кодировке UTF-8 без сжатия.',
+        );
+      try {
+        const body = await readJson(request);
+        if (!prepare) throw new PreparationError(500);
+        const prepared = prepare(body);
+        if (client) {
+          const response = await client.respond(prepared, request.signal);
+          const headers = new Headers(response.headers);
+          for (const [name, value] of Object.entries(securityHeaders))
+            headers.set(name, value);
+          return new Response(response.body, {
+            status: response.status,
+            headers,
+          });
+        }
+        buildPrompt(prepared);
+      } catch (cause) {
+        if (cause instanceof TransportError)
+          return error(cause.status, cause.code, cause.message);
+        if (cause instanceof PreparationError)
+          return error(
+            cause.status,
+            cause.status === 400 ? 'request' : 'task-unavailable',
+            cause.status === 400
+              ? 'Проверь задание, формат ответа и поля запроса.'
+              : 'Не удалось проверить задание. Попробуй ещё раз.',
+          );
+        if (!(cause instanceof RequestError)) throw cause;
         return error(
           cause.status,
-          cause.status === 400 ? 'request' : 'task-unavailable',
-          cause.status === 400
-            ? 'Проверь задание, формат ответа и поля запроса.'
-            : 'Не удалось проверить задание. Попробуй ещё раз.',
+          cause.status === 413 ? 'body-size' : 'request',
+          cause.status === 413
+            ? 'Размер запроса превышает 8 КБ.'
+            : 'Не удалось прочитать JSON запроса.',
         );
-      if (!(cause instanceof RequestError)) throw cause;
+      }
+      // Task and messages are prepared locally; no provider is connected yet.
       return error(
-        cause.status,
-        cause.status === 413 ? 'body-size' : 'request',
-        cause.status === 413
-          ? 'Размер запроса превышает 8 КБ.'
-          : 'Не удалось прочитать JSON запроса.',
+        503,
+        'ai-disabled',
+        'ИИ отключён. Доступен локальный пример на сайте.',
       );
-    }
-    // Task and messages are prepared locally; no provider is connected yet.
-    return error(
-      503,
-      'ai-disabled',
-      'ИИ отключён. Доступен локальный пример на сайте.',
-    );
-  },
-};
+    },
+  };
+}
+
+// No environment variable can enable external calls before T6.5 safeguards.
+export default createWorker();
