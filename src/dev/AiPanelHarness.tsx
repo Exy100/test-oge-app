@@ -9,7 +9,11 @@ export default function AiPanelHarness() {
   const ready = useHydrated();
   const [reasoning, setReasoning] = useState('Мой черновик');
   return (
-    <fieldset disabled={!ready} aria-busy={!ready}>
+    <fieldset
+      className="ai-client-harness"
+      disabled={!ready}
+      aria-busy={!ready}
+    >
       <legend>Клиентский разбор</legend>
       <label>
         Черновик для проверки

@@ -13,3 +13,15 @@ import AiPanelHarness from './AiPanelHarness';
     <AiPanelHarness client:load />
   </div>
 </SiteLayout>
+
+<style>
+  :global(.ai-client-harness) {
+    min-inline-size: 0;
+  }
+  :global(.ai-client-harness input) {
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+</style>
