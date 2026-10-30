@@ -2,10 +2,12 @@ import { prepareRequests, PreparationError } from './prepare-request';
 import { buildPrompt } from './prompts';
 import type { OpenRouterClient } from './openrouter';
 import { TransportError } from './transport';
+import { createAccess, type AccessEnv } from './access';
 
 export { createOpenRouter } from './openrouter';
+export { AiQuota } from './quota-object';
 
-interface Env {
+interface Env extends AccessEnv {
   SITE_ORIGIN: string;
 }
 const MAX_BODY_BYTES = 8192;
@@ -102,7 +104,10 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-export function createWorker(client?: OpenRouterClient) {
+export function createWorker(
+  client?: OpenRouterClient,
+  admit?: (request: Request) => Promise<void>,
+) {
   return {
     async fetch(request: Request, env: Env): Promise<Response> {
       const origin = configuredOrigin(env.SITE_ORIGIN);
@@ -143,6 +148,7 @@ export function createWorker(client?: OpenRouterClient) {
           'Нужен JSON в кодировке UTF-8 без сжатия.',
         );
       try {
+        await admit?.(request);
         const body = await readJson(request);
         if (!prepare) throw new PreparationError(500);
         const prepared = prepare(body);
@@ -159,7 +165,11 @@ export function createWorker(client?: OpenRouterClient) {
         buildPrompt(prepared);
       } catch (cause) {
         if (cause instanceof TransportError)
-          return error(cause.status, cause.code, cause.message);
+          return json(
+            { error: { code: cause.code, message: cause.message } },
+            cause.status,
+            cause.retryAfter ? { 'Retry-After': String(cause.retryAfter) } : {},
+          );
         if (cause instanceof PreparationError)
           return error(
             cause.status,
@@ -187,5 +197,24 @@ export function createWorker(client?: OpenRouterClient) {
   };
 }
 
-// No environment variable can enable external calls before T6.5 safeguards.
-export default createWorker();
+/** Enabling requires an explicit server flag and all quota/provider settings. */
+export function createConfiguredWorker(transport: typeof fetch = fetch) {
+  return {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      if (env.AI_ENABLED !== 'true') return createWorker().fetch(request, env);
+      try {
+        const access = createAccess(env, transport);
+        return await createWorker(access.client, access.admit).fetch(
+          request,
+          env,
+        );
+      } catch {
+        return createWorker(undefined, () => {
+          throw new TransportError('configuration');
+        }).fetch(request, env);
+      }
+    },
+  };
+}
+
+export default createConfiguredWorker();

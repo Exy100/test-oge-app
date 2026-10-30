@@ -10,3 +10,13 @@ enabled = false
 
 [vars]
 SITE_ORIGIN = "https://exy100.github.io"
+AI_ENABLED = "false"
+AI_DAILY_REQUEST_LIMIT = "0"
+
+[[durable_objects.bindings]]
+name = "AI_QUOTA"
+class_name = "AiQuota"
+
+[[migrations]]
+tag = "v1-ai-quota"
+new_sqlite_classes = ["AiQuota"]

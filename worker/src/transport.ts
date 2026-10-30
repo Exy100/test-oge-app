@@ -1,5 +1,13 @@
 export type TransportCode =
-  'configuration' | 'cancelled' | 'timeout' | 'upstream' | 'invalid-response';
+  | 'configuration'
+  | 'cancelled'
+  | 'timeout'
+  | 'upstream'
+  | 'invalid-response'
+  | 'rate-minute'
+  | 'rate-day'
+  | 'budget'
+  | 'limits';
 
 const failures = {
   configuration: { status: 503, message: 'Сервис разбора недоступен.' },
@@ -13,11 +21,30 @@ const failures = {
     status: 502,
     message: 'Не удалось получить корректный разбор.',
   },
+  'rate-minute': {
+    status: 429,
+    message: 'Слишком много разборов за минуту. Подожди немного.',
+  },
+  'rate-day': {
+    status: 429,
+    message: 'Ты достиг дневного лимита разборов. Попробуй позже.',
+  },
+  budget: {
+    status: 503,
+    message: 'Дневной лимит сервиса исчерпан. Попробуй завтра.',
+  },
+  limits: {
+    status: 503,
+    message: 'Не удалось проверить лимиты. Попробуй позже.',
+  },
 } as const;
 
 export class TransportError extends Error {
   readonly status: number;
-  constructor(readonly code: TransportCode) {
+  constructor(
+    readonly code: TransportCode,
+    readonly retryAfter?: number,
+  ) {
     super(failures[code].message);
     this.status = failures[code].status;
   }
