@@ -10,7 +10,7 @@ export default function AiPanelHarness() {
   const [reasoning, setReasoning] = useState('Мой черновик');
   return (
     <fieldset
-      className="ai-client-harness"
+      className="ai-client-harness task-card"
       disabled={!ready}
       aria-busy={!ready}
     >
@@ -18,6 +18,7 @@ export default function AiPanelHarness() {
       <label>
         Черновик для проверки
         <input
+          type="text"
           value={reasoning}
           onChange={(event) => {
             setReasoning(event.target.value);

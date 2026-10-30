@@ -10,6 +10,7 @@ import { lessonStreamHref } from '../../lib/lessons/links';
 import { browserCache, browserStore } from '../../core/storage/browser';
 import { hasAiConsent, grantAiConsent } from '../../lib/ai/consent';
 import { Modal } from '../ui/Modal';
+import '../../styles/task-card.css';
 
 type Status =
   'idle' | 'consent' | 'loading' | 'streaming' | 'done' | 'stopped' | 'error';
