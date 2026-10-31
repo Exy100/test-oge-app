@@ -9,9 +9,14 @@ preview_urls = false
 enabled = false
 
 [vars]
+# Owner-editable server settings. Keep disabled until both models and secrets are set.
 SITE_ORIGIN = "https://exy100.github.io"
 AI_ENABLED = "false"
-AI_DAILY_REQUEST_LIMIT = "0"
+# 10 students × 30 AI actions × up to 2 provider attempts per action, per UTC day.
+AI_DAILY_REQUEST_LIMIT = "600"
+# Exact OpenRouter model IDs; two different models are required before enabling.
+AI_MODEL_PRIMARY = ""
+AI_MODEL_FALLBACK = ""
 
 [[durable_objects.bindings]]
 name = "AI_QUOTA"

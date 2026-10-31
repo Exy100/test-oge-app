@@ -29,6 +29,7 @@
     "worker:dev": "wrangler dev --local --config worker/wrangler.toml --ip 127.0.0.1 --port 8787",
     "worker:build": "wrangler deploy --dry-run --config worker/wrangler.toml --outdir ../.cache/ai-worker",
     "worker:check": "npm run worker:build && node scripts/check-worker.mjs",
+    "ai:smoke": "node scripts/check-ai-preview.mjs",
     "test": "vitest run",
     "e2e": "npm run build && playwright test",
     "check:print": "npm run build && playwright test --config=playwright.print.config.ts",
