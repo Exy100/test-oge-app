@@ -1,6 +1,7 @@
 import { z } from '../../core/zod';
 import { browserStore } from '../../core/storage/browser';
 import { hasAiConsent } from './consent';
+import { summaryRequestSchema, type SummaryProvider } from './summary-contract';
 import {
   FeedbackError,
   feedbackRequestSchema,
@@ -48,11 +49,42 @@ export function createApiFeedbackProvider(
   consented: () => boolean = () => hasAiConsent(browserStore()),
 ): FeedbackProvider {
   return {
-    async *streamFeedback(input, parent) {
+    streamFeedback: createMarkdownProvider(
+      '/api/ai/stream-feedback',
+      feedbackRequestSchema,
+      transport,
+      consented,
+    ).stream,
+  };
+}
+export function createApiSummaryProvider(
+  transport: typeof fetch = fetch,
+  consented: () => boolean = () =>
+    hasAiConsent(browserStore(), 'variant-summary'),
+): SummaryProvider {
+  return {
+    streamSummary: createMarkdownProvider(
+      '/api/ai/variant-summary',
+      summaryRequestSchema,
+      transport,
+      consented,
+    ).stream,
+  };
+}
+function createMarkdownProvider<T>(
+  path: '/api/ai/stream-feedback' | '/api/ai/variant-summary',
+  schema: z.ZodType<T>,
+  transport: typeof fetch,
+  consented: () => boolean,
+) {
+  return {
+    async *stream(input: T, parent: AbortSignal) {
       parent.throwIfAborted();
       if (!consented()) throw new FeedbackError('consent');
-      const parsed = feedbackRequestSchema.safeParse(input);
+      const parsed = schema.safeParse(input);
       if (!parsed.success) throw new FeedbackError('invalid-request');
+      if (new TextEncoder().encode(JSON.stringify(parsed.data)).length > 8192)
+        throw new FeedbackError('invalid-request');
       const controller = new AbortController();
       const abort = () => {
         controller.abort(new DOMException('Остановлено', 'AbortError'));
@@ -64,7 +96,7 @@ export function createApiFeedbackProvider(
       let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
       let done = false;
       try {
-        const pending = transport('/api/ai/stream-feedback', {
+        const pending = transport(path, {
           method: 'POST',
           credentials: 'omit',
           redirect: 'error',

@@ -18,6 +18,9 @@ import { Button } from '../ui/Button';
 import VariantFiles from './VariantFiles';
 import ResultSummary from './ResultSummary';
 import ResultPlan from './ResultPlan';
+import AiSummaryPanel from '../ai/AiSummaryPanel';
+import { buildSummaryRequest } from '../../lib/ai/summary-contract';
+import { aiApiEnabled } from '../../lib/ai/provider';
 import '../../styles/result.css';
 
 import { useResultVariant } from './useResultVariant';
@@ -411,6 +414,9 @@ export default function ExamFinished({
           </table>
         </div>
         <ResultPlan result={result} variant13={current.variant13} />
+        {aiApiEnabled && (
+          <AiSummaryPanel request={buildSummaryRequest(current, result)} />
+        )}
         <VariantFiles variantId={current.variantId} seed={current.seed} />
         <h3>Ответы и разбор</h3>
         <p>
