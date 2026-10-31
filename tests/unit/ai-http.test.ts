@@ -30,20 +30,22 @@ test.each(['text/html', 'text/event-stream'])(
   'health rejects %s',
   async (contentType) => {
     await expect(
-      checkAiHealth(
-        signal(),
-        async () =>
+      checkAiHealth(signal(), () =>
+        Promise.resolve(
           new Response('{"enabled":true}', {
             headers: { 'Content-Type': contentType },
           }),
+        ),
       ),
     ).rejects.toThrow('invalid-response');
   },
 );
 test('health limits response bytes', async () => {
   await expect(
-    checkAiHealth(signal(), async () =>
-      Response.json({ enabled: true, padding: 'a'.repeat(2000) }),
+    checkAiHealth(signal(), () =>
+      Promise.resolve(
+        Response.json({ enabled: true, padding: 'a'.repeat(2000) }),
+      ),
     ),
   ).rejects.toThrow('invalid-response');
 });
@@ -72,14 +74,12 @@ test('health deadline covers a noncooperative fetch and cancels its late body', 
 test('JSON cancellation reaches a stalled reader', async () => {
   const controller = new AbortController();
   const cancel = vi.fn();
-  const result = apiJson(
-    '/api/ai/health',
-    undefined,
-    controller.signal,
-    async () =>
+  const result = apiJson('/api/ai/health', undefined, controller.signal, () =>
+    Promise.resolve(
       new Response(new ReadableStream({ cancel }), {
         headers: { 'Content-Type': 'application/json' },
       }),
+    ),
   );
   const failure = expect(result).rejects.toThrow('Stop');
   await Promise.resolve();

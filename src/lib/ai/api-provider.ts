@@ -48,28 +48,26 @@ export function createApiFeedbackProvider(
   transport: typeof fetch = fetch,
   consented: () => boolean = () => hasAiConsent(browserStore()),
 ): FeedbackProvider {
-  return {
-    streamFeedback: createMarkdownProvider(
-      '/api/ai/stream-feedback',
-      feedbackRequestSchema,
-      transport,
-      consented,
-    ).stream,
-  };
+  const provider = createMarkdownProvider(
+    '/api/ai/stream-feedback',
+    feedbackRequestSchema,
+    transport,
+    consented,
+  );
+  return { streamFeedback: (input, signal) => provider.stream(input, signal) };
 }
 export function createApiSummaryProvider(
   transport: typeof fetch = fetch,
   consented: () => boolean = () =>
     hasAiConsent(browserStore(), 'variant-summary'),
 ): SummaryProvider {
-  return {
-    streamSummary: createMarkdownProvider(
-      '/api/ai/variant-summary',
-      summaryRequestSchema,
-      transport,
-      consented,
-    ).stream,
-  };
+  const provider = createMarkdownProvider(
+    '/api/ai/variant-summary',
+    summaryRequestSchema,
+    transport,
+    consented,
+  );
+  return { streamSummary: (input, signal) => provider.stream(input, signal) };
 }
 function createMarkdownProvider<T>(
   path: '/api/ai/stream-feedback' | '/api/ai/variant-summary',

@@ -57,7 +57,9 @@ export default function AiWorkPanel({
         maxLength={3000}
         value={solution}
         disabled={disabled}
-        onChange={(event) => setSolution(event.target.value)}
+        onChange={(event) => {
+          setSolution(event.target.value);
+        }}
       />
       <p>До 3000 символов. Не добавляй личные данные.</p>
       {task.criteria?.levels.map((level) => (
@@ -71,12 +73,12 @@ export default function AiWorkPanel({
             maxLength={1500}
             disabled={disabled}
             value={criteriaAnswers[String(level.score)] ?? ''}
-            onChange={(event) =>
+            onChange={(event) => {
               setCriteria((previous) => ({
                 ...previous,
                 [String(level.score)]: event.target.value,
-              }))
-            }
+              }));
+            }}
           />
         </div>
       ))}
@@ -105,50 +107,61 @@ function WorkAction({
   disabled: boolean;
   onAccept: (score: Score) => boolean;
 }) {
-  const action = useAiAction<AiGrade>('part2-grade');
+  const {
+    value,
+    status,
+    error: requestError,
+    button,
+    output,
+    start,
+    confirm,
+    close,
+    stop,
+    busy,
+  } = useAiAction<AiGrade>('part2-grade');
   const [dismissed, setDismissed] = useState(false);
   const [accepted, setAccepted] = useState(false);
-  const grade = dismissed ? null : action.value;
+  const grade = dismissed ? null : value;
   return (
     <>
       <div className="task-actions">
         <button
-          ref={action.button}
+          ref={button}
           type="button"
-          disabled={disabled || action.busy}
+          disabled={disabled || busy}
           onClick={() => {
             setDismissed(false);
             setAccepted(false);
-            void action.start((signal) => gradeWork(request, number, signal));
+            void start((signal) => gradeWork(request, number, signal));
           }}
         >
-          {action.status === 'error'
+          {status === 'error'
             ? 'Повторить разбор работы'
             : 'Разобрать работу с ИИ'}
         </button>
-        {action.busy && (
-          <button type="button" onClick={action.stop}>
+        {busy && (
+          <button type="button" onClick={stop}>
             Остановить разбор работы
           </button>
         )}
       </div>
       <p role="status">
-        {action.busy
+        {busy
           ? 'Получаем разбор работы…'
-          : action.status === 'stopped'
+          : status === 'stopped'
             ? 'Разбор остановлен.'
             : accepted
               ? 'Предложение ИИ принято.'
               : dismissed
                 ? 'Предложение отклонено. Оценка сохранена без изменений.'
-                : action.status === 'done'
+                : status === 'done'
                   ? 'Разбор работы готов.'
                   : ''}
       </p>
-      {action.error && <p role="alert">{action.error}</p>}
+      {requestError && <p role="alert">{requestError}</p>}
       {grade && (
         <div
-          ref={action.output}
+          ref={output}
           tabIndex={-1}
           role="region"
           aria-label="Предварительный разбор работы"
@@ -183,7 +196,7 @@ function WorkAction({
               type="button"
               onClick={() => {
                 setDismissed(true);
-                action.button.current?.focus();
+                button.current?.focus();
               }}
             >
               Отклонить предложение
@@ -192,10 +205,10 @@ function WorkAction({
         </div>
       )}
       <AiConsent
-        open={action.status === 'consent'}
-        button={action.button}
-        close={action.close}
-        confirm={action.confirm}
+        open={status === 'consent'}
+        button={button}
+        close={close}
+        confirm={confirm}
       >
         <p>
           Задание №{number}. Будут переданы условие и критерии с сервера, а

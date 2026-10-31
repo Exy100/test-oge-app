@@ -15,7 +15,18 @@ export default function AiSummaryPanel({
   return <Summary key={JSON.stringify(request)} request={request} />;
 }
 function Summary({ request }: { request: SummaryRequest }) {
-  const action = useAiAction<string>('variant-summary');
+  const {
+    value,
+    status,
+    error: requestError,
+    button,
+    output,
+    start,
+    confirm,
+    close,
+    stop,
+    busy,
+  } = useAiAction<string>('variant-summary');
   return (
     <section
       className="ai-panel ai-summary task-card"
@@ -31,10 +42,10 @@ function Summary({ request }: { request: SummaryRequest }) {
       <div className="task-actions">
         <button
           type="button"
-          ref={action.button}
-          disabled={action.busy}
+          ref={button}
+          disabled={busy}
           onClick={() => {
-            void action.start((signal, update) =>
+            void start((signal, update) =>
               consumeCachedSummary(
                 createApiSummaryProvider(),
                 request,
@@ -45,44 +56,42 @@ function Summary({ request }: { request: SummaryRequest }) {
             );
           }}
         >
-          {action.status === 'error'
-            ? 'Повторить сводку с ИИ'
-            : 'Составить план с ИИ'}
+          {status === 'error' ? 'Повторить сводку с ИИ' : 'Составить план с ИИ'}
         </button>
-        {action.busy && (
-          <button type="button" onClick={action.stop}>
+        {busy && (
+          <button type="button" onClick={stop}>
             Остановить сводку
           </button>
         )}
       </div>
       <p role="status">
-        {action.busy
+        {busy
           ? 'Получаем сводку…'
-          : action.status === 'done'
+          : status === 'done'
             ? 'Сводка готова.'
-            : action.status === 'stopped'
+            : status === 'stopped'
               ? 'Сводка остановлена.'
               : ''}
       </p>
-      {action.error && <p role="alert">{action.error}</p>}
-      {action.value && (
+      {requestError && <p role="alert">{requestError}</p>}
+      {value && (
         <div
           className="ai-panel-output"
-          ref={action.output}
+          ref={output}
           tabIndex={-1}
           role="region"
           aria-label="Текст сводки ИИ"
-          aria-busy={action.busy}
+          aria-busy={busy}
         >
-          <RichTextView html={action.value} />
+          <RichTextView html={value} />
         </div>
       )}
-      {action.value && <p>ИИ может ошибаться. Сверяйся с эталонным решением</p>}
+      {value && <p>ИИ может ошибаться. Сверяйся с эталонным решением</p>}
       <AiConsent
-        open={action.status === 'consent'}
-        button={action.button}
-        close={action.close}
-        confirm={action.confirm}
+        open={status === 'consent'}
+        button={button}
+        close={close}
+        confirm={confirm}
       >
         <p>
           Будут отправлены следующие агрегаты. null означает отсутствие оценки

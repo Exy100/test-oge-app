@@ -17,7 +17,7 @@ for (const [label, answer] of [
     page,
     baseURL,
   }) => {
-    if (!baseURL || answer === undefined) throw new Error('Missing fixture');
+    if (!baseURL) throw new Error('Missing fixture');
     const url = new URL(link(task), baseURL);
     url.protocol = 'http:';
     url.port = '4324';

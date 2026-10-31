@@ -53,13 +53,11 @@ test('summary derives only aggregates; unknown timing and missing practice grade
   ).toBe(false);
 });
 test('summary SSE uses only the fixed summary endpoint and requires its separate consent', async () => {
-  const transport = vi
-    .fn<typeof fetch>()
-    .mockResolvedValue(
-      new Response('data: {"delta":"План"}\n\ndata: [DONE]\n\n', {
-        headers: { 'Content-Type': 'text/event-stream' },
-      }),
-    );
+  const transport = vi.fn<typeof fetch>().mockResolvedValue(
+    new Response('data: {"delta":"План"}\n\ndata: [DONE]\n\n', {
+      headers: { 'Content-Type': 'text/event-stream' },
+    }),
+  );
   const provider = createApiSummaryProvider(transport, () => false);
   await expect(
     consumeCachedSummary(
@@ -89,7 +87,9 @@ test('summary cache is invalidated by changed scores and never saves a truncated
     throw new Error('No storage');
   });
   const stream = vi.fn(async function* () {
-    yield '### План\n[[stream:16]] [внешний](https://outside.test)';
+    yield Promise.resolve(
+      '### План\n[[stream:16]] [внешний](https://outside.test)',
+    );
   });
   const update = vi.fn();
   const provider = { streamSummary: stream };
@@ -108,7 +108,7 @@ test('summary cache is invalidated by changed scores and never saves a truncated
   expect(update.mock.calls.at(-1)?.[0]).not.toContain('outside.test');
   const broken = {
     streamSummary: async function* () {
-      yield 'Часть';
+      yield Promise.resolve('Часть');
       throw new Error('Disconnected');
     },
   };

@@ -18,20 +18,30 @@ export async function apiJson(
 ): Promise<unknown> {
   parent.throwIfAborted();
   const controller = new AbortController();
-  const abort = () => controller.abort(parent.reason);
+  const abort = () => {
+    controller.abort(parent.reason);
+  };
   parent.addEventListener('abort', abort, { once: true });
   const timer = setTimeout(
-    () => controller.abort(new FeedbackError('timeout')),
+    () => {
+      controller.abort(new FeedbackError('timeout'));
+    },
     path.endsWith('/health') ? 5000 : 30_000,
   );
   let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
   function wait<T>(promise: Promise<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      const cancel = () => reject(controller.signal.reason);
+      const cancel = () => {
+        reject(
+          controller.signal.reason instanceof Error
+            ? controller.signal.reason
+            : new DOMException('Остановлено', 'AbortError'),
+        );
+      };
       controller.signal.addEventListener('abort', cancel, { once: true });
-      promise
-        .then(resolve, reject)
-        .finally(() => controller.signal.removeEventListener('abort', cancel));
+      promise.then(resolve, reject).finally(() => {
+        controller.signal.removeEventListener('abort', cancel);
+      });
       if (controller.signal.aborted) cancel();
     });
   }

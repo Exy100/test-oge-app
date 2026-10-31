@@ -10,7 +10,7 @@ test('result summary sends only aggregates, renders allowlisted links and refres
   await page.route('**/api/ai/variant-summary', async (route) => {
     calls++;
     const body = route.request().postDataJSON() as {
-      results: { n: number; score: number | null; timeSec: null }[];
+      results: { n: number; score: number | null; timeSec: number | null }[];
       part2Self: unknown[];
     };
     expect(Object.keys(body).sort()).toEqual([
