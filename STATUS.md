@@ -5,112 +5,42 @@
 
 ## Текущий шаг
 
-- Фазы 0–2 приняты. T3.1–T3.19 реализованы; Gate 3 ждёт предметного ревью.
-  `currentPhase` = 3; продолжение разрешено по PROMPT §3.5.
-- T4.1–T4.7 и T5.7 опубликованы; сценарий T5.8 подготовлен. Gate 4 ждёт наблюдений учеников;
-  Gate 5 — пробного экзамена и оценки №13–16. Общая редактура — T9.6.
-  [Ревью 4](docs/reviews/phase-4.md), [ревью 5](docs/reviews/phase-5.md).
-- T6.0 опубликована через PR №20–22: main `bd1ac8c`,
-  [CI/Pages 40711158520](https://github.com/Exy100/test-oge-app/actions/runs/40711158520)
-  успешен: 22/22, 2082 unit, 4446 browser, 49 print, 177 Lighthouse.
-  [Локальные примеры разбора](docs/ai-feedback.md), [отчёт](docs/reports/t6.0.md), ADR-056.
-  [Доставка: готовность уроков и файлов варианта](docs/reports/t6.0-delivery.md).
-- T6.11 опубликована через [PR №23](https://github.com/Exy100/test-oge-app/pull/23),
-  main `f84fb4c`, [CI/Pages 40723815181](https://github.com/Exy100/test-oge-app/actions/runs/40723815181):
-  22/22 успешно, 2082 unit, 4452 browser, 49 print, 177 Lighthouse.
-  [Отчёт](docs/reports/t6.11.md), ADR-057.
-- T6.12 опубликована через [PR №24](https://github.com/Exy100/test-oge-app/pull/24),
-  main `4792821`, [CI/Pages 40775666947](https://github.com/Exy100/test-oge-app/actions/runs/40775666947):
-  22/22 успешно, 2082 unit, 4452 browser, 49 print, 177 Lighthouse.
-  [Отчёт](docs/reports/t6.12.md), ADR-058.
-- T6.1 слита через [PR №25](https://github.com/Exy100/test-oge-app/pull/25),
-  main `4bf411e`, [CI/Pages 40806427918](https://github.com/Exy100/test-oge-app/actions/runs/40806427918):
-  22/22 успешно, 2136 unit, 4452 browser, 49 print, 177 Lighthouse.
-  [Отчёт](docs/reports/t6.1.md), ADR-059. Worker доступен локально.
-- T6.2 слита через [PR №26](https://github.com/Exy100/test-oge-app/pull/26),
-  main `da168d2`, [CI/Pages 40847661745](https://github.com/Exy100/test-oge-app/actions/runs/40847661745):
-  22/22 успешно, 2172 unit, 4452 browser, 49 print, 177 Lighthouse.
-  [Отчёт](docs/reports/t6.2.md), ADR-060. Worker пересобирает задачи локально.
-- T6.3 слита через [PR №27](https://github.com/Exy100/test-oge-app/pull/27),
-  main `3abf732`, [CI/Pages 40891511782](https://github.com/Exy100/test-oge-app/actions/runs/40891511782):
-  22/22 успешно, 2198 unit, 4452 browser, 49 print, 177 Lighthouse.
-  Две браузерные группы прошли с повтором; [отчёт](docs/reports/t6.3.md), ADR-061.
-- T6.4 слита через [PR №28](https://github.com/Exy100/test-oge-app/pull/28)
-  и [№29](https://github.com/Exy100/test-oge-app/pull/29), main `0263d90`;
-  [CI/Pages 41057491174](https://github.com/Exy100/test-oge-app/actions/runs/41057491174):
-  22/22 успешно с первой попытки, 2260 unit, 4452 browser, 49 print,
-  177 Lighthouse. [Отчёт](docs/reports/t6.4.md), ADR-062.
-  [Доставка](docs/reports/t6.4-delivery.md): e2e ждёт фактического освобождения
-  Web Lock после закрытия вкладки; прежние проверки таймера и ответа сохранены.
-- T6.5 слита через [PR №30](https://github.com/Exy100/test-oge-app/pull/30),
-  main `409a46b`; [CI/Pages 41078210032](https://github.com/Exy100/test-oge-app/actions/runs/41078210032):
-  22/22 успешно с первой попытки, 2307 unit, 4452 browser, 49 print,
-  177 Lighthouse. [Отчёт](docs/reports/t6.5.md), ADR-063.
-- T6.6 слита через [PR №31](https://github.com/Exy100/test-oge-app/pull/31),
-  main `a1aa4ae`; [CI/Pages 41097463719](https://github.com/Exy100/test-oge-app/actions/runs/41097463719):
-  22/22 успешно после одного повтора группы Firefox; 2352 unit, 4470 browser.
-  [Отчёт](docs/reports/t6.6.md), ADR-064.
-- T6.7–T6.9: API в потоке/завершённом варианте, предварительная практика
-  с явным принятием, сводка только по агрегатам. PUBLIC_AI_MODE=api включает
-  клиент; текущий сайт сохраняет демо. [T6.7](docs/reports/t6.7.md),
-  [T6.8](docs/reports/t6.8.md), [T6.9](docs/reports/t6.9.md); полный CI/Pages обязателен.
-- T6.10: [развёртывание и настройки](docs/deploy.md). По указанию владельца
-  лимит 600 попыток/UTC-день для 10 учеников, две модели оставлены пустыми;
-  AI_ENABLED=false. [Отчёт](docs/reports/t6.10.md), ADR-068.
-- T7.1–T7.11 опубликованы: 45 уроков и 18 2D-сцен.
-  Gate 7 ждёт учителя. [Отчёт](docs/reports/t7-integration.md), [ревью](docs/reviews/phase-7.md).
-- T8.1–T8.4 опубликованы, пять игр / 15 уровней доступны.
-  [Отчёт](docs/reports/t8.4.md), [ревью](docs/reviews/phase-8.md).
-  Gate 8 ждёт ученика, физического FPS и отдельного внешнего аудита.
-- T9.1 опубликована: [PR №8](https://github.com/Exy100/test-oge-app/pull/8),
-  main `b9cae19`; [CI/Pages 40216729034](https://github.com/Exy100/test-oge-app/actions/runs/40216729034)
-  успешен: 1973 unit, 2814 browser, 168 Lighthouse, core lines 97,76%.
-  Sitemap: 75 URL; axe проверяет все 76 HTML в обеих темах и четырёх профилях.
-  [Отчёт](docs/reports/t9.1.md), [ручной чек-лист](docs/a11y-checklist.md).
-- T9.2 опубликована: [PR №9](https://github.com/Exy100/test-oge-app/pull/9), main `22d66ee`;
-  [CI/Pages 40332949639](https://github.com/Exy100/test-oge-app/actions/runs/40332949639) успешен:
-  1980 unit, 2830 browser; 177 + 6 navigation, INP 51/51: 24–176 мс.
-  [Отчёт](docs/reports/t9.2.md), ADR-049/050.
-- T9.3 опубликована: [PR №10](https://github.com/Exy100/test-oge-app/pull/10), main `776a250`;
-  [CI/Pages 40355388184](https://github.com/Exy100/test-oge-app/actions/runs/40355388184) успешен:
-  1999 unit, 2870 browser; CSP/приватность всех HTML, core lines 97,76%.
-  [Отчёт](docs/reports/t9.3.md).
-- T9.4 опубликована: main `09a7dfe`, PR №11–13;
-  [CI/Pages 40400763385](https://github.com/Exy100/test-oge-app/actions/runs/40400763385):
-  21/21 успешно, 2000 unit, 4290 browser; 177 Lighthouse, 51/51 INP: 32–136 мс.
-  [Матрица](docs/cross-browser.md), [отчёт](docs/reports/t9.4.md).
-- T9.5 опубликована: [PR №14](https://github.com/Exy100/test-oge-app/pull/14), main `8690f56`;
-  [CI/Pages 40501970721](https://github.com/Exy100/test-oge-app/actions/runs/40501970721):
-  22/22 успешно, 2000 unit, 4314 browser, 94 PDF, 177 Lighthouse, INP 51/51: 16–200 мс.
-  [Печать](docs/printing.md), [отчёт](docs/reports/t9.5.md), ADR-053.
-- T9.6 опубликована: PR №15–16, main `99b2e72`, CI/Pages 40556237476:
-  22/22 успешно, 2019 unit, 4314 browser. [Отчёт](docs/reports/t9.6.md), ADR-054.
-- T3.19 опубликована через PR №17–18, main `e25cf28`;
-  [CI/Pages 40593672658](https://github.com/Exy100/test-oge-app/actions/runs/40593672658):
-  22/22 успешно, 2048 unit, 4386 browser, 49 print, 177 Lighthouse.
-  Три формата №16; старые попытки сохраняют исходную задачу. ADR-055,
-  [отчёт доставки](docs/reports/t3.19-delivery.md), [ревью и одобрение владельца](docs/reviews/t3.19.md).
-- Следующий шаг ИИ — внешний preview по docs/deploy.md после выбора домена,
-  двух моделей и подключения серверных секретов. Ключ в чат не передаётся.
-  T4.8 отложена владельцем: [сценарий](docs/reviews/phase-4.md) и
-  [бланк наблюдений](docs/reviews/t4.8-observations.md). Данных учеников пока нет.
-  Далее [Gate 9](docs/reviews/phase-9.md). Физическая печать,
-  скринридер/zoom/touch и пилот НЕ ПРОВЕРЕНЫ человеком.
-  Перед Фазой 10 нужны все человеческие ревью.
+- Фазы 0–2 приняты; T3.1–T3.19 реализованы. `currentPhase` = 3:
+  Gate 3 ждёт предметного ревью; продолжение разрешено по PROMPT §3.5.
+- Опубликованы T4.1–T4.7, T5.1–T5.7, T7.1–T7.11, T8.1–T8.4 и T9.1–T9.6:
+  поток, варианты, 45 уроков, 18 двумерных интерактивов и пять игр.
+- T6.0–T6.12 реализованы; T6.7–T6.10 опубликованы через
+  [PR №32](https://github.com/Exy100/test-oge-app/pull/32), main `44d4955`.
+  [CI/Pages 41181925347](https://github.com/Exy100/test-oge-app/actions/runs/41181925347):
+  28/28 успешно, 2368 unit, 4506 browser + 4 recovery + 20 navigation,
+  49 print, 177 Lighthouse / 51 INP. Публикация Pages подтверждена журналом.
+  [Доставка](docs/reports/t6.7-10-delivery.md), [настройки](docs/deploy.md).
+- Сайт сохраняет локальное демо ИИ. API-клиент готов; Worker/OpenRouter
+  не размещён. Лимит — 600 попыток/UTC-день для нагрузки до 10 учеников;
+  модели пока пустые, AI_ENABLED=false. Место изменений — worker/wrangler.toml.
+- Следующий шаг — [приёмка Gate 9](docs/reviews/phase-9.md): там собраны
+  технические результаты и открытые Gates 3–9. Проверка покрытия фазы 9
+  2026-10-31: 45 уроков, 18 2D, 5 игр, нарушений 0.
+- T4.8 и T5.8 открыты; живой тест отложен владельцем. Наблюдений учеников нет.
+  [Поток и бланк](docs/reviews/t4.8-observations.md), [экзамен](docs/reviews/phase-5.md).
+- После выбора домена/моделей и серверных секретов — внешний preview ИИ
+  по docs/deploy.md. Ключ в чат не передаётся; Gate 6 ждёт реальных ошибок.
+- Перед Фазой 10 нужны все человеческие ревью; Фаза 10 не начата.
 
 ## Известные расхождения и ограничения
 
-- [Матрица форматов](docs/exam-matrix.md): 51 официальный пример 2025–2027;
+- [Матрица](docs/exam-matrix.md): 51 официальный пример 2025–2027;
   №1–12/14 приняты по подтверждённым форматам (Q-I9/Q-I10, ADR-038/039).
-- №11–12: корпус 41 рассказ / 95 файлов; естественность и №13–15 ждут ревью Q-I6.
-- №16: T3.19 закрывает M16a–M16c; Q-I8 решён, ADR-055. Предметное ревью ожидается.
+  №16: M16a–c, T3.19, Q-I8 решён (ADR-055); предметное ревью ожидается.
+- №11–12: 41 рассказ / 95 файлов; естественность и №13–15 ждут Q-I6.
+  Проверяющий/участники пилотов не назначены. Физическая печать,
+  скринридер/zoom/touch, FPS обычного устройства НЕ ПРОВЕРЕНЫ человеком.
+- Открытый банк oge.fipi.ru недоступен (503), полнота/частотность UNVERIFIED.
+  Архивы сверены SHA-256; формат и шкалы 2027 окончательно не подтверждены.
 - Tailwind даёт сброс стилей (Q-I7); подбор ограничен 16 seed (ADR-041).
-  Прогресс локален; одновременные записи вкладок — localStorage.
-- Не назначен проверяющий/участники пилотов (Q-I6). Открытый банк oge.fipi.ru
-  недоступен (503); полнота/частотность UNVERIFIED. Архивы сверены SHA-256;
-  материалы/шкала 2027 и региональные шкалы окончательно не подтверждены.
-- ИИ-сервер не развёрнут. Pages не исполняет Worker и не применяет _headers (ADR-001).
-  Браузерный Python и полные офисные редакторы не входят в v1; файлы/учебные модели доступны.
+  Прогресс локален, записи вкладок — localStorage. Pages не исполняет Worker
+  и не применяет _headers (ADR-001). Python в браузере и полные офисные
+  редакторы не входят в v1; файлы и учебные модели доступны.
 
 ## Задачи
 
