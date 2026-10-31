@@ -54,8 +54,9 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(budgets.if).toBeUndefined();
   expect(budgets['continue-on-error']).not.toBe(true);
   expect(jobs.browsers.strategy.matrix.shard).toEqual([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   ]);
+  expect(jobs.browsers.strategy['fail-fast']).toBe(false);
   expect(jobs.browsers['timeout-minutes']).toBe(20);
   const navigation = jobs.browsers.steps.find(
     (step) =>
@@ -73,7 +74,7 @@ test('release requires every quality job and unconditional Lighthouse success', 
   expect(
     jobs.browsers.steps.some(
       (step) =>
-        step.run === 'npx playwright test --shard=${{ matrix.shard }}/10',
+        step.run === 'npx playwright test --shard=${{ matrix.shard }}/16',
     ),
   ).toBe(true);
   expect(

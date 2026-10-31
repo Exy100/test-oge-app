@@ -62,7 +62,11 @@ export function saveAttemptResult(
   store: LocalStore,
   expected: ExamAttempt,
   verifiedVariant: Variant,
-  change?: { taskNumber: 13 | 14 | 15 | 16; score: Score | null },
+  change?: {
+    taskNumber: 13 | 14 | 15 | 16;
+    score: Score | null;
+    source?: 'self' | 'aiAccepted';
+  },
 ): ExamAttempt {
   store.refresh();
   const history = store.read('variantAttempts');
@@ -74,6 +78,8 @@ export function saveAttemptResult(
   if (
     change &&
     (![13, 14, 15, 16].includes(change.taskNumber) ||
+      (change.source === 'aiAccepted' &&
+        (change.taskNumber <= 14 || change.score === null)) ||
       (change.score !== null &&
         (!Number.isInteger(change.score) ||
           change.score < 0 ||
@@ -87,7 +93,7 @@ export function saveAttemptResult(
     assessments.push({
       taskNumber: change.taskNumber,
       score: change.score,
-      source: 'self',
+      source: change.source ?? 'self',
     });
   const next = { ...current, assessments };
   const result = scoreAttempt(verifiedVariant, next);

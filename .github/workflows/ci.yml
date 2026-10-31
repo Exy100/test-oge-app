@@ -246,11 +246,11 @@ jobs:
           retention-days: 7
 
   browsers:
-    name: Browsers and accessibility (${{ matrix.shard }}/10)
+    name: Browsers and accessibility (${{ matrix.shard }}/16)
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -300,7 +300,7 @@ jobs:
         run: npx playwright test tests/e2e/variant-result.spec.ts --project=webkit --project=mobile-webkit --grep 'preparation plan opens new (executor and program|logic, shortest-route and directed-path) lessons' --repeat-each=5 --workers=2
 
       - name: Run all browser and accessibility tests
-        run: npx playwright test --shard=${{ matrix.shard }}/10
+        run: npx playwright test --shard=${{ matrix.shard }}/16
 
       - name: Show failed browser page context
         if: failure()

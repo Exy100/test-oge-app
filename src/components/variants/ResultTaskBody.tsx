@@ -5,12 +5,19 @@ import ExamTask from './ExamTask';
 import TaskGuidance from '../tasks/TaskGuidance';
 import CriteriaLevels from '../tasks/CriteriaLevels';
 import { Button } from '../ui/Button';
+import AiWorkPanel from '../ai/AiWorkPanel';
+import AiPanel from '../ai/AiPanel';
+import { aiApiEnabled } from '../../lib/ai/provider';
 
 export interface ResultTaskBodyProps {
   task: TaskInstance;
   attempt: ExamAttempt;
   disabled: boolean;
-  onAssess: (number: 13 | 14 | 15 | 16, score: Score | null) => void;
+  onAssess: (
+    number: 13 | 14 | 15 | 16,
+    score: Score | null,
+    source?: 'self' | 'aiAccepted',
+  ) => boolean;
 }
 export default function ResultTaskBody({
   task,
@@ -81,6 +88,28 @@ export default function ResultTaskBody({
         </div>
       )}
       <TaskGuidance task={task} />
+      {aiApiEnabled && number <= 12 && answer?.text && (
+        <AiPanel
+          taskNumber={number}
+          request={{
+            generatorId: task.generatorId,
+            seed: task.seed,
+            answer: answer.text,
+            reasoning: answer.reasoning,
+          }}
+        />
+      )}
+      {aiApiEnabled && task.answer.type === 'artifact' && (
+        <AiWorkPanel
+          key={task.id}
+          task={task}
+          savedText={answer?.text ?? ''}
+          disabled={disabled}
+          onAccept={(score) =>
+            onAssess(number as 13 | 14 | 15 | 16, score, 'aiAccepted')
+          }
+        />
+      )}
     </>
   );
 }

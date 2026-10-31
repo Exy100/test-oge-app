@@ -18,6 +18,9 @@ import { Button } from '../ui/Button';
 import VariantFiles from './VariantFiles';
 import ResultSummary from './ResultSummary';
 import ResultPlan from './ResultPlan';
+import AiSummaryPanel from '../ai/AiSummaryPanel';
+import { buildSummaryRequest } from '../../lib/ai/summary-contract';
+import { aiApiEnabled } from '../../lib/ai/provider';
 import '../../styles/result.css';
 
 import { useResultVariant } from './useResultVariant';
@@ -57,7 +60,11 @@ function ReviewTask({
   task: TaskInstance;
   attempt: ExamAttempt;
   disabled: boolean;
-  onAssess: (number: 13 | 14 | 15 | 16, score: Score | null) => void;
+  onAssess: (
+    number: 13 | 14 | 15 | 16,
+    score: Score | null,
+    source?: 'self' | 'aiAccepted',
+  ) => boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [Body, setBody] = useState<
@@ -237,24 +244,33 @@ export default function ExamFinished({
   const variant = rebuilt.variant;
   const result = scored;
   const href = attemptResultHref(current);
-  function assess(taskNumber: 13 | 14 | 15 | 16, score: Score | null) {
+  function assess(
+    taskNumber: 13 | 14 | 15 | 16,
+    score: Score | null,
+    source: 'self' | 'aiAccepted' = 'self',
+  ) {
     try {
       saveAttemptResult(browserStore(), current, variant, {
         taskNumber,
         score,
+        source,
       });
       setError('');
       setMessage(
         score === null
           ? `Оценка №${String(taskNumber)} снята.`
-          : `Самооценка №${String(taskNumber)} сохранена: ${String(score)}.`,
+          : source === 'aiAccepted'
+            ? `Предложение ИИ №${String(taskNumber)} принято: ${String(score)}.`
+            : `Самооценка №${String(taskNumber)} сохранена: ${String(score)}.`,
       );
+      return true;
     } catch (cause) {
       setError(
         cause instanceof Error
           ? cause.message
           : 'Не удалось сохранить самооценку.',
       );
+      return false;
     }
   }
   async function preparePrint() {
@@ -398,6 +414,9 @@ export default function ExamFinished({
           </table>
         </div>
         <ResultPlan result={result} variant13={current.variant13} />
+        {aiApiEnabled && (
+          <AiSummaryPanel request={buildSummaryRequest(current, result)} />
+        )}
         <VariantFiles variantId={current.variantId} seed={current.seed} />
         <h3>Ответы и разбор</h3>
         <p>

@@ -9,6 +9,31 @@ import { PREFIX } from '../storage/schemas';
 import legacyPrograms from '../../../tests/fixtures/python-legacy-variants.json' with { type: 'json' };
 
 const variant = buildFixedVariant('V01', 'document');
+test('accepting a preliminary programming score persists provenance; office grades remain self-assessment', () => {
+  const { store, saved } = fixture();
+  const accepted = saveAttemptResult(store, saved, variant, {
+    taskNumber: 16,
+    score: 1,
+    source: 'aiAccepted',
+  });
+  expect(accepted.assessments.find((row) => row.taskNumber === 16)).toEqual({
+    taskNumber: 16,
+    score: 1,
+    source: 'aiAccepted',
+  });
+  expect(
+    scoreAttempt(variant, accepted).rows.find((row) => row.taskNumber === 16),
+  ).toMatchObject({ score: 1, source: 'aiAccepted' });
+  for (const taskNumber of [13, 14] as const)
+    expect(() =>
+      saveAttemptResult(store, accepted, variant, {
+        taskNumber,
+        score: 0,
+        source: 'aiAccepted',
+      }),
+    ).toThrow();
+  expect(store.read('variantAttempts').entries[0]).toEqual(accepted);
+});
 test('saved attempts retain their old №16; new attempts explicitly select confirmed formats', () => {
   for (const saved of legacyPrograms) {
     const identity = {

@@ -1,6 +1,14 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import type { FeedbackProvider, FeedbackRequest } from '../../lib/ai/contract';
-import { feedbackSource, loadFeedbackProvider } from '../../lib/ai/provider';
+import {
+  feedbackErrorMessage,
+  type FeedbackRequest,
+} from '../../lib/ai/contract';
+import {
+  feedbackApi,
+  feedbackSource,
+  loadFeedbackProvider,
+  type FeedbackApi,
+} from '../../lib/ai/provider';
 import RichTextView from '../RichTextView';
 import feedbackUrl from '../../lib/ai/feedback.ts?module-url';
 import { importFreshModule } from '../../lib/fresh-module';
@@ -17,18 +25,16 @@ type Status =
 interface Props {
   request: FeedbackRequest;
   taskNumber: number;
-  api?: { load: () => Promise<FeedbackProvider> };
+  api?: FeedbackApi | undefined;
 }
 
 export default function AiPanel(props: Props) {
+  const api = props.api ?? feedbackApi;
   return (
     <Panel
-      key={JSON.stringify([
-        Boolean(props.api),
-        props.taskNumber,
-        props.request,
-      ])}
+      key={JSON.stringify([Boolean(api), props.taskNumber, props.request])}
       {...props}
+      api={api}
     />
   );
 }
@@ -66,18 +72,19 @@ function Panel({ request, taskNumber, api }: Props) {
 
   async function start() {
     if (active.current) return;
-    if (api && !hasAiConsent(browserStore())) {
-      setStatus('consent');
-      return;
-    }
     const controller = new AbortController();
     active.current = controller;
     setStatus('loading');
     setHtml('');
     setError('');
-    let describeError: (error: unknown) => string = () =>
-      'Не удалось открыть разбор. Попробуй ещё раз — твой ответ и черновик сохранены.';
+    let describeError: (error: unknown) => string = feedbackErrorMessage;
     try {
+      await api?.available?.(controller.signal);
+      controller.signal.throwIfAborted();
+      if (api && !hasAiConsent(browserStore())) {
+        setStatus('consent');
+        return;
+      }
       const [provider, feedback] = await Promise.all([
         api ? api.load() : loadFeedbackProvider(),
         importFreshModule<typeof import('../../lib/ai/feedback')>(feedbackUrl),
