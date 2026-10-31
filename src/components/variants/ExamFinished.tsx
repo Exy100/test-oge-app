@@ -57,7 +57,11 @@ function ReviewTask({
   task: TaskInstance;
   attempt: ExamAttempt;
   disabled: boolean;
-  onAssess: (number: 13 | 14 | 15 | 16, score: Score | null) => void;
+  onAssess: (
+    number: 13 | 14 | 15 | 16,
+    score: Score | null,
+    source?: 'self' | 'aiAccepted',
+  ) => boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [Body, setBody] = useState<
@@ -237,24 +241,33 @@ export default function ExamFinished({
   const variant = rebuilt.variant;
   const result = scored;
   const href = attemptResultHref(current);
-  function assess(taskNumber: 13 | 14 | 15 | 16, score: Score | null) {
+  function assess(
+    taskNumber: 13 | 14 | 15 | 16,
+    score: Score | null,
+    source: 'self' | 'aiAccepted' = 'self',
+  ) {
     try {
       saveAttemptResult(browserStore(), current, variant, {
         taskNumber,
         score,
+        source,
       });
       setError('');
       setMessage(
         score === null
           ? `Оценка №${String(taskNumber)} снята.`
-          : `Самооценка №${String(taskNumber)} сохранена: ${String(score)}.`,
+          : source === 'aiAccepted'
+            ? `Предложение ИИ №${String(taskNumber)} принято: ${String(score)}.`
+            : `Самооценка №${String(taskNumber)} сохранена: ${String(score)}.`,
       );
+      return true;
     } catch (cause) {
       setError(
         cause instanceof Error
           ? cause.message
           : 'Не удалось сохранить самооценку.',
       );
+      return false;
     }
   }
   async function preparePrint() {

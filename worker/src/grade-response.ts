@@ -1,16 +1,8 @@
 import { z } from '../../src/core/zod';
-import { ScoreSchema } from '../../src/core/schemas/shared';
+import { gradeSchema } from '../../src/lib/ai/assessment-contract';
 import type { preparePart2 } from './prepare-request';
 import { TransportError } from './transport';
 
-const text = z.string().trim().min(1).max(4000);
-const gradeSchema = z.strictObject({
-  kind: z.enum(['preliminary', 'criteria-help']),
-  score: ScoreSchema.nullable(),
-  reason: text,
-  errors: z.array(z.string().trim().min(1).max(1000)).max(16),
-  advice: text,
-});
 const completionSchema = z.object({
   choices: z.tuple([
     z.object({

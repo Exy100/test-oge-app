@@ -21,7 +21,14 @@ export function browserStore() {
     let consent = store.read('aiConsent');
     store.subscribe(() => {
       const next = store.read('aiConsent');
-      if (consent.policy && (!next.enabled || next.policy !== consent.policy))
+      if (
+        consent.policy &&
+        (!next.enabled ||
+          next.policy !== consent.policy ||
+          (consent.modes ?? ['stream-feedback']).some(
+            (mode) => !(next.modes ?? ['stream-feedback']).includes(mode),
+          ))
+      )
         session?.clear();
       consent = next;
       publish();

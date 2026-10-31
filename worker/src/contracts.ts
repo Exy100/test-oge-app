@@ -6,18 +6,9 @@ import {
 } from '../../src/core/schemas/shared';
 import { examConfig } from '../../src/core/exam/exam.config';
 import { feedbackRequestSchema } from '../../src/lib/ai/contract';
+import { part2RequestSchema } from '../../src/lib/ai/assessment-contract';
 
-const id = z.string().min(1).max(200);
 const seed = z.string().max(200);
-const criteriaAnswers = z
-  .record(z.string().min(1).max(100), z.string().max(1500))
-  .refine((answers) => Object.keys(answers).length <= 32)
-  .optional();
-const work = { solution: z.string().max(3000), criteriaAnswers };
-const part2Request = z.union([
-  z.strictObject({ generatorId: id, seed, ...work }),
-  z.strictObject({ bankId: id, seed: seed.optional(), ...work }),
-]);
 const result = z
   .strictObject({
     n: TaskNumberSchema,
@@ -53,6 +44,6 @@ const summaryRequest = z
 
 export const requestContracts = {
   '/api/ai/stream-feedback': feedbackRequestSchema,
-  '/api/ai/part2-grade': part2Request,
+  '/api/ai/part2-grade': part2RequestSchema,
   '/api/ai/variant-summary': summaryRequest,
 };

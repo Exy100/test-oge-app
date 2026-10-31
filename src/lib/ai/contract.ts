@@ -25,6 +25,7 @@ export class FeedbackError extends Error {
   constructor(
     readonly code:
       | 'invalid-request'
+      | 'work-size'
       | 'invalid-response'
       | 'unavailable'
       | 'consent'
@@ -44,6 +45,8 @@ export function feedbackErrorMessage(error: unknown): string {
     const messages = {
       'invalid-request':
         'Для разбора нужен краткий ответ до 300 символов и черновик до 1500 символов к заданию №1–12.',
+      'work-size':
+        'Сократи код или описание до 3000 символов и ответы по критериям до 1500 символов каждый. Весь запрос должен занимать не больше 8 КБ.',
       consent: 'Для отправки ответа нужно твоё согласие.',
       'rate-limit': 'Достигнут лимит разборов. Подожди и попробуй позже.',
       budget: 'Дневной лимит сервиса исчерпан. Попробуй завтра.',
