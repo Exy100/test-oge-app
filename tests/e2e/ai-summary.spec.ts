@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
-import { readyAiResult, savedAiAttempt } from '../fixtures/ai-result-browser';
+import {
+  readyAiResult,
+  savedAiAttempt,
+  checkAiAppearance,
+} from '../fixtures/ai-result-browser';
 
 test('result summary sends only aggregates, renders allowlisted links and refreshes after a self-assessment changes', async ({
   page,
@@ -59,8 +62,5 @@ test('result summary sends only aggregates, renders allowlisted links and refres
   await panel.getByRole('button', { name: 'Составить план с ИИ' }).click();
   await expect(output).toBeVisible();
   expect(calls).toBe(2);
-  expect(
-    (await new AxeBuilder({ page }).include('.ai-summary').analyze())
-      .violations,
-  ).toEqual([]);
+  await checkAiAppearance(page, '.ai-summary');
 });

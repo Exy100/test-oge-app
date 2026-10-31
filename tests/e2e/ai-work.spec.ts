@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
-import { readyAiResult, savedAiAttempt } from '../fixtures/ai-result-browser';
+import {
+  readyAiResult,
+  savedAiAttempt,
+  checkAiAppearance,
+} from '../fixtures/ai-result-browser';
 
 test('programming advice previews exact input, rejects or explicitly accepts a preliminary score with provenance', async ({
   page,
@@ -61,10 +64,7 @@ test('programming advice previews exact input, rejects or explicitly accepts a p
     score: 1,
     source: 'aiAccepted',
   });
-  expect(
-    (await new AxeBuilder({ page }).include('#result-task-16').analyze())
-      .violations,
-  ).toEqual([]);
+  await checkAiAppearance(page, '#result-task-16');
 });
 test('office help rejects a fabricated grade and never turns null into zero', async ({
   page,

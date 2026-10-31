@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { buildFixedVariant, variantSeed } from '../../src/core/variants';
 import {
   createExamDraft,
@@ -72,4 +73,21 @@ export async function savedAiAttempt(page: Page) {
       ).entries.find((row) => row.id === 'ai-result'),
     PREFIX + 'variantAttempts',
   );
+}
+
+export async function checkAiAppearance(page: Page, selector: string) {
+  for (const theme of ['light', 'dark']) {
+    await page.getByLabel('Тема', { exact: true }).selectOption(theme);
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%';
+    });
+    expect(
+      (await new AxeBuilder({ page }).include(selector).analyze()).violations,
+    ).toEqual([]);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+  }
 }
