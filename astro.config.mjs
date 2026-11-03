@@ -113,6 +113,10 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss(), lazyModuleUrl()],
+    server: {
+      // Browser fixtures keep a stable document while testing the full application.
+      hmr: process.env.OGE_E2E_DEV_SERVER === '1' ? false : undefined,
+    },
     // Lazy scene URLs are discovered after the first page load. Prebundle their
     // shared dependencies so opening a scene cannot invalidate an active module.
     optimizeDeps: {
