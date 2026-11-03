@@ -29,14 +29,16 @@ test('scans nested text and binary assets', async () => {
   expect(await checkDistSecrets(root)).toBe(2);
 });
 
-test.each(['provider marker', 'private key'])(
+test.each(['provider marker', 'routerai marker', 'private key'])(
   'rejects %s inside a binary asset without logging its content',
   async (kind) => {
     const root = await fixture();
     const marker =
       kind === 'provider marker'
         ? ['sk', 'or', 'probe'].join('-')
-        : ['-----BEGIN', 'PRIVATE KEY-----'].join(' ');
+        : kind === 'routerai marker'
+          ? ['sk', 'a'.repeat(32)].join('-')
+          : ['-----BEGIN', 'PRIVATE KEY-----'].join(' ');
     await writeFile(
       join(root, 'asset.bin'),
       Buffer.concat([Buffer.from([0, 255]), Buffer.from(marker)]),
@@ -46,7 +48,14 @@ test.each(['provider marker', 'private key'])(
   },
 );
 
-test.each(['.env', '.env.production', '.env-backup', '.ENV.local'])(
+test.each([
+  '.env',
+  '.env.production',
+  '.env-backup',
+  '.ENV.local',
+  '.dev.vars',
+  '.DEV.VARS.local',
+])(
   'rejects a published %s even without known secret patterns',
   async (name) => {
     const root = await fixture();

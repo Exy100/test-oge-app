@@ -142,7 +142,9 @@ export const areaSchemas = {
   aiConsent: z.strictObject({
     version,
     enabled: z.boolean(),
-    policy: z.literal('openrouter-feedback-v1').optional(),
+    policy: z
+      .enum(['openrouter-feedback-v1', 'routerai-feedback-v1'])
+      .optional(),
     modes: z
       .array(z.enum(['stream-feedback', 'part2-grade', 'variant-summary']))
       .max(3)

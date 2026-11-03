@@ -9,12 +9,14 @@ export { AiQuota } from '../../worker/src/quota-object';
 export default {
   async fetch(request: Request, env: AccessEnv & { SITE_ORIGIN: string }) {
     let calls = 0;
+    const models: string[] = [];
     const fallback = request.headers.get('X-Fixture-Fallback') === 'true';
     const transport: typeof fetch = (_url, init) => {
       calls++;
       const payload = z
-        .object({ stream: z.boolean() })
+        .object({ stream: z.boolean(), model: z.string() })
         .parse(providerPayload(init));
+      models.push(payload.model);
       if (fallback && calls === 1)
         return Promise.resolve(new Response(null, { status: 429 }));
       return Promise.resolve(payload.stream ? providerStream() : completion());
@@ -30,6 +32,7 @@ export default {
     );
     const outgoing = new Headers(response.headers);
     outgoing.set('X-Fixture-Calls', String(calls));
+    outgoing.set('X-Fixture-Models', models.join(','));
     return new Response(response.body, {
       status: response.status,
       headers: outgoing,

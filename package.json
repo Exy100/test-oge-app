@@ -30,6 +30,7 @@
     "worker:build": "wrangler deploy --dry-run --config worker/wrangler.toml --outdir ../.cache/ai-worker",
     "worker:check": "npm run worker:build && node scripts/check-worker.mjs",
     "ai:smoke": "node scripts/check-ai-preview.mjs",
+    "ai:provider-smoke": "node --use-env-proxy scripts/check-routerai.mjs",
     "test": "vitest run",
     "e2e": "npm run build && playwright test",
     "check:print": "npm run build && playwright test --config=playwright.print.config.ts",

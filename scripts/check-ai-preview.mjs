@@ -1,7 +1,14 @@
-const [address, expected = 'disabled'] = process.argv.slice(2);
+const [address, expected = 'disabled', provider = 'routerai'] =
+  process.argv.slice(2);
 try {
-  if (!address || !['enabled', 'disabled'].includes(expected))
-    throw new Error('Usage: npm run ai:smoke -- https://site.example disabled');
+  if (
+    !address ||
+    !['enabled', 'disabled'].includes(expected) ||
+    !['openrouter', 'routerai'].includes(provider)
+  )
+    throw new Error(
+      'Usage: npm run ai:smoke -- https://site.example disabled routerai',
+    );
   const origin = new URL(address);
   if (
     origin.origin !== address ||
@@ -44,13 +51,14 @@ try {
   if (
     !data ||
     typeof data !== 'object' ||
-    Object.keys(data).length !== 1 ||
+    Object.keys(data).some((key) => !['enabled', 'provider'].includes(key)) ||
+    (data.provider ?? 'openrouter') !== provider ||
     typeof data.enabled !== 'boolean' ||
     data.enabled !== (expected === 'enabled')
   )
     throw new Error('Health does not match the expected configuration.');
   console.info(
-    `AI preview: ${expected}; security headers checked. No student data or billable requests sent.`,
+    `AI preview: ${provider}/${expected}; security headers checked. No student data or billable requests sent.`,
   );
 } catch (cause) {
   console.error(

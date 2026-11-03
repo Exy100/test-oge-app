@@ -12,12 +12,16 @@ export async function checkDistSecrets(directory) {
     const name = relative(root, path);
     if (entry.isSymbolicLink())
       throw new Error(`Символическая ссылка в публичной сборке: ${name}`);
-    if (entry.name.toLowerCase().startsWith('.env'))
+    if (
+      entry.name.toLowerCase().startsWith('.env') ||
+      entry.name.toLowerCase().startsWith('.dev.vars')
+    )
       throw new Error(`Файл окружения в публичной сборке: ${name}`);
     if (!entry.isFile()) continue;
     const bytes = await readFile(path);
     if (
       bytes.includes(Buffer.from('sk-or-')) ||
+      /sk-[A-Za-z0-9_-]{24,}/u.test(bytes.toString('latin1')) ||
       /-----BEGIN (?:[A-Z]+ )*PRIVATE KEY-----/u.test(bytes.toString('latin1'))
     )
       throw new Error(`Признак секрета в публичной сборке: ${name}`);

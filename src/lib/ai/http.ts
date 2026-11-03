@@ -1,5 +1,6 @@
 import { z } from '../../core/zod';
 import { FeedbackError } from './contract';
+import { AI_PROVIDER } from './provider-config';
 
 export function apiError(code: string): FeedbackError {
   if (code === 'rate-minute' || code === 'rate-day')
@@ -131,8 +132,13 @@ export async function checkAiHealth(
   transport: typeof fetch = fetch,
 ) {
   const value = z
-    .strictObject({ enabled: z.boolean() })
+    .strictObject({
+      enabled: z.boolean(),
+      provider: z.enum(['openrouter', 'routerai']).optional(),
+    })
     .safeParse(await apiJson('/api/ai/health', undefined, signal, transport));
   if (!value.success) throw new FeedbackError('unavailable');
   if (!value.data.enabled) throw new FeedbackError('disabled');
+  if ((value.data.provider ?? 'openrouter') !== AI_PROVIDER)
+    throw new FeedbackError('unavailable');
 }

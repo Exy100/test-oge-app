@@ -53,7 +53,7 @@ export async function readyAiResult(page: Page, baseURL: string | undefined) {
   url.protocol = 'http:';
   url.port = '4324';
   await page.route('**/api/ai/health', (route) =>
-    route.fulfill({ json: { enabled: true } }),
+    route.fulfill({ json: { enabled: true, provider: 'routerai' } }),
   );
   await page.goto(url.href);
   await expect(
