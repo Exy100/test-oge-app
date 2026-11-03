@@ -107,6 +107,7 @@ async function readJson(request: Request): Promise<unknown> {
 export function createWorker(
   client?: OpenRouterClient,
   admit?: (request: Request) => Promise<void>,
+  provider: 'openrouter' | 'routerai' = 'openrouter',
 ) {
   return {
     async fetch(request: Request, env: Env): Promise<Response> {
@@ -134,7 +135,11 @@ export function createWorker(
       const method = health ? 'GET' : 'POST';
       if (request.method !== method)
         return error(405, 'method', 'Метод запроса не поддерживается.', method);
-      if (health) return json({ enabled: Boolean(client) });
+      if (health)
+        return json({
+          enabled: Boolean(client),
+          ...(provider === 'routerai' ? { provider } : {}),
+        });
       const media = request.headers
         .get('Content-Type')
         ?.split(';')[0]
@@ -201,17 +206,24 @@ export function createWorker(
 export function createConfiguredWorker(transport: typeof fetch = fetch) {
   return {
     async fetch(request: Request, env: Env): Promise<Response> {
-      if (env.AI_ENABLED !== 'true') return createWorker().fetch(request, env);
+      const provider =
+        env.AI_PROVIDER === 'routerai' ? 'routerai' : 'openrouter';
+      if (env.AI_ENABLED !== 'true')
+        return createWorker(undefined, undefined, provider).fetch(request, env);
       try {
         const access = createAccess(env, transport);
-        return await createWorker(access.client, access.admit).fetch(
+        return await createWorker(access.client, access.admit, provider).fetch(
           request,
           env,
         );
       } catch {
-        return createWorker(undefined, () => {
-          throw new TransportError('configuration');
-        }).fetch(request, env);
+        return createWorker(
+          undefined,
+          () => {
+            throw new TransportError('configuration');
+          },
+          provider,
+        ).fetch(request, env);
       }
     },
   };

@@ -49,7 +49,7 @@ test('API panel requires informed consent, safely renders, restores cache and in
   await start(page);
   const dialog = page.getByRole('dialog', { name: 'Разрешить разбор с ИИ?' });
   await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('OpenRouter');
+  await expect(dialog).toContainText('RouterAI');
   await expect(dialog).toContainText('Мой черновик');
   expect(calls).toBe(0);
   expect(

@@ -3,6 +3,7 @@ import demoUrl from './demo-provider.ts?module-url';
 import { importFreshModule } from '../fresh-module';
 import apiUrl from './api-provider.ts?module-url';
 import httpUrl from './http.ts?module-url';
+import { AI_API_ENABLED } from './provider-config';
 
 export interface FeedbackApi {
   load: () => Promise<FeedbackProvider>;
@@ -10,7 +11,7 @@ export interface FeedbackApi {
 }
 
 /** Public build setting; never inferred from a URL, stored preference or secret. */
-export const aiApiEnabled = import.meta.env.PUBLIC_AI_MODE === 'api';
+export const aiApiEnabled = AI_API_ENABLED;
 export const feedbackApi: FeedbackApi | undefined = aiApiEnabled
   ? {
       load: async () =>
