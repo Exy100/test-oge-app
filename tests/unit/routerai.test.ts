@@ -66,6 +66,7 @@ test.each([preparedFeedback, preparedSummary, preparedProgram, preparedOffice])(
       provider: { data_collection: 'deny' },
     });
     expect(providerPayload(init)).not.toHaveProperty('temperature');
+    expect(providerPayload(init)).not.toHaveProperty('reasoning');
     expect(JSON.stringify(providerPayload(init))).not.toContain(
       settings.ROUTERAI_API_KEY,
     );
@@ -95,6 +96,42 @@ test('RouterAI fallback stays at RouterAI and uses the second configured model',
     ],
   ]);
 });
+
+test.each(['routerai', 'openrouter'])(
+  '%s scopes the Opus request profile to its provider and resets it on fallback',
+  async (service) => {
+    const transport = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(null, { status: 429 }))
+      .mockResolvedValueOnce(completion(programGrade));
+    const response = await createOpenRouter(
+      {
+        ...settings,
+        AI_PROVIDER: service,
+        OPENROUTER_API_KEY: 'fixture-openrouter-credential',
+        AI_MODEL_PRIMARY: 'anthropic/claude-opus-5.5',
+      },
+      transport,
+    ).respond(preparedProgram, new AbortController().signal);
+    expect(await response.json()).toEqual(programGrade);
+    const first = providerPayload(transport.mock.calls[0]?.[1]);
+    const fallback = providerPayload(transport.mock.calls[1]?.[1]);
+    expect(first).toMatchObject({ max_tokens: 500, stream: false });
+    if (service === 'routerai') {
+      expect(first).toHaveProperty('reasoning.effort', 'low');
+      expect(JSON.stringify(first)).toContain('до 80 слов');
+    } else {
+      expect(first).not.toHaveProperty('reasoning');
+      expect(JSON.stringify(first)).not.toContain('до 80 слов');
+    }
+    expect(fallback).toMatchObject({
+      model: settings.AI_MODEL_FALLBACK,
+      max_tokens: 500,
+    });
+    expect(fallback).not.toHaveProperty('reasoning');
+    expect(JSON.stringify(fallback)).not.toContain('до 80 слов');
+  },
+);
 
 test.each([
   {
