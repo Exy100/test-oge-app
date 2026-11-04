@@ -60,7 +60,7 @@ test.each([preparedFeedback, preparedSummary, preparedProgram, preparedOffice])(
     expect(new Headers(init?.headers).get('Authorization')).toBe(
       'Bearer fixture-routerai-credential',
     );
-    expect(init?.redirect).toBe('error');
+    expect(init?.redirect).toBe('manual');
     expect(providerPayload(init)).toMatchObject({
       model: settings.AI_MODEL_PRIMARY,
       provider: { data_collection: 'deny' },

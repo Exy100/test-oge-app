@@ -4,6 +4,7 @@ import { createInterface } from 'node:readline/promises';
 import { Writable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 import { request as httpRequest } from 'node:http';
+import { createAiLocalWorker } from './ai-local-runtime.mjs';
 
 const root = new URL('../', import.meta.url);
 
@@ -19,7 +20,6 @@ export async function startAiLocal({
   process.env.PUBLIC_AI_MODE = 'api';
   process.env.PUBLIC_AI_PROVIDER = 'routerai';
   await import('./test-tls.mjs');
-  const { unstable_dev } = await import('wrangler');
   const { dev } = await import('astro');
   const origin = `https://127.0.0.1:${String(port)}`;
   let worker;
@@ -33,25 +33,7 @@ export async function startAiLocal({
       AI_IP_HMAC_SECRET:
         process.env.AI_IP_HMAC_SECRET ?? randomBytes(32).toString('hex'),
     };
-    worker = await unstable_dev(
-      fileURLToPath(new URL('worker/src/index.ts', root)),
-      {
-        config: fileURLToPath(new URL('worker/wrangler.toml', root)),
-        envFiles: [],
-        ip: '127.0.0.1',
-        port: workerPort,
-        local: true,
-        persist: true,
-        persistTo: fileURLToPath(new URL('.cache/ai-local/', root)),
-        logLevel: 'none',
-        // This Wrangler version consumes the CLI-shaped `var`, despite declaring `vars`.
-        // These values stay in-process; they are never passed as shell arguments.
-        var: Object.entries(bindings).map(
-          ([name, value]) => `${name}:${value}`,
-        ),
-        experimental: { disableExperimentalWarning: true, watch: false },
-      },
-    );
+    worker = await createAiLocalWorker({ bindings, port: workerPort });
     app = await dev({
       root: fileURLToPath(root),
       logLevel: 'silent',
@@ -174,7 +156,7 @@ async function readKey() {
   });
   try {
     process.stdout.write(
-      'Новый ключ RouterAI (ввод скрыт; только в памяти сервера): ',
+      'Ключ RouterAI (ввод скрыт; только в памяти сервера): ',
     );
     return (await input.question('')).trim();
   } finally {

@@ -74,7 +74,7 @@ for (const [prepared, tokens] of [
     const [url, init] = transport.mock.calls[0] ?? [];
     expect(url).toBe('https://openrouter.ai/api/v1/chat/completions');
     expect(init?.method).toBe('POST');
-    expect(init?.redirect).toBe('error');
+    expect(init?.redirect).toBe('manual');
     const headers = new Headers(init?.headers);
     expect(headers.get('Authorization')).toBe('Bearer fixture-credential');
     expect(headers.get('HTTP-Referer')).toBe(routerEnv.SITE_ORIGIN);

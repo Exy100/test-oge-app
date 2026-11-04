@@ -15,7 +15,7 @@ AI_PROVIDER = "routerai"
 AI_ENABLED = "false"
 # 10 students × 30 AI actions × up to 2 provider attempts per action, per UTC day.
 AI_DAILY_REQUEST_LIMIT = "600"
-# Owner-selected RouterAI model IDs. Actual completions still need a live API check.
+# Owner-selected RouterAI models; live local completions checked, public API stays disabled.
 AI_MODEL_PRIMARY = "openai/gpt-6-luna"
 AI_MODEL_FALLBACK = "anthropic/claude-sonnet-5.5"
 

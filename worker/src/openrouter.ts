@@ -88,7 +88,8 @@ export function createOpenRouter(
           scope.check();
           const pending = transport(endpoint, {
             method: 'POST',
-            redirect: 'error',
+            // Workers supports manual/follow only. Reject 3xx below without following.
+            redirect: 'manual',
             signal: scope.signal,
             headers: {
               'Content-Type': 'application/json',
