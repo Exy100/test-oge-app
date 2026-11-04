@@ -10,7 +10,12 @@ export default {
   async fetch(request: Request, env: AccessEnv & { SITE_ORIGIN: string }) {
     let calls = 0;
     const fallback = request.headers.get('X-Fixture-Fallback') === 'true';
-    const transport: typeof fetch = (_url, init) => {
+    const transport: typeof fetch = (url, init) => {
+      const expected =
+        env.AI_PROVIDER === 'routerai'
+          ? 'https://routerai.ru/api/v1/chat/completions'
+          : 'https://openrouter.ai/api/v1/chat/completions';
+      if (url !== expected) throw new Error('Unexpected provider destination');
       calls++;
       const payload = z
         .object({ stream: z.boolean() })

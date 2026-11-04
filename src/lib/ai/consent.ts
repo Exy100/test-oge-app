@@ -1,6 +1,7 @@
 import type { LocalStore } from '../../core/storage/store';
+import { AI_SERVICE_POLICY } from './service';
 
-export const AI_POLICY = 'openrouter-feedback-v1';
+export const AI_POLICY = AI_SERVICE_POLICY;
 export type AiMode = 'stream-feedback' | 'part2-grade' | 'variant-summary';
 export function hasAiConsent(
   store: LocalStore,

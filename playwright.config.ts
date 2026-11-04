@@ -93,7 +93,10 @@ export default defineConfig({
     },
     {
       command: 'npm run dev -- --host 127.0.0.1 --port 4324',
-      env: { PUBLIC_AI_MODE: 'api' },
+      env: {
+        PUBLIC_AI_MODE: 'api',
+        PUBLIC_AI_PROVIDER: process.env.OGE_TEST_AI_PROVIDER ?? 'openrouter',
+      },
       url: `http://127.0.0.1:4324${SITE_BASE}dev/ui/`,
       reuseExistingServer: false,
     },

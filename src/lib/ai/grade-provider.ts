@@ -1,5 +1,5 @@
 import { browserCache, browserStore } from '../../core/storage/browser';
-import { hasAiConsent } from './consent';
+import { AI_POLICY, hasAiConsent } from './consent';
 import { FeedbackError } from './contract';
 import { apiJson } from './http';
 import {
@@ -24,7 +24,7 @@ export async function gradeWork(
   )
     throw new FeedbackError('work-size');
   const cache = browserCache();
-  const mode = 'part2-grade/openrouter-feedback-v1';
+  const mode = `part2-grade/${AI_POLICY}`;
   const key = JSON.stringify(request.data);
   try {
     const cached = await cache.get(mode, String(taskNumber), key);

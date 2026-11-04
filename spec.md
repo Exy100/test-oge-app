@@ -522,6 +522,19 @@ ADR-058): обычная ссылка на существующий фильтр
 
 ### 11.1 Архитектура
 
+Дополнение 2026-11-04, ADR-070: владелец выбрал RouterAI с OpenAI-совместимым
+endpoint `https://routerai.ru/api/v1/chat/completions`. AI_PROVIDER=routerai
+использует только серверный ROUTERAI_API_KEY; openrouter и отсутствующая
+настройка сохраняют прежний сервис. Произвольный URL не принимается.
+PUBLIC_AI_PROVIDER задаёт имя сервиса в согласии; новая policy RouterAI
+не наследует разрешение OpenRouter, кэши разделены. X-AI-Provider сверяется
+сервером до лимитера/провайдера, несовпадение → 409; для POST RouterAI заголовок
+обязателен. Состав данных, пересборка, оценки, лимиты, бюджет и дедлайн сохранены.
+Основная модель — openai/gpt-6-luna, резервная — anthropic/claude-sonnet-5.5;
+Opus не добавляет третью попытку. AI_ENABLED=false до живой проверки.
+Локальная проверка разрешена без домена через npm run ai:local; это не внешний
+preview, не подтверждение приватности RouterAI и не закрытие Gate 6.
+
 Браузер → `POST /api/ai/<mode>` (Worker `ai-proxy`, тот же домен) → OpenRouter
 `https://openrouter.ai/api/v1/chat/completions`. Ключ — секрет Worker'а
 `OPENROUTER_API_KEY`. Клиент не знает ни ключа, ни модели, ни промптов.

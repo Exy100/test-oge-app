@@ -111,6 +111,7 @@ test('same-origin POST contains only identity and student input; no cookie, key,
     cache: 'no-store',
   });
   expect(new Headers(init?.headers).has('Authorization')).toBe(false);
+  expect(new Headers(init?.headers).get('X-AI-Provider')).toBe('openrouter');
   if (typeof init?.body !== 'string') throw new Error('Expected JSON body');
   expect(JSON.parse(init.body)).toEqual(request);
 });

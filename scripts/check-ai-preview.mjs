@@ -1,7 +1,14 @@
-const [address, expected = 'disabled'] = process.argv.slice(2);
+const [address, expected = 'disabled', provider = 'openrouter'] =
+  process.argv.slice(2);
 try {
-  if (!address || !['enabled', 'disabled'].includes(expected))
-    throw new Error('Usage: npm run ai:smoke -- https://site.example disabled');
+  if (
+    !address ||
+    !['enabled', 'disabled'].includes(expected) ||
+    !['openrouter', 'routerai'].includes(provider)
+  )
+    throw new Error(
+      'Usage: npm run ai:smoke -- https://site.example disabled routerai',
+    );
   const origin = new URL(address);
   if (
     origin.origin !== address ||
@@ -17,7 +24,7 @@ try {
       'Supply an HTTPS origin without a path; HTTP is allowed only on localhost.',
     );
   const response = await fetch(new URL('/api/ai/health', origin), {
-    headers: { Origin: origin.origin },
+    headers: { Origin: origin.origin, 'X-AI-Provider': provider },
     redirect: 'error',
     cache: 'no-store',
     signal: AbortSignal.timeout(5000),

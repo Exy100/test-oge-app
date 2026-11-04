@@ -9,15 +9,18 @@ export interface QuotaNamespace {
   };
 }
 export interface AccessEnv {
+  AI_PROVIDER?: string;
   AI_ENABLED?: string;
   AI_DAILY_REQUEST_LIMIT?: string;
   AI_IP_HMAC_SECRET?: string;
   AI_QUOTA?: QuotaNamespace;
   OPENROUTER_API_KEY?: string;
+  ROUTERAI_API_KEY?: string;
   AI_MODEL_PRIMARY?: string;
   AI_MODEL_FALLBACK?: string;
 }
 const configSchema = z.object({
+  AI_PROVIDER: z.enum(['openrouter', 'routerai']).default('openrouter'),
   AI_ENABLED: z.literal('true'),
   AI_DAILY_REQUEST_LIMIT: dailyLimit,
   AI_IP_HMAC_SECRET: z
@@ -25,7 +28,8 @@ const configSchema = z.object({
     .min(32)
     .max(256)
     .regex(/^[!-~]+$/u),
-  OPENROUTER_API_KEY: z.string(),
+  OPENROUTER_API_KEY: z.string().optional(),
+  ROUTERAI_API_KEY: z.string().optional(),
   AI_MODEL_PRIMARY: z.string(),
   AI_MODEL_FALLBACK: z.string(),
   SITE_ORIGIN: z.string(),

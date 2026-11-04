@@ -2,6 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { PREFIX, defaults } from '../../src/core/storage/schemas';
 
+const service =
+  process.env.OGE_TEST_AI_PROVIDER === 'routerai' ? 'routerai' : 'openrouter';
+
 const markdown =
   '### Итог\nРазбор $2^3$. [[lesson:bits-bytes]] [[stream:10]] [[lesson:missing]] [чужой](https://outside.test/) <img src=x onerror=alert(1)>';
 const body = `data: ${JSON.stringify({ delta: markdown })}\n\ndata: [DONE]\n\n`;
@@ -32,6 +35,7 @@ test('API panel requires informed consent, safely renders, restores cache and in
   await page.route('**/api/ai/stream-feedback', async (route) => {
     calls++;
     expect(route.request().method()).toBe('POST');
+    expect(route.request().headers()['x-ai-provider']).toBe(service);
     expect(route.request().postDataJSON()).toMatchObject({
       generatorId: 'numeral-sum-v2',
       answer: '1',
@@ -39,9 +43,24 @@ test('API panel requires informed consent, safely renders, restores cache and in
     await route.fulfill({ contentType: 'text/event-stream', body });
   });
   await ready(page, baseURL);
-  await page.evaluate((key) => {
-    localStorage.setItem(key, JSON.stringify({ version: 1, enabled: true }));
-  }, PREFIX + 'aiConsent');
+  await page.evaluate(
+    ({ key, provider }) => {
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          version: 1,
+          enabled: true,
+          ...(provider === 'routerai'
+            ? {
+                policy: 'openrouter-feedback-v1',
+                modes: ['stream-feedback', 'part2-grade', 'variant-summary'],
+              }
+            : {}),
+        }),
+      );
+    },
+    { key: PREFIX + 'aiConsent', provider: service },
+  );
   await page.reload();
   await expect(
     page.getByRole('group', { name: 'Клиентский разбор' }),
@@ -49,7 +68,9 @@ test('API panel requires informed consent, safely renders, restores cache and in
   await start(page);
   const dialog = page.getByRole('dialog', { name: 'Разрешить разбор с ИИ?' });
   await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('OpenRouter');
+  await expect(dialog).toContainText(
+    service === 'routerai' ? 'RouterAI' : 'OpenRouter',
+  );
   await expect(dialog).toContainText('Мой черновик');
   expect(calls).toBe(0);
   expect(

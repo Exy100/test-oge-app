@@ -1,4 +1,5 @@
 import { z } from '../../src/core/zod';
+import { aiServiceId } from '../../src/core/ai-service';
 import type { PreparedRequest } from './prepare-request';
 import { buildPrompt } from './prompts';
 import { parseGrade } from './grade-response';
@@ -12,7 +13,9 @@ import {
 } from './transport';
 
 export interface OpenRouterEnv {
-  OPENROUTER_API_KEY: string;
+  AI_PROVIDER?: string | undefined;
+  OPENROUTER_API_KEY?: string | undefined;
+  ROUTERAI_API_KEY?: string | undefined;
   AI_MODEL_PRIMARY: string;
   AI_MODEL_FALLBACK: string;
   SITE_ORIGIN: string;
@@ -27,7 +30,7 @@ const model = z
   .max(200);
 const configSchema = z
   .object({
-    OPENROUTER_API_KEY: z.string().regex(/^[!-~]+$/u),
+    API_KEY: z.string().regex(/^[!-~]+$/u),
     AI_MODEL_PRIMARY: model,
     AI_MODEL_FALLBACK: model,
     SITE_ORIGIN: z.url().refine((value) => {
@@ -56,7 +59,21 @@ export function createOpenRouter(
   env: OpenRouterEnv,
   transport: typeof fetch = fetch,
 ): OpenRouterClient {
-  const parsed = configSchema.safeParse(env);
+  let service: ReturnType<typeof aiServiceId>;
+  try {
+    service = aiServiceId(env.AI_PROVIDER);
+  } catch {
+    throw new TransportError('configuration');
+  }
+  const endpoint =
+    service === 'routerai'
+      ? 'https://routerai.ru/api/v1/chat/completions'
+      : 'https://openrouter.ai/api/v1/chat/completions';
+  const parsed = configSchema.safeParse({
+    ...env,
+    API_KEY:
+      service === 'routerai' ? env.ROUTERAI_API_KEY : env.OPENROUTER_API_KEY,
+  });
   if (!parsed.success) throw new TransportError('configuration');
   const config = parsed.data;
   return {
@@ -69,32 +86,30 @@ export function createOpenRouter(
         const stream = prepared.mode !== 'part2-grade';
         for (let attempt = 0; attempt < 2; attempt++) {
           scope.check();
-          const pending = transport(
-            'https://openrouter.ai/api/v1/chat/completions',
-            {
-              method: 'POST',
-              redirect: 'error',
-              signal: scope.signal,
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${config.OPENROUTER_API_KEY}`,
-                'HTTP-Referer': config.SITE_ORIGIN,
-                'X-Title': 'OGE Informatics',
-              },
-              body: JSON.stringify({
-                model:
-                  attempt === 0
-                    ? config.AI_MODEL_PRIMARY
-                    : config.AI_MODEL_FALLBACK,
-                messages: prompt.messages,
-                provider: { data_collection: 'deny' },
-                max_tokens: maxTokens[prepared.mode],
-                temperature: 0.3,
-                stream,
-                ...(stream ? {} : { response_format: { type: 'json_object' } }),
-              }),
+          const pending = transport(endpoint, {
+            method: 'POST',
+            redirect: 'error',
+            signal: scope.signal,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${config.API_KEY}`,
+              'HTTP-Referer': config.SITE_ORIGIN,
+              'X-Title': 'OGE Informatics',
             },
-          );
+            body: JSON.stringify({
+              model:
+                attempt === 0
+                  ? config.AI_MODEL_PRIMARY
+                  : config.AI_MODEL_FALLBACK,
+              messages: prompt.messages,
+              provider: { data_collection: 'deny' },
+              max_tokens: maxTokens[prepared.mode],
+              // Selected RouterAI endpoints do not advertise temperature support.
+              ...(service === 'openrouter' ? { temperature: 0.3 } : {}),
+              stream,
+              ...(stream ? {} : { response_format: { type: 'json_object' } }),
+            }),
+          });
           void pending.then(
             (response) => {
               if (scope.signal.aborted) discard(response.body);

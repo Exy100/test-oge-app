@@ -15,6 +15,7 @@ test('health is same-origin, private and accepts only a strict enabled response'
       credentials: 'omit',
       cache: 'no-store',
       redirect: 'error',
+      headers: { 'X-AI-Provider': 'openrouter' },
     }),
   );
   for (const body of [

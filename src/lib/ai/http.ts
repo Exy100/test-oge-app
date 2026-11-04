@@ -1,5 +1,6 @@
 import { z } from '../../core/zod';
 import { FeedbackError } from './contract';
+import { aiServiceHeaders } from './service';
 
 export function apiError(code: string): FeedbackError {
   if (code === 'rate-minute' || code === 'rate-day')
@@ -51,10 +52,14 @@ export async function apiJson(
       credentials: 'omit',
       redirect: 'error',
       cache: 'no-store',
+      headers: aiServiceHeaders,
       ...(input === undefined
         ? {}
         : {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              ...aiServiceHeaders,
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify(input),
           }),
       signal: controller.signal,

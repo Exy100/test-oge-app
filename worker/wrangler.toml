@@ -11,12 +11,13 @@ enabled = false
 [vars]
 # Owner-editable server settings. Keep disabled until both models and secrets are set.
 SITE_ORIGIN = "https://exy100.github.io"
+AI_PROVIDER = "routerai"
 AI_ENABLED = "false"
 # 10 students × 30 AI actions × up to 2 provider attempts per action, per UTC day.
 AI_DAILY_REQUEST_LIMIT = "600"
-# Exact OpenRouter model IDs; two different models are required before enabling.
-AI_MODEL_PRIMARY = ""
-AI_MODEL_FALLBACK = ""
+# Owner-selected RouterAI model IDs. Actual completions still need a live API check.
+AI_MODEL_PRIMARY = "openai/gpt-6-luna"
+AI_MODEL_FALLBACK = "anthropic/claude-sonnet-5.5"
 
 [[durable_objects.bindings]]
 name = "AI_QUOTA"
