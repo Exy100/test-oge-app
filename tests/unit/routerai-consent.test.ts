@@ -89,7 +89,7 @@ test('provider-specific cache does not reuse an old completed OpenRouter respons
     cache,
   );
   expect(cache.snapshot().entries.map((entry) => entry.mode)).toContain(
-    'stream-feedback/openrouter-feedback-v1',
+    'stream-feedback/openrouter-feedback-v1/responses-v2',
   );
   const { feedback } = await modules();
   let calls = 0;
@@ -113,6 +113,6 @@ test('provider-specific cache does not reuse an old completed OpenRouter respons
   expect(html).toContain('Новый разбор');
   expect(html).not.toContain('Старый разбор');
   expect(cache.snapshot().entries.map((entry) => entry.mode)).toContain(
-    'stream-feedback/routerai-feedback-v1',
+    'stream-feedback/routerai-feedback-v1/responses-v2',
   );
 });

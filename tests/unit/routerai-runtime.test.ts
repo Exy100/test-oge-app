@@ -62,6 +62,7 @@ test('RouterAI routes both pairs through the real Workers runtime and SQLite quo
         headers: {
           Origin: routerAiSettings.SITE_ORIGIN,
           'Content-Type': 'application/json',
+          'X-AI-Provider': 'routerai',
           'X-Fixture-Fallback': String(fallback),
         },
         body: JSON.stringify(body),

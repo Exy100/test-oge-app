@@ -23,26 +23,28 @@ const taskNumbers = z
   .transform((values) => values.map(Number));
 const configSchema = z
   .object({
-    AI_API_BASE_URL: z.literal('https://routerai.ru/api/v1'),
+    AI_API_BASE_URL: z
+      .literal('https://routerai.ru/api/v1')
+      .default('https://routerai.ru/api/v1'),
     ROUTERAI_API_KEY: z
       .string()
       .min(1)
       .max(512)
       .regex(/^[!-~]+$/u),
-    AI_MODEL_SIMPLE: modelSchema,
+    AI_MODEL_SIMPLE: modelSchema.optional(),
     AI_MODEL_PRIMARY: modelSchema,
     AI_MODEL_FALLBACK: modelSchema,
-    AI_SIMPLE_TASK_NUMBERS: taskNumbers,
-    AI_REASONING_EFFORT: z.enum(['low', 'medium', 'high']),
+    AI_SIMPLE_TASK_NUMBERS: taskNumbers.default([]),
+
     SITE_ORIGIN: originSchema,
   })
   .refine(
     (value) =>
-      new Set([
-        value.AI_MODEL_SIMPLE,
-        value.AI_MODEL_PRIMARY,
-        value.AI_MODEL_FALLBACK,
-      ]).size === 3,
+      value.AI_MODEL_PRIMARY !== value.AI_MODEL_FALLBACK &&
+      (value.AI_SIMPLE_TASK_NUMBERS.length === 0 ||
+        (value.AI_MODEL_SIMPLE !== undefined &&
+          value.AI_MODEL_SIMPLE !== value.AI_MODEL_PRIMARY &&
+          value.AI_MODEL_SIMPLE !== value.AI_MODEL_FALLBACK)),
   );
 
 /** Routing uses the reconstructed task, never a client-supplied number/model. */
@@ -58,11 +60,13 @@ export function createRouterAi(env: unknown, transport: typeof fetch = fetch) {
       models: (prepared) =>
         prepared.mode === 'stream-feedback' &&
         config.AI_SIMPLE_TASK_NUMBERS.includes(prepared.task.taskNumber)
-          ? [config.AI_MODEL_SIMPLE, config.AI_MODEL_PRIMARY]
+          ? [
+              config.AI_MODEL_SIMPLE ?? config.AI_MODEL_PRIMARY,
+              config.AI_MODEL_PRIMARY,
+            ]
           : [config.AI_MODEL_PRIMARY, config.AI_MODEL_FALLBACK],
       parameters: {
         provider: { data_collection: 'deny' },
-        reasoning: { effort: config.AI_REASONING_EFFORT },
         include_reasoning: false,
       },
     },

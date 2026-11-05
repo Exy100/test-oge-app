@@ -1,3 +1,4 @@
+import { createRouterAi } from './routerai';
 import { z } from '../../src/core/zod';
 import {
   createChatCompletions,
@@ -8,7 +9,9 @@ import {
 import { TransportError } from './transport';
 
 export interface OpenRouterEnv {
-  OPENROUTER_API_KEY: string;
+  OPENROUTER_API_KEY?: string | undefined;
+  ROUTERAI_API_KEY?: string | undefined;
+  AI_PROVIDER?: string | undefined;
   AI_MODEL_PRIMARY: string;
   AI_MODEL_FALLBACK: string;
   SITE_ORIGIN: string;
@@ -29,6 +32,9 @@ export function createOpenRouter(
   env: OpenRouterEnv,
   transport: typeof fetch = fetch,
 ): OpenRouterClient {
+  if (env.AI_PROVIDER === 'routerai') return createRouterAi(env, transport);
+  if (env.AI_PROVIDER !== undefined && env.AI_PROVIDER !== 'openrouter')
+    throw new TransportError('configuration');
   const parsed = configSchema.safeParse(env);
   if (!parsed.success) throw new TransportError('configuration');
   const config = parsed.data;

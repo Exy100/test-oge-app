@@ -1,7 +1,7 @@
 import type { ReactNode, RefObject } from 'react';
 import { Modal } from '../ui/Modal';
 import { sitePath } from '../../lib/site';
-import { AI_PROVIDER_NAME } from '../../lib/ai/provider-config';
+import { AI_SERVICE_NAME } from '../../lib/ai/service';
 
 export default function AiConsent({
   open,
@@ -24,7 +24,7 @@ export default function AiConsent({
       onClose={close}
     >
       <p>
-        Наш сервер передаст указанные ниже данные через {AI_PROVIDER_NAME}{' '}
+        Наш сервер передаст указанные ниже данные через {AI_SERVICE_NAME}{' '}
         провайдеру модели. Не пиши личные данные. Согласие относится к этому
         виду разбора; отозвать его можно в{' '}
         <a href={sitePath('/settings/')}>настройках</a>.

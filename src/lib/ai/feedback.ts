@@ -1,5 +1,5 @@
 import { renderFeedback } from './render';
-import { AI_POLICY } from './consent';
+import { AI_CACHE_POLICY } from './service';
 import type { SessionCache } from '../../core/storage/cache';
 import {
   summaryRequestSchema,
@@ -64,7 +64,7 @@ export async function consumeCachedSummary(
 ): Promise<string> {
   signal.throwIfAborted();
   const request = summaryRequestSchema.parse(input);
-  const mode = `variant-summary/${AI_POLICY}`;
+  const mode = `variant-summary/${AI_CACHE_POLICY}`;
   const identity = (await cache.key('identity', 'summary', request.variantSeed))
     .answerHash;
   const content = JSON.stringify([request.results, request.part2Self]);
@@ -120,7 +120,7 @@ export async function consumeCachedFeedback(
     )
   ).answerHash;
   const answer = JSON.stringify([request.answer, request.reasoning ?? '']);
-  const mode = `stream-feedback/${AI_POLICY}`;
+  const mode = `stream-feedback/${AI_CACHE_POLICY}`;
   let cached: string | undefined;
   try {
     cached = await cache.get(mode, taskId, answer);

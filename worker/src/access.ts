@@ -15,7 +15,6 @@ export interface AccessEnv {
   ROUTERAI_API_KEY?: string;
   AI_MODEL_SIMPLE?: string;
   AI_SIMPLE_TASK_NUMBERS?: string;
-  AI_REASONING_EFFORT?: string;
   AI_ENABLED?: string;
   AI_DAILY_REQUEST_LIMIT?: string;
   AI_IP_HMAC_SECRET?: string;

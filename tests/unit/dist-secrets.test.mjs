@@ -29,15 +29,15 @@ test('scans nested text and binary assets', async () => {
   expect(await checkDistSecrets(root)).toBe(2);
 });
 
-test.each(['provider marker', 'routerai marker', 'private key'])(
+test.each(['provider marker', 'RouterAI key', 'private key'])(
   'rejects %s inside a binary asset without logging its content',
   async (kind) => {
     const root = await fixture();
     const marker =
       kind === 'provider marker'
         ? ['sk', 'or', 'probe'].join('-')
-        : kind === 'routerai marker'
-          ? ['sk', 'a'.repeat(32)].join('-')
+        : kind === 'RouterAI key'
+          ? ['sk', 'syntheticProbeValue'.repeat(2)].join('-')
           : ['-----BEGIN', 'PRIVATE KEY-----'].join(' ');
     await writeFile(
       join(root, 'asset.bin'),

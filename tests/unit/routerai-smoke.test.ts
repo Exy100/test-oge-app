@@ -1,3 +1,8 @@
+import {
+  nativeStreamResponse,
+  nativeCompletion,
+} from '../fixtures/anthropic-data';
+import { programGrade } from '../fixtures/openrouter-data';
 import { expect, test, vi } from 'vitest';
 import {
   probeRouterAi,
@@ -15,8 +20,12 @@ test('manual smoke probes all three models using synthetic inputs and returns no
   const transport = vi.fn<typeof fetch>((_url, init) =>
     Promise.resolve(
       z.object({ stream: z.boolean() }).parse(providerPayload(init)).stream
-        ? providerStream()
-        : completion(),
+        ? _url === 'https://routerai.ru/api/v1/messages'
+          ? nativeStreamResponse()
+          : providerStream()
+        : _url === 'https://routerai.ru/api/v1/messages'
+          ? nativeCompletion(programGrade)
+          : completion(),
     ),
   );
   const probe = routerAiProbeTransport(transport);
@@ -51,8 +60,12 @@ test('provider fallback cannot exceed the manual smoke cap of three external att
     .mockImplementation((_url, init) =>
       Promise.resolve(
         z.object({ stream: z.boolean() }).parse(providerPayload(init)).stream
-          ? providerStream()
-          : completion(),
+          ? _url === 'https://routerai.ru/api/v1/messages'
+            ? nativeStreamResponse()
+            : providerStream()
+          : _url === 'https://routerai.ru/api/v1/messages'
+            ? nativeCompletion(programGrade)
+            : completion(),
       ),
     );
   const probe = routerAiProbeTransport(transport);

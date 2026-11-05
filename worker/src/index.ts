@@ -3,6 +3,7 @@ import { buildPrompt } from './prompts';
 import type { OpenRouterClient } from './openrouter';
 import { TransportError } from './transport';
 import { createAccess, type AccessEnv } from './access';
+import { aiServiceId } from '../../src/core/ai-service';
 
 export { createOpenRouter } from './openrouter';
 export { AiQuota } from './quota-object';
@@ -128,6 +129,20 @@ export function createWorker(
         )
       )
         return error(403, 'origin', 'Запрос с этого сайта не разрешён.');
+      let service: ReturnType<typeof aiServiceId>;
+      try {
+        service = aiServiceId(env.AI_PROVIDER);
+      } catch {
+        return error(503, 'configuration', 'Сервис разбора недоступен.');
+      }
+      const expectedService = request.headers.get('X-AI-Provider');
+      if (
+        (expectedService !== null && expectedService !== service) ||
+        (service === 'routerai' &&
+          request.method === 'POST' &&
+          expectedService === null)
+      )
+        return error(409, 'provider', 'Обнови страницу и проверь сервис ИИ.');
       const prepare = Object.entries(prepareRequests).find(
         ([path]) => path === url.pathname,
       )?.[1];

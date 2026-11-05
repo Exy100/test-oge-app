@@ -1,6 +1,8 @@
+import { AI_CLIENT_TIMEOUT_MS } from './service';
 import { z } from '../../core/zod';
 import { browserStore } from '../../core/storage/browser';
 import { hasAiConsent } from './consent';
+import { aiServiceHeaders } from './service';
 import { summaryRequestSchema, type SummaryProvider } from './summary-contract';
 import {
   FeedbackError,
@@ -90,7 +92,7 @@ function createMarkdownProvider<T>(
       parent.addEventListener('abort', abort, { once: true });
       const timer = setTimeout(() => {
         controller.abort(new FeedbackError('timeout'));
-      }, 30_000);
+      }, AI_CLIENT_TIMEOUT_MS);
       let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
       let done = false;
       try {
@@ -99,7 +101,7 @@ function createMarkdownProvider<T>(
           credentials: 'omit',
           redirect: 'error',
           cache: 'no-store',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { ...aiServiceHeaders, 'Content-Type': 'application/json' },
           body: JSON.stringify(parsed.data),
           signal: controller.signal,
         });

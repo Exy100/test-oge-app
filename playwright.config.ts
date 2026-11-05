@@ -95,7 +95,7 @@ export default defineConfig({
       command: 'npm run dev -- --host 127.0.0.1 --port 4324',
       env: {
         PUBLIC_AI_MODE: 'api',
-        PUBLIC_AI_PROVIDER: 'routerai',
+        PUBLIC_AI_PROVIDER: process.env.OGE_TEST_AI_PROVIDER ?? 'routerai',
         OGE_E2E_DEV_SERVER: '1',
       },
       url: `http://127.0.0.1:4324${SITE_BASE}dev/ui/`,

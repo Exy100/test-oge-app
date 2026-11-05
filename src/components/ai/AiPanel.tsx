@@ -17,7 +17,7 @@ import { sitePath } from '../../lib/site';
 import { lessonStreamHref } from '../../lib/lessons/links';
 import { browserCache, browserStore } from '../../core/storage/browser';
 import { hasAiConsent, grantAiConsent } from '../../lib/ai/consent';
-import { AI_PROVIDER_NAME } from '../../lib/ai/provider-config';
+import { AI_SERVICE_NAME } from '../../lib/ai/service';
 import { Modal } from '../ui/Modal';
 import '../../styles/task-card.css';
 
@@ -139,7 +139,7 @@ function Panel({ request, taskNumber, api }: Props) {
       </p>
       <p>
         {api
-          ? `Отправка через наш сервер и ${AI_PROVIDER_NAME}. Решение и баллы проверяются отдельно от текста ИИ.`
+          ? `Отправка через наш сервер и ${AI_SERVICE_NAME}. Решение и баллы проверяются отдельно от текста ИИ.`
           : feedbackSource.notice}
       </p>
       <div className="task-actions">
@@ -209,7 +209,7 @@ function Panel({ request, taskNumber, api }: Props) {
         >
           <p>
             Наш сервер передаст условие задания №{taskNumber}, твой ответ и
-            черновик через {AI_PROVIDER_NAME} провайдеру модели. Не пиши личные
+            черновик через {AI_SERVICE_NAME} провайдеру модели. Не пиши личные
             данные.
           </p>
           <p>Твой ответ:</p>

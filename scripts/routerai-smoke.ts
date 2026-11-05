@@ -14,7 +14,10 @@ export function routerAiProbeTransport(transport: typeof fetch) {
         typeof url === 'string' ? url : url instanceof URL ? url.href : url.url;
       if (
         state.calls >= 3 ||
-        address !== 'https://routerai.ru/api/v1/chat/completions'
+        ![
+          'https://routerai.ru/api/v1/chat/completions',
+          'https://routerai.ru/api/v1/messages',
+        ].includes(address)
       )
         throw new Error('Probe request limit');
       state.calls++;
@@ -33,6 +36,10 @@ export async function probeRouterAi(
 ) {
   const base: Record<string, unknown> = {
     ...settings,
+    AI_MODEL_SIMPLE: 'openai/gpt-6-luna',
+    AI_SIMPLE_TASK_NUMBERS: '1,2,3,4',
+    AI_MODEL_PRIMARY: 'anthropic/claude-sonnet-5.5',
+    AI_MODEL_FALLBACK: 'anthropic/claude-opus-5.5',
     ROUTERAI_API_KEY: apiKey,
   };
   const cases = [

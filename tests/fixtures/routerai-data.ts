@@ -12,7 +12,6 @@ export const routerAiSettings = {
   AI_MODEL_PRIMARY: 'anthropic/claude-sonnet-5.5',
   AI_MODEL_FALLBACK: 'anthropic/claude-opus-5.5',
   AI_SIMPLE_TASK_NUMBERS: '1,2,3,4',
-  AI_REASONING_EFFORT: 'low',
 };
 export function routerAiFeedback(number: number) {
   const generator = generators.find((entry) => entry.taskNumber === number);

@@ -1,4 +1,4 @@
-const [address, expected = 'disabled', provider = 'routerai'] =
+const [address, expected = 'disabled', provider = 'openrouter'] =
   process.argv.slice(2);
 try {
   if (
@@ -24,7 +24,7 @@ try {
       'Supply an HTTPS origin without a path; HTTP is allowed only on localhost.',
     );
   const response = await fetch(new URL('/api/ai/health', origin), {
-    headers: { Origin: origin.origin },
+    headers: { Origin: origin.origin, 'X-AI-Provider': provider },
     redirect: 'error',
     cache: 'no-store',
     signal: AbortSignal.timeout(5000),

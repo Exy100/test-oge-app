@@ -302,6 +302,10 @@ jobs:
       - name: Run all browser and accessibility tests
         run: npx playwright test --shard=${{ matrix.shard }}/16
 
+      - name: Check local RouterAI application and actual Worker without a provider key
+        if: matrix.shard == 1
+        run: npm run ai:check
+
       - name: Show failed browser page context
         if: failure()
         run: |

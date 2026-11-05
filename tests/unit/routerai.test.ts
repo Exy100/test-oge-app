@@ -1,258 +1,252 @@
+import {
+  nativeStreamResponse,
+  nativeCompletion,
+} from '../fixtures/anthropic-data';
 import { afterEach, expect, test, vi } from 'vitest';
-import { z } from '../../src/core/zod';
-import { createRouterAi } from '../../worker/src/routerai';
-import { TransportError } from '../../worker/src/transport';
-import { createConfiguredWorker } from '../../worker/src/index';
-import { routerAiSettings, routerAiFeedback } from '../fixtures/routerai-data';
+import { aiServiceId } from '../../src/core/ai-service';
+import { LocalStore } from '../../src/core/storage/store';
+import { createOpenRouter } from '../../worker/src/openrouter';
+import { createConfiguredWorker, createWorker } from '../../worker/src/index';
 import { quotaFixture } from '../fixtures/ai-quota';
 import {
-  providerPayload,
-  providerStream,
-  completion,
+  routerEnv,
+  preparedFeedback,
+  preparedSummary,
   preparedProgram,
   preparedOffice,
-  preparedSummary,
+  feedbackInput,
   programGrade,
   officeGrade,
+  completion,
+  providerStream,
+  providerPayload,
 } from '../fixtures/openrouter-data';
 
+const settings = {
+  SITE_ORIGIN: routerEnv.SITE_ORIGIN,
+  AI_PROVIDER: 'routerai',
+  ROUTERAI_API_KEY: 'fixture-routerai-credential',
+  AI_MODEL_PRIMARY: 'openai/gpt-6-luna',
+  AI_MODEL_FALLBACK: 'anthropic/claude-sonnet-5.5',
+};
 afterEach(() => {
-  vi.restoreAllMocks();
+  vi.unstubAllEnvs();
+  vi.resetModules();
 });
-const signal = () => new AbortController().signal;
-function selected(transport: ReturnType<typeof vi.fn<typeof fetch>>) {
-  return transport.mock.calls.map(
-    ([, init]) =>
-      z.object({ model: z.string() }).parse(providerPayload(init)).model,
-  );
-}
-for (let number = 1; number <= 12; number++) {
-  test(`reconstructed short-answer task ${String(number)} selects the configured primary`, async () => {
+
+test.each([preparedFeedback, preparedSummary, preparedProgram, preparedOffice])(
+  'RouterAI serves $mode with the configured recipient, key and existing response contract',
+  async (prepared) => {
     const transport = vi.fn<typeof fetch>(() =>
-      Promise.resolve(providerStream()),
+      Promise.resolve(
+        prepared.mode === 'part2-grade'
+          ? completion(
+              prepared.assessment.kind === 'criteria-help'
+                ? officeGrade
+                : programGrade,
+            )
+          : providerStream(),
+      ),
     );
-    const response = await createRouterAi(routerAiSettings, transport).respond(
-      routerAiFeedback(number).prepared,
-      signal(),
+    const response = await createOpenRouter(settings, transport).respond(
+      prepared,
+      new AbortController().signal,
     );
-    expect(await response.text()).toContain('data: [DONE]');
-    expect(selected(transport)).toEqual([
-      number <= 4
-        ? routerAiSettings.AI_MODEL_SIMPLE
-        : routerAiSettings.AI_MODEL_PRIMARY,
-    ]);
+    if (prepared.mode === 'part2-grade')
+      expect(await response.json()).toEqual(
+        prepared.assessment.kind === 'criteria-help'
+          ? officeGrade
+          : programGrade,
+      );
+    else expect(await response.text()).toContain('data: [DONE]');
     const [url, init] = transport.mock.calls[0] ?? [];
     expect(url).toBe('https://routerai.ru/api/v1/chat/completions');
-    expect(init?.redirect).toBe('error');
     expect(new Headers(init?.headers).get('Authorization')).toBe(
       'Bearer fixture-routerai-credential',
     );
+    expect(init?.redirect).toBe('manual');
     expect(providerPayload(init)).toMatchObject({
-      max_tokens: 700,
-      reasoning: { effort: 'low' },
-      include_reasoning: false,
+      model: settings.AI_MODEL_PRIMARY,
       provider: { data_collection: 'deny' },
     });
+    expect(providerPayload(init)).not.toHaveProperty('temperature');
+    expect(providerPayload(init)).toHaveProperty('reasoning.effort', 'high');
     expect(JSON.stringify(providerPayload(init))).not.toContain(
-      routerAiSettings.ROUTERAI_API_KEY,
+      settings.ROUTERAI_API_KEY,
     );
-  });
-}
-for (const [prepared, grade, tokens] of [
-  [preparedProgram, programGrade, 500],
-  [preparedOffice, officeGrade, 500],
-  [preparedSummary, null, 1200],
-] as const) {
-  test(`${prepared.mode}/${'assessment' in prepared ? prepared.assessment.kind : 'summary'} uses Sonnet independently of the simple list`, async () => {
-    const transport = vi.fn<typeof fetch>(() =>
-      Promise.resolve(grade ? completion(grade) : providerStream()),
-    );
-    const response = await createRouterAi(routerAiSettings, transport).respond(
-      prepared,
-      signal(),
-    );
-    if (grade) expect(await response.json()).toEqual(grade);
-    else expect(await response.text()).toContain('data: [DONE]');
-    expect(selected(transport)).toEqual([routerAiSettings.AI_MODEL_PRIMARY]);
-    expect(providerPayload(transport.mock.calls[0]?.[1])).toMatchObject({
-      max_tokens: tokens,
-    });
-  });
-}
-for (const number of [1, 10]) {
-  for (const status of [429, 503]) {
-    test(`task ${String(number)} HTTP ${String(status)} uses exactly its configured fallback`, async () => {
-      const transport = vi
-        .fn<typeof fetch>()
-        .mockResolvedValueOnce(new Response(null, { status }))
-        .mockResolvedValueOnce(providerStream());
-      const response = await createRouterAi(
-        routerAiSettings,
-        transport,
-      ).respond(routerAiFeedback(number).prepared, signal());
-      await response.text();
-      expect(selected(transport)).toEqual(
-        number === 1
-          ? [
-              routerAiSettings.AI_MODEL_SIMPLE,
-              routerAiSettings.AI_MODEL_PRIMARY,
-            ]
-          : [
-              routerAiSettings.AI_MODEL_PRIMARY,
-              routerAiSettings.AI_MODEL_FALLBACK,
-            ],
-      );
-      expect(transport).toHaveBeenCalledTimes(2);
-    });
-  }
-}
-test('two simple-route failures stop at Sonnet without escalating to Opus', async () => {
-  const transport = vi.fn<typeof fetch>(() =>
-    Promise.resolve(new Response(null, { status: 503 })),
-  );
-  await expect(
-    createRouterAi(routerAiSettings, transport).respond(
-      routerAiFeedback(1).prepared,
-      signal(),
-    ),
-  ).rejects.toMatchObject({ code: 'upstream' });
-  expect(selected(transport)).toEqual([
-    routerAiSettings.AI_MODEL_SIMPLE,
-    routerAiSettings.AI_MODEL_PRIMARY,
-  ]);
-});
-test('invalid preliminary score retries with Opus and returns only validated JSON', async () => {
-  const transport = vi
-    .fn<typeof fetch>()
-    .mockResolvedValueOnce(completion({ ...programGrade, score: 3 }))
-    .mockResolvedValueOnce(completion());
-  const response = await createRouterAi(routerAiSettings, transport).respond(
-    preparedProgram,
-    signal(),
-  );
-  expect(await response.json()).toEqual(programGrade);
-  expect(selected(transport)).toEqual([
-    routerAiSettings.AI_MODEL_PRIMARY,
-    routerAiSettings.AI_MODEL_FALLBACK,
-  ]);
-});
-test('editable list can move task 10 to Luna while task 1 uses Sonnet; empty list disables simple routing', async () => {
-  const transport = vi.fn<typeof fetch>(() =>
-    Promise.resolve(providerStream()),
-  );
-  for (const [list, number, expected] of [
-    ['10, 12', 10, routerAiSettings.AI_MODEL_SIMPLE],
-    ['10, 12', 1, routerAiSettings.AI_MODEL_PRIMARY],
-    ['', 1, routerAiSettings.AI_MODEL_PRIMARY],
-  ] as const) {
-    const response = await createRouterAi(
-      { ...routerAiSettings, AI_SIMPLE_TASK_NUMBERS: list },
-      transport,
-    ).respond(routerAiFeedback(number).prepared, signal());
-    await response.text();
-    expect(selected(transport).at(-1)).toBe(expected);
-  }
-});
-for (const change of [
-  { ROUTERAI_API_KEY: '' },
-  { ROUTERAI_API_KEY: 'invalid\nheader' },
-  { AI_API_BASE_URL: 'https://routerai.ru/api/v1/' },
-  { AI_API_BASE_URL: 'https://outside.test/api/v1' },
-  { AI_API_BASE_URL: 'http://127.0.0.1/api/v1' },
-  { AI_MODEL_SIMPLE: routerAiSettings.AI_MODEL_PRIMARY },
-  { AI_MODEL_FALLBACK: routerAiSettings.AI_MODEL_PRIMARY },
-  { AI_MODEL_SIMPLE: 'invalid' },
-  { AI_SIMPLE_TASK_NUMBERS: '1,1' },
-  { AI_SIMPLE_TASK_NUMBERS: '1,13' },
-  { AI_SIMPLE_TASK_NUMBERS: '1e1' },
-  { AI_SIMPLE_TASK_NUMBERS: '1,,2' },
-  { AI_REASONING_EFFORT: 'unknown' },
-]) {
-  test(`invalid RouterAI configuration fails before network ${JSON.stringify(change)}`, () => {
-    const transport = vi.fn<typeof fetch>();
-    expect(() =>
-      createRouterAi({ ...routerAiSettings, ...change }, transport),
-    ).toThrow(TransportError);
-    expect(transport).not.toHaveBeenCalled();
-  });
-}
-function post(input: unknown, mode = 'stream-feedback') {
-  return new Request(routerAiSettings.SITE_ORIGIN + '/api/ai/' + mode, {
-    method: 'POST',
-    headers: {
-      Origin: routerAiSettings.SITE_ORIGIN,
-      'Content-Type': 'application/json',
-      'CF-Connecting-IP': '192.0.2.1',
-    },
-    body: JSON.stringify(input),
-  });
-}
-test('configured HTTP Worker binds health to RouterAI and charges both attempts in the existing quota', async () => {
-  const quota = quotaFixture('2');
-  const env = {
-    ...routerAiSettings,
-    AI_QUOTA: quota.env.AI_QUOTA,
-    AI_DAILY_REQUEST_LIMIT: '2',
-  };
+  },
+);
+
+test('RouterAI fallback stays at RouterAI and uses the second configured model', async () => {
   const transport = vi
     .fn<typeof fetch>()
     .mockResolvedValueOnce(new Response(null, { status: 429 }))
-    .mockImplementation(() => Promise.resolve(providerStream()));
-  const worker = createConfiguredWorker(transport);
-  const health = await worker.fetch(
-    new Request(env.SITE_ORIGIN + '/api/ai/health'),
-    env,
+    .mockResolvedValueOnce(nativeStreamResponse());
+  const response = await createOpenRouter(settings, transport).respond(
+    preparedFeedback,
+    new AbortController().signal,
   );
-  expect(await health.json()).toEqual({ enabled: true, provider: 'routerai' });
-  const response = await worker.fetch(post(routerAiFeedback(1).input), env);
-  expect(response.status).toBe(200);
-  await response.text();
-  expect(selected(transport)).toEqual([
-    env.AI_MODEL_SIMPLE,
-    env.AI_MODEL_PRIMARY,
+  expect(await response.text()).toContain('data: [DONE]');
+  expect(
+    transport.mock.calls.map(([url, init]) => [url, providerPayload(init)]),
+  ).toEqual([
+    [
+      'https://routerai.ru/api/v1/chat/completions',
+      expect.objectContaining({ model: settings.AI_MODEL_PRIMARY }),
+    ],
+    [
+      'https://routerai.ru/api/v1/messages',
+      expect.objectContaining({ model: settings.AI_MODEL_FALLBACK }),
+    ],
   ]);
-  expect(quota.storage.values.get('budget')).toMatchObject({ count: 2 });
-  const blocked = await worker.fetch(post(routerAiFeedback(10).input), env);
-  expect(blocked.status).toBe(503);
-  expect(await blocked.json()).toMatchObject({ error: { code: 'budget' } });
-  expect(transport).toHaveBeenCalledTimes(2);
 });
-test('forged routing fields are rejected before provider calls', async () => {
-  const quota = quotaFixture();
+
+test.each(['routerai', 'openrouter'])(
+  '%s scopes the Opus request profile to its provider and resets it on fallback',
+  async (service) => {
+    const transport = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(null, { status: 429 }))
+      .mockResolvedValueOnce(
+        service === 'routerai'
+          ? nativeCompletion(programGrade)
+          : completion(programGrade),
+      );
+    const response = await createOpenRouter(
+      {
+        ...settings,
+        AI_PROVIDER: service,
+        OPENROUTER_API_KEY: 'fixture-openrouter-credential',
+        AI_MODEL_PRIMARY: 'anthropic/claude-opus-5.5',
+      },
+      transport,
+    ).respond(preparedProgram, new AbortController().signal);
+    expect(await response.json()).toEqual(programGrade);
+    const first = providerPayload(transport.mock.calls[0]?.[1]);
+    const fallback = providerPayload(transport.mock.calls[1]?.[1]);
+    expect(first).toMatchObject({
+      max_tokens: service === 'routerai' ? 4000 : 500,
+      stream: false,
+    });
+    if (service === 'routerai') {
+      expect(first).toHaveProperty('output_config.effort', 'medium');
+      expect(first).toHaveProperty('system');
+      expect(first).not.toHaveProperty('reasoning');
+    } else {
+      expect(first).not.toHaveProperty('reasoning');
+      expect(JSON.stringify(first)).not.toContain('до 80 слов');
+    }
+    expect(fallback).toMatchObject({
+      model: settings.AI_MODEL_FALLBACK,
+      max_tokens: service === 'routerai' ? 4000 : 500,
+    });
+    expect(fallback).not.toHaveProperty('reasoning');
+    if (service === 'routerai')
+      expect(fallback).toHaveProperty('output_config.effort', 'medium');
+    expect(JSON.stringify(fallback)).not.toContain('до 80 слов');
+  },
+);
+
+test.each([
+  {
+    ROUTERAI_API_KEY: undefined,
+    OPENROUTER_API_KEY: 'wrong-provider-credential',
+  },
+  { ROUTERAI_API_KEY: '' },
+  { ROUTERAI_API_KEY: 'invalid\nheader' },
+  { AI_PROVIDER: 'https://untrusted.invalid' },
+])('invalid RouterAI settings cannot start a request: %j', (change) => {
   const transport = vi.fn<typeof fetch>();
-  const response = await createConfiguredWorker(transport).fetch(
-    post({
-      ...routerAiFeedback(10).input,
-      taskNumber: 1,
-      model: routerAiSettings.AI_MODEL_SIMPLE,
-    }),
-    { ...routerAiSettings, AI_QUOTA: quota.env.AI_QUOTA },
+  expect(() =>
+    createOpenRouter({ ...settings, ...change }, transport),
+  ).toThrow();
+  expect(transport).not.toHaveBeenCalled();
+});
+
+test('configured RouterAI uses the existing IP and daily budget checks before each billable fallback', async () => {
+  const fixture = quotaFixture('1');
+  const transport = vi.fn<typeof fetch>(() =>
+    Promise.resolve(new Response(null, { status: 429 })),
   );
-  expect(response.status).toBe(400);
-  expect(transport).not.toHaveBeenCalled();
+  const response = await createConfiguredWorker(transport).fetch(
+    new Request(settings.SITE_ORIGIN + '/api/ai/stream-feedback', {
+      method: 'POST',
+      headers: {
+        Origin: settings.SITE_ORIGIN,
+        'Content-Type': 'application/json',
+        'X-AI-Provider': 'routerai',
+        'CF-Connecting-IP': '192.0.2.1',
+      },
+      body: JSON.stringify(feedbackInput),
+    }),
+    { ...fixture.env, ...settings },
+  );
+  expect(response.status).toBe(503);
+  expect(await response.json()).toMatchObject({ error: { code: 'budget' } });
+  expect(transport).toHaveBeenCalledTimes(1);
 });
-test('disabled, incomplete and unknown-provider configurations stay offline', async () => {
-  const quota = quotaFixture();
-  const transport = vi.fn<typeof fetch>();
-  const worker = createConfiguredWorker(transport);
-  for (const change of [
-    { AI_ENABLED: 'false' },
-    { ROUTERAI_API_KEY: '' },
-    { AI_PROVIDER: 'unknown' },
-  ]) {
-    const env = {
-      ...routerAiSettings,
-      ...change,
-      AI_QUOTA: quota.env.AI_QUOTA,
-    };
-    const health = await worker.fetch(
-      new Request(env.SITE_ORIGIN + '/api/ai/health'),
-      env,
+
+test.each([
+  ['routerai', 'openrouter'],
+  ['routerai', null],
+  ['openrouter', 'routerai'],
+])(
+  'recipient mismatch %s/%s is rejected before admission or upstream',
+  async (configured, expected) => {
+    const transport = vi.fn<typeof fetch>();
+    const admit = vi.fn<() => Promise<void>>();
+    const client = createOpenRouter(
+      { ...settings, ...routerEnv, AI_PROVIDER: configured },
+      transport,
     );
-    expect(await health.json()).toMatchObject({ enabled: false });
-    expect(
-      (await worker.fetch(post(routerAiFeedback(1).input), env)).status,
-    ).toBe(503);
-  }
-  expect(transport).not.toHaveBeenCalled();
+    const response = await createWorker(client, admit).fetch(
+      new Request(settings.SITE_ORIGIN + '/api/ai/stream-feedback', {
+        method: 'POST',
+        headers: {
+          Origin: settings.SITE_ORIGIN,
+          'Content-Type': 'application/json',
+          ...(expected ? { 'X-AI-Provider': expected } : {}),
+        },
+        body: JSON.stringify(feedbackInput),
+      }),
+      { ...settings, AI_PROVIDER: configured },
+    );
+    expect(response.status).toBe(409);
+    expect(transport).not.toHaveBeenCalled();
+    expect(admit).not.toHaveBeenCalled();
+  },
+);
+
+test('RouterAI requires new consent for each mode and uses a distinct cache policy', async () => {
+  vi.stubEnv('PUBLIC_AI_PROVIDER', 'routerai');
+  const { AI_POLICY, grantAiConsent, hasAiConsent } =
+    await import('../../src/lib/ai/consent');
+  const { aiServiceHeaders } = await import('../../src/lib/ai/service');
+  const store = new LocalStore(() => {
+    throw new Error('Memory only');
+  });
+  store.write('aiConsent', {
+    version: 1,
+    enabled: true,
+    policy: 'openrouter-feedback-v1',
+    modes: ['stream-feedback', 'part2-grade', 'variant-summary'],
+  });
+  for (const mode of [
+    'stream-feedback',
+    'part2-grade',
+    'variant-summary',
+  ] as const)
+    expect(hasAiConsent(store, mode)).toBe(false);
+  expect(AI_POLICY).toBe('routerai-feedback-v1');
+  expect(aiServiceHeaders).toEqual({ 'X-AI-Provider': 'routerai' });
+  grantAiConsent(store);
+  expect(hasAiConsent(store)).toBe(true);
+  expect(hasAiConsent(store, 'part2-grade')).toBe(false);
+  expect(store.read('aiConsent').policy).toBe('routerai-feedback-v1');
+});
+
+test('service selection preserves old builds and rejects unknown destinations', () => {
+  expect(aiServiceId(undefined)).toBe('openrouter');
+  expect(aiServiceId('routerai')).toBe('routerai');
+  expect(() => aiServiceId('https://untrusted.invalid')).toThrow();
 });

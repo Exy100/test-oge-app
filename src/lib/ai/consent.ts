@@ -1,7 +1,7 @@
 import type { LocalStore } from '../../core/storage/store';
-import { AI_CONSENT_POLICY } from './provider-config';
+import { AI_SERVICE_POLICY } from './service';
 
-export const AI_POLICY = AI_CONSENT_POLICY;
+export const AI_POLICY = AI_SERVICE_POLICY;
 export type AiMode = 'stream-feedback' | 'part2-grade' | 'variant-summary';
 export function hasAiConsent(
   store: LocalStore,

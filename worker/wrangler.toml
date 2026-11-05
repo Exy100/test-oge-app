@@ -16,13 +16,14 @@ AI_PROVIDER = "routerai"
 AI_API_BASE_URL = "https://routerai.ru/api/v1"
 # 10 students × 30 AI actions × up to 2 provider attempts per action, per UTC day.
 AI_DAILY_REQUEST_LIMIT = "600"
-# Simple short-answer tasks use Luna, with Sonnet as their single fallback.
-AI_SIMPLE_TASK_NUMBERS = "1,2,3,4"
-AI_MODEL_SIMPLE = "openai/gpt-6-luna"
-# All other tasks, practical work and summaries use Sonnet, then Opus.
-AI_MODEL_PRIMARY = "anthropic/claude-sonnet-5.5"
-AI_MODEL_FALLBACK = "anthropic/claude-opus-5.5"
-AI_REASONING_EFFORT = "low"
+# Owner-selected pair; profiles (Luna high, Claude medium) are in src/model-profiles.ts.
+# RouterAI budgets: 4000 tokens, 120 s/attempt; shared source: ../src/core/ai-execution.ts.
+# Live local completions checked; public API stays disabled.
+# Optional simple-task routing is disabled by default. Set a distinct AI_MODEL_SIMPLE
+# and AI_SIMPLE_TASK_NUMBERS to enable it. Each route still allows only two attempts.
+AI_SIMPLE_TASK_NUMBERS = ""
+AI_MODEL_PRIMARY = "openai/gpt-6-luna"
+AI_MODEL_FALLBACK = "anthropic/claude-sonnet-5.5"
 
 [[durable_objects.bindings]]
 name = "AI_QUOTA"

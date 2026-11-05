@@ -21,7 +21,7 @@ export async function checkDistSecrets(directory) {
     const bytes = await readFile(path);
     if (
       bytes.includes(Buffer.from('sk-or-')) ||
-      /sk-[A-Za-z0-9_-]{24,}/u.test(bytes.toString('latin1')) ||
+      /\bsk-[A-Za-z0-9_-]{20,}/u.test(bytes.toString('latin1')) ||
       /-----BEGIN (?:[A-Z]+ )*PRIVATE KEY-----/u.test(bytes.toString('latin1'))
     )
       throw new Error(`Признак секрета в публичной сборке: ${name}`);

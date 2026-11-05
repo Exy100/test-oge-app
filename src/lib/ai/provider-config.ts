@@ -1,13 +1,6 @@
-import { z } from '../../core/zod';
-
+export {
+  AI_SERVICE_ID as AI_PROVIDER,
+  AI_SERVICE_NAME as AI_PROVIDER_NAME,
+  AI_SERVICE_POLICY as AI_CONSENT_POLICY,
+} from './service';
 export const AI_API_ENABLED = import.meta.env.PUBLIC_AI_MODE === 'api';
-/** Public identity binds consent/cache to the intermediary named in this build. */
-export const AI_PROVIDER = z
-  .enum(['openrouter', 'routerai'])
-  .parse(import.meta.env.PUBLIC_AI_PROVIDER ?? 'openrouter');
-export const AI_PROVIDER_NAME =
-  AI_PROVIDER === 'routerai' ? 'RouterAI' : 'OpenRouter';
-export const AI_CONSENT_POLICY =
-  AI_PROVIDER === 'routerai'
-    ? 'routerai-feedback-v1'
-    : 'openrouter-feedback-v1';
