@@ -66,11 +66,11 @@ export class CallScope {
     this.abort('cancelled');
   };
 
-  constructor(parent: AbortSignal) {
+  constructor(parent: AbortSignal, timeoutMs = 30_000) {
     this.parent = parent;
     this.timer = setTimeout(() => {
       this.abort('timeout');
-    }, 30_000);
+    }, timeoutMs);
     parent.addEventListener('abort', this.cancel, { once: true });
     if (parent.aborted) this.cancel();
   }

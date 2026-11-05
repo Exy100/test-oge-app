@@ -1,3 +1,4 @@
+import { AI_CLIENT_TIMEOUT_MS } from './service';
 import { z } from '../../core/zod';
 import { FeedbackError } from './contract';
 import { aiServiceHeaders } from './service';
@@ -27,7 +28,7 @@ export async function apiJson(
     () => {
       controller.abort(new FeedbackError('timeout'));
     },
-    path.endsWith('/health') ? 5000 : 30_000,
+    path.endsWith('/health') ? 5000 : AI_CLIENT_TIMEOUT_MS,
   );
   let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
   function wait<T>(promise: Promise<T>): Promise<T> {

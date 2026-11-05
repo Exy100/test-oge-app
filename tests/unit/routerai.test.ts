@@ -1,3 +1,7 @@
+import {
+  nativeStreamResponse,
+  nativeCompletion,
+} from '../fixtures/anthropic-data';
 import { afterEach, expect, test, vi } from 'vitest';
 import { aiServiceId } from '../../src/core/ai-service';
 import { LocalStore } from '../../src/core/storage/store';
@@ -66,7 +70,7 @@ test.each([preparedFeedback, preparedSummary, preparedProgram, preparedOffice])(
       provider: { data_collection: 'deny' },
     });
     expect(providerPayload(init)).not.toHaveProperty('temperature');
-    expect(providerPayload(init)).not.toHaveProperty('reasoning');
+    expect(providerPayload(init)).toHaveProperty('reasoning.effort', 'high');
     expect(JSON.stringify(providerPayload(init))).not.toContain(
       settings.ROUTERAI_API_KEY,
     );
@@ -77,12 +81,12 @@ test('RouterAI fallback stays at RouterAI and uses the second configured model',
   const transport = vi
     .fn<typeof fetch>()
     .mockResolvedValueOnce(new Response(null, { status: 429 }))
-    .mockResolvedValueOnce(providerStream());
+    .mockResolvedValueOnce(nativeStreamResponse());
   const response = await createOpenRouter(settings, transport).respond(
     preparedFeedback,
     new AbortController().signal,
   );
-  await response.text();
+  expect(await response.text()).toContain('data: [DONE]');
   expect(
     transport.mock.calls.map(([url, init]) => [url, providerPayload(init)]),
   ).toEqual([
@@ -91,7 +95,7 @@ test('RouterAI fallback stays at RouterAI and uses the second configured model',
       expect.objectContaining({ model: settings.AI_MODEL_PRIMARY }),
     ],
     [
-      'https://routerai.ru/api/v1/chat/completions',
+      'https://routerai.ru/api/v1/messages',
       expect.objectContaining({ model: settings.AI_MODEL_FALLBACK }),
     ],
   ]);
@@ -103,7 +107,11 @@ test.each(['routerai', 'openrouter'])(
     const transport = vi
       .fn<typeof fetch>()
       .mockResolvedValueOnce(new Response(null, { status: 429 }))
-      .mockResolvedValueOnce(completion(programGrade));
+      .mockResolvedValueOnce(
+        service === 'routerai'
+          ? nativeCompletion(programGrade)
+          : completion(programGrade),
+      );
     const response = await createOpenRouter(
       {
         ...settings,
@@ -116,19 +124,25 @@ test.each(['routerai', 'openrouter'])(
     expect(await response.json()).toEqual(programGrade);
     const first = providerPayload(transport.mock.calls[0]?.[1]);
     const fallback = providerPayload(transport.mock.calls[1]?.[1]);
-    expect(first).toMatchObject({ max_tokens: 500, stream: false });
+    expect(first).toMatchObject({
+      max_tokens: service === 'routerai' ? 4000 : 500,
+      stream: false,
+    });
     if (service === 'routerai') {
-      expect(first).toHaveProperty('reasoning.effort', 'low');
-      expect(JSON.stringify(first)).toContain('до 80 слов');
+      expect(first).toHaveProperty('output_config.effort', 'medium');
+      expect(first).toHaveProperty('system');
+      expect(first).not.toHaveProperty('reasoning');
     } else {
       expect(first).not.toHaveProperty('reasoning');
       expect(JSON.stringify(first)).not.toContain('до 80 слов');
     }
     expect(fallback).toMatchObject({
       model: settings.AI_MODEL_FALLBACK,
-      max_tokens: 500,
+      max_tokens: service === 'routerai' ? 4000 : 500,
     });
     expect(fallback).not.toHaveProperty('reasoning');
+    if (service === 'routerai')
+      expect(fallback).toHaveProperty('output_config.effort', 'medium');
     expect(JSON.stringify(fallback)).not.toContain('до 80 слов');
   },
 );

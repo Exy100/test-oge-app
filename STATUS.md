@@ -28,8 +28,9 @@
   Живые ответы Luna во всех трёх режимах и Sonnet через Worker проверены.
   Исправлен redirect нативного fetch; после исправления 336 тестов ИИ и 6 local e2e прошли.
   [Живой прогон](docs/reports/routerai-live-2026-11-04.md), [подготовка](docs/reports/t6.13.md).
-- Opus: после effort=low и краткого формата — 4/4 через Worker, 4,7–7,2 с;
-  79 тестов прошли. Доступен профиль замены; выбранная пара остаётся Luna → Sonnet.
+- RouterAI: Luna high, Opus medium, Sonnet medium; 4000 токенов, 120 с/попытку.
+  12/12 живых сценариев Worker + 6/6 повторов практики; 349 AI-тестов прошли.
+  [Приёмка профилей](docs/reports/ai-budget-profiles-2026-11-05.md). Пара Luna → Sonnet.
 - T4.8 и T5.8 открыты; живой тест отложен владельцем. Наблюдений учеников нет.
   [Поток и бланк](docs/reviews/t4.8-observations.md), [экзамен](docs/reviews/phase-5.md).
 - После домена — внешний preview ИИ; локальный живой прогон выполнен

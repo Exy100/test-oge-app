@@ -1,5 +1,6 @@
 import { browserCache, browserStore } from '../../core/storage/browser';
-import { AI_POLICY, hasAiConsent } from './consent';
+import { hasAiConsent } from './consent';
+import { AI_CACHE_POLICY } from './service';
 import { FeedbackError } from './contract';
 import { apiJson } from './http';
 import {
@@ -24,7 +25,7 @@ export async function gradeWork(
   )
     throw new FeedbackError('work-size');
   const cache = browserCache();
-  const mode = `part2-grade/${AI_POLICY}`;
+  const mode = `part2-grade/${AI_CACHE_POLICY}`;
   const key = JSON.stringify(request.data);
   try {
     const cached = await cache.get(mode, String(taskNumber), key);

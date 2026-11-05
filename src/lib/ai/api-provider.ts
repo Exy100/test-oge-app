@@ -1,3 +1,4 @@
+import { AI_CLIENT_TIMEOUT_MS } from './service';
 import { z } from '../../core/zod';
 import { browserStore } from '../../core/storage/browser';
 import { hasAiConsent } from './consent';
@@ -91,7 +92,7 @@ function createMarkdownProvider<T>(
       parent.addEventListener('abort', abort, { once: true });
       const timer = setTimeout(() => {
         controller.abort(new FeedbackError('timeout'));
-      }, 30_000);
+      }, AI_CLIENT_TIMEOUT_MS);
       let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
       let done = false;
       try {

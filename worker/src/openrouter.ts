@@ -1,3 +1,6 @@
+import { routerAiExecution } from '../../src/core/ai-execution';
+import { routerAiProfile } from './model-profiles';
+import { parseAnthropicGrade } from './anthropic-response';
 import { z } from '../../src/core/zod';
 import { aiServiceId } from '../../src/core/ai-service';
 import type { PreparedRequest } from './prepare-request';
@@ -53,15 +56,6 @@ const maxTokens = {
   'part2-grade': 500,
   'variant-summary': 1200,
 };
-const opusBrevity = {
-  'stream-feedback':
-    'Ответ до 120 слов. Сохрани все обязательные разделы, шаги решения пиши кратко.',
-  'part2-grade':
-    'Суммарно до 80 слов внутри строк JSON. reason: 1–2 предложения; errors: до 2 коротких пунктов; advice: до 3 главных действий. Не переписывай условие и критерии целиком. Сохрани все обязательные поля JSON и их типы. Обосновывай предварительный балл видимыми ошибками кода; не предсказывай число пройденных или проваленных тестов — запуска не было.',
-  'variant-summary':
-    'Ответ до 180 слов. Сохрани все пять разделов и все 7 дней; каждый день — одна короткая строка с временем и 1–2 точными токенами уроков. Не оценивай владение темой или нормальность темпа по единственному результату.',
-};
-
 /** Credentials and the two-model allowlist come only from server configuration. */
 export function createOpenRouter(
   env: OpenRouterEnv,
@@ -86,52 +80,77 @@ export function createOpenRouter(
   const config = parsed.data;
   return {
     async respond(prepared, signal) {
-      const scope = new CallScope(signal);
+      let scope = new CallScope(
+        signal,
+        service === 'routerai' ? routerAiExecution.attemptTimeoutMs : 30_000,
+      );
       let streaming = false;
       try {
         scope.check();
         const prompt = buildPrompt(prepared);
         const stream = prepared.mode !== 'part2-grade';
-        for (let attempt = 0; attempt < 2; attempt++) {
+        for (
+          let attempt = 0;
+          attempt <
+          (service === 'routerai' ? routerAiExecution.maxAttempts : 2);
+          attempt++
+        ) {
+          if (attempt > 0 && service === 'routerai') {
+            scope.close();
+            scope = new CallScope(signal, routerAiExecution.attemptTimeoutMs);
+          }
           scope.check();
           const selectedModel =
             attempt === 0 ? config.AI_MODEL_PRIMARY : config.AI_MODEL_FALLBACK;
-          // RouterAI's Opus uses adaptive thinking; budget for the final answer too.
-          const compactOpus =
-            service === 'routerai' &&
-            selectedModel === 'anthropic/claude-opus-5.5';
-          const pending = transport(endpoint, {
-            method: 'POST',
-            // Workers supports manual/follow only. Reject 3xx below without following.
-            redirect: 'manual',
-            signal: scope.signal,
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${config.API_KEY}`,
-              'HTTP-Referer': config.SITE_ORIGIN,
-              'X-Title': 'OGE Informatics',
+          const profile =
+            service === 'routerai' ? routerAiProfile(selectedModel) : undefined;
+          const native = profile?.native === true;
+          const pending = transport(
+            native ? 'https://routerai.ru/api/v1/messages' : endpoint,
+            {
+              method: 'POST',
+              // Workers supports manual/follow only. Reject 3xx below without following.
+              redirect: 'manual',
+              signal: scope.signal,
+              headers: {
+                'Content-Type': 'application/json',
+                ...(native
+                  ? {
+                      'x-api-key': config.API_KEY,
+                      'anthropic-version': '2023-06-01',
+                    }
+                  : { Authorization: `Bearer ${config.API_KEY}` }),
+                'HTTP-Referer': config.SITE_ORIGIN,
+                'X-Title': 'OGE Informatics',
+              },
+              body: JSON.stringify({
+                model: selectedModel,
+                ...(native
+                  ? {
+                      system: prompt.messages[0].content,
+                      messages: prompt.messages.slice(1),
+                      output_config: { effort: profile.effort },
+                    }
+                  : {
+                      messages: prompt.messages,
+                      ...(profile
+                        ? { reasoning: { effort: profile.effort } }
+                        : {}),
+                    }),
+                provider: { data_collection: 'deny' },
+                max_tokens:
+                  service === 'routerai'
+                    ? routerAiExecution.maxTokens
+                    : maxTokens[prepared.mode],
+                // Selected RouterAI endpoints do not advertise temperature support.
+                ...(service === 'openrouter' ? { temperature: 0.3 } : {}),
+                stream,
+                ...(stream || native
+                  ? {}
+                  : { response_format: { type: 'json_object' } }),
+              }),
             },
-            body: JSON.stringify({
-              model: selectedModel,
-              messages: compactOpus
-                ? prompt.messages.map((message) =>
-                    message.role === 'system'
-                      ? {
-                          ...message,
-                          content: `${message.content}\n\n${opusBrevity[prepared.mode]}`,
-                        }
-                      : message,
-                  )
-                : prompt.messages,
-              ...(compactOpus ? { reasoning: { effort: 'low' } } : {}),
-              provider: { data_collection: 'deny' },
-              max_tokens: maxTokens[prepared.mode],
-              // Selected RouterAI endpoints do not advertise temperature support.
-              ...(service === 'openrouter' ? { temperature: 0.3 } : {}),
-              stream,
-              ...(stream ? {} : { response_format: { type: 'json_object' } }),
-            }),
-          });
+          );
           void pending.then(
             (response) => {
               if (scope.signal.aborted) discard(response.body);
@@ -158,7 +177,7 @@ export function createOpenRouter(
               discard(response.body);
               throw new TransportError('invalid-response');
             }
-            const result = streamResponse(response, scope);
+            const result = streamResponse(response, scope, native);
             streaming = true;
             return result;
           }
@@ -168,7 +187,10 @@ export function createOpenRouter(
               throw new TransportError('invalid-response');
             }
             return Response.json(
-              parseGrade(await readText(response, scope), prepared.assessment),
+              (native ? parseAnthropicGrade : parseGrade)(
+                await readText(response, scope),
+                prepared.assessment,
+              ),
             );
           } catch (cause) {
             if (

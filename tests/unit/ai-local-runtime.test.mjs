@@ -1,3 +1,4 @@
+import { nativeStreamResponse } from '../fixtures/anthropic-data';
 import { expect, test } from 'vitest';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -33,7 +34,9 @@ test('production native Workers fetch reaches the Node egress bridge for all mod
       calls.push({
         url,
         redirect: init.redirect,
-        authorization: new Headers(init.headers).get('Authorization'),
+        authorization:
+          new Headers(init.headers).get('Authorization') ??
+          new Headers(init.headers).get('x-api-key'),
         payload,
       });
       if (scenario === 'redirect')
@@ -43,6 +46,7 @@ test('production native Workers fetch reaches the Node egress bridge for all mod
         });
       if (scenario === 'fallback' && payload.model === 'openai/gpt-6-luna')
         return new Response(null, { status: 429 });
+      if (url.endsWith('/messages')) return nativeStreamResponse();
       if (payload.stream)
         return new Response(completedStream(), {
           headers: { 'Content-Type': 'text/event-stream' },
@@ -105,9 +109,15 @@ test('production native Workers fetch reaches the Node egress bridge for all mod
     expect(
       calls.every(
         (call) =>
-          call.url === 'https://routerai.ru/api/v1/chat/completions' &&
+          [
+            'https://routerai.ru/api/v1/chat/completions',
+            'https://routerai.ru/api/v1/messages',
+          ].includes(call.url) &&
           call.redirect === 'error' &&
-          call.authorization === 'Bearer fixture-native-credential',
+          call.authorization ===
+            (call.url.endsWith('/messages')
+              ? 'fixture-native-credential'
+              : 'Bearer fixture-native-credential'),
       ),
     ).toBe(true);
   } finally {

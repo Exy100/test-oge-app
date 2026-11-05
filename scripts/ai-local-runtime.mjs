@@ -1,3 +1,4 @@
+import { routerAiExecution } from '../src/core/ai-execution.ts';
 import { setGlobalProxyFromEnv } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
@@ -5,7 +6,10 @@ import { Miniflare, Response as WorkerResponse } from 'miniflare';
 import { unstable_readConfig } from 'wrangler';
 
 const root = new URL('../', import.meta.url);
-const endpoint = 'https://routerai.ru/api/v1/chat/completions';
+const endpoints = new Set([
+  'https://routerai.ru/api/v1/chat/completions',
+  'https://routerai.ru/api/v1/messages',
+]);
 
 /** Actual production Worker, with a Node egress bridge that honours the session proxy. */
 export async function createAiLocalWorker({
@@ -86,9 +90,9 @@ export async function createAiLocalWorker({
             outboundService: {
               type: 'fetcher',
               async handler(request) {
-                if (request.url !== endpoint || request.method !== 'POST')
+                if (!endpoints.has(request.url) || request.method !== 'POST')
                   return new WorkerResponse(null, { status: 403 });
-                const response = await transport(endpoint, {
+                const response = await transport(request.url, {
                   method: 'POST',
                   redirect: 'error',
                   headers: request.headers,
@@ -96,7 +100,7 @@ export async function createAiLocalWorker({
                   duplex: 'half',
                   signal: AbortSignal.any([
                     request.signal,
-                    AbortSignal.timeout(30000),
+                    AbortSignal.timeout(routerAiExecution.attemptTimeoutMs),
                   ]),
                 });
                 // Node fetch decompresses bodies; do not advertise the old compressed length.
