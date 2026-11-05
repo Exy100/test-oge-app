@@ -51,13 +51,14 @@ try {
   if (
     !data ||
     typeof data !== 'object' ||
-    Object.keys(data).length !== 1 ||
+    Object.keys(data).some((key) => !['enabled', 'provider'].includes(key)) ||
+    (data.provider ?? 'openrouter') !== provider ||
     typeof data.enabled !== 'boolean' ||
     data.enabled !== (expected === 'enabled')
   )
     throw new Error('Health does not match the expected configuration.');
   console.info(
-    `AI preview: ${expected}; security headers checked. No student data or billable requests sent.`,
+    `AI preview: ${provider}/${expected}; security headers checked. No student data or billable requests sent.`,
   );
 } catch (cause) {
   console.error(

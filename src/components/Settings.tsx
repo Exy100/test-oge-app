@@ -9,6 +9,7 @@ import type { Area, Areas, Backup } from '../core/storage/schemas';
 import { Button } from './ui/Button';
 import { Modal } from './ui/Modal';
 import { useHydrated } from './useHydrated';
+import { AI_API_ENABLED } from '../lib/ai/provider-config';
 
 const initialAreas = defaults();
 let cached: { revision: number; data: Areas } | undefined;
@@ -170,10 +171,10 @@ export default function Settings() {
           Предлагать разбор с ИИ
         </label>
         <p>
-          ИИ пока не подключён. Перед первой отправкой ответа сайт назовёт
-          провайдера, покажет состав данных и отдельно запросит согласие. Этот
-          переключатель ничего не отправляет. Отключение отзовёт согласие и
-          очистит временный кэш в этой вкладке.
+          {AI_API_ENABLED ? '' : 'ИИ пока не подключён. '}Перед первой отправкой
+          ответа сайт назовёт провайдера, покажет состав данных и отдельно
+          запросит согласие. Этот переключатель ничего не отправляет. Отключение
+          отзовёт согласие и очистит временный кэш в этой вкладке.
         </p>
         {data.aiConsent.policy && (
           <Button

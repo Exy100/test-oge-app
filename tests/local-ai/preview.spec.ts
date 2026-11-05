@@ -10,7 +10,12 @@ test('actual browser and Worker share an origin; disabled AI preserves answer ch
     if (request.url().includes('/api/ai/') && request.method() === 'POST')
       posts.push(request.url());
   });
-  await page.goto('stream/?n=10');
+  await page.goto('stream/?numbers=10');
+  await expect(page.getByLabel('Что решать')).toBeEnabled();
+  await expect(page.locator('.stream-controls')).toHaveAttribute(
+    'aria-busy',
+    'false',
+  );
   await page.getByLabel('Твой ответ', { exact: true }).fill('1');
   await page
     .getByRole('button', { name: 'Проверить ответ', exact: true })
@@ -46,7 +51,7 @@ test('local proxy preserves Origin and recipient guards of the actual Worker', a
     headers: { 'X-AI-Provider': 'routerai' },
   });
   expect(health.status()).toBe(200);
-  expect(await health.json()).toEqual({ enabled: false });
+  expect(await health.json()).toEqual({ enabled: false, provider: 'routerai' });
   const endpoint = origin + '/api/ai/stream-feedback';
   const data = {
     generatorId: 'numeral-sum-v2',

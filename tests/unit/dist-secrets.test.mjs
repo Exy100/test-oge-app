@@ -48,7 +48,14 @@ test.each(['provider marker', 'RouterAI key', 'private key'])(
   },
 );
 
-test.each(['.env', '.env.production', '.env-backup', '.ENV.local'])(
+test.each([
+  '.env',
+  '.env.production',
+  '.env-backup',
+  '.ENV.local',
+  '.dev.vars',
+  '.DEV.VARS.local',
+])(
   'rejects a published %s even without known secret patterns',
   async (name) => {
     const root = await fixture();

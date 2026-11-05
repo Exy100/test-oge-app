@@ -102,7 +102,10 @@ test.each(['openrouter', 'routerai'])(
       const health = await runtime.dispatchFetch(
         quotaSettings.SITE_ORIGIN + '/api/ai/health',
       );
-      expect(await health.json()).toEqual({ enabled: true });
+      expect(await health.json()).toEqual({
+        enabled: true,
+        ...(service === 'routerai' ? { provider: service } : {}),
+      });
       const first = await Promise.all(
         Array.from({ length: 11 }, (_, index) => send('192.0.2.1', index)),
       );

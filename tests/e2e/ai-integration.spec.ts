@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { generators } from '../../src/core/generators';
 import { link, ready, stats } from '../fixtures/stream-browser';
+import { PREFIX } from '../../src/core/storage/schemas';
 
 const generator = generators.find((item) => item.id === 'numeral-sum-v2');
 if (!generator) throw new Error('Missing generator');
@@ -23,7 +24,7 @@ for (const [label, answer] of [
     url.port = '4324';
     let calls = 0;
     await page.route('**/api/ai/health', (route) =>
-      route.fulfill({ json: { enabled: true } }),
+      route.fulfill({ json: { enabled: true, provider: 'routerai' } }),
     );
     await page.route('**/api/ai/stream-feedback', async (route) => {
       calls++;
@@ -109,4 +110,76 @@ test('disabled or unavailable health sends no answers and the stream continues',
   await expect(
     page.getByRole('button', { name: 'Проверить ответ', exact: true }),
   ).toBeEnabled();
+});
+
+test('RouterAI health and consent identify the same intermediary before the real card sends an answer', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('Missing base URL');
+  const url = new URL(link(task), baseURL);
+  url.protocol = 'http:';
+  url.port = '4324';
+  await page.addInitScript((key) => {
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        version: 1,
+        enabled: true,
+        policy: 'openrouter-feedback-v1',
+        modes: ['stream-feedback'],
+      }),
+    );
+  }, PREFIX + 'aiConsent');
+  let calls = 0;
+  await page.route('**/api/ai/stream-feedback', async (route) => {
+    calls++;
+    await route.fulfill({
+      contentType: 'text/event-stream',
+      body: 'data: {"delta":"Новый разбор через RouterAI."}\n\ndata: [DONE]\n\n',
+    });
+  });
+  await page.route('**/api/ai/health', (route) =>
+    route.fulfill({ json: { enabled: true, provider: 'openrouter' } }),
+  );
+  await page.goto(url.href);
+  await ready(page);
+  await page.getByLabel('Твой ответ', { exact: true }).fill(correct);
+  await page
+    .getByRole('button', { name: 'Проверить ответ', exact: true })
+    .click();
+  const before = await stats(page);
+  await page.getByRole('button', { name: 'Получить разбор с ИИ' }).click();
+  await expect(page.locator('.ai-panel').getByRole('alert')).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  expect(calls).toBe(0);
+  await page.route('**/api/ai/health', (route) =>
+    route.fulfill({ json: { enabled: true, provider: 'routerai' } }),
+  );
+  await page.getByRole('button', { name: 'Попробовать ещё раз' }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toContainText('RouterAI');
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate((selected) => {
+      document.documentElement.dataset.theme = selected;
+      document.documentElement.style.fontSize = '200%';
+    }, theme);
+    expect(
+      (await new AxeBuilder({ page }).include('dialog').analyze()).violations,
+    ).toEqual([]);
+    expect(
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth <=
+          document.documentElement.clientWidth,
+      ),
+    ).toBe(true);
+  }
+  expect(calls).toBe(0);
+  await dialog.getByRole('button', { name: 'Разрешить и отправить' }).click();
+  await expect(
+    page.getByRole('region', { name: 'Текст разбора', exact: true }),
+  ).toContainText('Новый разбор');
+  expect(calls).toBe(1);
+  expect(await stats(page)).toEqual(before);
 });

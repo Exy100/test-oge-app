@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { PREFIX, defaults } from '../../src/core/storage/schemas';
 
 const service =
-  process.env.OGE_TEST_AI_PROVIDER === 'routerai' ? 'routerai' : 'openrouter';
+  process.env.OGE_TEST_AI_PROVIDER === 'openrouter' ? 'openrouter' : 'routerai';
 
 const markdown =
   '### Итог\nРазбор $2^3$. [[lesson:bits-bytes]] [[stream:10]] [[lesson:missing]] [чужой](https://outside.test/) <img src=x onerror=alert(1)>';

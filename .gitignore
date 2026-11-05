@@ -8,5 +8,6 @@ playwright-report/
 test-results/
 .lighthouseci/
 .env*
+.dev.vars*
 *.log
 .DS_Store

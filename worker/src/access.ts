@@ -1,5 +1,6 @@
 import { z } from '../../src/core/zod';
 import { createOpenRouter } from './openrouter';
+import { createRouterAi } from './routerai';
 import { CallScope, discard, readText, TransportError } from './transport';
 import { dailyLimit } from './quota-object';
 
@@ -10,17 +11,19 @@ export interface QuotaNamespace {
 }
 export interface AccessEnv {
   AI_PROVIDER?: string;
+  AI_API_BASE_URL?: string;
+  ROUTERAI_API_KEY?: string;
+  AI_MODEL_SIMPLE?: string;
+  AI_SIMPLE_TASK_NUMBERS?: string;
   AI_ENABLED?: string;
   AI_DAILY_REQUEST_LIMIT?: string;
   AI_IP_HMAC_SECRET?: string;
   AI_QUOTA?: QuotaNamespace;
   OPENROUTER_API_KEY?: string;
-  ROUTERAI_API_KEY?: string;
   AI_MODEL_PRIMARY?: string;
   AI_MODEL_FALLBACK?: string;
 }
 const configSchema = z.object({
-  AI_PROVIDER: z.enum(['openrouter', 'routerai']).default('openrouter'),
   AI_ENABLED: z.literal('true'),
   AI_DAILY_REQUEST_LIMIT: dailyLimit,
   AI_IP_HMAC_SECRET: z
@@ -28,10 +31,6 @@ const configSchema = z.object({
     .min(32)
     .max(256)
     .regex(/^[!-~]+$/u),
-  OPENROUTER_API_KEY: z.string().optional(),
-  ROUTERAI_API_KEY: z.string().optional(),
-  AI_MODEL_PRIMARY: z.string(),
-  AI_MODEL_FALLBACK: z.string(),
   SITE_ORIGIN: z.string(),
 });
 const decisionSchema = z.discriminatedUnion('allowed', [
@@ -84,6 +83,11 @@ export function createAccess(
     throw new TransportError('configuration');
   const namespace = env.AI_QUOTA;
   const settings = config.data;
+  if (
+    env.AI_PROVIDER !== undefined &&
+    !['openrouter', 'routerai'].includes(env.AI_PROVIDER)
+  )
+    throw new TransportError('configuration');
 
   async function allow(command: unknown, signal: AbortSignal) {
     const scope = new CallScope(signal);
@@ -126,14 +130,26 @@ export function createAccess(
     }
   }
 
-  const client = createOpenRouter(settings, async (url, init) => {
+  const limitedTransport: typeof fetch = async (url, init) => {
     if (!init?.signal) throw new TransportError('cancelled');
     checkSignal(init.signal);
     // Reserve before EACH billable attempt, including fallback. No refunds on failure.
     await allow({ kind: 'budget' }, init.signal);
     checkSignal(init.signal);
     return transport(url, init);
-  });
+  };
+  const client =
+    env.AI_PROVIDER === 'routerai'
+      ? createRouterAi(env, limitedTransport)
+      : createOpenRouter(
+          {
+            SITE_ORIGIN: env.SITE_ORIGIN,
+            OPENROUTER_API_KEY: env.OPENROUTER_API_KEY ?? '',
+            AI_MODEL_PRIMARY: env.AI_MODEL_PRIMARY ?? '',
+            AI_MODEL_FALLBACK: env.AI_MODEL_FALLBACK ?? '',
+          },
+          limitedTransport,
+        );
   return {
     client,
     admit: async (request: Request) => {

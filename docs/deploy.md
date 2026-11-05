@@ -192,6 +192,32 @@ npx wrangler secret put AI_IP_HMAC_SECRET --config worker/wrangler.toml
 Не передавайте секреты в чат, аргументы shell, клиентский env, Git или логи.
 secret put сразу публикует версию Worker: на этом этапе флаг должен быть false.
 
+## Ограниченный тест провайдера
+
+Команда не входит в verify или CI. Она использует существующий клиент,
+настоящие синтетические задачи и максимум **три внешних HTTP-запроса**:
+Luna/SSE для №1, Sonnet/JSON для №16, Opus/SSE для сводки. Для последней
+пробы Opus явно ставится основным только в изолированной конфигурации теста;
+ошибка провайдера не имитируется и производственная таблица не меняется.
+Эта отдельная команда делает платные запросы даже при AI_ENABLED=false.
+Резервные попытки тоже входят в предел трёх. При любой неудаче команда
+завершается с ненулевым кодом и не утверждает, что все модели проверены.
+
+В интерактивном Bash ключ можно прочитать без эха и аргументов команды:
+
+```bash
+read -rsp 'Тестовый ключ RouterAI: ' ROUTERAI_API_KEY
+export ROUTERAI_API_KEY
+npm run ai:provider-smoke
+unset ROUTERAI_API_KEY
+```
+
+Node использует штатный --use-env-proxy и доверенные CA среды. Endpoint
+разрешён только https://routerai.ru/api/v1/chat/completions, редиректы запрещены.
+Выводятся только режимы, HTTP-статусы и счётчик запросов: без ключа, текстов
+работ и ответов моделей. Среде нужен разрешённый исходящий доступ к routerai.ru.
+При сетевом отказе меняются разрешённые хосты среды; прокси и проверка TLS сохраняются.
+
 ## Статика и same-origin API
 
 Нужен HTTPS-домен в Cloudflare DNS с проксируемой записью и работающей статикой
@@ -236,7 +262,7 @@ npm run ai:smoke -- https://preview.study.example.org disabled routerai
 выполнить с worker:dev и --var SITE_ORIGIN:http://127.0.0.1:8787.
 
 5. После секретов, моделей и денежного лимита включите AI_ENABLED=true,
-   опубликуйте Worker и повторите smoke с аргументом enabled. Затем на сайте
+   опубликуйте Worker и повторите smoke с аргументами enabled routerai. Затем на сайте
    вручную проверьте отказ без POST, разбор верного/неверного ответа, Stop,
    отказ после исчерпания бюджета и отзыв из другой вкладки.
 6. Проверьте №15–16 (предварительный балл только после принятия), №13–14
@@ -271,9 +297,21 @@ observability в репозитории выключена.
 
 - [Cloudflare: secrets](https://developers.cloudflare.com/workers/configuration/secrets/)
 - [Cloudflare: routes](https://developers.cloudflare.com/workers/configuration/routing/routes/)
-- [OpenRouter: data collection](https://openrouter.ai/docs/guides/privacy/data-collection)
-- [OpenRouter: provider logging](https://openrouter.ai/docs/guides/privacy/provider-logging)
-- [OpenRouter: spend controls](https://openrouter.ai/docs/guides/best-practices/spend-controls)
+- [RouterAI: обзор API](https://routerai.ru/docs/guides)
+- [RouterAI: параметры](https://routerai.ru/docs/guides/overview/parameters)
+- [RouterAI: выбор провайдера](https://routerai.ru/docs/guides/overview/provider-selection)
+- [RouterAI: рассуждения](https://routerai.ru/pages/reasoning-modeli)
+- [RouterAI: конфиденциальность](https://routerai.ru/terms/privacy)
 
 Инструкция актуализирована 2026-11-04, Asia/Novosibirsk. Цены и фактическая
 доступность выбранных владельцем моделей требуют проверки в RouterAI.
+
+### Совместимость с маршрутизацией PR #34
+
+По умолчанию Luna → Sonnet. Опциональные AI_SIMPLE_TASK_NUMBERS (уникальные №1–12)
+и AI_MODEL_SIMPLE сохраняют маршрутизацию SIMPLE → PRIMARY для указанных заданий;
+для остальных режимов действует PRIMARY → FALLBACK. При непустом списке все три
+модели должны отличаться. Пустой список отключает эту ветку. Профиль мощности
+выбирается по модели в worker/src/model-profiles.ts; старый AI_REASONING_EFFORT
+удалён из конфигурации. ai:provider-smoke проверяет все три известные модели
+независимо от основной пары, максимум тремя внешними обращениями.
