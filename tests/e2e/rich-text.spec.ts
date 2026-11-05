@@ -122,3 +122,39 @@ test('copy transfers code as text and reports clipboard failure', async ({
     page.locator('#client-rich-text').getByRole('status'),
   ).toContainText('Выдели код');
 });
+
+test('executor command numbers remain visible in lessons, practice and print', async ({
+  page,
+}) => {
+  for (const lesson of [
+    'executor-commands',
+    'executor-algorithm',
+    'executor-reverse',
+    'executor-check',
+  ]) {
+    await page.goto(`materials/i5/${lesson}/`);
+    const lists = page.locator(
+      '.lesson-example > .rich-text-container > .rich-text > ol',
+    );
+    await expect(lists).toHaveCount(3);
+    for (const list of await lists.all()) {
+      await expect(list).toHaveCSS('list-style-type', 'decimal');
+      await expect(list.locator(':scope > li')).toHaveCount(2);
+      await expect(list.locator(':scope > li').first()).toHaveCSS(
+        'display',
+        'list-item',
+      );
+    }
+    await page.emulateMedia({ media: 'print' });
+    for (const list of await lists.all())
+      await expect(list).toHaveCSS('list-style-type', 'decimal');
+    await page.emulateMedia({ media: 'screen' });
+  }
+  await page.goto(
+    'stream/?task=executor-square-v2&seed=executor-numbering&numbers=5',
+  );
+  await expect(page.getByLabel('Что решать')).toBeEnabled();
+  const commands = page.locator('.task-card .rich-text > ol').first();
+  await expect(commands).toHaveCSS('list-style-type', 'decimal');
+  await expect(commands.locator(':scope > li')).toHaveCount(2);
+});

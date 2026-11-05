@@ -8,6 +8,18 @@
 .rich-text > :last-child {
   margin-bottom: 0;
 }
+/* Tailwind preflight removes list markers; command numbers are part of the task. */
+.rich-text ol {
+  list-style-type: decimal;
+}
+.rich-text ul {
+  list-style-type: disc;
+}
+.rich-text ol,
+.rich-text ul {
+  padding-inline-start: 1.75rem;
+  margin-block: 0.75rem;
+}
 .rich-text pre {
   overflow-x: auto;
   padding: 1rem;
