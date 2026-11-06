@@ -210,6 +210,15 @@ async function act(page, action) {
           1,
       );
       break;
+    case 'workshop':
+      await page.$eval('#executor-workshop', (element) =>
+        element.scrollIntoView(),
+      );
+      await button(page, 'Шаг вперёд');
+      await page.waitForSelector('[aria-label="Текущее число: 4"]', {
+        visible: true,
+      });
+      break;
     case 'lesson':
       await page.$eval('.lesson-interactive', (element) =>
         element.scrollIntoView(),

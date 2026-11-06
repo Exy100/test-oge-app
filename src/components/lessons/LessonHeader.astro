@@ -1,5 +1,6 @@
 ---
 import type { LessonMetadata } from '../../lib/lessons/schema';
+import { sitePath } from '../../lib/site';
 import { prerequisiteLinks, type LessonLink } from '../../lib/lessons/links';
 import '../../styles/lessons.css';
 import LessonCompletion from './LessonCompletion';
@@ -30,6 +31,13 @@ const prerequisites = prerequisiteLinks(lesson.prerequisites, lessons);
   </p>
   <h1>{lesson.title}</h1>
   <PrintButton label="Распечатать урок" />
+  {lesson.taskNumbers.includes(5) && (
+    <p>
+      <a href={sitePath('/interactives/executor/')}>
+        Открыть интерактивный практикум по исполнителю №5 →
+      </a>
+    </p>
+  )}
   {prerequisites.length ? (
     <div class="lesson-prerequisites">
       <p>Перед началом повтори:</p>

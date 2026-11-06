@@ -111,6 +111,14 @@ Astro.csp?.insertStyleHash(
           >
             Материалы
           </a>
+          <a
+            href={sitePath('/interactives/')}
+            aria-current={
+              route.startsWith('/interactives/') ? 'page' : undefined
+            }
+          >
+            Интерактивные материалы
+          </a>
           <a href={sitePath('/#exam')}>Об экзамене</a>
           <a
             href={sitePath('/about/')}

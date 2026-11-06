@@ -12,6 +12,8 @@ test('every page template and full result state has an interaction scenario', ()
   expect(interactionScenarios.map(({ id }) => id).toSorted()).toEqual(
     [
       'home',
+      'interactives',
+      'executor-workshop',
       'materials',
       'lesson-2d',
       'lesson-3d',
@@ -44,6 +46,8 @@ test('every page template and full result state has an interaction scenario', ()
 test('adding a production page template requires an explicit performance scenario', () => {
   const templates = {
     'index.astro': ['home'],
+    'interactives/index.astro': ['interactives'],
+    'interactives/executor.astro': ['executor-workshop'],
     'materials/index.astro': ['materials'],
     'materials/[section]/[lesson].astro': ['lesson-2d', 'lesson-3d'],
     'stream.astro': ['stream'],
