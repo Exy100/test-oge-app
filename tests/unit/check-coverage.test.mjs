@@ -149,7 +149,7 @@ describe('coverage configuration and phase checks', () => {
       config.lessons.mistakes,
       config.lessons.quizQuestions,
     ]).toEqual([2, 1, 3, 3, 5]);
-    expect(config.interactives['2d'].requiredIds).toHaveLength(18);
+    expect(config.interactives['2d'].requiredIds).toHaveLength(19);
     expect(config.interactives['3d'].requiredIds).toHaveLength(5);
     expect(config.interactives['3d'].levelsPerGame).toBe(3);
     expect(config.variants.minimum).toBe(10);
