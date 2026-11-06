@@ -111,6 +111,7 @@ export default {
         'shortest-path',
         'path-count',
         'fixed-executor',
+        'executor-workshop',
         'program-tracer',
         'resource-address',
         'search-sets',

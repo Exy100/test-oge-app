@@ -123,7 +123,7 @@ it('adds every new title to result preparation and fills exactly the required co
         ),
       ).toBe(true);
   }
-  expect(interactives.filter((item) => item.kind === '2d')).toHaveLength(18);
+  expect(interactives.filter((item) => item.kind === '2d')).toHaveLength(19);
   expect(
     codingArchiveHref({ ...codingSources[0], seed: 'unknown' }),
   ).toBeUndefined();

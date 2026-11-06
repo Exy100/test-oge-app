@@ -2,6 +2,12 @@
 // library: Lighthouse 13.5's trace parser cannot read Chromium 151 interactions.
 export const interactionScenarios = [
   { id: 'home', path: '', action: 'answer' },
+  { id: 'interactives', path: 'interactives/', action: 'theme' },
+  {
+    id: 'executor-workshop',
+    path: 'interactives/executor/',
+    action: 'workshop',
+  },
   { id: 'materials', path: 'materials/', action: 'filter' },
   { id: 'lesson-2d', path: 'materials/i2/code-tables/', action: 'lesson' },
   { id: 'lesson-3d', path: 'materials/i1/bits-bytes/', action: 'three' },
