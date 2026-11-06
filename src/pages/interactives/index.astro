@@ -1,0 +1,43 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { sitePath } from '../../lib/site';
+import '../../styles/materials.css';
+---
+
+<SiteLayout
+  title="Интерактивные материалы — ОГЭ"
+  description="Изучай сложные темы на практике: пошаговые объяснения, управление моделями и задания на понимание."
+  route="/interactives/"
+>
+  <div class="container materials-page">
+    <header>
+      <p class="eyebrow">ПОСМОТРИ · ПОПРОБУЙ · ПРОВЕРЬ</p>
+      <h1>Интерактивные материалы</h1>
+      <p>
+        Управляй выполнением алгоритмов, меняй порядок действий и проверяй
+        понимание. Каждый практикум связан с уроками и заданиями ОГЭ.
+      </p>
+    </header>
+    <section class="lesson-interactive" aria-labelledby="executor-title">
+      <p class="eyebrow">ЗАДАНИЕ №5</p>
+      <h2 id="executor-title">Исполнитель: от команды к программе</h2>
+      <p>
+        Прокрути выполнение программы по шагам, собери команды в нужном порядке
+        и проверь обратный ход решения.
+      </p>
+      <a class="button button-dark" href={sitePath('/interactives/executor/')}>
+        Открыть практикум
+      </a>
+      <p>
+        <a href={sitePath('/materials/i5/executor-commands/')}>
+          Сначала прочитать теорию об исполнителях →
+        </a>
+      </p>
+    </section>
+    <p>
+      <a href={sitePath('/materials/')}>
+        Все учебные материалы и лаборатории внутри уроков →
+      </a>
+    </p>
+  </div>
+</SiteLayout>

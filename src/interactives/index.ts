@@ -7,6 +7,11 @@ import { warehouseLevels, packetLevels } from '../lib/interactives/games.ts';
 /** Only working course scenes belong in the inventory. */
 export const interactives = [
   {
+    id: 'executor-workshop',
+    kind: '2d',
+    load: () => import('./ExecutorWorkshop.tsx'),
+  },
+  {
     id: 'logic-gates',
     kind: '3d',
     levels: gateLevels,

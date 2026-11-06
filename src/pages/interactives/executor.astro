@@ -1,0 +1,71 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import Interactive from '../../components/lessons/Interactive.astro';
+import { sitePath } from '../../lib/site';
+import '../../styles/materials.css';
+import '../../styles/lessons.css';
+import '../../styles/executor-workshop.css';
+const lessons = [
+  ['executor-commands', 'Команды исполнителя'],
+  ['executor-algorithm', 'Составление алгоритма'],
+  ['executor-reverse', 'Обратный ход решения'],
+  ['executor-check', 'Проверка программы и ответа'],
+];
+---
+
+<SiteLayout
+  title="Интерактивный практикум: исполнитель №5"
+  description="Пошаговое выполнение программы, перестановка команд, обратные операции и свободная лаборатория исполнителя ОГЭ №5."
+  route="/interactives/executor/"
+>
+  <div class="container materials-page">
+    <a href={sitePath('/interactives/')}>← Интерактивные материалы</a>
+    <h1>Исполнитель: от команды к программе</h1>
+    <p>
+      Задание №5. Начни с управляемого примера, затем собери программу и проверь
+      понимание. Ниже можно экспериментировать со своими командами.
+    </p>
+    <Interactive
+      id="executor-workshop"
+      title="Посмотри, попробуй, проверь"
+      goal="Пойми, почему порядок команд меняет результат и как отменять последнее действие."
+      controls="Управляй шагами кнопками или ползунком. Карточки можно перетаскивать, переставлять нажатиями или кнопками со стрелками."
+      taskNumbers={[5]}
+      modulePath="/src/interactives/ExecutorWorkshop.tsx"
+    >
+      <p>
+        Команда 1 возводит число в квадрат, команда 2 прибавляет 2. Программа
+        121 из числа 2 получает 36: 2 → 4 → 6 → 36. Программа 112 получает 18,
+        поэтому порядок важен. Если после прибавления 2 получилось 18, до
+        команды было 16.
+      </p>
+    </Interactive>
+    <Interactive
+      id="executor-free"
+      title="Свободная лаборатория"
+      goal="Составь собственную программу из двух команд и проверь её по шагам."
+      controls="Выбери набор команд, введи программу или добавь команды кнопками. Переключай шаги и проверь результат."
+      taskNumbers={[5]}
+      modulePath="/src/interactives/FixedExecutor.tsx"
+    >
+      <p>
+        Для команд «умножить на 2» и «прибавить 2» программа 11 переводит 2 в 8.
+        Для команд «возвести в квадрат» и «прибавить 2» программа 11 переводит 2
+        в 16. Проверяй каждое промежуточное число.
+      </p>
+    </Interactive>
+    <section aria-labelledby="related-lessons">
+      <h2 id="related-lessons">Связанные уроки</h2>
+      <ul>
+        {lessons.map(([slug, title]) => (
+          <li>
+            <a href={sitePath(`/materials/i5/${slug}/`)}>{title}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="button button-dark" href={sitePath('/stream/?numbers=5')}>
+        Перейти к заданиям №5
+      </a>
+    </section>
+  </div>
+</SiteLayout>

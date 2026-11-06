@@ -1,0 +1,27 @@
+.executor-workshop .executor-value {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid currentColor;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.executor-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.executor-cards > div {
+  flex: 1 1 9rem;
+}
+.executor-cards [aria-pressed='true'] {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+.executor-workshop fieldset label {
+  display: block;
+  padding: 0.5rem;
+}
+.executor-workshop input[type='range'] {
+  width: 100%;
+}
