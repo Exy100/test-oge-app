@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties } from 'react';
+import { useRef, useState } from 'react';
 import { bytes as formatBytes, quantity } from '../core/generators/task';
 import {
   useInteractiveInterval,
@@ -12,6 +12,17 @@ import {
 } from '../lib/interactives/memory-lab';
 import { sitePath } from '../lib/site';
 import '../styles/memory-lab.css';
+
+// Set dynamic geometry through the CSSOM so static HTML contains no inline
+// style attributes forbidden by the site's Content Security Policy.
+function sceneStyle(values: Record<string, string>) {
+  return (element: HTMLDivElement | null) => {
+    if (!element) return;
+    for (const [name, value] of Object.entries(values))
+      element.style.setProperty(name, value);
+    element.dataset.positioned = 'true';
+  };
+}
 
 type Mode = 'guide' | 'together' | 'solo';
 const modes: { id: Mode; label: string; description: string }[] = [
@@ -142,17 +153,15 @@ function MemoryScene({
             key={index}
             className="memory-byte"
             data-separator={phase >= 2 && group >= p.letters}
-            style={
-              {
-                '--x': `${String(to.x)}%`,
-                '--y': `${String(to.y)}%`,
-                '--from-x': `${String(from.x)}%`,
-                '--from-y': `${String(from.y)}%`,
-                '--delay': `${String(index * 18)}ms`,
-                '--piece-size': `${String(Math.min(7.8, 63 / p.symbols))}cqw`,
-                zIndex: index + 1,
-              } as CSSProperties
-            }
+            ref={sceneStyle({
+              '--x': `${String(to.x)}%`,
+              '--y': `${String(to.y)}%`,
+              '--from-x': `${String(from.x)}%`,
+              '--from-y': `${String(from.y)}%`,
+              '--delay': `${String(index * 18)}ms`,
+              '--piece-size': `${String(Math.min(7.8, 63 / p.symbols))}cqw`,
+              'z-index': String(index + 1),
+            })}
           >
             <span className="memory-byte-face">
               <span className="memory-bit-grid">
@@ -171,13 +180,11 @@ function MemoryScene({
             data-separator={phase >= 2 && index >= p.letters}
             data-revealed={phase >= 3}
             key={index}
-            style={
-              {
-                left: `${String(10 + index * (80 / (p.symbols - 1)))}%`,
-                top: `${String(26 + (phase >= 2 && index >= p.letters ? 14 : 0))}%`,
-                '--piece-size': `${String(Math.min(8, 65 / p.symbols))}cqw`,
-              } as CSSProperties
-            }
+            ref={sceneStyle({
+              left: `${String(10 + index * (80 / (p.symbols - 1)))}%`,
+              top: `${String(26 + (phase >= 2 && index >= p.letters ? 14 : 0))}%`,
+              '--piece-size': `${String(Math.min(8, 65 / p.symbols))}cqw`,
+            })}
           >
             {phase >= 3
               ? letter
@@ -358,12 +365,10 @@ function ProblemSession({
       data-motion={moving && !paused}
       data-reduced={runtime.reducedMotion}
       data-playing={playing}
-      style={
-        {
-          '--memory-motion': `${String(780 / speed)}ms`,
-          '--memory-remove-duration': `${String(1700 / speed)}ms`,
-        } as CSSProperties
-      }
+      ref={sceneStyle({
+        '--memory-motion': `${String(780 / speed)}ms`,
+        '--memory-remove-duration': `${String(1700 / speed)}ms`,
+      })}
     >
       <div className="memory-topbar">
         <div className="memory-modes" role="group" aria-label="Режим обучения">
