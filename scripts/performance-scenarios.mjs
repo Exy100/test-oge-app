@@ -8,6 +8,7 @@ export const interactionScenarios = [
     path: 'interactives/executor/',
     action: 'workshop',
   },
+  { id: 'memory-lab', path: 'interactives/memory/', action: 'memory' },
   { id: 'materials', path: 'materials/', action: 'filter' },
   { id: 'lesson-2d', path: 'materials/i2/code-tables/', action: 'lesson' },
   { id: 'lesson-3d', path: 'materials/i1/bits-bytes/', action: 'three' },

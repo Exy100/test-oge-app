@@ -210,6 +210,10 @@ async function act(page, action) {
           1,
       );
       break;
+    case 'memory':
+      await button(page, 'Следующий шаг');
+      await page.waitForSelector('.memory-lab[data-step="1"]');
+      break;
     case 'workshop':
       await page.$eval('#executor-workshop', (element) =>
         element.scrollIntoView(),
