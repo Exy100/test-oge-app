@@ -319,6 +319,7 @@
 }
 .memory-view {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 6px;
   min-height: 44px;
@@ -327,7 +328,8 @@
   color: var(--muted);
   border: 1px solid var(--line);
   border-radius: 10px;
-  font: 12px var(--font-mono);
+  font: 600 13px var(--font-body);
+  white-space: nowrap;
 }
 .memory-view[aria-pressed='true'] {
   background: var(--accent-surface);

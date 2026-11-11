@@ -190,7 +190,7 @@ test('reduced motion and the microscope preserve the actual task condition', asy
     'по-прежнему 16 бит',
   );
   await expect(page.locator('.memory-facts')).toContainText('16 бит');
-  await page.getByRole('button', { name: 'Плоский вид', exact: true }).click();
+  await page.getByRole('button', { name: 'Объём', exact: true }).click();
   await expect(page.locator('.memory-scene')).toHaveAttribute(
     'data-flat',
     'true',
