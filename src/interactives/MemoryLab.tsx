@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { memo, useMemo, useRef, useState, useTransition } from 'react';
 import { bytes as formatBytes, quantity } from '../core/generators/task';
 import {
   useInteractiveInterval,
@@ -214,6 +214,8 @@ function MemoryScene({
   );
 }
 
+const StableMemoryScene = memo(MemoryScene);
+
 function Microscope({ width }: { width: number }) {
   const [bits, setBits] = useState(width);
   return (
@@ -281,7 +283,8 @@ function ProblemSession({
   initialMode: Mode;
   onNew: (mode: Mode) => void;
 }) {
-  const p = memoryProblem(variant);
+  const p = useMemo(() => memoryProblem(variant), [variant]);
+  const [pending, startTransition] = useTransition();
   const [mode, setMode] = useState<Mode>(initialMode);
   const [step, setStep] = useState(0);
   const [unlocked, setUnlocked] = useState(0);
@@ -360,6 +363,7 @@ function ProblemSession({
   return (
     <div
       className="memory-lab"
+      aria-busy={pending}
       data-mode={mode}
       data-step={step}
       data-motion={moving && !paused}
@@ -518,7 +522,7 @@ function ProblemSession({
                 : stepNames[step]}
               <span>{formatBytes(p.bytes)}</span>
             </div>
-            <MemoryScene
+            <StableMemoryScene
               problem={p}
               phase={phase}
               replay={replay}
@@ -590,10 +594,14 @@ function ProblemSession({
               type="button"
               className="memory-icon-button"
               aria-label="Предыдущий шаг"
+              aria-disabled={pending || undefined}
               disabled={step === 0 || mode === 'solo'}
               onClick={() => {
                 setPlaying(false);
-                go(step - 1);
+                if (!pending)
+                  startTransition(() => {
+                    go(step - 1);
+                  });
               }}
             >
               <Icon name="back" />
@@ -632,10 +640,14 @@ function ProblemSession({
               type="button"
               className="memory-icon-button"
               aria-label="Следующий шаг"
+              aria-disabled={pending || undefined}
               disabled={done || !canAdvance || mode === 'solo'}
               onClick={() => {
                 setPlaying(false);
-                go(step + 1);
+                if (!pending)
+                  startTransition(() => {
+                    go(step + 1);
+                  });
               }}
             >
               <Icon name="next" />
@@ -667,12 +679,16 @@ function ProblemSession({
                 aria-label={`Шаг ${String(index + 1)}: ${name}`}
                 aria-current={step === index ? 'step' : undefined}
                 data-complete={index < step}
+                aria-disabled={pending || undefined}
                 disabled={
                   mode === 'solo' || (mode === 'together' && index > unlocked)
                 }
                 onClick={() => {
                   setPlaying(false);
-                  go(index);
+                  if (!pending)
+                    startTransition(() => {
+                      go(index);
+                    });
                 }}
               >
                 <span />
