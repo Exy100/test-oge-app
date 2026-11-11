@@ -67,6 +67,7 @@ function Icon({
     | 'next'
     | 'replay'
     | 'layers'
+    | 'plane'
     | 'arrow'
     | 'check';
 }) {
@@ -77,6 +78,8 @@ function Icon({
     next: 'm10 6 6 6-6 6',
     replay: 'M3 10a9 9 0 1 1 2 8M3 4v6h6',
     layers: 'm12 3 10 5-10 5L2 8Zm-9 9 9 5 9-5M3 16l9 5 9-5',
+    plane:
+      'M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z',
     arrow: 'M4 12h16m-6-6 6 6-6 6',
     check: 'm5 12 4 4L19 6',
   };
@@ -512,7 +515,7 @@ function ProblemSession({
                 title={flat ? 'Включить объёмный вид' : 'Включить плоский вид'}
               >
                 {flat ? 'Плоско' : 'Объём'}
-                <Icon name="layers" />
+                <Icon name={flat ? 'plane' : 'layers'} />
               </button>
             </div>
             <div className="memory-stage-subtitle">
