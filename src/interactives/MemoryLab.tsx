@@ -509,9 +509,9 @@ function ProblemSession({
                 onClick={() => {
                   setFlat(!flat);
                 }}
-                aria-label="Плоский вид"
+                title={flat ? 'Включить объёмный вид' : 'Включить плоский вид'}
               >
-                {flat ? '2D' : '3D'}
+                {flat ? 'Плоско' : 'Объём'}
                 <Icon name="layers" />
               </button>
             </div>
