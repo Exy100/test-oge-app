@@ -377,6 +377,34 @@ function ProblemSession({
         '--memory-remove-duration': `${String(1700 / speed)}ms`,
       })}
     >
+      <section
+        className="memory-full-condition"
+        aria-labelledby="memory-full-condition-title"
+      >
+        <div className="memory-full-condition-heading">
+          <span className="memory-kicker">ОГЭ / ЗАДАНИЕ №1</span>
+          <h2 id="memory-full-condition-title">Условие задания</h2>
+          <span className="memory-full-condition-variant">
+            Вариант {variant + 1}
+          </span>
+        </div>
+        <div className="memory-full-condition-body">
+          <p>
+            В некоторой кодировке каждый символ кодируется {p.bits} битами.
+            Ученик написал текст:
+          </p>
+          <blockquote>{p.before}</blockquote>
+          <p>
+            Ученик удалил из списка одно слово, а также лишние запятую и пробел
+            — два пробела подряд идти не должны. При этом размер нового текста в
+            данной кодировке оказался на <strong>{formatBytes(p.bytes)}</strong>{' '}
+            меньше, чем размер исходного текста.
+          </p>
+          <p className="memory-full-condition-question">
+            Напишите удалённое слово.
+          </p>
+        </div>
+      </section>
       <div className="memory-topbar">
         <div className="memory-modes" role="group" aria-label="Режим обучения">
           {modes.map((item) => (
