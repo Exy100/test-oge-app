@@ -356,7 +356,9 @@
 .memory-scene {
   position: relative;
   container-type: inline-size;
-  aspect-ratio: 1.9;
+  --scene-ratio: 1.9;
+  aspect-ratio: var(--scene-ratio);
+  contain: layout paint;
   isolation: isolate;
 }
 .memory-scene-grid {
@@ -379,6 +381,10 @@
   transform: translate(-50%, -50%);
   animation: memory-assemble var(--memory-motion) var(--ease-standard)
     var(--delay) both;
+}
+.memory-scene[data-phase='1'] .memory-byte,
+.memory-scene[data-phase='3'] .memory-byte {
+  animation-name: memory-assemble-odd;
 }
 .memory-byte-face {
   position: absolute;
@@ -1024,12 +1030,24 @@
 }
 @keyframes memory-assemble {
   from {
-    left: var(--from-x);
-    top: var(--from-y);
+    transform: translate(
+      calc(-50% + var(--offset-x)),
+      calc(-50% + var(--offset-y) / var(--scene-ratio))
+    );
   }
   to {
-    left: var(--x);
-    top: var(--y);
+    transform: translate(-50%, -50%);
+  }
+}
+@keyframes memory-assemble-odd {
+  from {
+    transform: translate(
+      calc(-50% + var(--offset-x)),
+      calc(-50% + var(--offset-y) / var(--scene-ratio))
+    );
+  }
+  to {
+    transform: translate(-50%, -50%);
   }
 }
 @keyframes memory-label-in {
@@ -1198,7 +1216,7 @@
     font-size: 10px;
   }
   .memory-scene {
-    aspect-ratio: 1.65;
+    --scene-ratio: 1.65;
   }
   .memory-symbol {
     border-radius: 6px;

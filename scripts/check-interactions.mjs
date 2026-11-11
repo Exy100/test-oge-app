@@ -211,6 +211,19 @@ async function act(page, action) {
       );
       break;
     case 'memory':
+      // A user scrolls to the scene before pressing its controls. Finish the
+      // initial reveal before measuring the next-step animation itself.
+      await page.$eval('.memory-stage-card', (element) =>
+        element.scrollIntoView(),
+      );
+      await page.waitForSelector('.memory-lab[data-motion="true"]');
+      await page.$eval('.memory-scene', async (scene) => {
+        await Promise.all(
+          scene
+            .getAnimations({ subtree: true })
+            .map((animation) => animation.finished),
+        );
+      });
       await button(page, 'Следующий шаг');
       await page.waitForSelector('.memory-lab[data-step="1"]');
       break;

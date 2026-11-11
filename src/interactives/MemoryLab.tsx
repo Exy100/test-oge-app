@@ -140,7 +140,7 @@ function MemoryScene({
       className="memory-scene"
       data-phase={phase}
       data-flat={flat}
-      key={`${String(phase)}:${String(replay)}`}
+      key={replay}
       aria-hidden="true"
     >
       <div className="memory-scene-grid" />
@@ -156,8 +156,8 @@ function MemoryScene({
             ref={sceneStyle({
               '--x': `${String(to.x)}%`,
               '--y': `${String(to.y)}%`,
-              '--from-x': `${String(from.x)}%`,
-              '--from-y': `${String(from.y)}%`,
+              '--offset-x': `${String(from.x - to.x)}cqw`,
+              '--offset-y': `${String(from.y - to.y)}cqw`,
               '--delay': `${String(index * 18)}ms`,
               '--piece-size': `${String(Math.min(7.8, 63 / p.symbols))}cqw`,
               'z-index': String(index + 1),
