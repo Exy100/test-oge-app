@@ -43,7 +43,6 @@
 }
 .memory-lab button {
   transition:
-    background 160ms,
     box-shadow 160ms,
     border-color 160ms;
 }
@@ -727,9 +726,9 @@
   display: grid;
   gap: 6px;
   text-align: center;
-  animation: memory-label-in 400ms ease-out both;
 }
 .memory-micro-byte > span {
+  animation: memory-label-in 400ms ease-out both;
   display: grid;
   grid-template-columns: repeat(4, 12px);
   gap: 3px;
