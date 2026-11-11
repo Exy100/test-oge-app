@@ -3,7 +3,9 @@ import AxeBuilder from '@axe-core/playwright';
 
 async function openLab(page: Page) {
   await page.goto('interactives/memory/');
-  await expect(page.locator('.memory-lab')).toBeVisible();
+  await expect(
+    page.locator('astro-island:not([ssr]) .memory-lab'),
+  ).toBeVisible();
   return page.locator('.memory-lab');
 }
 
@@ -24,10 +26,12 @@ test('walkthrough conserves bytes and verifies removal from the original text', 
       .getByRole('link', { name: 'Интерактивные материалы' }),
   ).toHaveAttribute('aria-current', 'page');
   await expect(lab.locator('.memory-byte')).toHaveCount(14);
-  await page
-    .getByRole('button', { name: 'Следующий шаг', exact: true })
-    .click();
+  const next = page.getByRole('button', { name: 'Следующий шаг', exact: true });
+  await next.focus();
+  await next.press('Enter');
   await expect(lab.locator('.memory-scene')).toHaveAttribute('data-phase', '1');
+  await expect(lab).toHaveAttribute('aria-busy', 'false');
+  await expect(next).toBeFocused();
   await expect(lab.locator('.memory-symbol')).toHaveCount(7);
   await page
     .getByRole('button', { name: 'Следующий шаг', exact: true })

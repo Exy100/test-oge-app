@@ -46,7 +46,8 @@
     box-shadow 160ms,
     border-color 160ms;
 }
-.memory-lab button:disabled {
+.memory-lab button:disabled,
+.memory-lab button[aria-disabled='true'] {
   opacity: 0.55;
 }
 .memory-lab button:focus-visible,
