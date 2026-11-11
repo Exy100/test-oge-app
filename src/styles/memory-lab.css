@@ -1292,3 +1292,9 @@
     color: #000;
   }
 }
+
+/* Geometry is attached on hydration; keep unpositioned plates out of view. */
+.memory-byte:not([data-positioned]),
+.memory-symbol:not([data-positioned]) {
+  visibility: hidden;
+}

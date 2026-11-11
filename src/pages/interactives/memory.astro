@@ -2,7 +2,6 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import MemoryLab from '../../interactives/MemoryLab';
 import { sitePath } from '../../lib/site';
-import '../../styles/memory-lab.css';
 ---
 
 <SiteLayout
@@ -25,11 +24,7 @@ import '../../styles/memory-lab.css';
         ОГЭ № 1 <span>Объём текста</span>
       </span>
     </header>
-    <MemoryLab client:only="react">
-      <div slot="fallback" class="memory-loading" role="status">
-        Загружаем лабораторию памяти…
-      </div>
-    </MemoryLab>
+    <MemoryLab client:load />
     <noscript>
       <p>
         Для управления лабораторией включи JavaScript.{' '}
