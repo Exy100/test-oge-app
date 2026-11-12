@@ -157,14 +157,13 @@ test('code lab: first visit allows direct choices and visible feedback', async (
   await page.getByRole('button', { name: '← Шаг назад', exact: true }).click();
   await expect(page.locator('.code-message strong')).toHaveText('…');
 });
-test('code lab: a letter can be dragged onto the signal', async ({
+test('code lab: drag or touch adds a letter to the signal', async ({
   page,
   isMobile,
 }) => {
-  test.skip(isMobile, 'Touch uses the same cards by tapping');
   await open(page);
-  await page
-    .getByRole('button', { name: /^Добавить А,/ })
-    .dragTo(page.locator('.code-tape'));
+  const card = page.getByRole('button', { name: /^Добавить А,/ });
+  if (isMobile) await card.tap();
+  else await card.dragTo(page.locator('.code-tape'));
   await expect(page.locator('.code-message strong')).toHaveText('А');
 });
