@@ -12,6 +12,8 @@ import {
 } from '../lib/interactives/memory-lab';
 import { sitePath } from '../lib/site';
 import '../styles/memory-lab.css';
+import SymbolPractice from './SymbolPractice';
+import { type SymbolScenario } from '../lib/interactives/symbol-examples';
 
 // Set dynamic geometry through the CSSOM so static HTML contains no inline
 // style attributes forbidden by the site's Content Security Policy.
@@ -904,18 +906,89 @@ function ProblemSession({
   );
 }
 
+type MemoryActivity = 'list-delete' | SymbolScenario;
+const memoryActivities: {
+  id: MemoryActivity;
+  title: string;
+  detail: string;
+}[] = [
+  {
+    id: 'list-delete',
+    title: 'Удаление из списка',
+    detail: 'Слово + запятая + пробел',
+  },
+  {
+    id: 'sentence-delete',
+    title: 'Удаление из предложения',
+    detail: 'Слово + один пробел',
+  },
+  {
+    id: 'sentence-repeat',
+    title: 'Повтор в предложении',
+    detail: 'Лишняя копия + пробел',
+  },
+  {
+    id: 'list-repeat',
+    title: 'Повтор в списке',
+    detail: 'Лишняя копия + запятая + пробел',
+  },
+];
 export default function MemoryLab() {
-  const [variant, setVariant] = useState(0);
+  const [activity, setActivity] = useState<MemoryActivity>('list-delete');
+  const [variants, setVariants] = useState<Record<MemoryActivity, number>>({
+    'list-delete': 0,
+    'sentence-delete': 0,
+    'sentence-repeat': 0,
+    'list-repeat': 0,
+  });
   const [initialMode, setInitialMode] = useState<Mode>('guide');
+  const variant = variants[activity];
+  function next() {
+    setVariants((current) => ({
+      ...current,
+      [activity]: current[activity] + 1,
+    }));
+  }
   return (
-    <ProblemSession
-      key={variant}
-      variant={variant}
-      initialMode={initialMode}
-      onNew={(mode) => {
-        setInitialMode(mode);
-        setVariant(variant + 1);
-      }}
-    />
+    <>
+      <nav className="memory-library" aria-label="Тип задачи про символы">
+        {memoryActivities.map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            data-memory-activity={item.id}
+            aria-pressed={activity === item.id}
+            onClick={() => {
+              setActivity(item.id);
+            }}
+          >
+            <strong>{item.title}</strong>
+            <span>{item.detail}</span>
+          </button>
+        ))}
+      </nav>
+      <p className="memory-library-note">
+        У каждого типа своя подборка. Номер примера сохраняется при
+        переключении; решения можно проходить в любом порядке.
+      </p>
+      {activity === 'list-delete' ? (
+        <ProblemSession
+          key={variant}
+          variant={variant}
+          initialMode={initialMode}
+          onNew={(mode) => {
+            setInitialMode(mode);
+            next();
+          }}
+        />
+      ) : (
+        <SymbolPractice
+          key={`${activity}:${String(variant)}`}
+          scenario={activity}
+          variant={variant}
+          onNext={next}
+        />
+      )}
+    </>
   );
 }

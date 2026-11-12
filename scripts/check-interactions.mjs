@@ -238,6 +238,9 @@ async function act(page, action) {
       });
       await button(page, 'Следующий шаг');
       await page.waitForSelector('.memory-lab[data-step="1"]');
+      await click(page, '[data-memory-activity="sentence-repeat"]');
+      await click(page, '.symbol-words button');
+      await page.waitForSelector('.symbol-tile');
       break;
     case 'workshop':
       await page.$eval('#executor-workshop', (element) =>
