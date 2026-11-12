@@ -13,6 +13,7 @@ test('code lab: keyboard walkthrough and undo preserve the original signal', asy
   page,
 }) => {
   await open(page);
+  await page.getByRole('button', { name: 'Разбор', exact: true }).click();
   const next = page.getByRole('button', {
     name: 'Следующий шаг →',
     exact: true,
@@ -84,6 +85,7 @@ test('code lab: reduced motion, themes and narrow screens remain accessible', as
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await open(page);
+  await page.getByRole('button', { name: 'Разбор', exact: true }).click();
   await expect(
     page.getByRole('button', { name: 'Воспроизвести', exact: true }),
   ).toBeDisabled();
@@ -113,6 +115,7 @@ test('code lab: playback pauses and manual steps stay available', async ({
   page,
 }) => {
   await open(page);
+  await page.getByRole('button', { name: 'Разбор', exact: true }).click();
   await page.locator('.code-stage').scrollIntoViewIfNeeded();
   await expect(page.locator('.code-stage')).toHaveAttribute(
     'data-reduced',
@@ -131,4 +134,37 @@ test('code lab: playback pauses and manual steps stay available', async ({
     .getByRole('button', { name: 'Следующий шаг →', exact: true })
     .click();
   await expect(page.locator('.code-message strong')).toHaveText('АБ');
+});
+
+test('code lab: first visit allows direct choices and visible feedback', async ({
+  page,
+}) => {
+  await open(page);
+  await expect(
+    page.getByRole('button', { name: 'Вместе', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await choose(page, 'Б');
+  await expect(page.locator('.code-choice-notice')).toContainText(
+    'не совпадает',
+  );
+  await expect(page.locator('.code-message strong')).toHaveText('…');
+  await choose(page, 'А');
+  await expect(page.locator('.code-choice-notice')).toContainText(
+    'Добавлена буква А',
+  );
+  await expect(page.locator('.code-mini-state code')).toHaveText('101100');
+  await expect(page.locator('.code-message strong')).toHaveText('А');
+  await page.getByRole('button', { name: '← Шаг назад', exact: true }).click();
+  await expect(page.locator('.code-message strong')).toHaveText('…');
+});
+test('code lab: a letter can be dragged onto the signal', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'Touch uses the same cards by tapping');
+  await open(page);
+  await page
+    .getByRole('button', { name: /^Добавить А,/ })
+    .dragTo(page.locator('.code-tape'));
+  await expect(page.locator('.code-message strong')).toHaveText('А');
 });

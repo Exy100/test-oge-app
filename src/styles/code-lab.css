@@ -614,3 +614,62 @@ html[data-animations='off'] .code-chunk {
     font-size: 11px;
   }
 }
+
+.code-start {
+  margin-top: 14px;
+}
+.code-choice-notice {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.code-tile[data-preview='match'] {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  transform: translateY(-7px);
+}
+.code-tile[data-preview='mismatch'] {
+  outline: 2px dashed var(--ink);
+  outline-offset: 2px;
+}
+.code-choices button[draggable='true'] {
+  cursor: grab;
+}
+.code-choices button[draggable='true']:active {
+  cursor: grabbing;
+  transform: translateY(2px);
+}
+.code-answer-row input {
+  flex: 1 1 0;
+}
+.code-answer-row button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+@media (max-width: 800px) {
+  .code-dictionary {
+    position: static;
+  }
+}
+
+.code-mini-state {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.code-mini-state code {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font: 600 16px var(--font-mono);
+  letter-spacing: 0.08em;
+}
+.code-mini-state strong {
+  color: var(--ink);
+}
