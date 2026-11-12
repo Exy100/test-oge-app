@@ -210,6 +210,11 @@ async function act(page, action) {
           1,
       );
       break;
+    case 'codes':
+      await page.waitForSelector('astro-island:not([ssr]) .code-stage');
+      await button(page, 'Следующий шаг →');
+      await page.waitForSelector('.code-chunk');
+      break;
     case 'memory':
       // A user scrolls to the scene before pressing its controls. Finish the
       // initial reveal before measuring the next-step animation itself.

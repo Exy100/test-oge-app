@@ -1,0 +1,36 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import CodeLab from '../../interactives/CodeLab';
+import { sitePath } from '../../lib/site';
+---
+
+<SiteLayout
+  title="Лаборатория кодов — интерактивные задачи ОГЭ"
+  description="Расшифруй сообщение по таблице кодов: исследуй развилки, проверяй остаток сигнала и находи повторяющиеся буквы. Разбор и самостоятельная практика задания №2."
+  route="/interactives/codes/"
+>
+  <div class="container code-page">
+    <header class="code-page-heading">
+      <div>
+        <p class="eyebrow">ИНТЕРАКТИВНЫЕ ЗАДАЧИ</p>
+        <h1>
+          Лаборатория кодов<span aria-hidden="true">.</span>
+        </h1>
+        <p>Прочитать. Проверить. Найти ответ.</p>
+      </div>
+      <div class="code-page-badge">
+        ОГЭ Задание №2<span>Декодирование информации</span>
+      </div>
+    </header>
+    <CodeLab client:load />
+    <noscript>
+      <p>
+        Для управления лабораторией включи JavaScript.{' '}
+        <a href={sitePath('/materials/i2/decoding/')}>
+          Теория и примеры расшифровки
+        </a>{' '}
+        доступны без него.
+      </p>
+    </noscript>
+  </div>
+</SiteLayout>
