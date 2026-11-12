@@ -1,4 +1,5 @@
 const urls = [
+  'http://127.0.0.1:4323/test-oge-app/interactives/logic/',
   'http://127.0.0.1:4323/test-oge-app/interactives/',
   'http://127.0.0.1:4323/test-oge-app/interactives/executor/',
   'http://127.0.0.1:4323/test-oge-app/interactives/memory/',

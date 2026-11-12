@@ -1,0 +1,41 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import LogicLab from '../../interactives/LogicLab';
+import { sitePath } from '../../lib/site';
+---
+
+<SiteLayout
+  title="Лаборатория логики — интерактивные задачи ОГЭ"
+  description="Проверяй числа, собирай множество решений, раскрывай отрицание и решай задания №3 ОГЭ. Интерактивная схема с пошаговым объяснением."
+  route="/interactives/logic/"
+>
+  <div class="container logic-page">
+    <header class="logic-page-heading">
+      <div>
+        <p class="eyebrow">ИНТЕРАКТИВНЫЕ ЗАДАЧИ</p>
+        <h1>
+          Лаборатория логики<span aria-hidden="true">.</span>
+        </h1>
+        <p>Меняй число. Исследуй условия. Собери своё решение.</p>
+        <a class="button button-dark" href="#logic-workspace">
+          Начать исследование ↓
+        </a>
+      </div>
+      <div class="logic-badge">
+        ОГЭ Задание №3<span>Логические выражения</span>
+      </div>
+    </header>
+    <LogicLab client:load />
+    <p>
+      <a href={sitePath('/materials/i3/natural-solutions/')}>
+        Теория и примеры решения →
+      </a>
+    </p>
+    <noscript>
+      <p>
+        Для управления лабораторией включи JavaScript. Теория доступна по ссылке
+        выше.
+      </p>
+    </noscript>
+  </div>
+</SiteLayout>
