@@ -1,0 +1,269 @@
+.memory-library {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.memory-library button,
+.symbol-practice button {
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-height: 44px;
+  font: inherit;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+.memory-library button {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  padding: 18px 14px;
+}
+.memory-library strong {
+  font-size: 14px;
+}
+.memory-library span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.memory-library button[aria-pressed='true'],
+.symbol-practice button[aria-pressed='true'] {
+  background: var(--accent-surface);
+  border-color: var(--green);
+  box-shadow: inset 0 -2px var(--green);
+}
+.memory-library-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.memory-library button:focus-visible,
+.symbol-practice :is(button, input):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.symbol-practice button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.symbol-practice button:hover:not(:disabled) {
+  border-color: var(--green);
+}
+.symbol-practice .button-dark {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+.symbol-practice blockquote {
+  margin: 16px 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--green);
+  background: var(--soft);
+  border-radius: 0 12px 12px 0;
+  line-height: 1.9;
+}
+.symbol-encoding {
+  display: grid;
+  gap: 6px;
+  padding: 14px 18px;
+  background: var(--accent-surface);
+  border-radius: 12px;
+}
+.symbol-encoding span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.symbol-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 20px 0;
+}
+.symbol-toolbar > div,
+.symbol-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.symbol-workspace {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 26px;
+  margin-block: 20px;
+}
+.symbol-workspace h2 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  margin: 8px 0 16px;
+}
+.symbol-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 16px;
+}
+.symbol-words button {
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.symbol-separators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  padding: 16px 0;
+  margin: 12px 0;
+  border: 0;
+}
+.symbol-separators legend {
+  font-weight: 550;
+  margin-bottom: 8px;
+}
+.symbol-separators label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.symbol-separators input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--green);
+}
+.symbol-separators label span {
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+.symbol-selection {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.symbol-model {
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--soft);
+  margin: 18px 0;
+  line-height: 1.8;
+}
+.symbol-model > p:first-child {
+  color: var(--muted);
+  font-size: 13px;
+}
+.symbol-tiles {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 12px;
+}
+.symbol-tile {
+  display: grid;
+  gap: 8px;
+  min-width: 32px;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+.symbol-tile strong {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 40px;
+  background: var(--surface);
+  font-size: 18px;
+}
+.symbol-byte-stack {
+  display: grid;
+  gap: 3px;
+}
+.symbol-byte-stack i {
+  display: block;
+  height: 8px;
+  border: 1px solid var(--green);
+  border-radius: 3px;
+  background: var(--accent-surface);
+  box-shadow: 0 2px 0 var(--line);
+}
+.symbol-model small {
+  color: var(--muted);
+}
+.symbol-feedback {
+  min-height: 28px;
+  line-height: 1.7;
+  font-weight: 550;
+}
+.symbol-success {
+  padding: 16px 20px;
+  border: 1px solid var(--green);
+  border-radius: 12px;
+  background: var(--success-bg);
+  line-height: 1.8;
+}
+.symbol-step {
+  line-height: 1.7;
+  margin: 20px 0;
+}
+.symbol-text-scene {
+  animation: symbol-enter 240ms ease-out;
+}
+.symbol-fragment {
+  padding: 14px;
+  border: 1px solid var(--green);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+  width: fit-content;
+  background: var(--accent-surface);
+}
+@keyframes symbol-enter {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+html[data-animations='off'] .symbol-text-scene {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .symbol-text-scene {
+    animation: none;
+  }
+}
+@media (max-width: 900px) {
+  .memory-library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .memory-library button {
+    padding: 12px 10px;
+  }
+  .memory-library strong {
+    font-size: 13px;
+  }
+  .symbol-workspace {
+    padding: 18px;
+  }
+  .symbol-practice blockquote {
+    padding: 12px;
+  }
+  .symbol-model {
+    padding: 12px;
+  }
+}
+.symbol-practice .memory-full-condition h2 {
+  font-size: 24px;
+  line-height: 1.35;
+  margin: 12px 0;
+}
+.symbol-feedback {
+  margin-block: 16px;
+}

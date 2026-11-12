@@ -215,7 +215,11 @@ test('leaving the scene pauses playback and the site animation preference applie
 }) => {
   const lab = await openLab(page);
   await page.locator('.memory-stage-card').scrollIntoViewIfNeeded();
-  await page.clock.install();
+  // Keep virtual time still during real viewport/scroll operations. Otherwise
+  // WebKit can advance playback while the test is moving the scene offscreen.
+  const time = new Date('2026-01-01T00:00:00Z');
+  await page.clock.install({ time });
+  await page.clock.pauseAt(new Date(time.getTime() + 1000));
   await page
     .getByRole('button', { name: 'Воспроизвести', exact: true })
     .click();
