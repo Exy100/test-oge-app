@@ -210,6 +210,13 @@ async function act(page, action) {
           1,
       );
       break;
+    case 'logic':
+      await page.waitForSelector('astro-island:not([ssr]) .logic-workspace');
+      await click(page, '[aria-label="Увеличить X"]');
+      await page.waitForFunction(
+        () => document.querySelector('#logic-x')?.value === '6',
+      );
+      break;
     case 'codes':
       await page.waitForSelector('astro-island:not([ssr]) .code-stage');
       await click(page, '.code-choices button');

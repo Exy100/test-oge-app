@@ -29,6 +29,7 @@ export const interactionScenarios = [
   { id: 'privacy', path: 'privacy/', action: 'theme' },
   { id: 'settings', path: 'settings/', action: 'settings' },
   { id: 'code-lab', path: 'interactives/codes/', action: 'codes' },
+  { id: 'logic-lab', path: 'interactives/logic/', action: 'logic' },
   { id: 'not-found', path: 'missing-lesson/', action: 'theme', status: 404 },
 ];
 
