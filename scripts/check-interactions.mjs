@@ -212,7 +212,7 @@ async function act(page, action) {
       break;
     case 'codes':
       await page.waitForSelector('astro-island:not([ssr]) .code-stage');
-      await button(page, 'Следующий шаг →');
+      await click(page, '.code-choices button');
       await page.waitForSelector('.code-chunk');
       break;
     case 'memory':

@@ -23,7 +23,7 @@ const modes = [
 export default function CodeLab() {
   const [scenario, setScenario] = useState<CodeScenario>('read');
   const [variant, setVariant] = useState(0);
-  const [mode, setMode] = useState<Mode>('guide');
+  const [mode, setMode] = useState<Mode>('together');
   const [flat, setFlat] = useState(false);
   return (
     <div className="code-lab">
@@ -91,6 +91,8 @@ function CodeExercise({
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [feedback, setFeedback] = useState('');
+  const [choiceNotice, setChoiceNotice] = useState('');
+  const [previewCode, setPreviewCode] = useState('');
   const [hint, setHint] = useState(false);
   const [attempts, setAttempts] = useState<string[]>([]);
   const [answer, setAnswer] = useState('');
@@ -123,6 +125,8 @@ function CodeExercise({
     },
   );
   function reset() {
+    setChoiceNotice('');
+    setPreviewCode('');
     setPath('');
     setFrame(0);
     setPlaying(false);
@@ -133,6 +137,8 @@ function CodeExercise({
     setSolved(false);
   }
   function back() {
+    setChoiceNotice('Выбор отменён. Попробуй другую букву.');
+    setPreviewCode('');
     setPlaying(false);
     setFeedback('');
     setAnswer('');
@@ -148,12 +154,20 @@ function CodeExercise({
     setFeedback('');
     setHint(false);
     if (!p.signal.startsWith(code, encoded.length)) {
+      setPreviewCode(code);
+      setChoiceNotice(
+        `Код ${code} не совпадает с началом остатка «${remaining}». Попробуй другую букву.`,
+      );
       setFeedback(
         'Этот код не совпадает с началом оставшегося сигнала. Сравни знаки по порядку.',
       );
       return;
     }
     const next = path + letter;
+    setPreviewCode('');
+    setChoiceNotice(
+      `Добавлена буква ${letter}. Прочитано ${String(encoded.length + code.length)} из ${String(p.signal.length)} знаков.`,
+    );
     setPath(next);
     setSolved(false);
     if (scenario !== 'repeats') setAnswer(next);
@@ -267,8 +281,17 @@ function CodeExercise({
           <p className="code-small">
             {guide
               ? 'Последняя выбранная буква выделена.'
-              : 'Нажми на букву — её код выделится на ленте.'}
+              : 'Нажми на букву или перетащи её на ленту сигнала.'}
           </p>
+          {!guide && (
+            <div className="code-mini-state">
+              <span>Осталось прочитать</span>
+              <code>{remaining || 'Весь сигнал прочитан'}</code>
+              <span>
+                Собрано: <strong>{currentPath || 'пока нет букв'}</strong>
+              </span>
+            </div>
+          )}
           <div className="code-choices">
             {p.entries.map((e) => (
               <button
@@ -276,6 +299,27 @@ function CodeExercise({
                 key={e.letter}
                 aria-label={`Добавить ${e.letter}, код ${e.code}`}
                 disabled={guide || complete || solved}
+                draggable={!guide && !complete && !solved}
+                onPointerEnter={() => {
+                  if (!guide && !complete) setPreviewCode(e.code);
+                }}
+                onPointerLeave={() => {
+                  setPreviewCode('');
+                }}
+                onFocus={() => {
+                  if (!guide && !complete) setPreviewCode(e.code);
+                }}
+                onBlur={() => {
+                  setPreviewCode('');
+                }}
+                onDragStart={(event) => {
+                  event.dataTransfer.setData('text/plain', e.letter);
+                  event.dataTransfer.effectAllowed = 'copy';
+                  setPreviewCode(e.code);
+                }}
+                onDragEnd={() => {
+                  setPreviewCode('');
+                }}
                 data-selected={currentPath.endsWith(e.letter)}
                 data-hint={hint && p.signal.startsWith(e.code, encoded.length)}
                 onClick={() => {
@@ -287,6 +331,12 @@ function CodeExercise({
               </button>
             ))}
           </div>
+          {!guide && (
+            <p className="code-choice-notice" role="status">
+              {choiceNotice ||
+                'Выбери первую букву. Следи, как меняется сигнал.'}
+            </p>
+          )}
           <p className="code-small">
             Одна плитка — один знак сигнала. Скоба объединяет код одной буквы.
           </p>
@@ -341,6 +391,21 @@ function CodeExercise({
           </div>
           <div
             className="code-tape"
+            role="region"
+            onDragOver={(event) => {
+              if (!guide && !complete && !solved) {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+              }
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              if (guide || complete || solved) return;
+              const entry = p.entries.find(
+                (e) => e.letter === event.dataTransfer.getData('text/plain'),
+              );
+              if (entry) choose(entry.letter, entry.code);
+            }}
             aria-label={`Прочитано: ${encoded || 'ничего'}. Осталось: ${remaining || 'ничего'}.`}
           >
             {chunks.map((c, index) => (
@@ -367,7 +432,17 @@ function CodeExercise({
               <div className="code-unread">
                 <div className="code-tiles">
                   {Array.from(remaining, (sign, i) => (
-                    <span className="code-tile" key={i}>
+                    <span
+                      className="code-tile"
+                      data-preview={
+                        i < previewCode.length
+                          ? previewCode[i] === sign
+                            ? 'match'
+                            : 'mismatch'
+                          : undefined
+                      }
+                      key={i}
+                    >
                       {sign}
                     </span>
                   ))}
