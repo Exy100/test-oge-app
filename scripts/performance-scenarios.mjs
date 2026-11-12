@@ -28,6 +28,7 @@ export const interactionScenarios = [
   { id: 'about', path: 'about/', action: 'theme' },
   { id: 'privacy', path: 'privacy/', action: 'theme' },
   { id: 'settings', path: 'settings/', action: 'settings' },
+  { id: 'code-lab', path: 'interactives/codes/', action: 'codes' },
   { id: 'not-found', path: 'missing-lesson/', action: 'theme', status: 404 },
 ];
 
