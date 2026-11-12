@@ -20,17 +20,12 @@ export const truthName = (value: boolean) => (value ? 'Истина' : 'Ложь
 export function logicValue(node: LogicNode, x: number): boolean {
   switch (node.kind) {
     case 'compare':
-      switch (node.op) {
-        case '<':
-          return x < node.value;
-        case '≤':
-          return x <= node.value;
-        case '>':
-          return x > node.value;
-        case '≥':
-          return x >= node.value;
-      }
-      throw new RangeError('Неизвестный знак сравнения.');
+      return {
+        '<': x < node.value,
+        '≤': x <= node.value,
+        '>': x > node.value,
+        '≥': x >= node.value,
+      }[node.op];
     case 'not':
       return !logicValue(node.child, x);
     case 'and':
